@@ -1,0 +1,71 @@
+//---------------------------------------------------------------------------
+
+#ifndef parametryH
+#define parametryH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.ValEdit.hpp>
+#include <Vcl.Menus.hpp>
+#include <Vcl.ExtCtrls.hpp>
+//---------------------------------------------------------------------------
+class TForm_paremetry : public TForm
+{
+__published:	// IDE-managed Components
+	TButton *Button_OK;
+	TValueListEditor *ValueListEditor;
+	TLabel *Label_CT;
+	TComboBox *ComboBox_druh_objektu;
+	TLabel *Label_rezim;
+	TLabel *Label_technologicke_parametry;
+	TLabel *Label_kapacita;
+	TLabel *Label_kapacita_hodnota;
+	TLabel *Label_CT_hodnota;
+	TComboBox *ComboBox_dopravnik;
+	TLabel *Label_vypis;
+	TLabel *Label_TT;
+	TLabel *Label_TT_hodnota;
+	TGroupBox *GroupBox_voziky;
+	TGroupBox *GroupBox_orientace_voziku;
+	TImage *Image_vozik;
+	TRadioButton *RadioButton_na_delku;
+	TRadioButton *RadioButton_na_sirku;
+	TGroupBox *GroupBox_vzdalenost;
+	TEdit *Edit_vzdalenost_voziku;
+	TLabel *Label3;
+	TButton *Button_min_sec;
+	TLabel *Label_delka_prepravniku;
+	TLabel *Label_delka_prepravniku_hodnota;
+	void __fastcall Edit_CTKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall FormShow(TObject *Sender);
+	void __fastcall ValueListEditorStringsChange(TObject *Sender);
+	void __fastcall ComboBox_druh_objektuChange(TObject *Sender);
+	void __fastcall ComboBox_dopravnikChange(TObject *Sender);
+	void __fastcall RadioButton_na_delkuClick(TObject *Sender);
+	void __fastcall RadioButton_na_sirkuClick(TObject *Sender);
+	void __fastcall Image_vozikClick(TObject *Sender);
+	void __fastcall ValueListEditorClick(TObject *Sender);
+	void __fastcall Edit_vzdalenost_vozikuChange(TObject *Sender);
+	void __fastcall Button_min_secClick(TObject *Sender);
+private:	// User declarations
+	enum Tminsec{MIN=0,SEC};Tminsec minsec;
+	double get_sum();
+	void vykresli_vozik(bool na_delku=true);
+	void get_capacity(unsigned int input);
+	void setForm4Rezim(unsigned short rezim,bool default_text=true);
+
+	UnicodeString SG,K,P;
+	unsigned short novy_parametr_n;
+	unsigned short offset;
+
+
+public:		// User declarations
+	__fastcall TForm_paremetry(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TForm_paremetry *Form_paremetry;
+//---------------------------------------------------------------------------
+#endif

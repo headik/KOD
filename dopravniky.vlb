@@ -1,0 +1,16 @@
+﻿[Button_DEL]
+Coordinates=10,78,84,58
+
+[Button_ADD]
+Coordinates=97,10,86,58
+
+[ValueListEditor]
+Coordinates=104,78,101,36
+Visible=True
+
+[Button_OK]
+Coordinates=10,10,77,58
+
+[]
+Coordinates=243,1,91,36
+
