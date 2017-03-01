@@ -193,10 +193,7 @@ void __fastcall TForm_vozik_nastaveni::FormShow(TObject *Sender) {
 
 			data_nalezena = true;
 			// Memo3->Lines->Add(AnsiString("HlSpojak id disabled:") + ukaz->n);
-			// Memo3->Lines->Add(AnsiString("HLSpojak id vozik:") + ukaz->id);
-
 			// akce s ukazatelem
-			// RzStringGrid1->Cells[1][i] = ukaz->n;
 			RzStringGrid1->Cells[0][i] = ukaz->n;
 			RzStringGrid1->Cells[1][i] = ukaz->id;
 			RzStringGrid1->Cells[2][i] = ukaz->delka;
@@ -286,7 +283,6 @@ void __fastcall TForm_vozik_nastaveni::RzStringGrid1MouseDown(TObject *Sender,
 				uloz_barvu(ColorDialog1->Color, 2);
 
 				// Memo2->Lines->Add(AnsiString("RADEK_ID_uloz:") + RzStringGrid1->Row);
-				// Memo2->Lines->Add(AnsiString("BARVA_uloz:") + ColorDialog1->Color);
 
 				RzStringGrid1->Canvas->Brush->Color = ColorDialog1->Color;
 				RzStringGrid1->Canvas->FillRect(RzStringGrid1->CellRect(12,
@@ -454,7 +450,6 @@ void __fastcall TForm_vozik_nastaveni::Memo_spojakClick(TObject *Sender) {
 	TBarva *ukaz = BARVY->dalsi;
 	while (ukaz != NULL) {
 	   //	Memo1->Lines->Add(AnsiString("ID_radek:") + ukaz->id_radek);
-	   //	Memo1->Lines->Add(AnsiString("BARVA:") + ukaz->barva_voziku);
 
 		ukaz = ukaz->dalsi;
 	}
@@ -544,11 +539,6 @@ void __fastcall TForm_vozik_nastaveni::Button_DELClick(TObject *Sender) {
 
 // ---------------------------------------------------------------------------
 
-void __fastcall TForm_vozik_nastaveni::Button4Click(TObject *Sender) {
-	// RzStringGrid1->Rows[RzStringGrid1->Row]->Clear();
-
-}
-// ---------------------------------------------------------------------------
 
 void __fastcall TForm_vozik_nastaveni::RzStringGrid1Click(TObject *Sender) {
 

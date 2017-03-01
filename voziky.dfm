@@ -79,7 +79,6 @@ object Form_vozik_nastaveni: TForm_vozik_nastaveni
     Caption = 'Button4'
     TabOrder = 5
     Visible = False
-    OnClick = Button4Click
   end
   object Memo1: TMemo
     Left = 664
