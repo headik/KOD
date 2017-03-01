@@ -17,7 +17,6 @@ __fastcall TForm_vozik_nastaveni::TForm_vozik_nastaveni(TComponent* Owner)
 
 	offset = 0;
 
-	// Button_DEL->Visible=false;
 }
 
 void TForm_vozik_nastaveni::hlavicka_barva() {
