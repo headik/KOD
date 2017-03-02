@@ -142,7 +142,6 @@ void __fastcall TForm_vozik_nastaveni::FormShow(TObject *Sender) {
 
 	RzStringGrid1->Cols[0]->Add("Vozík");
 	RzStringGrid1->Cols[0]->Add("1");
-	// RzStringGrid1->Rows[0]->Add("Poøadí");
 	RzStringGrid1->Rows[0]->Add("ID");
 	RzStringGrid1->Rows[0]->Add("Délka");
 	RzStringGrid1->Rows[0]->Add("Šíøka");
@@ -155,7 +154,6 @@ void __fastcall TForm_vozik_nastaveni::FormShow(TObject *Sender) {
 	RzStringGrid1->Rows[0]->Add("Šíøka Max");
 	RzStringGrid1->Rows[0]->Add("Výška Max");
 	RzStringGrid1->Rows[0]->Add("Barva");
-	// RzStringGrid1->Rows[0]->Add("Pozice");
 	RzStringGrid1->Rows[0]->Add("Stav");
 
 	Color_status = false;
