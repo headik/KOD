@@ -512,7 +512,6 @@ void __fastcall TForm_vozik_nastaveni::Button_DELClick(TObject *Sender) {
 			break;
 
 		}
-
 		// posun na další prvek v seznamu
 		ukaz = ukaz->dalsi;
 	}

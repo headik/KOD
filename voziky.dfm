@@ -5,7 +5,7 @@ object Form_vozik_nastaveni: TForm_vozik_nastaveni
   BorderStyle = bsDialog
   Caption = 'Voz'#237'k - parametry'
   ClientHeight = 313
-  ClientWidth = 949
+  ClientWidth = 881
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -30,7 +30,7 @@ object Form_vozik_nastaveni: TForm_vozik_nastaveni
   object RzStringGrid1: TRzStringGrid
     Left = 0
     Top = 0
-    Width = 949
+    Width = 881
     Height = 225
     ColCount = 14
     RowCount = 2
