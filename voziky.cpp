@@ -70,10 +70,17 @@ void TForm_vozik_nastaveni::aktualizuj_barvu(TColor barva, int row) {
 	// ukazatel na první objekt v seznamu OBJEKTU, pøeskoèí hlavièku
 	// uloží do "spojáèku"
 
+
+
 	while (ukaz != NULL) {
+	  //	ShowMessage(ukaz->id_radek);
+		//	ShowMessage(row);
 
 		if (ukaz->id_radek == row) {
 			ukaz->barva_voziku = barva;
+		  //	ShowMessage(ukaz->id_radek);
+          //  ShowMessage(row);
+
 			break;
 		}
 
@@ -514,11 +521,13 @@ void __fastcall TForm_vozik_nastaveni::Button_DELClick(TObject *Sender) {
 
 	// posun øádkù
 
-	for (int row = RzStringGrid1->Row; row < RzStringGrid1->ColCount - 1; ++row)
+	for (int row = RzStringGrid1->Row; row < RzStringGrid1->RowCount - 1; ++row)
 
 	{
 		RzStringGrid1->Rows[row] = RzStringGrid1->Rows[row + 1];
-		aktualizuj_barvu(ukaz->barva_voziku, row + 1);
+		//  Memo1->Lines->Add(row);
+		//  Memo1->Lines->Add(RzStringGrid1->Row+1);
+	  // aktualizuj_barvu(ukaz->barva_voziku,RzStringGrid1->Row+1);
 
 	}
 
