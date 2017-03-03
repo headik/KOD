@@ -459,23 +459,13 @@ object Form1: TForm1
       '')
     TabOrder = 5
   end
-  object Button2: TButton
-    Left = 648
-    Top = 327
-    Width = 75
-    Height = 25
-    Caption = 'Button2'
-    TabOrder = 6
-    Visible = False
-    OnClick = Button2Click
-  end
   object Button3: TButton
     Left = 160
     Top = 176
     Width = 85
     Height = 25
     Caption = 'Nav'#283'sit voz'#237'k (0)'
-    TabOrder = 7
+    TabOrder = 6
     OnClick = Button3Click
   end
   object Button4: TButton
@@ -484,7 +474,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = 'Pauza simulace'
-    TabOrder = 8
+    TabOrder = 7
     OnClick = Button4Click
   end
   object Button5: TButton
@@ -493,7 +483,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = 'stopka'
-    TabOrder = 9
+    TabOrder = 8
     OnClick = Button5Click
   end
   object Button6: TButton
@@ -502,7 +492,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = #269'ekat na palec'
-    TabOrder = 10
+    TabOrder = 9
     OnClick = Button6Click
   end
   object Button7: TButton
@@ -511,7 +501,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = 'Krok simulace'
-    TabOrder = 11
+    TabOrder = 10
     OnClick = Button7Click
   end
   object Button8: TButton
@@ -520,7 +510,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = 'D'#233'lka dopravn'#237'ku'
-    TabOrder = 12
+    TabOrder = 11
     OnClick = Button8Click
   end
   object Button9: TButton
@@ -529,7 +519,7 @@ object Form1: TForm1
     Width = 129
     Height = 25
     Caption = 'vypsat spoj'#225'k VOZIKY'
-    TabOrder = 13
+    TabOrder = 12
     OnClick = Button9Click
   end
   object MainMenu1: TMainMenu
@@ -863,7 +853,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118003001300110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118003001340110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

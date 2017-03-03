@@ -113,7 +113,6 @@ __published:	// IDE-managed Components
 	TLabel *Label8;
 	TButton *Button_dopravnik_parametry;
 	TButton *Button_vozik_parametry;
-	TButton *Button2;
 	TMenuItem *Obnovitobraz1;
 	TMenuItem *Report1;
 	TMenuItem *csv1;

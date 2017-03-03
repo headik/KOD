@@ -130,9 +130,7 @@ void TForm_vozik_nastaveni::vymaz_barvu() {
 // ---------------------------------------------------------------------------
 void __fastcall TForm_vozik_nastaveni::FormShow(TObject *Sender) {
 
-
 	hlavicka_barva();
-
 
 	OK_status = false;
 	RowMoved = false;
@@ -182,11 +180,9 @@ void __fastcall TForm_vozik_nastaveni::FormShow(TObject *Sender) {
 	// ukazatel na první objekt v seznamu OBJEKTU, pøeskoèí hlavièku
 	if (ukaz != NULL) {
 
-
 		RzStringGrid1->RowCount = Form1->d.v.VOZIKY->predchozi->n + 1;
 
 		for (int i = 1; i < RzStringGrid1->RowCount; i++) {
-
 
 			data_nalezena = true;
 			// Memo3->Lines->Add(AnsiString("HlSpojak id disabled:") + ukaz->n);
@@ -253,7 +249,6 @@ void __fastcall TForm_vozik_nastaveni::FormCloseQuery(TObject *Sender,
 				Form1->ms.MyToDouble(RzStringGrid1->Cells[11][i]),
 				ukaz->barva_voziku);
 
-		
 			ukaz = ukaz->dalsi; // posun na další prvek v seznamu
 
 		}
@@ -277,19 +272,21 @@ void __fastcall TForm_vozik_nastaveni::RzStringGrid1MouseDown(TObject *Sender,
 		if (ColorDialog1->Execute()) {
 
 			if (RzStringGrid1->RowCount == 2) {
-				uloz_barvu(ColorDialog1->Color, 2);
 
 				// Memo2->Lines->Add(AnsiString("RADEK_ID_uloz:") + RzStringGrid1->Row);
 
 				RzStringGrid1->Canvas->Brush->Color = ColorDialog1->Color;
 				RzStringGrid1->Canvas->FillRect(RzStringGrid1->CellRect(12,
 					RzStringGrid1->Row));
+				// ShowMessage(ColorDialog1->Color);
+				aktualizuj_barvu(ColorDialog1->Color, RzStringGrid1->Row);
 			}
 			else {
-				aktualizuj_barvu(ColorDialog1->Color, RzStringGrid1->Row);
+				// aktualizuj_barvu(ColorDialog1->Color, RzStringGrid1->Row);
 				RzStringGrid1->Canvas->Brush->Color = ColorDialog1->Color;
 				RzStringGrid1->Canvas->FillRect(RzStringGrid1->CellRect(12,
 					RzStringGrid1->Row));
+				aktualizuj_barvu(ColorDialog1->Color, RzStringGrid1->Row);
 
 				Color_status = true;
 			}
@@ -303,9 +300,9 @@ void __fastcall TForm_vozik_nastaveni::RzStringGrid1MouseDown(TObject *Sender,
 void __fastcall TForm_vozik_nastaveni::RzStringGrid1DrawCell(TObject *Sender,
 	int ACol, int ARow, TRect &Rect, TGridDrawState State) {
 
-	RzStringGrid1->FixedCols=1;
+	RzStringGrid1->FixedCols = 1;
 
-	RzStringGrid1->FocusColor=clWhite;
+	RzStringGrid1->FocusColor = clWhite;
 
 	TForm_vozik_nastaveni::TBarva *ukaz2 = BARVY->dalsi;
 
@@ -313,10 +310,10 @@ void __fastcall TForm_vozik_nastaveni::RzStringGrid1DrawCell(TObject *Sender,
 		// pokracovani defaultnich hodnot pro novy vozik
 	{
 
-		// ShowMessage("uloz_barvu s parametry");
 		RzStringGrid1->Canvas->Brush->Color = clBlue;
-		RzStringGrid1->Canvas->FillRect(RzStringGrid1->CellRect(12, 1));
 		uloz_barvu(RzStringGrid1->Canvas->Brush->Color, 1);
+		RzStringGrid1->Canvas->FillRect(RzStringGrid1->CellRect(12, 1));
+
 		RzStringGrid1->Canvas->Brush->Color = clWhite;
 		RzStringGrid1->Canvas->FillRect(RzStringGrid1->CellRect(13, 1));
 
@@ -363,7 +360,7 @@ void __fastcall TForm_vozik_nastaveni::RzStringGrid1DrawCell(TObject *Sender,
 		else {
 
 			RzStringGrid1->Canvas->Brush->Color = clWhite;
-			// natvrdo nastavena cervena pri nove zadanem voziku
+			// natvrdo nastavena bila pri nove zadanem voziku
 			RzStringGrid1->Canvas->FillRect(RzStringGrid1->CellRect(13,
 				ukaz->id_radek));
 		}
@@ -446,7 +443,8 @@ void __fastcall TForm_vozik_nastaveni::Memo_spojakClick(TObject *Sender) {
 
 	TBarva *ukaz = BARVY->dalsi;
 	while (ukaz != NULL) {
-	   //	Memo1->Lines->Add(AnsiString("ID_radek:") + ukaz->id_radek);
+		Memo1->Lines->Add(AnsiString("id_radek: ") + ukaz->id_radek +
+			AnsiString(" barva: ") + ukaz->barva_voziku);
 
 		ukaz = ukaz->dalsi;
 	}
@@ -456,7 +454,7 @@ void __fastcall TForm_vozik_nastaveni::Memo_spojakClick(TObject *Sender) {
 void __fastcall TForm_vozik_nastaveni::RzStringGrid1GetEditMask(TObject *Sender,
 	int ACol, int ARow, UnicodeString &Value)
 
-{  //maska pro validaci zaznamu
+{ // maska pro validaci zaznamu
 
 	if (RzStringGrid1->Col == 1) // ID   - rùzné alfanumerické znaky
 			Value = "AAAAAAAAAA";
@@ -535,12 +533,10 @@ void __fastcall TForm_vozik_nastaveni::Button_DELClick(TObject *Sender) {
 
 // ---------------------------------------------------------------------------
 
-
 void __fastcall TForm_vozik_nastaveni::RzStringGrid1Click(TObject *Sender) {
 
 	Button_DEL->Visible = true;
 	Button_DEL->Top = RzStringGrid1->Top + RzStringGrid1->Row * 19 + 1;
-
 
 }
 // ---------------------------------------------------------------------------

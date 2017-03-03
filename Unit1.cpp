@@ -2038,25 +2038,16 @@ void __fastcall TForm1::html1Click(TObject *Sender)
 
 void __fastcall TForm1::Button2Click(TObject *Sender)
 {
-	/*Cvektory::TObjekt *ukaz;
-	ukaz=d.v.OBJEKTY->dalsi;//přeskočí hlavičku
+   //	TForm_vozik_nastaveni::TBarva *ukaz = Form_vozik_nastaveni->BARVY->dalsi;
 
-	while (ukaz!=NULL)
-	{
-			Memo1->Lines->Add(ukaz->n);
-			ukaz=ukaz->dalsi;//posun na další prvek
-	}*/
-	//ShowMessage(d.v.seznam_dopravniku);
-	Cvektory::TVozik *ukaz;
-	ukaz=d.v.VOZIKY->dalsi;//přeskočí hlavičku
+	// ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
 
-	while (ukaz!=NULL)
-	{
-			Memo1->Lines->Add(ukaz->n);
-			ukaz=ukaz->dalsi;//posun na další prvek
-	}
+   //	while (ukaz != NULL) {
 
+	  //	 ShowMessage("uka barvu");
+	 //  Memo2->Lines->Add(ukaz->barva_voziku);
 
+     //  }
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Obnovitobraz1Click(TObject *Sender)
@@ -2183,7 +2174,7 @@ Memo1->Lines->Add("vypis spojáku VOZIKY:");
 		while (ukaz!=NULL)
 		{
 			//akce s ukazatelem
-			Memo1->Lines->Add(AnsiString("n: ")+ukaz->n+AnsiString(" ID: ")+ukaz->id);
+			Memo1->Lines->Add(AnsiString("n: ")+ukaz->n+AnsiString(" ID: ")+ukaz->id+AnsiString(" barva: ")+ukaz->barva);
 
 			//posun na další prvek v seznamu
 			ukaz=ukaz->dalsi;
