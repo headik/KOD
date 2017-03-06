@@ -114,14 +114,14 @@ short Cvektory::vloz_objekt(TObjekt *Objekt)
 	return 0;
 };
 //---------------------------------------------------------------------------
-//hledá bod v dané oblasti                                       //pracuje v logic souradnicich tzn. již nepouživat *Zoom
+//hledá bod v dané oblasti                                       //pracuje v logic souradnicich tzn. již nepouživat *Zoom  použít pouze m2px
 Cvektory::TObjekt *Cvektory::najdi_bod(double X, double Y,double offsetX, double offsetY)
 {
 	Cvektory::TObjekt *ret=NULL;
 	Cvektory::TObjekt *p=OBJEKTY->dalsi;//přeskočí hlavičku
 	while (p!=NULL)
 	{
-		if(p->X<=X && X<=p->X+offsetX &&  p->Y>=Y && Y>=p->Y-offsetY)ret=p;//nalezeno !
+		if(p->X<=X && X<=p->X+offsetX*Form1->m2px &&  p->Y>=Y && Y>=p->Y-offsetY*Form1->m2px)ret=p;//nalezeno !
 		p=p->dalsi;//posun na další prvek
 	}
 	return ret;
@@ -171,6 +171,23 @@ void Cvektory::zvys_indexy(TObjekt *Objekt)//zvýší indexy NÁSLEDUJICÍCH bod
 		Objekt=Objekt->dalsi;//posun na další prvek
 		if(Objekt!=NULL)Objekt->n++;//sníží indexy nasledujicích bodů,protože optimalizace seznamu nefungovalo, navíc ušetřím strojový čas
 	}
+}
+//---------------------------------------------------------------------------
+double Cvektory::delka_dopravniku(Cvektory::TObjekt *ukaz)
+{
+		Cvektory::TObjekt *ukaz_prvni=ukaz;
+		double delka=0;
+		ukaz=ukaz->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
+		while (ukaz!=NULL)
+		{
+			if(ukaz->dalsi!=NULL)//mimo poslední linie
+				delka+=Form1->m.delka(ukaz->X,ukaz->Y,ukaz->dalsi->X,ukaz->dalsi->Y);
+			else//pro poslední linii
+				delka+=Form1->m.delka(ukaz->X,ukaz->Y,ukaz_prvni->X,ukaz_prvni->Y);
+			//posun na další prvek v seznamu
+			ukaz=ukaz->dalsi;
+		}
+		return delka;
 }
 //---------------------------------------------------------------------------
 void Cvektory::aktualizace_indexu_uzitych_dopravniku(short item_index)
@@ -621,6 +638,7 @@ void Cvektory::hlavicka_voziky()
 	novy_uzel->stav=-1;
 	novy_uzel->pozice=0;
 	novy_uzel->segment=NULL;
+	novy_uzel->X=0;novy_uzel->Y=0;
 
 	novy_uzel->predchozi=novy_uzel;//ukazuje sam na sebe
 	novy_uzel->dalsi=NULL;
@@ -633,6 +651,7 @@ void Cvektory::vloz_vozik()//přidá nový vozík do seznamu VOZIKY
 
 	novy->n=VOZIKY->predchozi->n+1;//navýším počítadlo prvku o jedničku
 	novy->segment=NULL;novy->pozice=-1;novy->stav=-1;
+	novy->X=0;novy->Y=0;
 
 	VOZIKY->predchozi->dalsi=novy;//poslednímu prvku přiřadím ukazatel na nový prvek
 	novy->predchozi=VOZIKY->predchozi;//novy prvek se odkazuje na prvek predchozí (v hlavicce body byl ulozen na pozici predchozi, poslední prvek)
@@ -648,6 +667,7 @@ void Cvektory::vloz_vozik(TVozik *Vozik)
 
 	//pozor v případě načítání existujícího stavu ze souboru změnitm toto je výchozí pozice na lince
 	novy->segment=NULL;novy->pozice=-1;novy->stav=-1;
+	novy->X=0;novy->Y=0;
 
 	novy->n=VOZIKY->predchozi->n+1;//navýším počítadlo prvku o jedničku
 	VOZIKY->predchozi->dalsi=novy;//poslednímu prvku přiřadím ukazatel na nový prvek
@@ -674,6 +694,7 @@ void Cvektory::vloz_vozik(unsigned long n,UnicodeString id,double delka,double s
 	novy->vyska_vcetne_vyrobku=vyska_vcetne_vyrobku;
 	novy->barva=barva;
 	novy->segment=NULL;novy->pozice=-1;novy->stav=-1;
+	novy->X=0;novy->Y=0;
 
 	VOZIKY->predchozi->dalsi=novy;//poslednímu prvku přiřadím ukazatel na nový prvek
 	novy->predchozi=VOZIKY->predchozi;//novy prvek se odkazuje na prvek predchozí (v hlavicce body byl ulozen na pozici predchozi, poslední prvek)

@@ -37,10 +37,13 @@ class Cmy
 	bool cele_cislo(double number);
 	double mod_d(double number1,double number2);//možno nahradit fci fmod z math.h  - to si už tak nejsem jistý viz paramatry této funkce - ukazatel?
 	bool isFinite(double number1,double number2);
-	float azimut(double X1,double Y1,double X2,double Y2);
-	float uhel(double X1,double Y1,double X2,double Y2);
-	float delka(double X1,double Y1,double X2,double Y2);
+	double azimut(double X1,double Y1,double X2,double Y2);
+	double uhel(double X1,double Y1,double X2,double Y2);
+	double delka(double X1,double Y1,double X2,double Y2);
 	TPointD rotace(double delka, double akt_uhel, double rotace);
+	TPointDbool zkratit_polygon_na_roztec(double d, double r,double xp, double yp, double x0, double y0, double x1, double y1);//d - delka linky,r - roztec palcuxp, yp - souradnice oznaceneho bodu x0, y0, x1, y1- souradnice sousedu k oznacenemu bodu
+
+
 	long LeziVblizkostiUsecky(double x, double y, double X1, double Y1, double X2, double Y2);
 
 

@@ -23,6 +23,7 @@
 #include "MyString.h"
 #include <Vcl.ExtDlgs.hpp>
 #include "RzBHints.hpp"
+#include "RzGrids.hpp"
 //#include "vektory.h" //už vkládám přes vykresli.h
 //#include "knihovna_objektu.h" //už vkládám přes vykresli.h resp. vektory.h
 
@@ -113,6 +114,7 @@ __published:	// IDE-managed Components
 	TLabel *Label8;
 	TButton *Button_dopravnik_parametry;
 	TButton *Button_vozik_parametry;
+	TButton *Button2;
 	TMenuItem *Obnovitobraz1;
 	TMenuItem *Report1;
 	TMenuItem *csv1;
@@ -127,6 +129,7 @@ __published:	// IDE-managed Components
 	TButton *Button7;
 	TButton *Button8;
 	TButton *Button9;
+	TButton *Button10;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -210,6 +213,7 @@ __published:	// IDE-managed Components
 	void __fastcall Button7Click(TObject *Sender);
 	void __fastcall Button8Click(TObject *Sender);
 	void __fastcall Button9Click(TObject *Sender);
+	void __fastcall Button10Click(TObject *Sender);
 
 
 private:	// User declarations
@@ -220,7 +224,6 @@ private:	// User declarations
 	struct Tnastaveni{bool autosave;unsigned short int minut;bool posledni_file;};Tnastaveni nastaveni;
 
 	////instance
-	Cmy m;
 	Graphics::TBitmap *Pan_bmp;
 	Cvektory::TObjekt *pom;
 
@@ -296,6 +299,7 @@ public:		// User declarations
   struct T_parametry_projektu{double TT;double hodin;double smen;double dni;unsigned int produktu_vozik;double delka_voziku;double sirka_voziku;};T_parametry_projektu PP;
 	double m2px;//uchovává hodnotu prostorového rozlišení programu, nativní rozlišení 0,1 m na 1 pixel při zoomu 1x
 	TMyString ms;
+	Cmy m;
 	Cvykresli d;
 	double Zoom; //proměnná uchovávajicí velikost Zoomu
 	TPointD Posun;//proměnné uchovávajicí velikost posunu obrazu (pro scrollování atp.), je to ve fyzických souřadnicích zařízení

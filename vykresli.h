@@ -10,11 +10,11 @@ class Cvykresli
 {
 	private:
 	bool lezi_v_pasmu(TCanvas *c,long X,long Y,long x1,long y1,long x2,long y2,long x3,long y3,long x4,long y4);
-	// pouzivam ve vektorechvoid get_LT_a_max_min_TT();
-	// pouzivam ve vektorechdouble sum_WT();
-
+	void SG(Cvektory::TVozik *ukaz);//zajištuje základní funkcionalitu technologického objektu v režimu S&G pøi vykreslování simulaci
+	void STOPKA(Cvektory::TVozik *ukaz);//zajištuje základní funkcionalitu technologického objektu STOPKA pøi vykreslování simulaci
+	bool KOLIZE(Cvektory::TVozik *V1,Cvektory::TVozik *V2);//vrací logickou hodnotu zda došlo èi nedošlo ke kolizi s jiným vozíkem
 	public:
-  Cvykresli();//konstruktor
+	Cvykresli();//konstruktor
 	Cvektory v;
 	Cmy m;
 

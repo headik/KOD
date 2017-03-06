@@ -459,68 +459,87 @@ object Form1: TForm1
       '')
     TabOrder = 5
   end
+  object Button2: TButton
+    Left = 648
+    Top = 327
+    Width = 75
+    Height = 25
+    Caption = 'Button2'
+    TabOrder = 6
+    Visible = False
+    OnClick = Button2Click
+  end
   object Button3: TButton
     Left = 160
-    Top = 176
+    Top = 138
     Width = 85
     Height = 25
     Caption = 'Nav'#283'sit voz'#237'k (0)'
-    TabOrder = 6
+    TabOrder = 7
     OnClick = Button3Click
   end
   object Button4: TButton
     Left = 160
-    Top = 207
+    Top = 169
     Width = 85
     Height = 25
     Caption = 'Pauza simulace'
-    TabOrder = 7
+    TabOrder = 8
     OnClick = Button4Click
   end
   object Button5: TButton
     Left = 160
-    Top = 269
+    Top = 231
     Width = 85
     Height = 25
     Caption = 'stopka'
-    TabOrder = 8
+    TabOrder = 9
     OnClick = Button5Click
   end
   object Button6: TButton
     Left = 160
-    Top = 300
+    Top = 262
     Width = 85
     Height = 25
     Caption = #269'ekat na palec'
-    TabOrder = 9
+    TabOrder = 10
     OnClick = Button6Click
   end
   object Button7: TButton
     Left = 160
-    Top = 238
+    Top = 200
     Width = 85
     Height = 25
     Caption = 'Krok simulace'
-    TabOrder = 10
+    TabOrder = 11
     OnClick = Button7Click
   end
   object Button8: TButton
     Left = 160
-    Top = 331
+    Top = 293
     Width = 85
     Height = 25
     Caption = 'D'#233'lka dopravn'#237'ku'
-    TabOrder = 11
+    TabOrder = 12
     OnClick = Button8Click
   end
   object Button9: TButton
     Left = 160
-    Top = 362
+    Top = 375
     Width = 129
     Height = 25
     Caption = 'vypsat spoj'#225'k VOZIKY'
-    TabOrder = 12
+    TabOrder = 13
     OnClick = Button9Click
+  end
+  object Button10: TButton
+    Left = 160
+    Top = 324
+    Width = 110
+    Height = 25
+    Caption = 'zkr'#225'tit linky dle palc'#367
+    TabOrder = 14
+    OnClick = Button10Click
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -853,7 +872,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118003001340110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118003C013C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

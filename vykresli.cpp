@@ -9,6 +9,7 @@
 //konstruktor
 Cvykresli::Cvykresli()
 {
+  //parametry vykreslovaného obdelníku technologického objektu
 	O_width=50;
 	O_height=40;
 }
@@ -648,18 +649,17 @@ void Cvykresli::vykresli_linku(TCanvas *canv)//zajišťuje vykreslení osy linky
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 void Cvykresli::umisti_vozik(TCanvas *canv,Cvektory::TVozik *ukaz)//zajišťuje umístění vozíku na lince
 {
-	Cvektory::TObjekt *u_seg=ukaz->segment;//pouze zkrácení zápisu
+	STOPKA(ukaz);
+	SG(ukaz);
+	if(ukaz->predchozi!=NULL)
+	if(KOLIZE(ukaz,ukaz->predchozi))Form1->Memo1->Lines->Add("KOLIZE!");
 
-	if(u_seg!=NULL)
-	if(u_seg->id==11)//stopka
-	{
-		 ukaz->stav=u_seg->stav;
-	}
+
+	Cvektory::TObjekt *u_seg=ukaz->segment;//pouze zkrácení zápisu
 
 	if(ukaz->stav==1 && cas%10==0)ukaz->stav=2;//pokud vozík čeká na palec a palec přijde nastaví stav na zelenou
 	if(ukaz->stav==2)ukaz->pozice+=1;//pokud je povolen pohyb daného vozíku
 	double rest=0;
-
 
 	if(u_seg!=NULL)
 	{
@@ -684,7 +684,7 @@ void Cvykresli::umisti_vozik(TCanvas *canv,Cvektory::TVozik *ukaz)//zajišťuje 
 		//smazání starého čtverec-vozíku
 		if(ukaz->pozice>-1)vykresli_vozik(canv,ukaz,m.round((ukaz->pozice-1)*Form1->Zoom*(X2-X1)/(delka/krok)+X1),m.round((ukaz->pozice-1)*Form1->Zoom*(Y2-Y1)/(delka/krok)+Y1),false);
 
-		//zajistit překreslení umazávaného gridu, toto přimo ještě nefunguje vykresli_grid(canv);
+		//zajistit překreslení umazávaného gridu, toto přimo ještě nefunguje //vykresli_grid(canv);
 
 		//nakreslí nový čtverec-vozík
 		if(ukaz->pozice>-1)vykresli_vozik(canv,ukaz,m.round(ukaz->pozice*Form1->Zoom*(X2-X1)/(delka/krok)+X1),m.round(ukaz->pozice*Form1->Zoom*(Y2-Y1)/(delka/krok)+Y1),true);
@@ -704,12 +704,13 @@ void Cvykresli::umisti_vozik(TCanvas *canv,Cvektory::TVozik *ukaz)//zajišťuje 
 		//pokračování do dalšího kola
 		ukaz->pozice=rest;//rest z minulého kola
 		ukaz->segment=v.OBJEKTY->dalsi;
+		umisti_vozik(canv,ukaz);//nutná rekurze zajišťující, aby se nepřišlo o jeden krok simulace
 	}
 }
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 void Cvykresli::vykresli_vozik(TCanvas *canv,Cvektory::TVozik *ukaz,long X,long Y,bool NEW=true)//zajišťuje vykreslení vozíku při simulaci
 {
-  //záměrná záměna z důvodu špatně navrženého (o 90° orotovaného) výpočtu souřadnic vozíku
+	//záměrná záměna z důvodu špatně navrženého (o 90° orotovaného) výpočtu souřadnic vozíku
 	double delka=ukaz->sirka;
 	double sirka=ukaz->delka;
 
@@ -747,6 +748,9 @@ void Cvykresli::vykresli_vozik(TCanvas *canv,Cvektory::TVozik *ukaz,long X,long 
 	};
 	canv->Polygon((TPoint*)body,3);
 
+	//prozatim, potom budu ukladat celé vnější souřadnice
+	ukaz->X=m.P2Lx(X);ukaz->X=m.P2Ly(Y);
+
 	//provizorní vykreslení středu (pomocí uhlopříček)
 	canv->MoveTo(body[0].x,body[0].y);canv->LineTo(body[2].x,body[2].y);
 	canv->MoveTo(body[1].x,body[1].y);canv->LineTo(body[3].x,body[3].y);
@@ -754,7 +758,7 @@ void Cvykresli::vykresli_vozik(TCanvas *canv,Cvektory::TVozik *ukaz,long X,long 
 	{
 	canv->TextOutW(50,110,AnsiString(ukaz->pozice));
 	canv->TextOutW(50,130,AnsiString(v.PALCE->dalsi->pozice));
-  }
+	}
 
 	//provizorní výpis čísel rohu polygonu
 	/*canv->TextOutW(body[0].x,body[0].y,"0");
@@ -793,7 +797,7 @@ void Cvykresli::umisti_palec(TCanvas *canv,Cvektory::TPalec *ukaz)
 {
 	double rest=0.0;
   ukaz->pozice+=1.0;
-	//přesunotu na konec:ukaz->pozice+=1; //pozice na dílčí úsečce
+	//přesunoto z konce:ukaz->pozice+=1; //pozice na dílčí úsečce
 	Cvektory::TObjekt *u_seg=ukaz->segment;//pouze zkrácení zápisu
 	if(u_seg!=NULL)
 	{
@@ -835,6 +839,7 @@ void Cvykresli::umisti_palec(TCanvas *canv,Cvektory::TPalec *ukaz)
 		//pokračování do dalšího kola
 		ukaz->segment=v.OBJEKTY->dalsi;
 		ukaz->pozice=rest;//přiřadí restovou hodnotu z minulého kola
+		umisti_palec(canv,ukaz);//nutná rekurze zajišťující, aby se nepřišlo o jeden krok simulace
 	}
 }
 //------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -859,6 +864,65 @@ void Cvykresli::vykresli_palec(TCanvas *canv,double X,double Y,bool NEW=true)
 		canv->Pen->Width=1;
 		canv->Ellipse(m.round(X-size),m.round(Y-size),m.round(X+size),m.round(Y+size));
 	}
+}
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Cvykresli::STOPKA(Cvektory::TVozik *ukaz)//zajištuje základní funkcionalitu technologického objektu v režimu S&G při vykreslování simulaci
+{
+	if(ukaz->segment!=NULL)
+	{
+		if(ukaz->segment->id==11)//stopka -- zatimí provizorně na objekt s ID 11
+		{
+		 if(ukaz->pozice<=0)ukaz->stav=ukaz->segment->stav;
+		}
+	}
+}
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Cvykresli::SG(Cvektory::TVozik *ukaz)//zajištuje základní funkcionalitu technologického objektu STOPKA při vykreslování simulaci
+{
+	Cvektory::TObjekt *u_seg=ukaz->segment;//pouze zkrácení zápisu
+	if(u_seg!=NULL)
+	{
+		if(u_seg->rezim==0)//S&G
+		{
+			switch (u_seg->stav)
+			{
+				case 0:
+				{
+					if(ukaz->pozice<=0)//pouze pro nový příchozí prvek
+					{
+						ukaz->stav=0;
+						ukaz->timer=u_seg->CT*60;
+						u_seg->stav=1;//čekací mod
+					}
+					//Form1->Memo1->Lines->Add(ukaz->pozice);
+					break;
+				}
+				case 1:
+				{
+					if(--ukaz->timer==0)
+					{
+						u_seg->stav=2;//vozík může opustit objekt
+						ukaz->stav=1;//vozík bude čekat na palec
+					}
+				}
+				break;
+				case 2:
+				u_seg->stav=0;//objekt pozdrží další vozík
+				break;
+			}
+		}
+	}
+}
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+bool Cvykresli::KOLIZE(Cvektory::TVozik *V1,Cvektory::TVozik *V2)//vrací logickou hodnotu zda došlo či nedošlo ke kolizi s jiným vozíkem
+{  //provizorní algoritmus není dotažený
+	 if(m.delka(V1->X,V1->Y,V2->X,V2->Y) <= V1->delka+V2->delka)//zatím nedokonalá detekce konfliktu
+	 	return true;
+	 else
+		return false;
 }
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------------

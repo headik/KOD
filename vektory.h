@@ -54,7 +54,10 @@ class Cvektory
 			short stav;//-1 - není na lince, 0 - stop, 1 - čeká, 2 - jede
 			TColor barva;
 			double pozice;
+			double X;
+			double Y;
 			struct TObjekt *segment;
+			double timer;
 			struct TVozik *predchozi;
 			struct TVozik *dalsi;
 		};
@@ -102,6 +105,7 @@ class Cvektory
 		short smaz_bod(TObjekt *Objekt);//smaže prvek ze seznamu
 		void sniz_indexy(TObjekt *Objekt);
 		void zvys_indexy(TObjekt *Objekt);
+		double delka_dopravniku(Cvektory::TObjekt *ukaz);
 		void aktualizace_indexu_uzitych_dopravniku(short item_index);
 		bool kontrola_existence_dopravniku(short item_index);
 		long vymaz_seznam();

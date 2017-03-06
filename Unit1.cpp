@@ -24,6 +24,7 @@
 #pragma link "RzButton"
 #pragma link "RzBorder"
 #pragma link "RzBHints"
+#pragma link "RzGrids"
 #pragma resource "*.dfm"
 TForm1 *Form1;
 AnsiString Parametry;
@@ -668,7 +669,6 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 			zneplatnit_minulesouradnice();
 
 			//povoluje smazání či nastavení parametrů objektů, po přejetí myší přes daný objekt
-			//Cvektory::TObjekt *p
 			pom=d.v.najdi_bod(akt_souradnice_kurzoru.x,akt_souradnice_kurzoru.y,d.O_width,d.O_height);
 			if(pom!=NULL)
 			{
@@ -2038,16 +2038,25 @@ void __fastcall TForm1::html1Click(TObject *Sender)
 
 void __fastcall TForm1::Button2Click(TObject *Sender)
 {
-   //	TForm_vozik_nastaveni::TBarva *ukaz = Form_vozik_nastaveni->BARVY->dalsi;
+	/*Cvektory::TObjekt *ukaz;
+	ukaz=d.v.OBJEKTY->dalsi;//přeskočí hlavičku
 
-	// ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
+	while (ukaz!=NULL)
+	{
+			Memo1->Lines->Add(ukaz->n);
+			ukaz=ukaz->dalsi;//posun na další prvek
+	}*/
+	//ShowMessage(d.v.seznam_dopravniku);
+	Cvektory::TVozik *ukaz;
+	ukaz=d.v.VOZIKY->dalsi;//přeskočí hlavičku
 
-   //	while (ukaz != NULL) {
+	while (ukaz!=NULL)
+	{
+			Memo1->Lines->Add(ukaz->n);
+			ukaz=ukaz->dalsi;//posun na další prvek
+	}
 
-	  //	 ShowMessage("uka barvu");
-	 //  Memo2->Lines->Add(ukaz->barva_voziku);
 
-     //  }
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Obnovitobraz1Click(TObject *Sender)
@@ -2151,35 +2160,52 @@ void __fastcall TForm1::Button7Click(TObject *Sender)
 
 void __fastcall TForm1::Button8Click(TObject *Sender)
 {
-	 	double delka=0;
-		Cvektory::TObjekt *ukaz=d.v.OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
-		while (ukaz!=NULL)
-		{
-			if(ukaz->dalsi!=NULL)//mimo poslední linie
-				delka+=m.delka(ukaz->X,ukaz->Y,ukaz->dalsi->X,ukaz->dalsi->Y);
-			else//pro poslední linii
-				delka+=m.delka(ukaz->X,ukaz->Y,d.v.OBJEKTY->dalsi->X,d.v.OBJEKTY->dalsi->Y);
-			//posun na další prvek v seznamu
-			ukaz=ukaz->dalsi;
-		}
-		ShowMessage("Délka dopravníku je: "+AnsiString(delka)+" metrů");
+	ShowMessage("Délka dopravníku je: "+AnsiString(d.v.delka_dopravniku(d.v.OBJEKTY))+" metrů");
+	Memo1->Lines->Add("Délka dopravníku je: "+AnsiString(d.v.delka_dopravniku(d.v.OBJEKTY))+" metrů");
 }
 //---------------------------------------------------------------------------
-
-
 void __fastcall TForm1::Button9Click(TObject *Sender)
 {
-Memo1->Lines->Add("vypis spojáku VOZIKY:");
-			Cvektory::TVozik *ukaz=Form1->d.v.VOZIKY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
+	/*Memo1->Lines->Add("vypis spojáku VOZIKY:");
+			Cvektory::TVozik *ukaz=d.v.VOZIKY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
 		while (ukaz!=NULL)
 		{
 			//akce s ukazatelem
-			Memo1->Lines->Add(AnsiString("n: ")+ukaz->n+AnsiString(" ID: ")+ukaz->id+AnsiString(" barva: ")+ukaz->barva);
+			Memo1->Lines->Add(AnsiString("n: ")+ukaz->n+AnsiString(" ID: ")+ukaz->id+AnsiString(" X: ")+ukaz->X+AnsiString(" Y: ")+ukaz->Y);
+
+			//posun na další prvek v seznamu
+			ukaz=ukaz->dalsi;
+		} */
+		Memo1->Lines->Add("vypis spojáku OBJEKTY:");
+			Cvektory::TObjekt *ukaz=d.v.OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
+		while (ukaz!=NULL)
+		{
+			//akce s ukazatelem
+			Memo1->Lines->Add(AnsiString("n: ")+ukaz->n+AnsiString(" X: ")+ukaz->X+AnsiString(" Y: ")+ukaz->Y);
 
 			//posun na další prvek v seznamu
 			ukaz=ukaz->dalsi;
 		}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button10Click(TObject *Sender)
+{
+	TPointDbool N=m.zkratit_polygon_na_roztec(d.v.delka_dopravniku(d.v.OBJEKTY),10.0,d.v.OBJEKTY->predchozi->X,d.v.OBJEKTY->predchozi->Y,d.v.OBJEKTY->predchozi->predchozi->X,d.v.OBJEKTY->predchozi->predchozi->Y,d.v.OBJEKTY->dalsi->X,d.v.OBJEKTY->dalsi->Y);
+	if(N.b)
+	{
+		 d.v.OBJEKTY->predchozi->X=N.x;
+		 d.v.OBJEKTY->predchozi->Y=N.y;
+	}
 
+	//
+	//d.v.OBJEKTY->predchozi->X=46.25575147;
+	//d.v.OBJEKTY->predchozi->Y=-21.95662734;
+
+	/*d.v.OBJEKTY->predchozi->X=24.25156834;
+	d.v.OBJEKTY->predchozi->Y=-26.08241167; */
+
+	//d.v.OBJEKTY->predchozi->X=35.25365991;
+	//d.v.OBJEKTY->predchozi->Y=-24.0195195;
 
 }
 //---------------------------------------------------------------------------
