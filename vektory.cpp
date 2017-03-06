@@ -93,7 +93,7 @@ short Cvektory::vloz_objekt(unsigned int id, double X, double Y,TObjekt *p)
 	p->dalsi->predchozi=novy;
 	p->dalsi=novy;
 	novy->n=p->n;//přiřadím počítadlo prvku ze současného prvku, v dalším kroku se totiž navýší
-
+   //nějaký kod
 	//indexy zvýšit separátně
 	return 0;
 };

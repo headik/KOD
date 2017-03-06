@@ -58,7 +58,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	grid=true; size_grid=10;//velikost je v logických jednotkách
 	prichytavat_k_mrizce=0;
 	SB("přichytávat?",5);
-
 	//bitmapa pro uložení přesovaného obrazu - PAN
 	Pan_bmp=new Graphics::TBitmap();
 	pan_non_locked=false;
