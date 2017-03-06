@@ -15,6 +15,8 @@ object Form_TT_kalkulator: TForm_TT_kalkulator
   OldCreateOrder = False
   OnCloseQuery = FormCloseQuery
   OnShow = FormShow
+  ExplicitWidth = 320
+  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 13
   object OK: TButton
