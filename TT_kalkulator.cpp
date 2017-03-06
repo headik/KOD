@@ -37,7 +37,7 @@ void TForm_TT_kalkulator::getTT()
 			if(Edit_produkty->Text.ToDouble()>0 && Edit_produktu_na_vozik->Text.ToDouble()>0)
 			{
 				//výpočet TT
-				TT=Edit_hodin->Text.ToDouble()*Edit_smen->Text.ToDouble()*Edit_dni->Text.ToDouble()*60/Edit_produkty->Text.ToDouble()/Edit_produktu_na_vozik->Text.ToDouble();
+				TT=Edit_hodin->Text.ToDouble()*Edit_smen->Text.ToDouble()*Edit_dni->Text.ToDouble()*60/(Edit_produkty->Text.ToDouble()/Edit_produktu_na_vozik->Text.ToDouble());
 				//vyplnění hodnot vstupně výstupních EditBoxů
 				Edit_TT->Text=TT;
 				Edit_TT_produktu->Text=TT/Edit_produktu_na_vozik->Text.ToDouble();
