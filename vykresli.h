@@ -22,6 +22,8 @@ class Cvykresli
 	void vykresli_rectangle(TCanvas *canv, Cvektory::TObjekt *ukaz);
 	void vykresli_grid(TCanvas *canv, int size_grid=10);
 	void vykresli_graf_rezervy(TCanvas *canv);
+	void vykresli_casovou_osu(TCanvas *canv);
+	void vykresli_osu_casove_osy(TCanvas *canv,int X);
 	void vykresli_simulaci(TCanvas *canv);//zajišuje vykreslení simulace
 	void vykresli_linku(TCanvas *canv);//zajišuje vykreslení osy linky
 	void umisti_vozik(TCanvas *canv,Cvektory::TVozik *ukaz);//zajišuje umístìní vozíku na lince
@@ -30,6 +32,7 @@ class Cvykresli
 	void umisti_palec(TCanvas *canv,Cvektory::TPalec *ukaz);//zajišuje aktuální umístìní vozíku na lince vùèi animaci
 	void vykresli_palec(TCanvas *canv,double X,double Y,bool NEW);//zajišuje samotné vykreslení vozíku (rotovanı obdelník)
 	void rotace_textu(TCanvas *canv, long rotace);//úhel rotace je desetinách stupnì
+	void set_pen(TCanvas *canv, TColor color, int width, int style=PS_ENDCAP_FLAT);//vrátí HANDLE na nastavení pera,//popø.PS_ENDCAP_FLAT PS_ENDCAP_ROUND, PS_ENDCAP_SQUERE viz Matoušek III str. 179
 	void set_color(TCanvas *canv, double time);
 	void drawRectText(TCanvas *canv,TRect Rect, UnicodeString Text);
 	void editacni_okno(TCanvas *canv, unsigned int X1, unsigned int Y1,unsigned  int X2,unsigned  int Y2, unsigned short int size=1, COLORREF color=clBlack);//nakreslí editacni_okno

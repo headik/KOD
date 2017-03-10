@@ -31,11 +31,27 @@ class Cvektory
 			short typ_dopravniku;
 			double delka_dopravniku;
 			double kapacita_objektu;
+			double obsazenost;//čas obsazenosti
 			UnicodeString techn_parametry;//obsah valuestringlistu, nelze ukládát pouze jednotlivá data, protože se seznam může u S&G měnit
 			struct TObjekt *predchozi;
 			struct TObjekt *dalsi;
 		};
 		TObjekt *OBJEKTY;
+
+		struct TCesta//seznam technologických objektů na cestě - definice cesty
+		{
+			unsigned int n; //pořadí + ID objektu ve spoj.seznamu
+			TObjekt *objekt;
+			struct TCesta *predchozi;
+			struct TCesta *dalsi;
+		};
+		struct TCesty //seznam cest
+		{
+			unsigned int n; //pořadí cesty ve spoj.seznamu všech cest
+			TCesta *cesta;
+			struct TCesty *predchozi;
+			struct TCesty *dalsi;
+		}; TCesty *CESTY;
 
 		struct TVozik
 		{
@@ -57,6 +73,7 @@ class Cvektory
 			double X;
 			double Y;
 			struct TObjekt *segment;
+			struct TCesty *cesta;
 			double timer;
 			struct TVozik *predchozi;
 			struct TVozik *dalsi;
@@ -97,18 +114,22 @@ class Cvektory
 		UnicodeString seznam_dopravniku;
 
 		Cvektory();//konstruktor
-		void hlavicka_prvky();
+		void hlavicka_objekty();
 		short vloz_objekt(unsigned int id, double X, double Y);//vloží prvek do seznamu
 		short vloz_objekt(TObjekt *Objekt);//přetížená fce
 		short vloz_objekt(unsigned int id, double X, double Y,TObjekt *p);//přetížená fce
-		TObjekt *najdi_bod(double X, double Y,double offsetX, double offsetY);//hledá bod v dané oblasti
-		short smaz_bod(TObjekt *Objekt);//smaže prvek ze seznamu
+		TObjekt *najdi_objekt(double X, double Y,double offsetX, double offsetY);//hledá bod v dané oblasti
+		short smaz_objekt(TObjekt *Objekt);//smaže prvek ze seznamu
 		void sniz_indexy(TObjekt *Objekt);
 		void zvys_indexy(TObjekt *Objekt);
+		void vymazat_casovou_obsazenost_objektu(TObjekt *Objekt);
 		double delka_dopravniku(Cvektory::TObjekt *ukaz);
 		void aktualizace_indexu_uzitych_dopravniku(short item_index);
 		bool kontrola_existence_dopravniku(short item_index);
 		long vymaz_seznam();
+		void hlavicka_cesty();
+		void vloz_cestu();//vloží cestu do spojového seznamu cesty
+		long vymaz_cesty();
 		short int uloz_do_souboru(UnicodeString FileName);
 		short int nacti_ze_souboru(UnicodeString FileName);
 		short int ulozit_report(UnicodeString FileName);
@@ -134,9 +155,6 @@ class Cvektory
 
 		void smaz_bod_polygonu(TPolygon *jaky, TBod_LP *p);//smaže dílčí bod polygonu
 		void optimalizace_seznamu(TBod *Prvek);//přepíše indexy vzestupně
-				void optimalizace_seznamu(TPolygon *Prvek);//přepíše indexy vzestupně
-        short int uloz_do_souboru(AnsiString FileName);
-        short int nacti_ze_souboru(AnsiString FileName);
 		short int import_ze_souboru(AnsiString FileName);
 		TBod *vrat_bod(long long ID); //hledá prvek ve spojovém seznamu podle jeho ID, vrací ukazatel na něj
 		void zmen_dcmntpt(long long ID,double X, double Y); //hledá prvek ve spojovém seznamu podle jeho ID, vrací ukazatel na něj

@@ -476,6 +476,7 @@ object Form1: TForm1
     Height = 25
     Caption = 'Nav'#283'sit voz'#237'k (0)'
     TabOrder = 7
+    Visible = False
     OnClick = Button3Click
   end
   object Button4: TButton
@@ -485,6 +486,7 @@ object Form1: TForm1
     Height = 25
     Caption = 'Pauza simulace'
     TabOrder = 8
+    Visible = False
     OnClick = Button4Click
   end
   object Button5: TButton
@@ -494,6 +496,7 @@ object Form1: TForm1
     Height = 25
     Caption = 'stopka'
     TabOrder = 9
+    Visible = False
     OnClick = Button5Click
   end
   object Button6: TButton
@@ -503,6 +506,7 @@ object Form1: TForm1
     Height = 25
     Caption = #269'ekat na palec'
     TabOrder = 10
+    Visible = False
     OnClick = Button6Click
   end
   object Button7: TButton
@@ -512,6 +516,7 @@ object Form1: TForm1
     Height = 25
     Caption = 'Krok simulace'
     TabOrder = 11
+    Visible = False
     OnClick = Button7Click
   end
   object Button8: TButton
@@ -521,6 +526,7 @@ object Form1: TForm1
     Height = 25
     Caption = 'D'#233'lka dopravn'#237'ku'
     TabOrder = 12
+    Visible = False
     OnClick = Button8Click
   end
   object Button9: TButton
@@ -539,6 +545,7 @@ object Form1: TForm1
     Height = 25
     Caption = 'zkr'#225'tit linky dle palc'#367
     TabOrder = 14
+    Visible = False
     OnClick = Button10Click
   end
   object MainMenu1: TMainMenu
@@ -619,8 +626,15 @@ object Form1: TForm1
       end
       object simulace1: TMenuItem
         Caption = 'simulace'
+        RadioItem = True
         ShortCut = 120
         OnClick = simulace1Click
+      end
+      object casovosa1: TMenuItem
+        Caption = #269'asov'#225' osa'
+        RadioItem = True
+        ShortCut = 121
+        OnClick = casovosa1Click
       end
     end
     object Pohled1: TMenuItem
@@ -872,7 +886,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118004001400110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118005001500110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

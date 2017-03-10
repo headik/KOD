@@ -323,9 +323,66 @@ void Cvykresli::vykresli_graf_rezervy(TCanvas *canv)
 			canv->TextOutW(L+10,H+canv->TextHeight(T)*++n,"WIP: "+UnicodeString((1/Form1->PP.TT)*v.LT)+" [vozíků]");
 			if(v.LT>0)canv->TextOutW(L+10,H+canv->TextHeight(T)*++n,"PCE: "+UnicodeString(m.round2double(v.sum_WT()/v.LT*100,2))+" [%]");//zokrouhleno na dvě desetinná místa
     }
-    canv->Brush->Style=bsSolid;
+		canv->Brush->Style=bsSolid;
 	 ///------
 }
+//---------------------------------------------------------------------------
+void Cvykresli::vykresli_casovou_osu(TCanvas *canv)
+{
+	v.vymazat_casovou_obsazenost_objektu(v.OBJEKTY);//vymaže předchozí časovou obsazenost objektů, jinak by se při každém dalším překreslení objekty posovali o obsazenost z předchozího vykreslení
+	Cvektory::TVozik *vozik=v.VOZIKY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		short Krok=20;//rozteč na ose Y mezi jednotlivými vozíky
+		double X=0;//výchozí odsazení na ose X
+		double Y=(vozik->n-1)*Krok+Form1->RzToolbar1->Height+Krok;//výchozí odsazení na ose Y
+
+		set_pen(canv,vozik->barva,2*Form1->Zoom);
+
+		short PX2MIN=50;//měřítko PX na MIN
+		Cvektory::TObjekt *objekt=v.OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
+		//Cvektory::TCesty *C=v.CESTY->dalsi;
+		while (objekt!=NULL)
+		{
+			if(objekt->rezim==0 && X<objekt->obsazenost)X=objekt->obsazenost; //pro S&G řeší,aby se procesy v čase nepřekrývaly
+			double X_pre=X;
+			//osa
+			canv->Pen->Width=1;canv->MoveTo(X,(Y-3));canv->LineTo(X,(Y+3));canv->LineTo((X+3),Y);canv->LineTo(X,(Y-3));//nakreslí počáteční zarážku na čaové ose
+			canv->MoveTo(X,Y);//vrátí pero do výchozí pozice pro další pokračování v cyklu pro zobrazení osy dalšího techologického objektu
+			X+=objekt->CT*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
+			objekt->obsazenost=X;
+			canv->Pen->Width=2;canv->LineTo(X,Y);//nakreslí osu
+			canv->Pen->Width=1;canv->MoveTo(X,(Y-3));canv->LineTo(X,(Y+3));canv->LineTo((X-3),Y);canv->LineTo(X,(Y-3));//nakreslí koncovou zarážku na čaové ose
+			//popisek
+			SetBkMode(canv->Handle,OPAQUE);
+			canv->Font->Color=clBlack;
+			canv->Font->Size=6;
+			canv->Font->Name="Arial";
+			canv->Font->Style = TFontStyles();
+			UnicodeString T=objekt->short_name;
+			canv->TextOutW(((X+X_pre)/2)-canv->TextWidth(T)/2,Y-canv->TextHeight(T)/2,T);//vypíše popisek shorname t-objektu
+			//posun na další prvek v seznamu
+			objekt=objekt->dalsi;
+		}
+		vozik=vozik->dalsi;//posun na další prvek v seznamu
+	}
+
+
+}
+//---------------------------------------------------------------------------
+void Cvykresli::vykresli_osu_casove_osy(TCanvas *canv,int X)
+{
+	//if(X!=-200)//pokud je mimo obraz -200 jen nahodilá hodnota pro zneplatenění čí výchozí obraz
+	{
+		canv->Pen->Width=1;
+		canv->Pen->Style=psDashDot;//nastevení čarkované čáry
+		canv->Pen->Mode=pmNotXor;
+		canv->Pen->Color=clGray;
+		canv->MoveTo(X,0);
+		canv->LineTo(X,Form1->ClientWidth);
+	}
+}
+//---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 void Cvykresli::rotace_textu(TCanvas *canv, long rotace)//úhel rotace je desetinách stupně
 {
@@ -335,6 +392,21 @@ void Cvykresli::rotace_textu(TCanvas *canv, long rotace)//úhel rotace je deseti
 		canv->Font->Handle=CreateFontIndirect(&LogRec);
 }
 //---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//nastaví pero
+void Cvykresli::set_pen(TCanvas *canv, TColor color, int width, int style)//popř.PS_ENDCAP_FLAT PS_ENDCAP_ROUND, PS_ENDCAP_SQUERE viz Matoušek III str. 179
+{
+		DeleteObject(canv->Pen->Handle);//zruší původní pero
+		DWORD pStyle = PS_GEOMETRIC | PS_SOLID | style | PS_JOIN_BEVEL;
+		DWORD pWidth = width;
+
+		LOGBRUSH lBrush;
+		lBrush.lbStyle = BS_SOLID;
+		lBrush.lbColor = color;
+		lBrush.lbHatch = 0;
+
+		canv->Pen->Handle = ExtCreatePen(pStyle, pWidth, &lBrush, NULL, NULL);
+}
 //---------------------------------------------------------------------------
 void  Cvykresli::set_color(TCanvas *canv, double time)
 {
@@ -625,7 +697,7 @@ void Cvykresli::vykresli_simulaci(TCanvas *canv)
 void Cvykresli::vykresli_linku(TCanvas *canv)//zajišťuje vykreslení osy linky
 {
 		//nastavení šířky a barvy linie
-		canv->Pen->Color=RGB(255,0,0);
+		canv->Pen->Color=(TColor)RGB(255,0,0);
 		canv->Pen->Width=1*Form1->Zoom;
 		canv->Pen->Mode=pmCopy;
 
@@ -719,13 +791,13 @@ void Cvykresli::vykresli_vozik(TCanvas *canv,Cvektory::TVozik *ukaz,long X,long 
 	canv->Pen->Mode=pmCopy;
 	if(NEW)
 	{
-		canv->Pen->Color=RGB(0,0,0);
+		canv->Pen->Color=(TColor)RGB(0,0,0);
 		canv->Brush->Style=bsSolid;
 		canv->Brush->Color=ukaz->barva;
 	}
 	else
 	{
-		canv->Pen->Color=RGB(255,255,255);
+		canv->Pen->Color=(TColor)RGB(255,255,255);
 		canv->Brush->Style=bsSolid;
 		canv->Brush->Color=clWhite;
 	}
@@ -1003,8 +1075,8 @@ void Cvykresli::vykresli_meritko(TCanvas * canv, unsigned short Level, unsigned 
   //oramávání
   canv->Pen->Width=1;
   //canv->Brush->Style=bsSolid;
-  canv->Pen->Style=psSolid;
-  canv->Pen->Mode=pmCopy;
+	canv->Pen->Style=psSolid;
+	canv->Pen->Mode=pmCopy;
   canv->Pen->Color=barva_meritko;
   canv->Rectangle(m.px_offset(X,Y,0),Y,m.px_offset(X,Y,rozsah*faktorX),Y-faktorY);
  }

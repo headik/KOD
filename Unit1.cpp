@@ -122,7 +122,7 @@ void __fastcall TForm1::NovySouborClick(TObject *Sender)
 	 if(novy)
 	 {
 			 vse_odstranit();
-			 d.v.hlavicka_prvky();//založení spojového seznamu pro technologické objekty
+			 d.v.hlavicka_objekty();//založení spojového seznamu pro technologické objekty
 			 d.v.hlavicka_voziky();
 			 d.v.hlavicka_palce();
 
@@ -275,11 +275,11 @@ void __fastcall TForm1::editacelinky1Click(TObject *Sender)
 	MOD=EDITACE;
 	SB("editace linky",1);
 	if(zobrazit_barvy_casovych_rezerv){zobrazit_barvy_casovych_rezerv=false;}
-  Timer_simulace->Enabled=false;
+	Timer_simulace->Enabled=false;
 	editacelinky1->Checked=true;
 	testovnkapacity1->Checked=false;
-	casoverezervy1->Checked=false;
 	simulace1->Checked=false;
+	casoverezervy1->Checked=false;
 	RzSizePanel_parametry_projekt->Visible=true;
 	RzSizePanel_knihovna_objektu->Visible=true;
 	PopupMenu1->AutoPopup=true;
@@ -298,6 +298,7 @@ void __fastcall TForm1::testovnkapacity1Click(TObject *Sender)
 	testovnkapacity1->Checked=true;
 	casoverezervy1->Checked=false;
 	simulace1->Checked=false;
+	casovosa1->Checked=false;
 	RzSizePanel_parametry_projekt->Visible=true;
 	RzSizePanel_knihovna_objektu->Visible=true;
 	PopupMenu1->AutoPopup=true;
@@ -315,6 +316,7 @@ void __fastcall TForm1::casoverezervy1Click(TObject *Sender)
 	editacelinky1->Checked=false;
 	casoverezervy1->Checked=true;
 	simulace1->Checked=false;
+	casovosa1->Checked=false;
 	DuvodUlozit(true);
 	RzSizePanel_parametry_projekt->Visible=false;
 	RzSizePanel_knihovna_objektu->Visible=false;
@@ -332,6 +334,7 @@ void __fastcall TForm1::simulace1Click(TObject *Sender)
 	editacelinky1->Checked=false;
 	casoverezervy1->Checked=false;
 	simulace1->Checked=true;
+	casovosa1->Checked=false;
 	DuvodUlozit(true);
 	RzSizePanel_parametry_projekt->Visible=false;
 	RzSizePanel_knihovna_objektu->Visible=false;
@@ -341,6 +344,27 @@ void __fastcall TForm1::simulace1Click(TObject *Sender)
 	d.cas=0;
 	d.priprav_palce();
 	Timer_simulace->Enabled=true;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::casovosa1Click(TObject *Sender)
+{
+	MOD=CASOVAOSA;
+	ESC();//zruší případně rozdělanou akci
+	SB("zobrazení časové osy technologických procesů",1);
+	if(zobrazit_barvy_casovych_rezerv){zobrazit_barvy_casovych_rezerv=false;}
+	Timer_simulace->Enabled=false;
+	testovnkapacity1->Checked=false;
+	editacelinky1->Checked=false;
+	casoverezervy1->Checked=false;
+	simulace1->Checked=false;
+	casovosa1->Checked=true;
+	DuvodUlozit(true);
+	RzSizePanel_parametry_projekt->Visible=false;
+	RzSizePanel_knihovna_objektu->Visible=false;
+	PopupMenu1->AutoPopup=false;
+	Button3->Visible=false;
+	grid=false;
+	Invalidate();
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -364,7 +388,8 @@ void TForm1::SB(UnicodeString Text, unsigned short Pane)
 		case 3:RzStatusPane3->Caption="["+Text+"] m";break;
 		case 4:RzStatusPane4->Caption=Text;break;
 		case 5:RzStatusPane5->Caption=Text;break;
-		default:RzStatusPane4->Caption=Text; break;
+		case 6:RzStatusPane3->Caption=Text;break;//pokud nechci vypisovat metry
+		default:RzStatusPane5->Caption=Text; break;
 	}
 }
 void TForm1::S(UnicodeString Text)
@@ -407,7 +432,8 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 		case EDITACE: d.vykresli_vektory(Canvas);break;//vykreslování všech vektorů   ///PROZATIM
 		case TESTOVANI: d.vykresli_vektory(Canvas);break;//vykreslování všech vektorů
 		case REZERVY: d.vykresli_graf_rezervy(Canvas);break;//vykreslení grafu rezerv
-	   //	case SIMULACE:d.vykresli_simulaci(Canvas);break;
+		 //	case SIMULACE:d.vykresli_simulaci(Canvas);break; - probíhá pomocí timeru, na tomto to navíc se chovalo divně
+		case CASOVAOSA:d.vykresli_casovou_osu(Canvas); d.vykresli_osu_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x);break;
 	}
 
 }
@@ -559,7 +585,7 @@ void __fastcall TForm1::FormMouseDown(TObject *Sender, TMouseButton Button, TShi
 			//aktivuje POSUN OBJEKTU,pokud je kliknuto v místě objektu (v jeho vnitřku)
 			if(Akce==NIC && posun_objektu==false && funkcni_klavesa==0)//pokud není aktivovaná jiná akce
 			{
-				pom=d.v.najdi_bod(akt_souradnice_kurzoru.x,akt_souradnice_kurzoru.y,d.O_width,d.O_height);
+				pom=d.v.najdi_objekt(akt_souradnice_kurzoru.x,akt_souradnice_kurzoru.y,d.O_width,d.O_height);
 				if(pom!=NULL){Akce=MOVE;kurzor(posun_l);posun_objektu=true;minule_souradnice_kurzoru=TPoint(X,Y);}
 			}
 
@@ -594,12 +620,23 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 {
 	vyska_menu=Mouse->CursorPos.y-Y;//uchová rozdíl myšího kurzoru a Y-pixelu v pracovní oblasti
 
-	if(Zoom<1)SB(UnicodeString(m.round(m.P2Lx(X)))+";"+UnicodeString(m.round(m.P2Ly(Y))),3);
-	else SB(FloatToStrF(m.P2Lx(X),ffFixed,10,1)+";"+FloatToStrF(m.P2Ly(Y),ffFixed,10,1),3);
-	//vypsat fyzické souřadniceSB(UnicodeString(X)+";"+UnicodeString(Y));
-
 	akt_souradnice_kurzoru_PX=TPoint(X,Y);
 	akt_souradnice_kurzoru=m.P2L(akt_souradnice_kurzoru_PX);
+
+	if(MOD==CASOVAOSA)//vykreslování posuvné (dle myši) osy kolmé na osy procesů, slouží jakou ukázovatko času na ose
+	{
+		d.vykresli_osu_casove_osy(Canvas,minule_souradnice_kurzoru.X);
+		minule_souradnice_kurzoru=TPoint(X,Y);
+		d.vykresli_osu_casove_osy(Canvas,X);
+		SB(UnicodeString(X/50.0)+" min",6);//výpis času na ose procesů dle kurzoru
+	}
+	else //výpis metrických souřadnic
+	{
+		if(Zoom<1)SB(UnicodeString(m.round(m.P2Lx(X)))+";"+UnicodeString(m.round(m.P2Ly(Y))),3);
+		else SB(FloatToStrF(m.P2Lx(X),ffFixed,10,1)+";"+FloatToStrF(m.P2Ly(Y),ffFixed,10,1),3);
+		//vypsat fyzické souřadniceSB(UnicodeString(X)+";"+UnicodeString(Y));
+	}
+
 
 	switch(Akce)
 	{
@@ -665,10 +702,10 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 		case NIC:
 		{
       pom=NULL;
-			zneplatnit_minulesouradnice();
+			if(MOD!=CASOVAOSA)zneplatnit_minulesouradnice();
 
 			//povoluje smazání či nastavení parametrů objektů, po přejetí myší přes daný objekt
-			pom=d.v.najdi_bod(akt_souradnice_kurzoru.x,akt_souradnice_kurzoru.y,d.O_width,d.O_height);
+			pom=d.v.najdi_objekt(akt_souradnice_kurzoru.x,akt_souradnice_kurzoru.y,d.O_width,d.O_height);
 			if(pom!=NULL)
 			{
 				Nastvitparametry1->Visible=true;Nastvitparametry1->Caption="Nastavit parametry \""+pom->name.UpperCase()+"\"";
@@ -683,6 +720,7 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
     }
 		default: break;
 	}
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
@@ -1363,7 +1401,7 @@ void __fastcall TForm1::Smazat1Click(TObject *Sender)
 		MyMessageBox->CheckBox_pamatovat->Visible=false;MyMessageBox->Height=111-17;
 		if(idYes==MyMessageBox->ShowMyMessageBox(akt_souradnice_kurzoru_PX.x+10,akt_souradnice_kurzoru_PX.y+42,Form1->Caption,"Chcete opravdu objekt \""+pom->name.UpperCase()+"\" smazat?"))
 		{
-			d.v.smaz_bod(pom);//nalezeny můžeme odstranit odstranit
+			d.v.smaz_objekt(pom);//nalezeny můžeme odstranit odstranit
 			d.v.sniz_indexy(pom);
 			pom=NULL;//delete p; nepoužívat delete je to ukazatel na ostra data
 			Invalidate();
@@ -1375,7 +1413,7 @@ void __fastcall TForm1::Smazat1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Nastvitparametry1Click(TObject *Sender)
 {
-	Cvektory::TObjekt *p=d.v.najdi_bod(akt_souradnice_kurzoru.x,akt_souradnice_kurzoru.y,d.O_width,d.O_height);
+	Cvektory::TObjekt *p=d.v.najdi_objekt(akt_souradnice_kurzoru.x,akt_souradnice_kurzoru.y,d.O_width,d.O_height);
 	if(p!=NULL)
 	{
 		//ošetření aby zůstal dialog na monitoru
@@ -1622,6 +1660,8 @@ unsigned short int TForm1::OtevritSoubor(UnicodeString soubor)//realizuje samotn
 					case EDITACE: 	editacelinky1Click(this);break;
 					case TESTOVANI:	testovnkapacity1Click(this);break;
 					case REZERVY:		casoverezervy1Click(this);break;
+					case SIMULACE:	simulace1Click(this);break;
+					case CASOVAOSA:	casovosa1Click(this);break;
 			}
 			DuvodUlozit(false);
 			//aktualizace statusbaru
@@ -2176,15 +2216,15 @@ void __fastcall TForm1::Button9Click(TObject *Sender)
 			ukaz=ukaz->dalsi;
 		} */
 		Memo1->Lines->Add("vypis spojáku OBJEKTY:");
-			Cvektory::TObjekt *ukaz=d.v.OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
+	/*	Cvektory::TObjekt *ukaz=d.v.CESTA2;//ukazatel na první objekt v seznamu OBJEKTU, NEpřeskočí hlavičku
 		while (ukaz!=NULL)
 		{
 			//akce s ukazatelem
-			Memo1->Lines->Add(AnsiString("n: ")+ukaz->n+AnsiString(" X: ")+ukaz->X+AnsiString(" Y: ")+ukaz->Y);
+			Memo1->Lines->Add(AnsiString("n: ")+ukaz->n+AnsiString(" CT: ")+ukaz->CT);//+AnsiString(" Y: ")+ukaz->Y);
 
 			//posun na další prvek v seznamu
 			ukaz=ukaz->dalsi;
-		}
+		} */
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button10Click(TObject *Sender)
@@ -2208,4 +2248,6 @@ void __fastcall TForm1::Button10Click(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
+
+
 

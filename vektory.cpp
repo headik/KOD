@@ -8,13 +8,13 @@
 //konstruktor
 Cvektory::Cvektory()
 {
-	hlavicka_prvky();//vytvoří novou hlavičku pro body
+	hlavicka_objekty();//vytvoří novou hlavičku pro body
 	hlavicka_voziky();
 	hlavicka_palce();
 }
 //---------------------------------------------------------------------------
-//vytvoří novou hlavičku pro body
-void Cvektory::hlavicka_prvky()
+//vytvoří novou hlavičku pro objekty
+void Cvektory::hlavicka_objekty()
 {
 	TObjekt *novy_uzel=new TObjekt;
 	novy_uzel->n=0;
@@ -29,12 +29,12 @@ void Cvektory::hlavicka_prvky()
 	novy_uzel->delka_dopravniku=0;
 	novy_uzel->kapacita_objektu=0;
 	novy_uzel->techn_parametry="";
+	novy_uzel->obsazenost=0;
 
 	novy_uzel->predchozi=novy_uzel;//ukazuje sam na sebe
 	novy_uzel->dalsi=NULL;
-	OBJEKTY=novy_uzel;
+	OBJEKTY=novy_uzel;//OBJEKTY
 	seznam_dopravniku=L"hlavní dopravník=5\nvedlejší dopravník=3\n";
-
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -59,6 +59,7 @@ short Cvektory::vloz_objekt(unsigned int id, double X, double Y)
 	novy->delka_dopravniku=0;
 	novy->kapacita_objektu=0;
 	novy->techn_parametry="";
+	novy->obsazenost=0;
 
 	OBJEKTY->predchozi->dalsi=novy;//poslednímu prvku přiřadím ukazatel na nový prvek
 	novy->predchozi=OBJEKTY->predchozi;//novy prvek se odkazuje na prvek predchozí (v hlavicce body byl ulozen na pozici predchozi, poslední prvek)
@@ -87,6 +88,7 @@ short Cvektory::vloz_objekt(unsigned int id, double X, double Y,TObjekt *p)
 	novy->delka_dopravniku=0;
 	novy->kapacita_objektu=0;
 	novy->techn_parametry="";
+	novy->obsazenost=0;
 
 	novy->predchozi=p;//novy prvek se odkazuje na prvek predchozí (v hlavicce body byl ulozen na pozici predchozi, poslední prvek)
 	novy->dalsi=p->dalsi;
@@ -114,7 +116,7 @@ short Cvektory::vloz_objekt(TObjekt *Objekt)
 };
 //---------------------------------------------------------------------------
 //hledá bod v dané oblasti                                       //pracuje v logic souradnicich tzn. již nepouživat *Zoom  použít pouze m2px
-Cvektory::TObjekt *Cvektory::najdi_bod(double X, double Y,double offsetX, double offsetY)
+Cvektory::TObjekt *Cvektory::najdi_objekt(double X, double Y,double offsetX, double offsetY)
 {
 	Cvektory::TObjekt *ret=NULL;
 	Cvektory::TObjekt *p=OBJEKTY->dalsi;//přeskočí hlavičku
@@ -127,7 +129,7 @@ Cvektory::TObjekt *Cvektory::najdi_bod(double X, double Y,double offsetX, double
 }
 //---------------------------------------------------------------------------
 //smaze bod ze seznamu
-short int Cvektory::smaz_bod(TObjekt *Objekt)
+short int Cvektory::smaz_objekt(TObjekt *Objekt)
 {
 	//vyřazení prvku ze seznamu a napojení prvku dalšího na prvek předchozí prku mazaného
 	if(Objekt->dalsi!=NULL)//ošetření proti poslednímu prvku
@@ -221,7 +223,6 @@ bool Cvektory::kontrola_existence_dopravniku(short item_index)
 	return RET;
 }
 //---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
 //smaze body z pameti
 long Cvektory::vymaz_seznam()
 {
@@ -231,8 +232,44 @@ long Cvektory::vymaz_seznam()
 		pocet_smazanych_objektu++;
 		OBJEKTY->predchozi=NULL;
 		delete OBJEKTY->predchozi;
-    OBJEKTY=OBJEKTY->dalsi;
-  };
+		OBJEKTY=OBJEKTY->dalsi;
+	};
+
+	return pocet_smazanych_objektu;
+};
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//vytvoří novou hlavičku pro objekty
+void Cvektory::hlavicka_cesty()
+{
+	TCesty *nova=new TCesty;
+	nova->n=0;
+	nova->cesta=new TCesta;
+
+	nova->predchozi=nova;//ukazuje sam na sebe
+	nova->dalsi=NULL;
+	CESTY=nova;//nahraje ukazatel na hlavičku spojového seznamu na ukazatel CESTY
+}
+
+//---------------------------------------------------------------------------
+//smaze seznam cesty z pameti v četně jednotlivých cest
+long Cvektory::vymaz_cesty()
+{
+	long pocet_smazanych_objektu=0;
+	while (CESTY!=NULL)
+	{
+		//mazání jednotlivých cest
+		while (CESTY->cesta!=NULL)
+		{
+			CESTY->cesta->predchozi=NULL;
+			delete CESTY->cesta->predchozi;
+			CESTY->cesta=CESTY->cesta->dalsi;
+		};
+		CESTY->predchozi=NULL;
+		delete CESTY->predchozi;
+		CESTY=CESTY->dalsi;
+		pocet_smazanych_objektu++;
+	};
 
 	return pocet_smazanych_objektu;
 };
@@ -364,7 +401,7 @@ short int Cvektory::nacti_ze_souboru(UnicodeString FileName)
 			FileStream->Read(&File_hlavicka,sizeof(TFile_hlavicka));//načte hlavičku ze souboru
 
 			//vytvoří nové hlavičky pro spojové seznamy
-			hlavicka_prvky();
+			hlavicka_objekty();
 			hlavicka_voziky();
 
 			//načte seznam dopravníků
@@ -621,27 +658,28 @@ double Cvektory::sum_WT()
 //---------------------------------------------------------------------------
 void Cvektory::hlavicka_voziky()
 {
-	TVozik *novy_uzel=new TVozik;
-	novy_uzel->n=0;
-	novy_uzel->id=0;
-	novy_uzel->delka=0;
-	novy_uzel->sirka=0;
-	novy_uzel->vyska=0;
-	novy_uzel->rotace=0;
-	novy_uzel->nazev_vyrobku="hlavicka";
-	novy_uzel->max_vyrobku=0;
-	novy_uzel->akt_vyrobku=0;
-	novy_uzel->delka_vcetne_vyrobku=0;
-	novy_uzel->sirka_vcetne_vyrobku=0;
-	novy_uzel->vyska_vcetne_vyrobku=0;
-	novy_uzel->stav=-1;
-	novy_uzel->pozice=0;
-	novy_uzel->segment=NULL;
-	novy_uzel->X=0;novy_uzel->Y=0;
+	TVozik *novy=new TVozik;
+	novy->n=0;
+	novy->id=0;
+	novy->delka=0;
+	novy->sirka=0;
+	novy->vyska=0;
+	novy->rotace=0;
+	novy->nazev_vyrobku="hlavicka";
+	novy->max_vyrobku=0;
+	novy->akt_vyrobku=0;
+	novy->delka_vcetne_vyrobku=0;
+	novy->sirka_vcetne_vyrobku=0;
+	novy->vyska_vcetne_vyrobku=0;
+	novy->stav=-1;
+	novy->pozice=0;
+	novy->segment=NULL;
+	novy->X=0;novy->Y=0;
+	novy->cesta=NULL;
 
-	novy_uzel->predchozi=novy_uzel;//ukazuje sam na sebe
-	novy_uzel->dalsi=NULL;
-	VOZIKY=novy_uzel;
+	novy->predchozi=novy;//ukazuje sam na sebe
+	novy->dalsi=NULL;
+	VOZIKY=novy;
 }
 //---------------------------------------------------------------------------
 void Cvektory::vloz_vozik()//přidá nový vozík do seznamu VOZIKY
@@ -715,6 +753,16 @@ long Cvektory::vymaz_seznam_voziku()
 
 	return pocet_smazanych_objektu;
 };
+//---------------------------------------------------------------------------
+void Cvektory::vymazat_casovou_obsazenost_objektu(TObjekt *Objekt)
+{
+	TObjekt *ukaz=Objekt->dalsi;
+	while (ukaz!=NULL)
+	{
+		ukaz->obsazenost=0;
+		ukaz=ukaz->dalsi;
+	};
+}
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------

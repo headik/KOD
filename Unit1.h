@@ -130,6 +130,7 @@ __published:	// IDE-managed Components
 	TButton *Button8;
 	TButton *Button9;
 	TButton *Button10;
+	TMenuItem *casovosa1;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -214,11 +215,12 @@ __published:	// IDE-managed Components
 	void __fastcall Button8Click(TObject *Sender);
 	void __fastcall Button9Click(TObject *Sender);
 	void __fastcall Button10Click(TObject *Sender);
+	void __fastcall casovosa1Click(TObject *Sender);
 
 
 private:	// User declarations
 	////struktury, výčty
-	enum Tmod{NO=0,EDITACE,TESTOVANI,REZERVY,SIMULACE};Tmod MOD;
+	enum Tmod{NO=0,EDITACE,TESTOVANI,REZERVY,SIMULACE,CASOVAOSA};Tmod MOD;
 	enum Takce{NIC=0,PAN,PAN_MOVE,ZOOM_W,ZOOM_W_MENU,ADD,MOVE};Takce Akce;
 	enum TKurzory {standard=0,posun_v,posun_b,posun_p,posun_l,posun_t,kalibrovat,pan,pan_move,window,add_o};
 	struct Tnastaveni{bool autosave;unsigned short int minut;bool posledni_file;};Tnastaveni nastaveni;
@@ -305,11 +307,6 @@ public:		// User declarations
 	TPointD Posun;//proměnné uchovávajicí velikost posunu obrazu (pro scrollování atp.), je to ve fyzických souřadnicích zařízení
 	bool zobrazit_barvy_casovych_rezerv;
 	void DuvodUlozit(bool stav);
-
-
-
-
-
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TForm1 *Form1;
