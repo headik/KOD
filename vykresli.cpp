@@ -356,10 +356,10 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 		WidthCanvasCasoveOsy=m.round(X);//uchová velikost nejdelší osy, pro použítí pro export canvasu do rastru
 		HeightCanvasCasoveOsy=Y+Form1->RzToolbar1->Height+KrokY;//uchová výšku grafu
 	}                       //okraj na výšku nutno ještě dodělat exaktně
-	vykresli_Xosy(canv);//vykreslí statické svislice na časové osy
+	if(Form1->grid)vykresli_Xosy(canv);//vykreslí statické svislice na časové osy pokud je aktivovaná mřížka
 }
 //---------------------------------------------------------------------------
-//vykreslí jednu dílčí časovou osu, vytaženo pouze kvůli přehlednosti
+//vykreslí jednu dílčí časovou osu (obdelníček objektu) pro jeden vozík, vytaženo pouze kvůli přehlednosti
 void Cvykresli::vykresli_casovou_osu(TCanvas *canv, AnsiString shortname, TColor color, int X1, int X2, int Y, short KrokY)
 {
 	////osa
@@ -371,7 +371,7 @@ void Cvykresli::vykresli_casovou_osu(TCanvas *canv, AnsiString shortname, TColor
 
 	////popisek
 	SetBkMode(canv->Handle,OPAQUE);//nastvení transparentního pozadí
-	canv->Font->Color=clBlack;
+	if(color!=clBlack)canv->Font->Color=clBlack;else canv->Font->Color=clWhite;//pokud je obdelníček černě, tak popisek bude bíle
 	canv->Font->Size=6;
 	canv->Font->Name="Arial";
 	canv->Font->Style = TFontStyles();//<< fsBold;//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
