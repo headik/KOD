@@ -264,7 +264,6 @@ private:	// User declarations
 	void zavrit_uvod();//zavře úvodní dialog
 
 	////proměnné
-	bool grid;
 	int size_grid;
 
 	int vybrany_objekt;
@@ -305,6 +304,7 @@ public:		// User declarations
 	Cvykresli d;
 	double Zoom; //proměnná uchovávajicí velikost Zoomu
 	TPointD Posun;//proměnné uchovávajicí velikost posunu obrazu (pro scrollování atp.), je to ve fyzických souřadnicích zařízení
+  bool grid;
 	bool zobrazit_barvy_casovych_rezerv;
 	void DuvodUlozit(bool stav);
 };

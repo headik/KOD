@@ -367,7 +367,6 @@ void __fastcall TForm1::casovosa1Click(TObject *Sender)
 			RzSizePanel_knihovna_objektu->Visible=false;
 			PopupMenu1->AutoPopup=false;
 			Button3->Visible=false;
-			grid=false;
 			Invalidate();
 	}
 }
@@ -430,7 +429,7 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 	//ani toto to nevyřešilo stejně dojde k probliku Canvas->Draw(0,0,R);//podbarví nejdříve bílou plochou z bmp
 
 	//vykreslení gridu
-	if(grid && Zoom>0.5 && MOD!=REZERVY)d.vykresli_grid(Canvas,size_grid);//pokud je velké přiblížení tak nevykreslí
+	if(grid && Zoom>0.5 && MOD!=REZERVY && MOD!=CASOVAOSA)d.vykresli_grid(Canvas,size_grid);//pokud je velké přiblížení tak nevykreslí
 
 	switch(MOD)
 	{
