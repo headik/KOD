@@ -21,9 +21,11 @@ class Cvykresli
 	void vykresli_vektory(TCanvas *canv);
 	void vykresli_rectangle(TCanvas *canv, Cvektory::TObjekt *ukaz);
 	void vykresli_grid(TCanvas *canv, int size_grid=10);
-	void vykresli_graf_rezervy(TCanvas *canv);
-	void vykresli_casovou_osu(TCanvas *canv);
-	void vykresli_osu_casove_osy(TCanvas *canv,int X);
+	void vykresli_graf_rezervy(TCanvas *canv);//mód graf rezerv
+	void vykresli_casove_osy(TCanvas *canv);//celkové vykreslení módu èasové osy
+	void vykresli_Xosy(TCanvas *canv);//vykreslí statické svislice na èasové osy
+	void vykresli_casovou_osu(TCanvas *canv, AnsiString shortname, TColor color, int X1, int X2,int Y, short KrokY);
+	void vykresli_svislici_na_casove_osy(TCanvas *canv,int X);//vykreslí pohyblivou svislici na èasové osy dle umístìní kurzoru myši
 	void vykresli_simulaci(TCanvas *canv);//zajišuje vykreslení simulace
 	void vykresli_linku(TCanvas *canv);//zajišuje vykreslení osy linky
 	void umisti_vozik(TCanvas *canv,Cvektory::TVozik *ukaz);//zajišuje umístìní vozíku na lince
@@ -47,6 +49,8 @@ class Cvykresli
 
 	short O_width,O_height;//logické parametry, nezoomovat
 	unsigned long cas;//ms
+	double PX2MIN;//mìøítko PX na MIN
+	int WidthCanvasCasoveOsy,HeightCanvasCasoveOsy;
 
 	protected:
 

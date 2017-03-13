@@ -105,7 +105,7 @@ short Cvektory::vloz_objekt(TObjekt *Objekt)
 {
 	TObjekt *novy=new TObjekt;
 
-	novy=Objekt;//novy bude ukazovat tam kam prvek data
+	novy=Objekt;//novy bude ukazovat tam kam prvek Objekt
 	novy->n=OBJEKTY->predchozi->n+1;//navýším počítadlo prvku o jedničku
 	OBJEKTY->predchozi->dalsi=novy;//poslednímu prvku přiřadím ukazatel na nový prvek
 	novy->predchozi=OBJEKTY->predchozi;//novy prvek se odkazuje na prvek predchozí (v hlavicce body byl ulozen na pozici predchozi, poslední prvek)
@@ -239,18 +239,71 @@ long Cvektory::vymaz_seznam()
 };
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-//vytvoří novou hlavičku pro objekty
-void Cvektory::hlavicka_cesty()
+//vytvoří novou hlavičku pro spojový seznam cest
+void Cvektory::hlavicka_seznamu_cest()
 {
-	TCesty *nova=new TCesty;
+	TSeznam_cest *nova=new TSeznam_cest;
 	nova->n=0;
 	nova->cesta=new TCesta;
 
 	nova->predchozi=nova;//ukazuje sam na sebe
-	nova->dalsi=NULL;
+	nova->dalsi=NULL;//další prvek zatím není ukazuje na nul
 	CESTY=nova;//nahraje ukazatel na hlavičku spojového seznamu na ukazatel CESTY
 }
+//---------------------------------------------------------------------------
+//vytvoří novou hlavičku pro spojový seznam konkrétní cesty
+void Cvektory::hlavicka_jedne_cesty(TSeznam_cest *jaka)
+{
+	jaka->cesta=new TCesta;
+	TCesta *nova=jaka->cesta;
+	nova->n=0;
+	nova->predchozi=nova;//ukazuje sam na sebe
+	nova->dalsi=NULL;
+}
+//---------------------------------------------------------------------------
+//do konkrétní cesty vloží segmenty cesty
+void Cvektory::vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,double CT)
+{
+	TCesta *segment=new TCesta;
 
+	segment->n=C->cesta->predchozi->n+1;//navýším počítadlo prvku o jedničku
+	segment->objekt=Objekt;
+	if(CT==0) segment->CT=Objekt->CT;//pokud přijde CT 0, která je i implicitní, tak se převezme automaticky CT objektu nastavené ve form parametry
+	else segment->CT=CT;//zohlední se explicitní hodnota CT, předaná paremetrem metody
+
+	C->cesta->predchozi->dalsi=segment;//poslednímu prvku přiřadím ukazatel na nový prvek
+	segment->predchozi=C->cesta->predchozi;//nova prvek se odkazuje na prvek predchozí (v hlavicce body byl ulozen na pozici predchozi, poslední prvek)
+	segment->dalsi=NULL;//poslední prvek se na zadny dalsí prvek neodkazuje (neexistuje
+	C->cesta->predchozi=segment;//nový poslední prvek zápis do hlavičky,body->predchozi zápis do hlavičky odkaz na poslední prvek seznamu "predchozi" v tomto případě zavádějicí
+}
+//---------------------------------------------------------------------------
+//vloží novou cestu do spojového seznamu CESTY
+void Cvektory::vloz_cestu(TSeznam_cest *Cesta)
+{
+	TSeznam_cest *nova=new TSeznam_cest;
+	nova=Cesta;//novy bude ukazovat tam kam prvek Cesta
+	nova->n=CESTY->predchozi->n+1;//navýším počítadlo prvku o jedničku
+	CESTY->predchozi->dalsi=nova;//poslednímu prvku přiřadím ukazatel na nový prvek
+	nova->predchozi=CESTY->predchozi;//nova prvek se odkazuje na prvek predchozí (v hlavicce body byl ulozen na pozici predchozi, poslední prvek)
+	nova->dalsi=NULL;//poslední prvek se na zadny dalsí prvek neodkazuje (neexistuje
+	CESTY->predchozi=nova;//nový poslední prvek zápis do hlavičky,body->predchozi zápis do hlavičky odkaz na poslední prvek seznamu "predchozi" v tomto případě zavádějicí
+}
+//---------------------------------------------------------------------------
+Cvektory::TSeznam_cest *Cvektory::vrat_cestu(int ID_cesty)
+{
+	Cvektory::TSeznam_cest *ukaz=CESTY->dalsi;
+	TSeznam_cest *ret=NULL;
+	while (ukaz!=NULL)
+	{
+		if(ukaz->n==ID_cesty)
+		{
+			ret=ukaz;
+			break;
+		}
+		ukaz=ukaz->dalsi;
+	}
+	return ret;
+}
 //---------------------------------------------------------------------------
 //smaze seznam cesty z pameti v četně jednotlivých cest
 long Cvektory::vymaz_cesty()
@@ -713,7 +766,7 @@ void Cvektory::vloz_vozik(TVozik *Vozik)
 	VOZIKY->predchozi=novy;//nový poslední prvek zápis do hlavičky,body->predchozi zápis do hlavičky odkaz na poslední prvek seznamu "predchozi" v tomto případě zavádějicí
 };
 //---------------------------------------------------------------------------
-void Cvektory::vloz_vozik(unsigned long n,UnicodeString id,double delka,double sirka,double vyska,double rotace,UnicodeString nazev_vyrobku,double max_vyrobku,double akt_vyrobku,double delka_vcetne_vyrobku,double sirka_vcetne_vyrobku,double vyska_vcetne_vyrobku,TColor barva)
+void Cvektory::vloz_vozik(unsigned long n,UnicodeString id,double delka,double sirka,double vyska,double rotace,UnicodeString nazev_vyrobku,double max_vyrobku,double akt_vyrobku,double delka_vcetne_vyrobku,double sirka_vcetne_vyrobku,double vyska_vcetne_vyrobku,TColor barva,TSeznam_cest *cesta)
 {
  	TVozik *novy=new TVozik;
 
@@ -731,6 +784,7 @@ void Cvektory::vloz_vozik(unsigned long n,UnicodeString id,double delka,double s
 	novy->vyska_vcetne_vyrobku=vyska_vcetne_vyrobku;
 	novy->barva=barva;
 	novy->segment=NULL;novy->pozice=-1;novy->stav=-1;
+	novy->cesta=cesta;
 	novy->X=0;novy->Y=0;
 
 	VOZIKY->predchozi->dalsi=novy;//poslednímu prvku přiřadím ukazatel na nový prvek

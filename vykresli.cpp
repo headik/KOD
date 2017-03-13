@@ -9,9 +9,11 @@
 //konstruktor
 Cvykresli::Cvykresli()
 {
-  //parametry vykreslovaného obdelníku technologického objektu
+	//parametry vykreslovaného obdelníku technologického objektu
 	O_width=50;
 	O_height=40;
+	//měřítko PX na MIN, globální proměná pro využítí výpisu ve SB v Unit1
+	PX2MIN=30.0;
 }
 //---------------------------------------------------------------------------
 void Cvykresli::vykresli_vektory(TCanvas *canv)
@@ -182,7 +184,7 @@ void Cvykresli::vykresli_graf_rezervy(TCanvas *canv)
 	 ////objekty
 		canv->Brush->Style=bsSolid;
 		canv->Font->Color=clWhite;
-		//canv->Font->Style = TFontStyles() /*<< fsItalic */<< fsBold;
+		canv->Font->Style = TFontStyles() /*<< fsItalic << fsBold*/;
 		canv->Font->Size=14;
 		rotace_textu(canv,900);
 
@@ -327,60 +329,77 @@ void Cvykresli::vykresli_graf_rezervy(TCanvas *canv)
 	 ///------
 }
 //---------------------------------------------------------------------------
-void Cvykresli::vykresli_casovou_osu(TCanvas *canv)
+//celkové vykreslení módu časové osy
+void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 {
 	v.vymazat_casovou_obsazenost_objektu(v.OBJEKTY);//vymaže předchozí časovou obsazenost objektů, jinak by se při každém dalším překreslení objekty posovali o obsazenost z předchozího vykreslení
-	Cvektory::TVozik *vozik=v.VOZIKY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
+	Cvektory::TVozik *vozik=v.VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
 	while (vozik!=NULL)
 	{
-		short Krok=20;//rozteč na ose Y mezi jednotlivými vozíky
-		double X=0;//výchozí odsazení na ose X
-		double Y=(vozik->n-1)*Krok+Form1->RzToolbar1->Height+Krok;//výchozí odsazení na ose Y
+		short KrokY=20;//vizuální rozteč na ose Y mezi jednotlivými vozíky
+		double X=0.0;//výchozí odsazení na ose X
+		int Y=(vozik->n-1)*KrokY+Form1->RzToolbar1->Height+KrokY;//výchozí odsazení na ose Y
 
-		set_pen(canv,vozik->barva,2*Form1->Zoom);
-
-		short PX2MIN=50;//měřítko PX na MIN
-		Cvektory::TObjekt *objekt=v.OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
-		//Cvektory::TCesty *C=v.CESTY->dalsi;
-		while (objekt!=NULL)
+		Cvektory::TCesta *C=vozik->cesta->cesta->dalsi;//ukazatel na první segment/objekt CESTY, přeskočí hlavičku
+		while (C!=NULL)
 		{
-			if(objekt->rezim==0 && X<objekt->obsazenost)X=objekt->obsazenost; //pro S&G řeší,aby se procesy v čase nepřekrývaly
-			double X_pre=X;
-			//osa
-			canv->Pen->Width=1;canv->MoveTo(X,(Y-3));canv->LineTo(X,(Y+3));canv->LineTo((X+3),Y);canv->LineTo(X,(Y-3));//nakreslí počáteční zarážku na čaové ose
-			canv->MoveTo(X,Y);//vrátí pero do výchozí pozice pro další pokračování v cyklu pro zobrazení osy dalšího techologického objektu
-			X+=objekt->CT*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
-			objekt->obsazenost=X;
-			canv->Pen->Width=2;canv->LineTo(X,Y);//nakreslí osu
-			canv->Pen->Width=1;canv->MoveTo(X,(Y-3));canv->LineTo(X,(Y+3));canv->LineTo((X-3),Y);canv->LineTo(X,(Y-3));//nakreslí koncovou zarážku na čaové ose
-			//popisek
-			SetBkMode(canv->Handle,OPAQUE);
-			canv->Font->Color=clBlack;
-			canv->Font->Size=6;
-			canv->Font->Name="Arial";
-			canv->Font->Style = TFontStyles();
-			UnicodeString T=objekt->short_name;
-			canv->TextOutW(((X+X_pre)/2)-canv->TextWidth(T)/2,Y-canv->TextHeight(T)/2,T);//vypíše popisek shorname t-objektu
+			if(C->objekt->rezim==0 && X<C->objekt->obsazenost)X=C->objekt->obsazenost; //pro S&G řeší,aby se procesy v čase nepřekrývaly
+			double X_predchozi=X;//uloží povodní X hodnotu
+			//X+=C->objekt->CT*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
+      X+=C->CT*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
+			C->objekt->obsazenost=X;//nahraje koncovou X hodnotu do obsaženosti objektu pro další využítí
+			vykresli_casovou_osu(canv,C->objekt->short_name,vozik->barva,m.round(X),m.round(X_predchozi),Y,KrokY);
 			//posun na další prvek v seznamu
-			objekt=objekt->dalsi;
+			C=C->dalsi;
 		}
 		vozik=vozik->dalsi;//posun na další prvek v seznamu
-	}
-
-
+		WidthCanvasCasoveOsy=m.round(X);//uchová velikost nejdelší osy, pro použítí pro export canvasu do rastru
+		HeightCanvasCasoveOsy=Y+Form1->RzToolbar1->Height+KrokY;//uchová výšku grafu
+	}                       //okraj na výšku nutno ještě dodělat exaktně
+	vykresli_Xosy(canv);//vykreslí statické svislice na časové osy
 }
 //---------------------------------------------------------------------------
-void Cvykresli::vykresli_osu_casove_osy(TCanvas *canv,int X)
+//vykreslí jednu dílčí časovou osu, vytaženo pouze kvůli přehlednosti
+void Cvykresli::vykresli_casovou_osu(TCanvas *canv, AnsiString shortname, TColor color, int X1, int X2, int Y, short KrokY)
 {
-	//if(X!=-200)//pokud je mimo obraz -200 jen nahodilá hodnota pro zneplatenění čí výchozí obraz
+	////osa
+	//set_pen(canv,color,2);//nastavení pera barvy osy
+	canv->Pen->Style=psClear;
+	canv->Brush->Style=bsSolid;
+	canv->Brush->Color=color;
+	canv->Rectangle(X1,Y-KrokY/2,X2,Y+KrokY/2);
+
+	////popisek
+	SetBkMode(canv->Handle,OPAQUE);//nastvení transparentního pozadí
+	canv->Font->Color=clBlack;
+	canv->Font->Size=6;
+	canv->Font->Name="Arial";
+	canv->Font->Style = TFontStyles();//<< fsBold;//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
+	canv->TextOutW(((X2+X1)/2)-canv->TextWidth(shortname)/2,Y-canv->TextHeight(shortname)/2,shortname);//vypíše vycentrovaný (polovina nových a starých souřadnic a posun referenčního písma o horizontálně=TextWidth/2 a verticálně=TextHeight/2) popisek shorname t-objektu
+}
+//---------------------------------------------------------------------------
+//vykreslí pohyblivou svislici na časové osy dle umístění kurzoru myši
+void Cvykresli::vykresli_svislici_na_casove_osy(TCanvas *canv,int X)
+{
+	if(X!=-200)//pokud je mimo obraz -200 jen nahodilá hodnota pro zneplatenění čí výchozí obraz
 	{
+		canv->Pen->Mode=pmNotXor;
 		canv->Pen->Width=1;
 		canv->Pen->Style=psDashDot;//nastevení čarkované čáry
-		canv->Pen->Mode=pmNotXor;
 		canv->Pen->Color=clGray;
+		canv->Brush->Style=bsClear;
 		canv->MoveTo(X,0);
 		canv->LineTo(X,Form1->ClientWidth);
+		canv->Brush->Style=bsSolid;//vracím raději do původního stavu
 	}
+}
+//---------------------------------------------------------------------------
+//vykreslí statické svislice na časové osy
+void Cvykresli::vykresli_Xosy(TCanvas *canv)
+{
+	//tady bude ROSTA KOD
+
+	//PX2MIN//měřítko PX na MIN, globální proměná pro využítí výpisu ve SB v Unit1, nastavena v konstruktoru třídy Cvykresli, momenátlně na hodnotu 30 (px=min)
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------

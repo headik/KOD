@@ -348,23 +348,28 @@ void __fastcall TForm1::simulace1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::casovosa1Click(TObject *Sender)
 {
-	MOD=CASOVAOSA;
-	ESC();//zruší případně rozdělanou akci
-	SB("zobrazení časové osy technologických procesů",1);
-	if(zobrazit_barvy_casovych_rezerv){zobrazit_barvy_casovych_rezerv=false;}
-	Timer_simulace->Enabled=false;
-	testovnkapacity1->Checked=false;
-	editacelinky1->Checked=false;
-	casoverezervy1->Checked=false;
-	simulace1->Checked=false;
-	casovosa1->Checked=true;
-	DuvodUlozit(true);
-	RzSizePanel_parametry_projekt->Visible=false;
-	RzSizePanel_knihovna_objektu->Visible=false;
-	PopupMenu1->AutoPopup=false;
-	Button3->Visible=false;
-	grid=false;
-	Invalidate();
+	if(d.v.VOZIKY->dalsi->cesta==NULL)
+	ShowMessage("Pozor, nejdříve je nutné zadat plán výroby!");
+	else
+	{
+			MOD=CASOVAOSA;
+			ESC();//zruší případně rozdělanou akci
+			SB("zobrazení časové osy technologických procesů",1);
+			if(zobrazit_barvy_casovych_rezerv){zobrazit_barvy_casovych_rezerv=false;}
+			Timer_simulace->Enabled=false;
+			testovnkapacity1->Checked=false;
+			editacelinky1->Checked=false;
+			casoverezervy1->Checked=false;
+			simulace1->Checked=false;
+			casovosa1->Checked=true;
+			DuvodUlozit(true);
+			RzSizePanel_parametry_projekt->Visible=false;
+			RzSizePanel_knihovna_objektu->Visible=false;
+			PopupMenu1->AutoPopup=false;
+			Button3->Visible=false;
+			grid=false;
+			Invalidate();
+	}
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -433,7 +438,7 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 		case TESTOVANI: d.vykresli_vektory(Canvas);break;//vykreslování všech vektorů
 		case REZERVY: d.vykresli_graf_rezervy(Canvas);break;//vykreslení grafu rezerv
 		 //	case SIMULACE:d.vykresli_simulaci(Canvas);break; - probíhá pomocí timeru, na tomto to navíc se chovalo divně
-		case CASOVAOSA:d.vykresli_casovou_osu(Canvas); d.vykresli_osu_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x);break;
+		case CASOVAOSA:d.vykresli_casove_osy(Canvas); d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x);break;
 	}
 
 }
@@ -623,12 +628,12 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 	akt_souradnice_kurzoru_PX=TPoint(X,Y);
 	akt_souradnice_kurzoru=m.P2L(akt_souradnice_kurzoru_PX);
 
-	if(MOD==CASOVAOSA)//vykreslování posuvné (dle myši) osy kolmé na osy procesů, slouží jakou ukázovatko času na ose
+	if(MOD==CASOVAOSA)//vykreslování posuvné (dle myši) svislice kolmé na osy procesů, slouží jakou ukázovatko času na ose
 	{
-		d.vykresli_osu_casove_osy(Canvas,minule_souradnice_kurzoru.X);
+		d.vykresli_svislici_na_casove_osy(Canvas,minule_souradnice_kurzoru.X);
 		minule_souradnice_kurzoru=TPoint(X,Y);
-		d.vykresli_osu_casove_osy(Canvas,X);
-		SB(UnicodeString(X/50.0)+" min",6);//výpis času na ose procesů dle kurzoru
+		d.vykresli_svislici_na_casove_osy(Canvas,X);
+		SB(UnicodeString(X/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
 	}
 	else //výpis metrických souřadnic
 	{
@@ -636,7 +641,6 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 		else SB(FloatToStrF(m.P2Lx(X),ffFixed,10,1)+";"+FloatToStrF(m.P2Ly(Y),ffFixed,10,1),3);
 		//vypsat fyzické souřadniceSB(UnicodeString(X)+";"+UnicodeString(Y));
 	}
-
 
 	switch(Akce)
 	{
@@ -701,7 +705,7 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 		}
 		case NIC:
 		{
-      pom=NULL;
+			pom=NULL;
 			if(MOD!=CASOVAOSA)zneplatnit_minulesouradnice();
 
 			//povoluje smazání či nastavení parametrů objektů, po přejetí myší přes daný objekt
@@ -892,7 +896,7 @@ void TForm1::Uloz_predchozi_pohled()
 void TForm1::DOWN()//smer dolu
 {
 		probehl_zoom=true;
-		zneplatnit_minulesouradnice();
+		if(MOD!=CASOVAOSA)zneplatnit_minulesouradnice();
 		Uloz_predchozi_pohled();
 		Posun.y-=m.round(Height/(8*Zoom));//o Xtinu obrazu
 		Invalidate();
@@ -901,7 +905,7 @@ void TForm1::DOWN()//smer dolu
 void TForm1::UP()//smer nahoru
 {
 		probehl_zoom=true;
-		zneplatnit_minulesouradnice();
+		if(MOD!=CASOVAOSA)zneplatnit_minulesouradnice();
 		Uloz_predchozi_pohled();
 		Posun.y+=m.round(Height/(8*Zoom)); //o Xtinu obrazu
 		Invalidate();
@@ -910,7 +914,7 @@ void TForm1::UP()//smer nahoru
 void TForm1::RIGHT()//smer doprava
 {
 		probehl_zoom=true;
-		zneplatnit_minulesouradnice();
+		if(MOD!=CASOVAOSA)zneplatnit_minulesouradnice();
 		Uloz_predchozi_pohled();
 		Posun.x+=m.round(Width/(8*Zoom));//o Xtinu obrazu
 		Invalidate();
@@ -919,7 +923,7 @@ void TForm1::RIGHT()//smer doprava
 void TForm1::LEFT()//smer doleva
 {
 		probehl_zoom=true;
-		zneplatnit_minulesouradnice();
+		if(MOD!=CASOVAOSA)zneplatnit_minulesouradnice();
 		Uloz_predchozi_pohled();
 		Posun.x-=m.round(Width/(8*Zoom));//o Xtinu obrazu
 		Invalidate();
@@ -1919,6 +1923,7 @@ void __fastcall TForm1::Export1Click(TObject *Sender)
 				case EDITACE: d.vykresli_vektory(Bitmap->Canvas);break;//vykreslování všech vektorů   ///PROZATIM
 				case TESTOVANI: d.vykresli_vektory(Bitmap->Canvas);break;//vykreslování všech vektorů
 				case REZERVY: d.vykresli_graf_rezervy(Bitmap->Canvas);break;//vykreslení grafu rezerv
+				case CASOVAOSA: Bitmap->Width=d.WidthCanvasCasoveOsy; Bitmap->Height=d.HeightCanvasCasoveOsy; d.vykresli_casove_osy(Bitmap->Canvas);break;
 			}
 
 			//vraceni puvodních hodnot
@@ -2086,14 +2091,29 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 			ukaz=ukaz->dalsi;//posun na další prvek
 	}*/
 	//ShowMessage(d.v.seznam_dopravniku);
-	Cvektory::TVozik *ukaz;
-	ukaz=d.v.VOZIKY->dalsi;//přeskočí hlavičku
 
-	while (ukaz!=NULL)
-	{
-			Memo1->Lines->Add(ukaz->n);
-			ukaz=ukaz->dalsi;//posun na další prvek
-	}
+ 	///sekce natvrdo
+	d.v.hlavicka_seznamu_cest();
+	//cesta 1
+	Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
+	d.v.hlavicka_jedne_cesty(cesta_pom);
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi);
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi);
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi);
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi);
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi);
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi);
+	d.v.vloz_cestu(cesta_pom);//vloží novou hotovou cestu do spoj.seznamu cest
+	//cesta 2
+	Cvektory::TSeznam_cest *cesta_pom2=new Cvektory::TSeznam_cest;
+	d.v.hlavicka_jedne_cesty(cesta_pom2);
+	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi,2);
+	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi,3);
+	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi);
+	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi);
+	d.v.vloz_cestu(cesta_pom2);//vloží novou hotovou cestu do spoj.seznamu cest
+	//ShowMessage(d.v.CESTY->dalsi->cesta->predchozi->n);
+	////
 
 
 }

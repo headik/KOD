@@ -42,16 +42,17 @@ class Cvektory
 		{
 			unsigned int n; //pořadí + ID objektu ve spoj.seznamu
 			TObjekt *objekt;
+			double CT; //cycle time
 			struct TCesta *predchozi;
 			struct TCesta *dalsi;
 		};
-		struct TCesty //seznam cest
+		struct TSeznam_cest //seznam cest
 		{
 			unsigned int n; //pořadí cesty ve spoj.seznamu všech cest
 			TCesta *cesta;
-			struct TCesty *predchozi;
-			struct TCesty *dalsi;
-		}; TCesty *CESTY;
+			struct TSeznam_cest *predchozi;
+			struct TSeznam_cest *dalsi;
+		}; TSeznam_cest *CESTY;
 
 		struct TVozik
 		{
@@ -73,7 +74,7 @@ class Cvektory
 			double X;
 			double Y;
 			struct TObjekt *segment;
-			struct TCesty *cesta;
+			struct TSeznam_cest *cesta;
 			double timer;
 			struct TVozik *predchozi;
 			struct TVozik *dalsi;
@@ -127,16 +128,19 @@ class Cvektory
 		void aktualizace_indexu_uzitych_dopravniku(short item_index);
 		bool kontrola_existence_dopravniku(short item_index);
 		long vymaz_seznam();
-		void hlavicka_cesty();
-		void vloz_cestu();//vloží cestu do spojového seznamu cesty
+		void hlavicka_seznamu_cest();
+		void hlavicka_jedne_cesty(TSeznam_cest *jaka);
+		void vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,double CT=0);//do konkrétní cesty vloží segmenty cesty
+		void vloz_cestu(TSeznam_cest *Cesta);//vloží hotovou cestu do spojového seznamu cesty
+		TSeznam_cest *vrat_cestu(int ID_cesty);
 		long vymaz_cesty();
 		short int uloz_do_souboru(UnicodeString FileName);
 		short int nacti_ze_souboru(UnicodeString FileName);
 		short int ulozit_report(UnicodeString FileName);
 		void hlavicka_voziky();
 		void vloz_vozik();//přidá nový prázdný - nedefinovaný vozík do seznamu VOZIKY
-    void vloz_vozik(TVozik *Vozik);
-		void vloz_vozik(unsigned long n,UnicodeString id,double delka,double sirka,double vyska,double rotace,UnicodeString nazev_vyrobku,double max_vyrobku,double akt_vyrobku,double delka_vcetne_vyrobku,double sirka_vcetne_vyrobku,double vyska_vcetne_vyrobku,TColor barva=clRed);
+		void vloz_vozik(TVozik *Vozik);
+		void vloz_vozik(unsigned long n,UnicodeString id,double delka,double sirka,double vyska,double rotace,UnicodeString nazev_vyrobku,double max_vyrobku,double akt_vyrobku,double delka_vcetne_vyrobku,double sirka_vcetne_vyrobku,double vyska_vcetne_vyrobku,TColor barva,TSeznam_cest *cesta);
     long vymaz_seznam_voziku();
 		void hlavicka_palce();
 		void vloz_palec();//přidá nový vozík do seznamu PALCE

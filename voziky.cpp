@@ -150,7 +150,7 @@ void __fastcall TForm_vozik_nastaveni::FormShow(TObject *Sender) {
 	RzStringGrid1->Rows[0]->Add("ID");
 	RzStringGrid1->Rows[0]->Add("Délka");
 	RzStringGrid1->Rows[0]->Add("Šíøka");
-	RzStringGrid1->Rows[0]->Add("Výška");
+	RzStringGrid1->Rows[0]->Add("Cesta"); //použito pro trasu vozíku
 	RzStringGrid1->Rows[0]->Add("Rotace");
 	RzStringGrid1->Rows[0]->Add("Název");
 	RzStringGrid1->Rows[0]->Add("Max ks");
@@ -198,7 +198,7 @@ void __fastcall TForm_vozik_nastaveni::FormShow(TObject *Sender) {
 			RzStringGrid1->Cells[1][i] = ukaz->id;
 			RzStringGrid1->Cells[2][i] = ukaz->delka;
 			RzStringGrid1->Cells[3][i] = ukaz->sirka;
-			RzStringGrid1->Cells[4][i] = ukaz->vyska;
+			RzStringGrid1->Cells[4][i] = ukaz->vyska;  //cesta vozíku  prozatím
 			RzStringGrid1->Cells[5][i] = ukaz->rotace;
 			RzStringGrid1->Cells[6][i] = ukaz->nazev_vyrobku;
 			RzStringGrid1->Cells[7][i] = ukaz->max_vyrobku;
@@ -223,47 +223,40 @@ void __fastcall TForm_vozik_nastaveni::FormShow(TObject *Sender) {
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm_vozik_nastaveni::Button_OKClick(TObject *Sender) {
+void __fastcall TForm_vozik_nastaveni::Button_OKClick(TObject *Sender)
+{
 	OK_status = true;
 }
-
 // -------------------------------------- -------------------------------------
-void __fastcall TForm_vozik_nastaveni::FormCloseQuery(TObject *Sender,
-	bool &CanClose) {
-
-	if (OK_status && RzStringGrid1->RowCount >= 2) {
-
-		Form1->d.v.vymaz_seznam_voziku();
-		// smazu stary spojak pred ulozenim noveho
-		Form1->d.v.hlavicka_voziky();
-		// vytvorim si hlavicku pro zavedeni noveho spojaku
+void __fastcall TForm_vozik_nastaveni::FormCloseQuery(TObject *Sender,	bool &CanClose)
+{
+	if (OK_status && RzStringGrid1->RowCount >= 2)
+	{
+		Form1->d.v.vymaz_seznam_voziku();// smazu stary spojak pred ulozenim noveho
+		Form1->d.v.hlavicka_voziky();// vytvorim si hlavicku pro zavedeni noveho spojaku
 
 		TBarva *ukaz = BARVY->dalsi;
-
-		for (int i = 1; i < RzStringGrid1->RowCount; i++) {
-
+		for (int i = 1; i < RzStringGrid1->RowCount; i++)
+		{
 			Form1->d.v.vloz_vozik(RzStringGrid1->Cells[0][i].ToInt(),
-				RzStringGrid1->Cells[1][i],
-				Form1->ms.MyToDouble(RzStringGrid1->Cells[2][i]),
-				Form1->ms.MyToDouble(RzStringGrid1->Cells[3][i]),
-				Form1->ms.MyToDouble(RzStringGrid1->Cells[4][i]),
-				Form1->ms.MyToDouble(RzStringGrid1->Cells[5][i]),
-				RzStringGrid1->Cells[6][i],
-				Form1->ms.MyToDouble(RzStringGrid1->Cells[7][i]),
-				Form1->ms.MyToDouble(RzStringGrid1->Cells[8][i]),
-				Form1->ms.MyToDouble(RzStringGrid1->Cells[9][i]),
-				Form1->ms.MyToDouble(RzStringGrid1->Cells[10][i]),
-				Form1->ms.MyToDouble(RzStringGrid1->Cells[11][i]),
-				ukaz->barva_voziku);
+			RzStringGrid1->Cells[1][i],
+			Form1->ms.MyToDouble(RzStringGrid1->Cells[2][i]),
+			Form1->ms.MyToDouble(RzStringGrid1->Cells[3][i]),
+			Form1->ms.MyToDouble(RzStringGrid1->Cells[4][i]), //sem ukladám výšku
+			Form1->ms.MyToDouble(RzStringGrid1->Cells[5][i]),
+			RzStringGrid1->Cells[6][i],
+			Form1->ms.MyToDouble(RzStringGrid1->Cells[7][i]),
+			Form1->ms.MyToDouble(RzStringGrid1->Cells[8][i]),
+			Form1->ms.MyToDouble(RzStringGrid1->Cells[9][i]),
+			Form1->ms.MyToDouble(RzStringGrid1->Cells[10][i]),
+			Form1->ms.MyToDouble(RzStringGrid1->Cells[11][i]),
+			ukaz->barva_voziku,
+			Form1->d.v.vrat_cestu(Form1->ms.MyToDouble(RzStringGrid1->Cells[4][i])));
 
 			ukaz = ukaz->dalsi; // posun na další prvek v seznamu
-
 		}
-
 	}
-
 	vymaz_barvu();
-
 }
 // ---------------------------------------------------------------------------
 
