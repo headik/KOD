@@ -397,7 +397,18 @@ void Cvykresli::vykresli_svislici_na_casove_osy(TCanvas *canv,int X)
 //vykreslí statické svislice na časové osy
 void Cvykresli::vykresli_Xosy(TCanvas *canv)
 {
-	//tady bude ROSTA KOD
+
+		canv->Pen->Width=1;
+		canv->Pen->Style=psDot;
+		canv->Pen->Color=TColor RGB(220,220,220);   //míchání světlě šedé
+		canv->Brush->Style=bsClear;
+
+		for(int i=PX2MIN;i<=WidthCanvasCasoveOsy;i+=PX2MIN)
+		{
+			canv->MoveTo(i,0);
+			canv->LineTo(i,HeightCanvasCasoveOsy);
+		}
+
 
 	//PX2MIN//měřítko PX na MIN, globální proměná pro využítí výpisu ve SB v Unit1, nastavena v konstruktoru třídy Cvykresli, momenátlně na hodnotu 30 (px=min)
 }
