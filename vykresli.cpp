@@ -348,7 +348,7 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 			//X+=C->objekt->CT*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
 			X+=C->CT*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
 			C->objekt->obsazenost=X;//nahraje koncovou X hodnotu do obsaženosti objektu pro další využítí
-			vykresli_casovou_osu(canv,C->objekt->short_name,vozik->barva,m.round(X),m.round(X_predchozi),Y,KrokY);
+			vykresli_casovou_osu(canv,C->objekt->short_name,vozik->barva,m.round(X_predchozi),m.round(X),Y,KrokY);
 			//posun na další prvek v seznamu
 			C=C->dalsi;
 		}
@@ -364,14 +364,17 @@ void Cvykresli::vykresli_casovou_osu(TCanvas *canv, AnsiString shortname, TColor
 {
 	////osa
 	//set_pen(canv,color,2);//nastavení pera barvy osy
-	canv->Pen->Style=psClear;
+	canv->Pen->Width=1;
+	canv->Pen->Style=psSolid;
+	canv->Pen->Color=clWhite;
 	canv->Brush->Style=bsSolid;
 	canv->Brush->Color=color;
-	canv->Rectangle(X1,Y-KrokY/2,X2,Y+KrokY/2);
+	canv->Rectangle(X1,Y-KrokY/2,X2+1,Y+KrokY/2);
+	//canv->FillRect(TRect(X1,Y-KrokY/2,X2+1,Y+KrokY/2));
 
 	////popisek
 	SetBkMode(canv->Handle,OPAQUE);//nastvení transparentního pozadí
-	if(color!=clBlack)canv->Font->Color=clBlack;else canv->Font->Color=clWhite;//pokud je obdelníček černě, tak popisek bude bíle
+	if(color!=clBlack)canv->Font->Color=clBlack;else canv->Font->Color=clWhite;//pokud je výplň obdelníčku černě, tak popisek bude bíle
 	canv->Font->Size=6;
 	canv->Font->Name="Arial";
 	canv->Font->Style = TFontStyles();//<< fsBold;//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
@@ -399,10 +402,10 @@ void Cvykresli::vykresli_Xosy(TCanvas *canv)
 {
 
 		canv->Pen->Width=1;    //nastavení šířky pera
-		canv->Pen->Style=psDot;
-		canv->Pen->Color=TColor RGB(220,220,220);   //míchání světlě šedé
+	canv->Pen->Style=psDot;
+	canv->Pen->Color=TColor RGB(220,220,220);   //míchání světlě šedé
 		canv->Font->Color=clGray;
-		canv->Brush->Style=bsClear;
+	canv->Brush->Style=bsClear;
 		canv->TextOutW(1,0+Form1->RzToolbar1->Height,"[min]"); //popisek osy x
 
 		canv->Font->Pitch = TFontPitch::fpFixed;
@@ -412,8 +415,8 @@ void Cvykresli::vykresli_Xosy(TCanvas *canv)
 
 
 
-		for(int i=PX2MIN;i<=WidthCanvasCasoveOsy;i+=PX2MIN)
-		{
+	for(int i=PX2MIN;i<=WidthCanvasCasoveOsy;i+=PX2MIN)
+	{
 
 		if(i==WidthCanvasCasoveOsy)
 		{
@@ -424,12 +427,13 @@ void Cvykresli::vykresli_Xosy(TCanvas *canv)
 		canv->Font->Style = TFontStyles();
 		}
 
-			canv->MoveTo(i,0);
-			canv->LineTo(i,HeightCanvasCasoveOsy);
+		canv->MoveTo(i,0);
+		canv->LineTo(i,HeightCanvasCasoveOsy);
 			canv->Brush->Style=bsSolid;
 			canv->Brush->Color=clWhite;
 			canv->TextOutW(i-canv->TextWidth(i/PX2MIN)/2,0+Form1->RzToolbar1->Height,i/PX2MIN);
 
+	}
 		}
 
 
