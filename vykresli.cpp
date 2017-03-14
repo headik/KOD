@@ -346,7 +346,7 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 			if(C->objekt->rezim==0 && X<C->objekt->obsazenost)X=C->objekt->obsazenost; //pro S&G řeší,aby se procesy v čase nepřekrývaly
 			double X_predchozi=X;//uloží povodní X hodnotu
 			//X+=C->objekt->CT*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
-      X+=C->CT*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
+			X+=C->CT*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
 			C->objekt->obsazenost=X;//nahraje koncovou X hodnotu do obsaženosti objektu pro další využítí
 			vykresli_casovou_osu(canv,C->objekt->short_name,vozik->barva,m.round(X),m.round(X_predchozi),Y,KrokY);
 			//posun na další prvek v seznamu
@@ -398,20 +398,57 @@ void Cvykresli::vykresli_svislici_na_casove_osy(TCanvas *canv,int X)
 void Cvykresli::vykresli_Xosy(TCanvas *canv)
 {
 
-		canv->Pen->Width=1;
+		canv->Pen->Width=1;    //nastavení šířky pera
 		canv->Pen->Style=psDot;
 		canv->Pen->Color=TColor RGB(220,220,220);   //míchání světlě šedé
+		canv->Font->Color=clGray;
 		canv->Brush->Style=bsClear;
+		canv->TextOutW(1,0+Form1->RzToolbar1->Height,"[min]"); //popisek osy x
+
+		canv->Font->Pitch = TFontPitch::fpFixed;
+		canv->Font->Pitch = System::Uitypes::TFontPitch::fpFixed;
+
+
+
+
 
 		for(int i=PX2MIN;i<=WidthCanvasCasoveOsy;i+=PX2MIN)
 		{
+
+		if(i==WidthCanvasCasoveOsy)
+		{
+	   //	canv->Font->Style=TFontStyles()<< fsBold;
+		}
+		else
+		{
+		canv->Font->Style = TFontStyles();
+		}
+
 			canv->MoveTo(i,0);
 			canv->LineTo(i,HeightCanvasCasoveOsy);
+			canv->Brush->Style=bsSolid;
+			canv->Brush->Color=clWhite;
+			canv->TextOutW(i-canv->TextWidth(i/PX2MIN)/2,0+Form1->RzToolbar1->Height,i/PX2MIN);
+
 		}
 
 
-	//PX2MIN//měřítko PX na MIN, globální proměná pro využítí výpisu ve SB v Unit1, nastavena v konstruktoru třídy Cvykresli, momenátlně na hodnotu 30 (px=min)
+
+
+		Cvektory::TSeznam_cest *ukaz=v.CESTY->dalsi;
+while (ukaz!=NULL)
+{
+  UnicodeString	T=ukaz->cesta->predchozi->objekt->obsazenost/PX2MIN;
+	canv->Font->Style=TFontStyles()<< fsBold;
+
+	ShowMessage(T);
+
+	canv->TextOutW(ukaz->cesta->predchozi->objekt->obsazenost-canv->TextWidth(T)/2,0+Form1->RzToolbar1->Height,T);
+
+	ukaz=ukaz->dalsi;
 }
+
+	}
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 void Cvykresli::rotace_textu(TCanvas *canv, long rotace)//úhel rotace je desetinách stupně
