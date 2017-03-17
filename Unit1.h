@@ -25,6 +25,12 @@
 #include <Vcl.ExtDlgs.hpp>
 #include "RzBHints.hpp"
 #include "RzGrids.hpp"
+#include <VCLTee.GanttCh.hpp>
+#include <VCLTee.Chart.hpp>
+#include <VCLTee.Series.hpp>
+#include <VclTee.TeeGDIPlus.hpp>
+#include <VCLTee.TeEngine.hpp>
+#include <VCLTee.TeeProcs.hpp>
 //#include "vektory.h" //už vkládám přes vykresli.h
 //#include "knihovna_objektu.h" //už vkládám přes vykresli.h resp. vektory.h
 
@@ -132,6 +138,19 @@ __published:	// IDE-managed Components
 	TButton *Button9;
 	TButton *Button10;
 	TMenuItem *casovosa1;
+	TChart *Chart1;
+	TGanttSeries *Series1;
+	TChart *Chart2;
+	TGanttSeries *Series2;
+	TBarSeries *Series3;
+	TBarSeries *Series4;
+	TChart *Chart3;
+	TBarSeries *Series5;
+	TBarSeries *Series6;
+	TChart *Chart4;
+	TBarSeries *Series7;
+	TBarSeries *Series8;
+	TChart *Chart5;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);

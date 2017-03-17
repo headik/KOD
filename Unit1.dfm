@@ -547,6 +547,131 @@ object Form1: TForm1
     Visible = False
     OnClick = Button10Click
   end
+  object Chart1: TChart
+    Left = 270
+    Top = 241
+    Width = 76
+    Height = 65
+    Title.Text.Strings = (
+      'TChart')
+    TabOrder = 15
+    DefaultCanvas = 'TGDIPlusCanvas'
+    ColorPaletteIndex = 13
+    object Series1: TGanttSeries
+      ClickableLine = False
+      Pointer.InflateMargins = True
+      Pointer.Style = psRectangle
+      XValues.Name = 'Start'
+      XValues.Order = loAscending
+      YValues.Name = 'Y'
+      YValues.Order = loNone
+      Callout.Style = psRightTriangle
+      Callout.Arrow.Visible = False
+      StartValues.Name = 'Start'
+      StartValues.Order = loAscending
+      EndValues.Name = 'End'
+      EndValues.Order = loNone
+      NextTask.Name = 'NextTask'
+      NextTask.Order = loNone
+    end
+    object Series2: TGanttSeries
+      ClickableLine = False
+      Pointer.InflateMargins = True
+      Pointer.Style = psRectangle
+      XValues.Name = 'Start'
+      XValues.Order = loAscending
+      YValues.Name = 'Y'
+      YValues.Order = loNone
+      Callout.Style = psRightTriangle
+      Callout.Arrow.Visible = False
+      StartValues.Name = 'Start'
+      StartValues.Order = loAscending
+      EndValues.Name = 'End'
+      EndValues.Order = loNone
+      NextTask.Name = 'NextTask'
+      NextTask.Order = loNone
+    end
+  end
+  object Chart2: TChart
+    Left = 352
+    Top = 237
+    Width = 73
+    Height = 69
+    Title.Text.Strings = (
+      'TChart')
+    TabOrder = 16
+    DefaultCanvas = 'TGDIPlusCanvas'
+    ColorPaletteIndex = 13
+    object Series3: TBarSeries
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
+    object Series4: TBarSeries
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
+  end
+  object Chart3: TChart
+    Left = 431
+    Top = 237
+    Width = 65
+    Height = 70
+    Title.Text.Strings = (
+      'TChart')
+    TabOrder = 17
+    DefaultCanvas = 'TGDIPlusCanvas'
+    ColorPaletteIndex = 13
+    object Series5: TBarSeries
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
+    object Series6: TBarSeries
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
+  end
+  object Chart4: TChart
+    Left = 502
+    Top = 239
+    Width = 57
+    Height = 68
+    Title.Text.Strings = (
+      'TChart')
+    TabOrder = 18
+    DefaultCanvas = 'TGDIPlusCanvas'
+    ColorPaletteIndex = 13
+    object Series7: TBarSeries
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
+    object Series8: TBarSeries
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
+  end
+  object Chart5: TChart
+    Left = 565
+    Top = 241
+    Width = 60
+    Height = 68
+    Title.Text.Strings = (
+      'TChart')
+    TabOrder = 19
+    DefaultCanvas = 'TGDIPlusCanvas'
+    ColorPaletteIndex = 13
+  end
   object MainMenu1: TMainMenu
     Left = 152
     Top = 32
@@ -885,7 +1010,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118006401640110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118006C016C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1833,6 +1958,14 @@ object Form1: TForm1
   end
   object SavePictureDialog1: TSavePictureDialog
     DefaultExt = '*.bmp'
+    Filter = 
+      'All (*.gif;*.png;*.jpg;*.jpeg;*.bmp;*.tif;*.tiff;*.ico;*.emf;*.w' +
+      'mf)|*.gif;*.png;*.jpg;*.jpeg;*.bmp;*.tif;*.tiff;*.ico;*.emf;*.wm' +
+      'f|GIF Image (*.gif)|*.gif|Portable Network Graphics (*.png)|*.pn' +
+      'g|JPEG Image File (*.jpg)|*.jpg|JPEG Image File (*.jpeg)|*.jpeg|' +
+      'Bitmaps (*.bmp)|*.bmp|TIFF Images (*.tif)|*.tif|TIFF Images (*.t' +
+      'iff)|*.tiff|Icons (*.ico)|*.ico|Enhanced Metafiles (*.emf)|*.emf' +
+      '|Metafiles (*.wmf)|*.wmf'
     Left = 312
     Top = 32
   end
