@@ -549,7 +549,7 @@ object Form1: TForm1
   end
   object Chart1: TChart
     Left = 270
-    Top = 241
+    Top = 98
     Width = 76
     Height = 65
     Title.Text.Strings = (
@@ -594,7 +594,7 @@ object Form1: TForm1
   end
   object Chart2: TChart
     Left = 352
-    Top = 237
+    Top = 94
     Width = 73
     Height = 69
     Title.Text.Strings = (
@@ -617,7 +617,7 @@ object Form1: TForm1
   end
   object Chart3: TChart
     Left = 431
-    Top = 237
+    Top = 94
     Width = 65
     Height = 70
     Title.Text.Strings = (
@@ -640,7 +640,7 @@ object Form1: TForm1
   end
   object Chart4: TChart
     Left = 502
-    Top = 239
+    Top = 96
     Width = 57
     Height = 68
     Title.Text.Strings = (
@@ -663,7 +663,7 @@ object Form1: TForm1
   end
   object Chart5: TChart
     Left = 565
-    Top = 241
+    Top = 98
     Width = 60
     Height = 68
     Title.Text.Strings = (
