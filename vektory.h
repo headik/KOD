@@ -4,7 +4,7 @@
 #include <vcl.h>
 #include "knihovna_objektu.h"
 //#include "math.h"
-//#include "my.h"
+#include "my.h"
 //#define TITULEK "Omap editor"
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -70,12 +70,13 @@ class Cvektory
 			double vyska_vcetne_vyrobku;
 			short stav;//-1 - není na lince, 0 - stop, 1 - čeká, 2 - jede
 			TColor barva;
-			double pozice;
+			double start;//výchozí pozice vozíku v grafu časové osy
+			double pozice;//pozice na dopravniku či v grafu
 			double X;
 			double Y;
+			double timer;
 			struct TObjekt *segment;
 			struct TSeznam_cest *cesta;
-			double timer;
 			struct TVozik *predchozi;
 			struct TVozik *dalsi;
 		};
@@ -123,7 +124,7 @@ class Cvektory
 		short smaz_objekt(TObjekt *Objekt);//smaže prvek ze seznamu
 		void sniz_indexy(TObjekt *Objekt);
 		void zvys_indexy(TObjekt *Objekt);
-		void vymazat_casovou_obsazenost_objektu(TObjekt *Objekt);
+		void vymazat_casovou_obsazenost_objektu_a_pozice_voziku(TObjekt *Objekt,TVozik *Vozik);
 		double delka_dopravniku(Cvektory::TObjekt *ukaz);
 		void aktualizace_indexu_uzitych_dopravniku(short item_index);
 		bool kontrola_existence_dopravniku(short item_index);
@@ -132,7 +133,7 @@ class Cvektory
 		void hlavicka_jedne_cesty(TSeznam_cest *jaka);
 		void vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,double CT=0);//do konkrétní cesty vloží segmenty cesty
 		void vloz_cestu(TSeznam_cest *Cesta);//vloží hotovou cestu do spojového seznamu cesty
-		TSeznam_cest *vrat_cestu(int ID_cesty);
+		TSeznam_cest *vrat_cestu(unsigned int ID_cesty);
 		long vymaz_cesty();
 		short int uloz_do_souboru(UnicodeString FileName);
 		short int nacti_ze_souboru(UnicodeString FileName);
@@ -145,33 +146,22 @@ class Cvektory
 		void hlavicka_palce();
 		void vloz_palec();//přidá nový vozík do seznamu PALCE
 		long vymaz_seznam_palcu();
-		//ekonomické ukazatele
+		//technické, statistické a ekonomické ukazatele
 		void get_LT_a_max_min_TT();
 		double sum_WT();
 		double LT;
 		double MAX_TT;
 		double MIN_TT;
+		TPointD vrat_zacatek_a_konec_zakazky(TSeznam_cest *jaka);//ukazatel na cestu resp, zakázku
+		TPointD vrat_zacatek_a_konec_zakazky(unsigned int n_zakazky);//n resp. ID cestu resp, zakázku
+		double vrat_LT_voziku(TVozik *jaky);//vrátí celkový čas, který strávil vozík ve výrobě včetně čekání
+		double vrat_LT_voziku(unsigned int n_voziku);//vrátí celkový čas, který strávil vozík ve výrobě včetně čekání
+		double vrat_sumPT_voziku(TVozik *jaky);//vrátí čistý čas, který strávil vozík ve výrobě bez čekání
+		double vrat_sumPT_voziku(unsigned int n_voziku);//vrátí čistý čas, který strávil vozík ve výrobě bez čekání
+		double vrat_WT_voziku(TVozik *jaky);//vrátí čas čeká vozíku během výroby
+		double vrat_WT_voziku(unsigned int n_voziku);//vrátí čas čeká vozíku během výroby
+		unsigned int WIP();//vrátí max. počet vozíků na lince
 
-		/* z jiného projektu možno smazat
-						short int vymaz_seznam(TBod *jaky);
-		TBod *kopiruj_seznam(TBod *jaky);//vrací kam
-		TBod *kopiruj(TBod *Prvek_kopirovany,float offset=0.0);//zkopíruje prvek do seznamu
-
-		void smaz_bod_polygonu(TPolygon *jaky, TBod_LP *p);//smaže dílčí bod polygonu
-		void optimalizace_seznamu(TBod *Prvek);//přepíše indexy vzestupně
-		short int import_ze_souboru(AnsiString FileName);
-		TBod *vrat_bod(long long ID); //hledá prvek ve spojovém seznamu podle jeho ID, vrací ukazatel na něj
-		void zmen_dcmntpt(long long ID,double X, double Y); //hledá prvek ve spojovém seznamu podle jeho ID, vrací ukazatel na něj
-		TBod *vrat_bod(long long ID, unsigned  short layers[]); //hledá prvek ve spojovém seznamu podle jeho ID (zároveň kontroluje, zda je daná vrstva aktivni), vrací ukazatel na něj
-		TBod *najdi_bod(double X, double Y, unsigned short offset_px);//hledá bod v dané oblasti
-		TBod *najdi_bod(double X, double Y, unsigned short offset_px, unsigned  short layers[]);//hledá bod v dané oblasti a v dané vrstvě
-		TBod *najdi_bod_od_bodu(TBod *ukaz,double X, double Y, unsigned short offset_px);//hledá bod v dané oblasti od zadané bodu (mimo něj)
-		TBod_LP *najdi_bod_LP(double X, double Y, TPolygon *na_jakem);//hledá prvek na lini na aktuálních souřadnicích, vrací ukazatel na něj
-        bool LeziNaPrimce(int x,int y,int a,int b,int c,int offset=3);//ověření zda bod leží na přímce
-        double LeziVblizkostiPrimky(int x, int y, int a, int b, int c);//Počíta ABSOLUTNí vzdálenosti od přímky
-        double LeziVblizkostiPrimky(float x, float y, float X1, float Y1, float X2, float Y2);//přetížená fce
-        long LeziVblizkostiUsecky(long x, long y, long X1, long Y1, long X2, long Y2);//Počíta ABSOLUTNí vzdálenosti od usecky
-		*/
 
 	private:
 		struct C_uzel//pro konverzi do bináru

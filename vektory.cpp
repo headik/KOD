@@ -289,7 +289,7 @@ void Cvektory::vloz_cestu(TSeznam_cest *Cesta)
 	CESTY->predchozi=nova;//nový poslední prvek zápis do hlavičky,body->predchozi zápis do hlavičky odkaz na poslední prvek seznamu "predchozi" v tomto případě zavádějicí
 }
 //---------------------------------------------------------------------------
-Cvektory::TSeznam_cest *Cvektory::vrat_cestu(int ID_cesty)
+Cvektory::TSeznam_cest *Cvektory::vrat_cestu(unsigned int ID_cesty)
 {
 	Cvektory::TSeznam_cest *ukaz=CESTY->dalsi;
 	TSeznam_cest *ret=NULL;
@@ -726,8 +726,10 @@ void Cvektory::hlavicka_voziky()
 	novy->vyska_vcetne_vyrobku=0;
 	novy->stav=-1;
 	novy->pozice=0;
-	novy->segment=NULL;
+	novy->start=0;
 	novy->X=0;novy->Y=0;
+	novy->timer=0;
+	novy->segment=NULL;
 	novy->cesta=NULL;
 
 	novy->predchozi=novy;//ukazuje sam na sebe
@@ -741,7 +743,7 @@ void Cvektory::vloz_vozik()//přidá nový vozík do seznamu VOZIKY
 
 	novy->n=VOZIKY->predchozi->n+1;//navýším počítadlo prvku o jedničku
 	novy->segment=NULL;novy->pozice=-1;novy->stav=-1;
-	novy->X=0;novy->Y=0;
+	novy->X=0;novy->Y=0;novy->timer=0;novy->start=0;
 
 	VOZIKY->predchozi->dalsi=novy;//poslednímu prvku přiřadím ukazatel na nový prvek
 	novy->predchozi=VOZIKY->predchozi;//novy prvek se odkazuje na prvek predchozí (v hlavicce body byl ulozen na pozici predchozi, poslední prvek)
@@ -757,7 +759,7 @@ void Cvektory::vloz_vozik(TVozik *Vozik)
 
 	//pozor v případě načítání existujícího stavu ze souboru změnitm toto je výchozí pozice na lince
 	novy->segment=NULL;novy->pozice=-1;novy->stav=-1;
-	novy->X=0;novy->Y=0;
+	novy->X=0;novy->Y=0;novy->timer=0;novy->start=0;
 
 	novy->n=VOZIKY->predchozi->n+1;//navýším počítadlo prvku o jedničku
 	VOZIKY->predchozi->dalsi=novy;//poslednímu prvku přiřadím ukazatel na nový prvek
@@ -783,9 +785,13 @@ void Cvektory::vloz_vozik(unsigned long n,UnicodeString id,double delka,double s
 	novy->sirka_vcetne_vyrobku=sirka_vcetne_vyrobku;
 	novy->vyska_vcetne_vyrobku=vyska_vcetne_vyrobku;
 	novy->barva=barva;
-	novy->segment=NULL;novy->pozice=-1;novy->stav=-1;
-	novy->cesta=cesta;
+	novy->pozice=-1;novy->stav=-1;
+	novy->start=0;
 	novy->X=0;novy->Y=0;
+	novy->timer=0;
+	novy->segment=NULL;
+	novy->cesta=cesta;
+
 
 	VOZIKY->predchozi->dalsi=novy;//poslednímu prvku přiřadím ukazatel na nový prvek
 	novy->predchozi=VOZIKY->predchozi;//novy prvek se odkazuje na prvek predchozí (v hlavicce body byl ulozen na pozici predchozi, poslední prvek)
@@ -808,13 +814,19 @@ long Cvektory::vymaz_seznam_voziku()
 	return pocet_smazanych_objektu;
 };
 //---------------------------------------------------------------------------
-void Cvektory::vymazat_casovou_obsazenost_objektu(TObjekt *Objekt)
+void Cvektory::vymazat_casovou_obsazenost_objektu_a_pozice_voziku(TObjekt *Objekt,TVozik *Vozik)
 {
 	TObjekt *ukaz=Objekt->dalsi;
 	while (ukaz!=NULL)
 	{
 		ukaz->obsazenost=0;
 		ukaz=ukaz->dalsi;
+	};
+	TVozik *ukaz1=Vozik->dalsi;
+	while (ukaz1!=NULL)
+	{
+		ukaz1->pozice=-1;
+		ukaz1=ukaz1->dalsi;
 	};
 }
 //---------------------------------------------------------------------------
@@ -857,6 +869,124 @@ long Cvektory::vymaz_seznam_palcu()
 
 	return pocet_smazanych_objektu;
 };
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+TPointD Cvektory::vrat_zacatek_a_konec_zakazky(TSeznam_cest *jaka)//ukazatel na cestu resp, zakázku
+{
+	TPointD RET; RET.x=0;RET.y=0;
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		if(vozik->cesta==jaka && vozik->n==1)RET.x=vozik->start/Form1->d.PX2MIN;//uloží výchozí pozici prvního vozíku na zakázce
+		if(vozik->cesta==jaka && vozik->n==VOZIKY->predchozi->n)RET.x=vozik->start/Form1->d.PX2MIN;//uloží koncovou pozici posledního vozíku na zakázce
+		if(RET.y)break;//pokud je hotovo zkrátí cyklus
+		vozik=vozik->dalsi;
+	}
+	return RET;
+}                               //sjednotit
+TPointD Cvektory::vrat_zacatek_a_konec_zakazky(unsigned int ID_zakazky)//ukazatel na cestu resp, zakázku
+{
+	TPointD RET; RET.x=0;RET.y=0;
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		if(vozik->cesta->n==ID_zakazky && vozik->n==1)RET.x=vozik->start/Form1->d.PX2MIN;//uloží výchozí pozici prvního vozíku na zakázce
+		if(vozik->cesta->n==ID_zakazky && vozik->n==VOZIKY->predchozi->n)RET.y=vozik->start/Form1->d.PX2MIN;//uloží koncovou pozici posledního vozíku na zakázce
+		if(RET.y)break;//pokud je hotovo zkrátí cyklus
+		vozik=vozik->dalsi;
+	}
+	return RET;
+}
+//---------------------------------------------------------------------------
+double Cvektory::vrat_LT_voziku(TVozik *jaky)//vrátí celkový čas, který strávil vozík ve výrobě včetně čekání
+{
+	if(jaky!=NULL) return jaky->pozice-jaky->start;
+	else return 0;
+}
+double Cvektory::vrat_LT_voziku(unsigned int n_voziku)//vrátí celkový čas, který strávil vozík ve výrobě včetně čekání
+{
+	double RET=0;
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		if(n_voziku==vozik->n)//pokud byl nalezen
+		{
+			RET=vozik->pozice-vozik->start;
+			break;
+		}
+		vozik=vozik->dalsi;
+	}
+	return RET;
+}
+//---------------------------------------------------------------------------
+double Cvektory::vrat_sumPT_voziku(TVozik *jaky)//vrátí čistý čas, který strávil vozík ve výrobě bez čekání
+{
+	double SUM=0;
+	Cvektory::TCesta *C=jaky->cesta->cesta->dalsi;
+	while(C!=NULL)//jde po konkrétní cestě
+	{
+		SUM+=C->CT;
+		C=C->dalsi;
+	}
+}
+double Cvektory::vrat_sumPT_voziku(unsigned int n_voziku)//vrátí čistý čas, který strávil vozík ve výrobě bez čekání
+{
+	double RET=0;
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		if(n_voziku==vozik->n)//pokud byl nalezen
+		{
+			RET=vrat_sumPT_voziku(vozik);
+			break;
+		}
+		vozik=vozik->dalsi;
+	}
+	return RET;
+}
+//---------------------------------------------------------------------------
+double Cvektory::vrat_WT_voziku(TVozik *jaky)//vrátí čas čeká vozíku během výroby
+{
+	return vrat_LT_voziku(jaky)-vrat_sumPT_voziku(jaky);
+}
+double Cvektory::vrat_WT_voziku(unsigned int n_voziku)//vrátí čas čeká vozíku během výroby
+{
+	double RET=0;
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		if(n_voziku==vozik->n)//pokud byl nalezen
+		{
+			RET=vrat_WT_voziku(vozik);
+			break;
+		}
+		vozik=vozik->dalsi;
+	}
+	return RET;
+}
+//---------------------------------------------------------------------------
+unsigned int Cvektory::WIP()//vrátí max. počet vozíků na lince
+{
+	unsigned int pocet_final=0;
+	//srovnává všechny kombinace, možná by šlo zjednodušit, uvídíme v průběhu
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		unsigned int pocet=0;
+		Cvektory::TVozik *vozik2=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+		while (vozik2!=NULL)
+		{
+
+			if(vozik->pozice>=vozik2->start)//pokud nastane situace že vozík skončil před začátkem vozíku, není nutné navyšovat počítadlo vozíků
+			pocet++;
+			vozik2=vozik2->dalsi;
+		}
+		if(pocet_final<pocet)pocet_final=pocet;
+		vozik=vozik->dalsi;
+	}
+	return pocet_final;
+}
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------

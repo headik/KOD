@@ -280,6 +280,8 @@ void __fastcall TForm1::editacelinky1Click(TObject *Sender)
 	testovnkapacity1->Checked=false;
 	simulace1->Checked=false;
 	casoverezervy1->Checked=false;
+	casovosa1->Checked=false;
+	g.ShowGrafy(false);
 	RzSizePanel_parametry_projekt->Visible=true;
 	RzSizePanel_knihovna_objektu->Visible=true;
 	PopupMenu1->AutoPopup=true;
@@ -299,6 +301,7 @@ void __fastcall TForm1::testovnkapacity1Click(TObject *Sender)
 	casoverezervy1->Checked=false;
 	simulace1->Checked=false;
 	casovosa1->Checked=false;
+	g.ShowGrafy(false);
 	RzSizePanel_parametry_projekt->Visible=true;
 	RzSizePanel_knihovna_objektu->Visible=true;
 	PopupMenu1->AutoPopup=true;
@@ -317,6 +320,7 @@ void __fastcall TForm1::casoverezervy1Click(TObject *Sender)
 	casoverezervy1->Checked=true;
 	simulace1->Checked=false;
 	casovosa1->Checked=false;
+	g.ShowGrafy(false);
 	DuvodUlozit(true);
 	RzSizePanel_parametry_projekt->Visible=false;
 	RzSizePanel_knihovna_objektu->Visible=false;
@@ -335,6 +339,7 @@ void __fastcall TForm1::simulace1Click(TObject *Sender)
 	casoverezervy1->Checked=false;
 	simulace1->Checked=true;
 	casovosa1->Checked=false;
+	g.ShowGrafy(false);
 	DuvodUlozit(true);
 	RzSizePanel_parametry_projekt->Visible=false;
 	RzSizePanel_knihovna_objektu->Visible=false;
@@ -2229,12 +2234,12 @@ void __fastcall TForm1::Button9Click(TObject *Sender)
 		while (ukaz!=NULL)
 		{
 			//akce s ukazatelem
-			Memo1->Lines->Add(AnsiString("n: ")+ukaz->n+AnsiString(" ID: ")+ukaz->id+AnsiString(" X: ")+ukaz->X+AnsiString(" Y: ")+ukaz->Y);
-
+			//Memo1->Lines->Add(AnsiString("n: ")+ukaz->n+AnsiString(" ID: ")+ukaz->id+AnsiString(" X: ")+ukaz->X+AnsiString(" Y: ")+ukaz->Y);
+			Memo1->Lines->Add(AnsiString("n: ")+ukaz->n+AnsiString(" Start: ")+ukaz->start/d.PX2MIN+AnsiString(" Pozice: ")+ukaz->pozice/d.PX2MIN);
 			//posun na další prvek v seznamu
 			ukaz=ukaz->dalsi;
 		} */
-		Memo1->Lines->Add("vypis spojáku OBJEKTY:");
+		//Memo1->Lines->Add("vypis spojáku OBJEKTY:");
 	/*	Cvektory::TObjekt *ukaz=d.v.CESTA2;//ukazatel na první objekt v seznamu OBJEKTU, NEpřeskočí hlavičku
 		while (ukaz!=NULL)
 		{
@@ -2244,6 +2249,7 @@ void __fastcall TForm1::Button9Click(TObject *Sender)
 			//posun na další prvek v seznamu
 			ukaz=ukaz->dalsi;
 		} */
+		ShowMessage(d.v.WIP());
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button10Click(TObject *Sender)

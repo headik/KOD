@@ -15,6 +15,7 @@
 #include <Vcl.Grids.hpp>
 #include "my.h"
 #include "vykresli.h"
+#include "grafy.h"
 #include "RzButton.hpp"
 #include <System.ImageList.hpp>
 #include <Vcl.ImgList.hpp>
@@ -302,6 +303,7 @@ public:		// User declarations
 	TMyString ms;
 	Cmy m;
 	Cvykresli d;
+	Cgrafy g;
 	double Zoom; //proměnná uchovávajicí velikost Zoomu
 	TPointD Posun;//proměnné uchovávajicí velikost posunu obrazu (pro scrollování atp.), je to ve fyzických souřadnicích zařízení
   bool grid;
