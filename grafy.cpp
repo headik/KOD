@@ -51,6 +51,7 @@ void Cgrafy::graf1() {
 	}
 
 	Form1->Chart1->Title->Caption = "Èasové stavy zakázky";
+   //	Form1->Chart1->Legend->Title="Èas";
 
 	/* FDQuery1->Open("select distinct(id_planu) from casy_objektu");
 	 FDQuery1->Active = True;
@@ -70,13 +71,24 @@ void Cgrafy::graf1() {
 	 }
 	 */
 
-	Form1->Series1->AddGantt(0, 20, 1, "z1:0-20");
-	Form1->Series1->AddGantt(15, 80, 2, "z2:15-80");
-	Form1->Series1->AddGantt(60, 100, 3, "z3:60-100");
-	Form1->Series1->AddGantt(60, 100, 4, "z4:60-100");
-	Form1->Series1->AddGantt(90, 100, 5, "z5:90-100");
+
+//	Form1->Series1->AddGantt(0, 20, 1, "z1:0-20");
+//	Form1->Series1->AddGantt(15, 80, 2, "z2:15-80");
+//	Form1->Series1->AddGantt(60, 100, 3, "z3:60-100");
+//	Form1->Series1->AddGantt(60, 100, 4, "z4:60-100");
+//	Form1->Series1->AddGantt(90, 100, 5, "z5:90-100");
 	// Series1->AddGantt();
 	// Series2->Add(15,2,"z3",clYellow);
+	Cvektory::TSeznam_cest *ukaz=Form1->d.v.CESTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, pøeskoèí hlavièku
+while (ukaz!=NULL)
+{
+	TPointD z=Form1->d.v.vrat_zacatek_a_konec_zakazky(ukaz);
+
+	Form1->Series1->AddGantt(z.x,z.y,ukaz->n,AnsiString(z.x)+"-"+AnsiString(z.y));
+
+	//posun na další prvek v seznamu
+	ukaz=ukaz->dalsi;
+}
 
 }
 
@@ -181,6 +193,10 @@ void Cgrafy::graf5() { // WIP stats
 	Form1->Chart5->Height = 400;
 
 	Form1->Chart5->AxisVisible = false;
+
+		  Form1->Chart5->Title= Form1->d.v.WIP();
+
+
 
 }
 //// ---------------------------------------------------------------------------
