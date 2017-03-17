@@ -194,7 +194,7 @@ void Cgrafy::graf5() { // WIP stats
 
 	Form1->Chart5->AxisVisible = false;
 
-		  Form1->Chart5->Title= Form1->d.v.WIP();
+		  Form1->Chart5->Title->Caption= Form1->d.v.WIP();
 
 
 
