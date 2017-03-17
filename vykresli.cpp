@@ -450,11 +450,23 @@ void Cvykresli::vykresli_Xosy(TCanvas *canv)
 	while (ukaz!=NULL)
 	{
 		TPointD RET=v.vrat_zacatek_a_konec_zakazky(ukaz);
+		canv->Pen->Color=clRed;
+		if(RET.x>0)
+		{
+			canv->MoveTo(RET.x*PX2MIN,0);
+			canv->LineTo(RET.x*PX2MIN,HeightCanvasCasoveOsy);
+		}
+		if(RET.y>0)
+		{
+			canv->MoveTo(RET.y*PX2MIN,0);
+			canv->LineTo(RET.y*PX2MIN,HeightCanvasCasoveOsy);
+		}
+		canv->Brush->Style=bsSolid;
+		canv->Brush->Color=clWhite;
 		canv->Font->Style=TFontStyles()<< fsBold;
 		canv->Font->Color=clRed;
-		canv->TextOutW(RET.x*PX2MIN-canv->TextWidth(RET.x)/2,0+Form1->RzToolbar1->Height,RET.x);
-		canv->TextOutW(RET.y*PX2MIN-canv->TextWidth(RET.y)/2,0+Form1->RzToolbar1->Height,RET.y);
-		ShowMessage(RET.x);ShowMessage(RET.y);
+		if(RET.x>0)canv->TextOutW(RET.x*PX2MIN-canv->TextWidth(RET.x)/2,0+Form1->RzToolbar1->Height,RET.x);
+		if(RET.y>0)canv->TextOutW(RET.y*PX2MIN-canv->TextWidth(RET.y)/2,0+Form1->RzToolbar1->Height,RET.y);
 		ukaz=ukaz->dalsi;
 	}
 }

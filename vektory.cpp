@@ -878,9 +878,8 @@ TPointD Cvektory::vrat_zacatek_a_konec_zakazky(TSeznam_cest *jaka)//ukazatel na 
 	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
 	while (vozik!=NULL)
 	{
-		if(vozik->cesta->n==jaka->n && prvni){RET.x=vozik->start/Form1->d.PX2MIN;prvni=false;/*ShowMessage(vozik->start);*/}//uloží výchozí pozici prvního vozíku na zakázce
-		if(vozik->cesta->n==jaka->n){RET.y=vozik->pozice/Form1->d.PX2MIN;/*ShowMessage(vozik->pozice);*/}//uloží koncovou pozici posledního vozíku na zakázce
-
+		if(vozik->cesta->n==jaka->n && prvni){RET.x=vozik->start/Form1->d.PX2MIN;prvni=false;}//uloží výchozí pozici prvního vozíku na zakázce
+		if(vozik->cesta->n==jaka->n){RET.y=vozik->pozice/Form1->d.PX2MIN;}//uloží koncovou pozici posledního vozíku na zakázce
 		vozik=vozik->dalsi;
 	}
 	return RET;
@@ -893,7 +892,6 @@ TPointD Cvektory::vrat_zacatek_a_konec_zakazky(unsigned int ID_zakazky)//ukazate
 	{
 		if(vozik->cesta->n==ID_zakazky){RET.x=vozik->start/Form1->d.PX2MIN;prvni=false;}//uloží výchozí pozici prvního vozíku na zakázce
 		if(vozik->cesta->n==ID_zakazky)RET.y=vozik->pozice/Form1->d.PX2MIN;//uloží koncovou pozici posledního vozíku na zakázce
-
 		vozik=vozik->dalsi;
 	}
 	return RET;
