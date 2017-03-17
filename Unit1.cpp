@@ -237,7 +237,7 @@ nastaveni.posledni_file=true;/////////////////provizorní než budu načítat in
 void __fastcall TForm1::FormResize(TObject *Sender)
 {
 	RzSizePanel_knihovna_objektu->Height=RzStatusBar1->Top-(2+RzSizePanel_parametry_projekt->Height+0+RzToolbar1->Height);
-  if(MOD==REZERVY)Invalidate();
+	if(MOD==REZERVY || MOD==CASOVAOSA)Invalidate();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Klasick1Click(TObject *Sender)
@@ -444,7 +444,6 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 		 //	case SIMULACE:d.vykresli_simulaci(Canvas);break; - probíhá pomocí timeru, na tomto to navíc se chovalo divně
 		case CASOVAOSA:d.vykresli_casove_osy(Canvas); d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x);break;
 	}
-
 }
 //---------------------------------------------------------------------------
 void TForm1::REFRESH()

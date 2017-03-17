@@ -452,9 +452,9 @@ void Cvykresli::vykresli_Xosy(TCanvas *canv)
 		TPointD RET=v.vrat_zacatek_a_konec_zakazky(ukaz);
 		canv->Font->Style=TFontStyles()<< fsBold;
 		canv->Font->Color=clRed;
-		canv->TextOutW(RET.x-canv->TextWidth(RET.x)/2,0+Form1->RzToolbar1->Height,RET.x);
-		canv->TextOutW(RET.y-canv->TextWidth(RET.y)/2,0+Form1->RzToolbar1->Height,RET.y);
-
+		canv->TextOutW(RET.x*PX2MIN-canv->TextWidth(RET.x)/2,0+Form1->RzToolbar1->Height,RET.x);
+		canv->TextOutW(RET.y*PX2MIN-canv->TextWidth(RET.y)/2,0+Form1->RzToolbar1->Height,RET.y);
+		ShowMessage(RET.x);ShowMessage(RET.y);
 		ukaz=ukaz->dalsi;
 	}
 }

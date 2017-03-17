@@ -874,26 +874,26 @@ long Cvektory::vymaz_seznam_palcu()
 //---------------------------------------------------------------------------
 TPointD Cvektory::vrat_zacatek_a_konec_zakazky(TSeznam_cest *jaka)//ukazatel na cestu resp, zakázku
 {
-	TPointD RET; RET.x=0;RET.y=0;
+	TPointD RET; RET.x=0;RET.y=0;bool prvni=true;
 	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
 	while (vozik!=NULL)
 	{
-		if(vozik->cesta==jaka && vozik->n==1)RET.x=vozik->start/Form1->d.PX2MIN;//uloží výchozí pozici prvního vozíku na zakázce
-		if(vozik->cesta==jaka && vozik->n==VOZIKY->predchozi->n)RET.x=vozik->start/Form1->d.PX2MIN;//uloží koncovou pozici posledního vozíku na zakázce
-		if(RET.y)break;//pokud je hotovo zkrátí cyklus
+		if(vozik->cesta->n==jaka->n && prvni){RET.x=vozik->start/Form1->d.PX2MIN;prvni=false;/*ShowMessage(vozik->start);*/}//uloží výchozí pozici prvního vozíku na zakázce
+		if(vozik->cesta->n==jaka->n){RET.y=vozik->pozice/Form1->d.PX2MIN;/*ShowMessage(vozik->pozice);*/}//uloží koncovou pozici posledního vozíku na zakázce
+
 		vozik=vozik->dalsi;
 	}
 	return RET;
-}                               //sjednotit
+}
 TPointD Cvektory::vrat_zacatek_a_konec_zakazky(unsigned int ID_zakazky)//ukazatel na cestu resp, zakázku
 {
-	TPointD RET; RET.x=0;RET.y=0;
+	TPointD RET; RET.x=0;RET.y=0;bool prvni=true;
 	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
 	while (vozik!=NULL)
 	{
-		if(vozik->cesta->n==ID_zakazky && vozik->n==1)RET.x=vozik->start/Form1->d.PX2MIN;//uloží výchozí pozici prvního vozíku na zakázce
-		if(vozik->cesta->n==ID_zakazky && vozik->n==VOZIKY->predchozi->n)RET.y=vozik->start/Form1->d.PX2MIN;//uloží koncovou pozici posledního vozíku na zakázce
-		if(RET.y)break;//pokud je hotovo zkrátí cyklus
+		if(vozik->cesta->n==ID_zakazky){RET.x=vozik->start/Form1->d.PX2MIN;prvni=false;}//uloží výchozí pozici prvního vozíku na zakázce
+		if(vozik->cesta->n==ID_zakazky)RET.y=vozik->pozice/Form1->d.PX2MIN;//uloží koncovou pozici posledního vozíku na zakázce
+
 		vozik=vozik->dalsi;
 	}
 	return RET;
