@@ -31,6 +31,7 @@ class Cvektory
 			short typ_dopravniku;
 			double delka_dopravniku;
 			double kapacita_objektu;
+			double doporucena_kapacita_objektu;
 			double obsazenost;//čas obsazenosti
 			UnicodeString techn_parametry;//obsah valuestringlistu, nelze ukládát pouze jednotlivá data, protože se seznam může u S&G měnit
 			struct TObjekt *predchozi;
@@ -50,6 +51,7 @@ class Cvektory
 		{
 			unsigned int n; //pořadí cesty ve spoj.seznamu všech cest
 			TCesta *cesta;
+			TColor barva;
 			struct TSeznam_cest *predchozi;
 			struct TSeznam_cest *dalsi;
 		}; TSeznam_cest *CESTY;
@@ -160,6 +162,10 @@ class Cvektory
 		double vrat_sumPT_voziku(unsigned int n_voziku);//vrátí čistý čas, který strávil vozík ve výrobě bez čekání
 		double vrat_WT_voziku(TVozik *jaky);//vrátí čas čeká vozíku během výroby
 		double vrat_WT_voziku(unsigned int n_voziku);//vrátí čas čeká vozíku během výroby
+		double vrat_TT_voziku(TVozik *jaky);//vrátí takt, resp. rozdíl čásů mezi dokončením tohoto a předchozího vozíku
+		double vrat_TT_voziku(unsigned int n_voziku);//vrátí takt, resp. rozdíl čásů mezi dokončením tohoto a předchozího vozíku
+		double vrat_prumerne_TT_zakazky(TSeznam_cest *jaka);//vrátí hodnotu průměrného TT mezi vozíky v rámci dané zakázky/cesty
+		double vrat_prumerne_TT_zakazky(unsigned int n_zakazky);//vrátí hodnotu průměrného TT mezi vozíky v rámci
 		unsigned int WIP();//vrátí max. počet vozíků na lince
 
 

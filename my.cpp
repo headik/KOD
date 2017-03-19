@@ -208,3 +208,10 @@ TPointDbool Cmy::zkratit_polygon_na_roztec(double d, double r,double xp, double 
 
 		return RET;
 }
+/////////////////////////////////////////////////////////////////////////////
+double Cmy::cekani_na_palec(double cas, double roztec_palcu,double rychlost_dopravniku)//vrátí dobu èekání na palec v sec, zadání je u èas (výstupu vozíku z objektu) v sec, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
+{
+		rychlost_dopravniku*=100;//pøevod z mm na mm
+		return 60/rychlost_dopravniku*fmod(rychlost_dopravniku/60*cas,roztec_palcu);
+}
+/////////////////////////////////////////////////////////////////////////////

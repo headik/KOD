@@ -238,6 +238,7 @@ void __fastcall TForm_vozik_nastaveni::FormCloseQuery(TObject *Sender,	bool &Can
 		TBarva *ukaz = BARVY->dalsi;
 		for (int i = 1; i < RzStringGrid1->RowCount; i++)
 		{
+			//uložení parametrù vozíkù
 			Form1->d.v.vloz_vozik(RzStringGrid1->Cells[0][i].ToInt(),
 			RzStringGrid1->Cells[1][i],
 			Form1->ms.MyToDouble(RzStringGrid1->Cells[2][i]),
@@ -251,9 +252,14 @@ void __fastcall TForm_vozik_nastaveni::FormCloseQuery(TObject *Sender,	bool &Can
 			Form1->ms.MyToDouble(RzStringGrid1->Cells[10][i]),
 			Form1->ms.MyToDouble(RzStringGrid1->Cells[11][i]),
 			ukaz->barva_voziku,
-			Form1->d.v.vrat_cestu(Form1->ms.MyToDouble(RzStringGrid1->Cells[4][i])));
+			Form1->d.v.vrat_cestu(Form1->ms.MyToDouble(RzStringGrid1->Cells[4][i]))
+			);
 
-			ukaz = ukaz->dalsi; // posun na další prvek v seznamu
+			//uloží do cesty barvu cesty-zakázky dle vozíku
+			Form1->d.v.vrat_cestu(Form1->ms.MyToDouble(RzStringGrid1->Cells[4][i]))->barva=ukaz->barva_voziku;
+
+			//posun na další prvek v seznamu
+			ukaz = ukaz->dalsi; //posun na další prvek v seznamu
 		}
 	}
 	vymaz_barvu();
@@ -320,7 +326,7 @@ void __fastcall TForm_vozik_nastaveni::RzStringGrid1DrawCell(TObject *Sender,
 	}
 
 	if (RowMoved) {
-		for (UINT i = 1; i < RzStringGrid1->RowCount; i++)
+		for (int i = 1; i < RzStringGrid1->RowCount; i++)
 			RzStringGrid1->Cells[0][i] = i;
 		RowMoved = false;
 	}

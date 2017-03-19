@@ -54,6 +54,8 @@ class Cvykresli
 	unsigned long cas;//ms
 	double PX2MIN;//mìøítko PX na MIN
 	int WidthCanvasCasoveOsy,HeightCanvasCasoveOsy;
+	TPointD PosunT; //výchozí posunutí obrazu Posunu
+	int P();//zajistí pøepoèet posunu
 
 	protected:
 

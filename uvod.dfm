@@ -34,11 +34,11 @@ object Form_uvod: TForm_uvod
     ParentFont = False
   end
   object Label3: TLabel
-    Left = 315
+    Left = 288
     Top = 246
-    Width = 102
+    Width = 156
     Height = 13
-    Caption = #169' ELTEP, s.r.o. 2016'
+    Caption = #169' ELTEP, s.r.o. 2016-2017'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWhite
     Font.Height = 11

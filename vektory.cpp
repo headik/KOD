@@ -16,24 +16,25 @@ Cvektory::Cvektory()
 //vytvoří novou hlavičku pro objekty
 void Cvektory::hlavicka_objekty()
 {
-	TObjekt *novy_uzel=new TObjekt;
-	novy_uzel->n=0;
-	novy_uzel->X=0;
-	novy_uzel->Y=0;
-	novy_uzel->TTo=0;
-	novy_uzel->CT=0;//cycle time
-	novy_uzel->stav=0;//0- stop, 2- vozik může jet
-	novy_uzel->orientace_voziku=0;//0-na délku, 1- na šířku
-	novy_uzel->vzdalenost=0;//mezera mezi vozíky
-	novy_uzel->typ_dopravniku=0;
-	novy_uzel->delka_dopravniku=0;
-	novy_uzel->kapacita_objektu=0;
-	novy_uzel->techn_parametry="";
-	novy_uzel->obsazenost=0;
+	TObjekt *novy=new TObjekt;
+	novy->n=0;
+	novy->X=0;
+	novy->Y=0;
+	novy->TTo=0;
+	novy->CT=0;//cycle time
+	novy->stav=0;//0- stop, 2- vozik může jet
+	novy->orientace_voziku=0;//0-na délku, 1- na šířku
+	novy->vzdalenost=0;//mezera mezi vozíky
+	novy->typ_dopravniku=0;
+	novy->delka_dopravniku=0;
+	novy->kapacita_objektu=0;
+	novy->doporucena_kapacita_objektu=0;
+	novy->techn_parametry="";
+	novy->obsazenost=0;
 
-	novy_uzel->predchozi=novy_uzel;//ukazuje sam na sebe
-	novy_uzel->dalsi=NULL;
-	OBJEKTY=novy_uzel;//OBJEKTY
+	novy->predchozi=novy;//ukazuje sam na sebe
+	novy->dalsi=NULL;
+	OBJEKTY=novy;//OBJEKTY
 	seznam_dopravniku=L"hlavní dopravník=5\nvedlejší dopravník=3\n";
 }
 //---------------------------------------------------------------------------
@@ -58,6 +59,7 @@ short Cvektory::vloz_objekt(unsigned int id, double X, double Y)
 	novy->typ_dopravniku=0;
 	novy->delka_dopravniku=0;
 	novy->kapacita_objektu=0;
+	novy->doporucena_kapacita_objektu=0;
 	novy->techn_parametry="";
 	novy->obsazenost=0;
 
@@ -87,6 +89,7 @@ short Cvektory::vloz_objekt(unsigned int id, double X, double Y,TObjekt *p)
 	novy->typ_dopravniku=0;
 	novy->delka_dopravniku=0;
 	novy->kapacita_objektu=0;
+	novy->doporucena_kapacita_objektu=0;
 	novy->techn_parametry="";
 	novy->obsazenost=0;
 
@@ -95,7 +98,6 @@ short Cvektory::vloz_objekt(unsigned int id, double X, double Y,TObjekt *p)
 	p->dalsi->predchozi=novy;
 	p->dalsi=novy;
 	novy->n=p->n;//přiřadím počítadlo prvku ze současného prvku, v dalším kroku se totiž navýší
-   //nějaký kod
 	//indexy zvýšit separátně
 	return 0;
 };
@@ -245,6 +247,7 @@ void Cvektory::hlavicka_seznamu_cest()
 	TSeznam_cest *nova=new TSeznam_cest;
 	nova->n=0;
 	nova->cesta=new TCesta;
+	nova->barva=clWhite;
 
 	nova->predchozi=nova;//ukazuje sam na sebe
 	nova->dalsi=NULL;//další prvek zatím není ukazuje na nul
@@ -899,7 +902,7 @@ TPointD Cvektory::vrat_zacatek_a_konec_zakazky(unsigned int ID_zakazky)//ukazate
 //---------------------------------------------------------------------------
 double Cvektory::vrat_LT_voziku(TVozik *jaky)//vrátí celkový čas, který strávil vozík ve výrobě včetně čekání
 {
-	if(jaky!=NULL) return jaky->pozice-jaky->start;
+	if(jaky!=NULL) return (jaky->pozice-jaky->start)/Form1->d.PX2MIN;
 	else return 0;
 }
 double Cvektory::vrat_LT_voziku(unsigned int n_voziku)//vrátí celkový čas, který strávil vozík ve výrobě včetně čekání
@@ -910,7 +913,7 @@ double Cvektory::vrat_LT_voziku(unsigned int n_voziku)//vrátí celkový čas, k
 	{
 		if(n_voziku==vozik->n)//pokud byl nalezen
 		{
-			RET=vozik->pozice-vozik->start;
+			RET=vrat_LT_voziku(vozik);
 			break;
 		}
 		vozik=vozik->dalsi;
@@ -927,21 +930,22 @@ double Cvektory::vrat_sumPT_voziku(TVozik *jaky)//vrátí čistý čas, který s
 		SUM+=C->CT;
 		C=C->dalsi;
 	}
+	return SUM;
 }
 double Cvektory::vrat_sumPT_voziku(unsigned int n_voziku)//vrátí čistý čas, který strávil vozík ve výrobě bez čekání
 {
-	double RET=0;
+	double SUM=0;
 	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
 	while (vozik!=NULL)
 	{
 		if(n_voziku==vozik->n)//pokud byl nalezen
 		{
-			RET=vrat_sumPT_voziku(vozik);
+			SUM=vrat_sumPT_voziku(vozik);
 			break;
 		}
 		vozik=vozik->dalsi;
 	}
-	return RET;
+	return SUM;
 }
 //---------------------------------------------------------------------------
 double Cvektory::vrat_WT_voziku(TVozik *jaky)//vrátí čas čeká vozíku během výroby
@@ -962,6 +966,59 @@ double Cvektory::vrat_WT_voziku(unsigned int n_voziku)//vrátí čas čeká voz�
 		vozik=vozik->dalsi;
 	}
 	return RET;
+}
+//---------------------------------------------------------------------------
+double Cvektory::vrat_TT_voziku(TVozik *jaky)//vrátí takt, resp. rozdíl čásů mezi dokončením tohoto a předchozího vozíku
+{
+	return (jaky->pozice-jaky->predchozi->pozice)/Form1->d.PX2MIN;//ošetřuje i případ prvního prvku a hlavičky, hlavička má pozici nastavenou na nula
+}
+double Cvektory::vrat_TT_voziku(unsigned int n_voziku)//vrátí takt, resp. rozdíl čásů mezi dokončením tohoto a předchozího vozíku
+{
+	double RET=0;
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		if(n_voziku==vozik->n)//pokud byl nalezen
+		{
+			RET=vrat_TT_voziku(vozik);
+			break;
+		}
+		vozik=vozik->dalsi;
+	}
+	return RET;
+}
+//---------------------------------------------------------------------------
+double Cvektory::vrat_prumerne_TT_zakazky(TSeznam_cest *jaka)//vrátí hodnotu průměrného TT mezi vozíky v rámci dané zakázky/cesty
+{
+	unsigned int i=0;
+	double TT=0;
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		if(vozik->cesta==jaka)//pokud byl nalezen v rámci dané cesty
+		{
+			TT+=vrat_TT_voziku(vozik);//zatím se jedná pouze o součet TT
+			i++;//navýší počet pro výpočet průměru
+		}
+		vozik=vozik->dalsi;
+	}
+	return TT/i/Form1->d.PX2MIN;//vrátí průměrné TT
+}
+double Cvektory::vrat_prumerne_TT_zakazky(unsigned int n_zakazky)//vrátí hodnotu průměrného TT mezi vozíky v rámci
+{
+ 	unsigned int i=0;
+	double TT=0;
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		if(vozik->cesta->n==n_zakazky)//pokud byl nalezen v rámci dané cesty
+		{
+			TT+=vrat_TT_voziku(vozik);//zatím se jedná pouze o součet TT
+			i++;//navýší počet pro výpočet průměru
+		}
+		vozik=vozik->dalsi;
+	}
+	return TT/i/Form1->d.PX2MIN;//vrátí průměrné TT
 }
 //---------------------------------------------------------------------------
 unsigned int Cvektory::WIP()//vrátí max. počet vozíků na lince

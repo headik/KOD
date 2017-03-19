@@ -366,6 +366,7 @@ void __fastcall TForm1::casovosa1Click(TObject *Sender)
 			editacelinky1->Checked=false;
 			casoverezervy1->Checked=false;
 			simulace1->Checked=false;
+			d.PosunT=Posun;//výchozí posunutí obrazu Posunu
 			casovosa1->Checked=true;
 			DuvodUlozit(true);
 			RzSizePanel_parametry_projekt->Visible=false;
@@ -636,7 +637,7 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 		d.vykresli_svislici_na_casove_osy(Canvas,minule_souradnice_kurzoru.X);
 		minule_souradnice_kurzoru=TPoint(X,Y);
 		d.vykresli_svislici_na_casove_osy(Canvas,X);
-		SB(UnicodeString(X/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
+		SB(UnicodeString((X-d.P())/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
 	}
 	else //výpis metrických souřadnic
 	{
@@ -2248,7 +2249,9 @@ void __fastcall TForm1::Button9Click(TObject *Sender)
 			//posun na další prvek v seznamu
 			ukaz=ukaz->dalsi;
 		} */
-		ShowMessage(d.v.WIP());
+		//ShowMessage(d.v.WIP());
+		//S(d.v.vrat_WT_voziku(d.v.VOZIKY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi));
+    //ShowMessage(m.cekani_na_palec(60,32.5,3));
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button10Click(TObject *Sender)

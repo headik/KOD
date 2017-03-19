@@ -12,8 +12,8 @@ Cvykresli::Cvykresli()
 	//parametry vykreslovaného obdelníku technologického objektu
 	O_width=50;
 	O_height=40;
-	//měřítko PX na MIN, globální proměná pro využítí výpisu ve SB v Unit1
-	PX2MIN=30.0;
+	//měřítko PX na MIN, globální proměná i pro využítí výpisu ve SB v Unit1
+	PX2MIN=25.0;
 }
 //---------------------------------------------------------------------------
 void Cvykresli::vykresli_vektory(TCanvas *canv)
@@ -329,12 +329,19 @@ void Cvykresli::vykresli_graf_rezervy(TCanvas *canv)
 	 ///------
 }
 //---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+int Cvykresli::P()
+{
+		return 0;//PosunT.x-Form1->Posun.x;
+}
+//---------------------------------------------------------------------------
 //celkové vykreslení módu časové osy
 void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 {
 	v.vymazat_casovou_obsazenost_objektu_a_pozice_voziku(v.OBJEKTY,v.VOZIKY);//vymaže předchozí časovou obsazenost objektů, jinak by se při každém dalším překreslení objekty posovali o obsazenost z předchozího vykreslení
 	short KrokY=30;//vizuální rozteč na ose Y mezi jednotlivými vozíky
-	double X=0.0;//výchozí odsazení na ose X
+	double X=P();//výchozí odsazení na ose X
+
 	int Y=KrokY+Form1->RzToolbar1->Height;
 	Cvektory::TSeznam_cest *SC=v.CESTY->dalsi;
 	while(SC!=NULL)//jde po seznamu cest, po zakázkách
@@ -350,17 +357,21 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 						if(vozik->cesta->n==SC->n)//řeší jenom pro konrétní cestu
 						{
 							if(vozik->pozice==-1)vozik->pozice=0;//protože implicitní hodnota pozice vozíku==-1
+
 							////nastvení počáteční pozice objektu na časové ose daného vozíku
 							if(C->objekt->rezim==0 && vozik->pozice<=C->objekt->obsazenost)X=C->objekt->obsazenost;//zohlednění obsazenost objektu v režimu S&G
 							else X=vozik->pozice;//pro ostatní režimy
+
 							////uložení hodnot pro další využítí
 							if(C->n==1)vozik->start=X;//uloží výchozí X hodnotu, prvního objektu pro daný vozík
 							double X_predchozi=X;//uloží povodní X hodnotu
+
 							////výpočet koncové pozice
-							X+=C->CT*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
+							X+=C->CT*PX2MIN+m.cekani_na_palec(60,32.5,3)/60*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
 							C->objekt->obsazenost=X;//nahraje koncovou X hodnotu do obsaženosti objektu pro další využítí
 							vozik->pozice=X;//uložení pro další použítý
-              ////zajištění vykreslení
+
+							////zajištění vykreslení
 							vykresli_casovou_osu(canv,C->objekt->short_name,vozik->barva,m.round(X_predchozi),m.round(X),Yloc,KrokY);//samotné vykreslení časového obdelníku na časové ose
 							Yloc+=KrokY;//posunutí na ose Y
 						}
@@ -438,35 +449,37 @@ void Cvykresli::vykresli_Xosy(TCanvas *canv)
 		if(i==WidthCanvasCasoveOsy);//	canv->Font->Style=TFontStyles()<< fsBold;
 		else canv->Font->Style = TFontStyles();
 
-		canv->MoveTo(i,0);
-		canv->LineTo(i,HeightCanvasCasoveOsy);
+		canv->MoveTo(i+P(),0);
+		canv->LineTo(i+P(),HeightCanvasCasoveOsy);
 		canv->Brush->Style=bsSolid;
 		canv->Brush->Color=clWhite;
-		canv->TextOutW(i-canv->TextWidth(i/PX2MIN)/2,0+Form1->RzToolbar1->Height,i/PX2MIN);
+		canv->TextOutW(i-canv->TextWidth(i/PX2MIN)/2+P(),0+Form1->RzToolbar1->Height,i/PX2MIN);
 	}
 
 	//začátky a konce zakázek
 	Cvektory::TSeznam_cest *ukaz=v.CESTY->dalsi;
-	while (ukaz!=NULL)
+	while (ukaz!=NULL)//projede všechny zakázky, cesty
 	{
 		TPointD RET=v.vrat_zacatek_a_konec_zakazky(ukaz);
-		canv->Pen->Color=clRed;
+		canv->Pen->Color=ukaz->barva;
+		canv->Brush->Style=bsSolid;
+		canv->Brush->Color=clWhite;
 		if(RET.x>0)
 		{
-			canv->MoveTo(RET.x*PX2MIN,0);
-			canv->LineTo(RET.x*PX2MIN,HeightCanvasCasoveOsy);
+			canv->MoveTo(RET.x*PX2MIN+P(),0);
+			canv->LineTo(RET.x*PX2MIN+P(),HeightCanvasCasoveOsy);
 		}
 		if(RET.y>0)
 		{
-			canv->MoveTo(RET.y*PX2MIN,0);
-			canv->LineTo(RET.y*PX2MIN,HeightCanvasCasoveOsy);
+			canv->MoveTo(RET.y*PX2MIN+P(),0);
+			canv->LineTo(RET.y*PX2MIN+P(),HeightCanvasCasoveOsy);
 		}
 		canv->Brush->Style=bsSolid;
-		canv->Brush->Color=clWhite;
+		canv->Brush->Color=ukaz->barva;
 		canv->Font->Style=TFontStyles()<< fsBold;
-		canv->Font->Color=clRed;
-		if(RET.x>0)canv->TextOutW(RET.x*PX2MIN-canv->TextWidth(RET.x)/2,0+Form1->RzToolbar1->Height,RET.x);
-		if(RET.y>0)canv->TextOutW(RET.y*PX2MIN-canv->TextWidth(RET.y)/2,0+Form1->RzToolbar1->Height,RET.y);
+		canv->Font->Color=clWhite;
+		if(RET.x>0)canv->TextOutW(RET.x*PX2MIN-canv->TextWidth(RET.x)/2+P(),0+Form1->RzToolbar1->Height,RET.x);//zobrazuje pouze větší než začátek obrazovky
+		if(RET.y>0)canv->TextOutW(RET.y*PX2MIN-canv->TextWidth(RET.y)/2+P(),0+Form1->RzToolbar1->Height,RET.y);//zobrazuje pouze větší než začátek obrazovky
 		ukaz=ukaz->dalsi;
 	}
 }

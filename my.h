@@ -42,7 +42,7 @@ class Cmy
 	double delka(double X1,double Y1,double X2,double Y2);
 	TPointD rotace(double delka, double akt_uhel, double rotace);
 	TPointDbool zkratit_polygon_na_roztec(double d, double r,double xp, double yp, double x0, double y0, double x1, double y1);//d - delka linky,r - roztec palcuxp, yp - souradnice oznaceneho bodu x0, y0, x1, y1- souradnice sousedu k oznacenemu bodu
-
+	double cekani_na_palec(double cas, double roztec_palcu, double rychlost_dopravniku);//vrátí dobu èekání na palec v sec, zadání je u èas (výstupu vozíku z objektu) v min, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
 
 	long LeziVblizkostiUsecky(double x, double y, double X1, double Y1, double X2, double Y2);
 

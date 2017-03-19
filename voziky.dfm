@@ -3,7 +3,7 @@ object Form_vozik_nastaveni: TForm_vozik_nastaveni
   Top = 0
   AutoSize = True
   BorderStyle = bsDialog
-  Caption = 'Voz'#237'k - parametry'
+  Caption = 'V'#253'robn'#237' pl'#225'n'
   ClientHeight = 313
   ClientWidth = 881
   Color = clBtnFace

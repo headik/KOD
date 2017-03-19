@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 0
   Caption = 'ELTEP - TISPL - Timing Inspection of Single Purpose Lines'
   ClientHeight = 474
-  ClientWidth = 723
+  ClientWidth = 860
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -32,7 +32,7 @@ object Form1: TForm1
   object RzToolbar1: TRzToolbar
     Left = 0
     Top = 0
-    Width = 723
+    Width = 860
     Height = 29
     Images = ImageList1
     BorderInner = fsNone
@@ -179,7 +179,7 @@ object Form1: TForm1
   object RzStatusBar1: TRzStatusBar
     Left = 0
     Top = 455
-    Width = 723
+    Width = 860
     Height = 19
     BorderInner = fsNone
     BorderOuter = fsNone
@@ -225,7 +225,7 @@ object Form1: TForm1
     object RzStatusPane4: TRzStatusPane
       Left = 378
       Top = 0
-      Width = 345
+      Width = 482
       Height = 19
       Hint = 'Rychl'#225' n'#225'pov'#283'da aplikace'
       Align = alClient
@@ -452,7 +452,7 @@ object Form1: TForm1
   object Memo1: TMemo
     Left = 0
     Top = 406
-    Width = 723
+    Width = 860
     Height = 49
     Align = alBottom
     Lines.Strings = (
@@ -495,7 +495,6 @@ object Form1: TForm1
     Height = 25
     Caption = 'stopka'
     TabOrder = 9
-    Visible = False
     OnClick = Button5Click
   end
   object Button6: TButton
@@ -548,16 +547,17 @@ object Form1: TForm1
     OnClick = Button10Click
   end
   object Chart1: TChart
-    Left = 270
-    Top = 98
+    Left = 438
+    Top = 35
     Width = 76
-    Height = 65
+    Height = 58
     Title.Text.Strings = (
       'TChart')
     TabOrder = 15
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series1: TGanttSeries
+      ValueFormat = '##0.## %'
       ClickableLine = False
       Pointer.InflateMargins = True
       Pointer.Style = psRectangle
@@ -593,10 +593,10 @@ object Form1: TForm1
     end
   end
   object Chart2: TChart
-    Left = 352
-    Top = 94
-    Width = 73
-    Height = 69
+    Left = 520
+    Top = 35
+    Width = 57
+    Height = 58
     Title.Text.Strings = (
       'TChart')
     TabOrder = 16
@@ -616,10 +616,10 @@ object Form1: TForm1
     end
   end
   object Chart3: TChart
-    Left = 431
-    Top = 94
+    Left = 583
+    Top = 35
     Width = 65
-    Height = 70
+    Height = 58
     Title.Text.Strings = (
       'TChart')
     TabOrder = 17
@@ -639,10 +639,10 @@ object Form1: TForm1
     end
   end
   object Chart4: TChart
-    Left = 502
-    Top = 96
-    Width = 57
-    Height = 68
+    Left = 654
+    Top = 35
+    Width = 73
+    Height = 58
     Title.Text.Strings = (
       'TChart')
     TabOrder = 18
@@ -662,10 +662,10 @@ object Form1: TForm1
     end
   end
   object Chart5: TChart
-    Left = 565
-    Top = 98
+    Left = 733
+    Top = 35
     Width = 60
-    Height = 68
+    Height = 58
     Title.Text.Strings = (
       'TChart')
     TabOrder = 19
@@ -1010,7 +1010,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118006C016C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118007401740110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
