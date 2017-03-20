@@ -384,7 +384,7 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 	}
 	WidthCanvasCasoveOsy=m.round(X);//uchová velikost nejdelší osy, pro použítí pro export canvasu do rastru
 	HeightCanvasCasoveOsy=Form1->RzToolbar1->Height+Y;//uchová výšku grafu
-	if(Form1->grid)vykresli_Xosy(canv);//vykreslí statické svislice na časové osy pokud je aktivovaná mřížka
+	if(Form1->grid)vykresli_Xosy(canv,KrokY);//vykreslí statické svislice na časové osy pokud je aktivovaná mřížka
 	Form1->g.ShowGrafy(true);
 	Form1->CheckBoxPALCE->Top=Form1->Chart1->Top-Form1->CheckBoxPALCE->Height;
 	Form1->CheckBoxPALCE->Visible=true;
@@ -431,7 +431,7 @@ void Cvykresli::vykresli_svislici_na_casove_osy(TCanvas *canv,int X)
 }
 //---------------------------------------------------------------------------
 //vykreslí statické svislice na časové osy
-void Cvykresli::vykresli_Xosy(TCanvas *canv)
+void Cvykresli::vykresli_Xosy(TCanvas *canv,short KrokY)
 {
 	canv->Pen->Mode=pmNotXor;
 	canv->Pen->Width=1;    //nastavení šířky pera
@@ -445,8 +445,8 @@ void Cvykresli::vykresli_Xosy(TCanvas *canv)
 	canv->Font->Pitch = TFontPitch::fpFixed;
 	canv->Font->Pitch = System::Uitypes::TFontPitch::fpFixed;
 	short o=1;
-	if(Px()>10)o=-28;
-	canv->TextOutW(o+Px(),0+Form1->RzToolbar1->Height,"[min]"); //popisek osy x
+	if(Px()>10)o=-30;
+	canv->TextOutW(o+Px(),0+Form1->RzToolbar1->Height,"voz|min"); //popisek osy x
 
 	//svislice po dvou minutách
 	int start=PX2MIN*2;if(Px()>0)start=0;
@@ -457,6 +457,18 @@ void Cvykresli::vykresli_Xosy(TCanvas *canv)
 		canv->Brush->Style=bsSolid;
 		canv->Brush->Color=clWhite;
 		canv->TextOutW(i-canv->TextWidth(i/PX2MIN)/2+Px(),0+Form1->RzToolbar1->Height,i/PX2MIN);
+	}
+
+	//svislé číslování vozíků
+	canv->Brush->Style=bsSolid;
+	canv->Font->Style=TFontStyles()<< fsBold;
+	canv->Font->Color=clWhite;
+	Cvektory::TVozik *voz=v.VOZIKY->dalsi;
+	while(voz!=NULL)
+	{
+		canv->Brush->Color=voz->barva;
+		canv->TextOutW(0,Form1->RzToolbar1->Height+voz->n*KrokY-canv->TextHeight(voz->n)/2,voz->n);
+		voz=voz->dalsi;
 	}
 
 	//začátky a konce zakázek
