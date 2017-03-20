@@ -151,6 +151,7 @@ __published:	// IDE-managed Components
 	TBarSeries *Series7;
 	TBarSeries *Series8;
 	TChart *Chart5;
+	TCheckBox *CheckBoxPALCE;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -236,6 +237,8 @@ __published:	// IDE-managed Components
 	void __fastcall Button9Click(TObject *Sender);
 	void __fastcall Button10Click(TObject *Sender);
 	void __fastcall casovosa1Click(TObject *Sender);
+	void __fastcall FormShortCut(TWMKey &Msg, bool &Handled);
+	void __fastcall CheckBoxPALCEClick(TObject *Sender);
 
 
 private:	// User declarations

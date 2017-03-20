@@ -26,6 +26,7 @@ object Form1: TForm1
   OnMouseWheelUp = FormMouseWheelUp
   OnPaint = FormPaint
   OnResize = FormResize
+  OnShortCut = FormShortCut
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -458,19 +459,21 @@ object Form1: TForm1
     Lines.Strings = (
       '')
     TabOrder = 5
+    Visible = False
   end
   object Button2: TButton
-    Left = 584
-    Top = 327
+    Left = 160
+    Top = 329
     Width = 139
     Height = 25
     Caption = 'zav'#233'st pl'#225'n v'#253'roby'
     TabOrder = 6
+    Visible = False
     OnClick = Button2Click
   end
   object Button3: TButton
     Left = 160
-    Top = 138
+    Top = 112
     Width = 85
     Height = 25
     Caption = 'Nav'#283'sit voz'#237'k (0)'
@@ -480,7 +483,7 @@ object Form1: TForm1
   end
   object Button4: TButton
     Left = 160
-    Top = 169
+    Top = 143
     Width = 85
     Height = 25
     Caption = 'Pauza simulace'
@@ -490,16 +493,17 @@ object Form1: TForm1
   end
   object Button5: TButton
     Left = 160
-    Top = 231
+    Top = 205
     Width = 85
     Height = 25
     Caption = 'stopka'
     TabOrder = 9
+    Visible = False
     OnClick = Button5Click
   end
   object Button6: TButton
     Left = 160
-    Top = 262
+    Top = 236
     Width = 85
     Height = 25
     Caption = #269'ekat na palec'
@@ -509,7 +513,7 @@ object Form1: TForm1
   end
   object Button7: TButton
     Left = 160
-    Top = 200
+    Top = 174
     Width = 85
     Height = 25
     Caption = 'Krok simulace'
@@ -519,7 +523,7 @@ object Form1: TForm1
   end
   object Button8: TButton
     Left = 160
-    Top = 293
+    Top = 267
     Width = 85
     Height = 25
     Caption = 'D'#233'lka dopravn'#237'ku'
@@ -529,16 +533,17 @@ object Form1: TForm1
   end
   object Button9: TButton
     Left = 160
-    Top = 375
+    Top = 365
     Width = 129
     Height = 25
     Caption = 'vypsat spoj'#225'k VOZIKY'
     TabOrder = 13
+    Visible = False
     OnClick = Button9Click
   end
   object Button10: TButton
     Left = 160
-    Top = 324
+    Top = 298
     Width = 110
     Height = 25
     Caption = 'zkr'#225'tit linky dle palc'#367
@@ -561,12 +566,14 @@ object Form1: TForm1
       ClickableLine = False
       Pointer.InflateMargins = True
       Pointer.Style = psRectangle
+      XValues.DateTime = False
       XValues.Name = 'Start'
       XValues.Order = loAscending
       YValues.Name = 'Y'
       YValues.Order = loNone
       Callout.Style = psRightTriangle
       Callout.Arrow.Visible = False
+      StartValues.DateTime = False
       StartValues.Name = 'Start'
       StartValues.Order = loAscending
       EndValues.Name = 'End'
@@ -671,6 +678,16 @@ object Form1: TForm1
     TabOrder = 19
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
+  end
+  object CheckBoxPALCE: TCheckBox
+    Left = 0
+    Top = 383
+    Width = 160
+    Height = 17
+    Caption = 'zohlednit rozte'#269' palc'#367' '#345'et'#283'zu'
+    TabOrder = 20
+    Visible = False
+    OnClick = CheckBoxPALCEClick
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -1010,7 +1027,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118007401740110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118007801780110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

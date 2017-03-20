@@ -281,6 +281,7 @@ void __fastcall TForm1::editacelinky1Click(TObject *Sender)
 	simulace1->Checked=false;
 	casoverezervy1->Checked=false;
 	casovosa1->Checked=false;
+	CheckBoxPALCE->Visible=false;
 	g.ShowGrafy(false);
 	RzSizePanel_parametry_projekt->Visible=true;
 	RzSizePanel_knihovna_objektu->Visible=true;
@@ -301,6 +302,7 @@ void __fastcall TForm1::testovnkapacity1Click(TObject *Sender)
 	casoverezervy1->Checked=false;
 	simulace1->Checked=false;
 	casovosa1->Checked=false;
+	CheckBoxPALCE->Visible=false;
 	g.ShowGrafy(false);
 	RzSizePanel_parametry_projekt->Visible=true;
 	RzSizePanel_knihovna_objektu->Visible=true;
@@ -320,6 +322,7 @@ void __fastcall TForm1::casoverezervy1Click(TObject *Sender)
 	casoverezervy1->Checked=true;
 	simulace1->Checked=false;
 	casovosa1->Checked=false;
+	CheckBoxPALCE->Visible=false;
 	g.ShowGrafy(false);
 	DuvodUlozit(true);
 	RzSizePanel_parametry_projekt->Visible=false;
@@ -339,6 +342,7 @@ void __fastcall TForm1::simulace1Click(TObject *Sender)
 	casoverezervy1->Checked=false;
 	simulace1->Checked=true;
 	casovosa1->Checked=false;
+	CheckBoxPALCE->Visible=false;
 	g.ShowGrafy(false);
 	DuvodUlozit(true);
 	RzSizePanel_parametry_projekt->Visible=false;
@@ -521,6 +525,23 @@ void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key, TShiftState Shift)
 		//vrat_puvodni_akci();
 	}
 
+}
+//---------------------------------------------------------------------------
+//explicitní klávesové zkratky
+void __fastcall TForm1::FormShortCut(TWMKey &Msg, bool &Handled)
+{                           //prozatim jen pro účely vývoje
+		if (Msg.CharCode==VK_F11)
+		{
+			Memo1->Visible=true;
+			Button9->Visible=true;
+			Button5->Visible=true;
+		}
+		if (Msg.CharCode==VK_F12)
+		{
+			Memo1->Visible=false;
+			Button9->Visible=false;
+			Button5->Visible=false;
+		}
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormMouseWheelUp(TObject *Sender, TShiftState Shift, TPoint &MousePos,
@@ -1523,6 +1544,7 @@ void __fastcall TForm1::Edit_pocet_vozikuChange(TObject *Sender)
 //volá dialog k nastavení parametrů voziku
 void __fastcall TForm1::Button_vozik_parametryClick(TObject *Sender)
 {
+	if(d.v.VOZIKY->dalsi->cesta==NULL)Button2Click(Sender);//zatím provizorní záležitost načtení pálnu výroby
 	Form_vozik_nastaveni->Left=0;
 	Form_vozik_nastaveni->Top=0+vyska_menu+RzToolbar1->Height;
 	if(IDOK==Form_vozik_nastaveni->ShowModal())DuvodUlozit(true);
@@ -2086,6 +2108,7 @@ void __fastcall TForm1::html1Click(TObject *Sender)
 
 void __fastcall TForm1::Button2Click(TObject *Sender)
 {
+
 	/*Cvektory::TObjekt *ukaz;
 	ukaz=d.v.OBJEKTY->dalsi;//přeskočí hlavičku
 
@@ -2096,7 +2119,8 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 	}*/
 	//ShowMessage(d.v.seznam_dopravniku);
 
- 	///sekce natvrdo
+	///sekce natvrdo
+  Button2->Visible=false;
 	d.v.hlavicka_seznamu_cest();
 	//cesta 1
 	Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
@@ -2251,7 +2275,9 @@ void __fastcall TForm1::Button9Click(TObject *Sender)
 		} */
 		//ShowMessage(d.v.WIP());
 		//S(d.v.vrat_WT_voziku(d.v.VOZIKY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi));
-    //ShowMessage(m.cekani_na_palec(60,32.5,3));
+		//ShowMessage(m.cekani_na_palec(60,32.5,3));
+		ShowMessage(d.v.vrat_prumerne_TT_zakazky(d.v.CESTY->dalsi));
+		ShowMessage(d.v.vrat_prumerne_TT_zakazky(d.v.CESTY->dalsi->dalsi));
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button10Click(TObject *Sender)
@@ -2275,6 +2301,11 @@ void __fastcall TForm1::Button10Click(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
-
+void __fastcall TForm1::CheckBoxPALCEClick(TObject *Sender)
+{
+ Invalidate();
+}
+//---------------------------------------------------------------------------
 

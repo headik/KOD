@@ -991,34 +991,44 @@ double Cvektory::vrat_TT_voziku(unsigned int n_voziku)//vrátí takt, resp. rozd
 double Cvektory::vrat_prumerne_TT_zakazky(TSeznam_cest *jaka)//vrátí hodnotu průměrného TT mezi vozíky v rámci dané zakázky/cesty
 {
 	unsigned int i=0;
+	bool prvni_vozik_zakazky=true;//ignorace taktu prvního vozíku
 	double TT=0;
 	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
 	while (vozik!=NULL)
 	{
-		if(vozik->cesta==jaka)//pokud byl nalezen v rámci dané cesty
+		if(vozik->cesta==jaka)//pokud byl nalezen v rámci dané cesty a zároveň se nejedná o první vozík v zakázce, tak aby se nezohledňoval takt z vyplývající z náběhu link či přechodu mezi zakázkami
 		{
-			TT+=vrat_TT_voziku(vozik);//zatím se jedná pouze o součet TT
-			i++;//navýší počet pro výpočet průměru
+			if(prvni_vozik_zakazky)prvni_vozik_zakazky=false;//ignorace taktu prvn9ho vozíku
+			else
+			{
+				TT+=vrat_TT_voziku(vozik);//zatím se jedná pouze o součet TT
+				i++;//navýší počet pro výpočet průměru
+			}
 		}
 		vozik=vozik->dalsi;
 	}
-	return TT/i/Form1->d.PX2MIN;//vrátí průměrné TT
+	return TT/i;//vrátí průměrné TT
 }
 double Cvektory::vrat_prumerne_TT_zakazky(unsigned int n_zakazky)//vrátí hodnotu průměrného TT mezi vozíky v rámci
 {
- 	unsigned int i=0;
+	unsigned int i=0;
+	bool prvni_vozik_zakazky=true;//ignorace taktu prvního vozíku
 	double TT=0;
 	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
 	while (vozik!=NULL)
 	{
-		if(vozik->cesta->n==n_zakazky)//pokud byl nalezen v rámci dané cesty
+		if(vozik->cesta->n==n_zakazky)//pokud byl nalezen v rámci dané cesty a zároveň se nejedná o první vozík v zakázce, tak aby se nezohledňoval takt z vyplývající z náběhu link či přechodu mezi zakázkami
 		{
-			TT+=vrat_TT_voziku(vozik);//zatím se jedná pouze o součet TT
-			i++;//navýší počet pro výpočet průměru
+			if(prvni_vozik_zakazky)prvni_vozik_zakazky=false;//ignorace taktu prvního vozíku
+			else
+			{
+				TT+=vrat_TT_voziku(vozik);//zatím se jedná pouze o součet TT
+				i++;//navýší počet pro výpočet průměru
+			}
 		}
 		vozik=vozik->dalsi;
 	}
-	return TT/i/Form1->d.PX2MIN;//vrátí průměrné TT
+	return TT/i;//vrátí průměrné TT
 }
 //---------------------------------------------------------------------------
 unsigned int Cvektory::WIP()//vrátí max. počet vozíků na lince
