@@ -24,7 +24,7 @@ class Cvykresli
 	void vykresli_grid(TCanvas *canv, int size_grid=10);
 	void vykresli_graf_rezervy(TCanvas *canv);//mód graf rezerv
 	void vykresli_casove_osy(TCanvas *canv);//celkové vykreslení módu èasové osy
-	void vykresli_Xosy(TCanvas *canv);//vykreslí statické svislice na èasové osy
+	void vykresli_Xosy(TCanvas *canv, short KrokY);//vykreslí statické svislice na èasové osy
 	void vykresli_casovou_osu(TCanvas *canv, AnsiString shortname, TColor color, int X1, int X2,int Y, short KrokY);
 	void vykresli_svislici_na_casove_osy(TCanvas *canv,int X);//vykreslí pohyblivou svislici na èasové osy dle umístìní kurzoru myši
 	void vykresli_simulaci(TCanvas *canv);//zajišuje vykreslení simulace
