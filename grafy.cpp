@@ -19,7 +19,7 @@ void Cgrafy::ShowGrafy(bool stav) {
 	Form1->Chart2->Visible = stav;
 	Form1->Chart3->Visible = stav;
 	Form1->Chart4->Visible = stav;
-	Form1->Chart5->Visible = stav;
+	Form1->Chart5->Visible = false;
 	// Form1->CheckBox1->Visible = stav;
 	// Form1->CheckBox2->Visible = stav;
 
@@ -228,14 +228,15 @@ void Cgrafy::graf5() { // WIP stats
 	Form1->Chart5->AxisVisible = false;
    //	Form1->Chart5->Visible = false;
 
-   //	Form1->Label6->Visible = true;
-   //	Form1->Label6->Top = Form1->Chart5->Top;
-   //	Form1->Label6->Left = Form1->Chart1->Width + Form1->Chart2->Width +
-		Form1->Chart3->Width + Form1->Chart4->Width;
+	Form1->Label6->Visible = true;
+	Form1->Label6->Font->Size=25;
+	Form1->Label6->Top = Form1->Chart5->Top + 70 ;
+	Form1->Label6->Left = Form1->Chart1->Width + Form1->Chart2->Width +
+		Form1->Chart3->Width + Form1->Chart4->Width + 70;
 
-   //	Form1->Label6->Caption = Form1->d.v.WIP();
+	Form1->Label6->Caption = Form1->d.v.WIP();
 
-	 Form1->Chart5->Title->Caption= Form1->d.v.WIP();
+  //	 Form1->Chart5->Title->Caption= Form1->d.v.WIP();
 
 }
 //// ---------------------------------------------------------------------------
