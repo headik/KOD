@@ -30,6 +30,14 @@ object Form1: TForm1
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object Label6: TLabel
+    Left = 544
+    Top = 312
+    Width = 31
+    Height = 13
+    Caption = 'Label6'
+    Visible = False
+  end
   object RzToolbar1: TRzToolbar
     Left = 0
     Top = 0
@@ -668,26 +676,26 @@ object Form1: TForm1
       YValues.Order = loNone
     end
   end
-  object Chart5: TChart
-    Left = 733
-    Top = 35
-    Width = 60
-    Height = 58
-    Title.Text.Strings = (
-      'TChart')
-    TabOrder = 19
-    DefaultCanvas = 'TGDIPlusCanvas'
-    ColorPaletteIndex = 13
-  end
   object CheckBoxPALCE: TCheckBox
     Left = 0
     Top = 383
     Width = 160
     Height = 17
     Caption = 'zohlednit rozte'#269' palc'#367' '#345'et'#283'zu'
-    TabOrder = 20
+    TabOrder = 19
     Visible = False
     OnClick = CheckBoxPALCEClick
+  end
+  object Chart5: TChart
+    Left = 433
+    Top = 114
+    Width = 81
+    Height = 42
+    Title.Text.Strings = (
+      'TChart')
+    TabOrder = 20
+    DefaultCanvas = 'TGDIPlusCanvas'
+    ColorPaletteIndex = 13
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -1027,7 +1035,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118007801780110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101180078017C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

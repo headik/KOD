@@ -2125,7 +2125,7 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 	//cesta 1
 	Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
 	d.v.hlavicka_jedne_cesty(cesta_pom);
-	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi);
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi,4);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi);
@@ -2135,7 +2135,7 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 	//cesta 2
 	Cvektory::TSeznam_cest *cesta_pom2=new Cvektory::TSeznam_cest;
 	d.v.hlavicka_jedne_cesty(cesta_pom2);
-	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi,2);
+	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi,4);
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi,3);
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi);
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi);

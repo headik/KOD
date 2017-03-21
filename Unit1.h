@@ -150,8 +150,9 @@ __published:	// IDE-managed Components
 	TChart *Chart4;
 	TBarSeries *Series7;
 	TBarSeries *Series8;
-	TChart *Chart5;
 	TCheckBox *CheckBoxPALCE;
+	TLabel *Label6;
+	TChart *Chart5;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
