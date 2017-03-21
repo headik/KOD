@@ -369,6 +369,7 @@ void __fastcall TForm_parametry::FormClose(TObject *Sender, TCloseAction &Action
 void __fastcall TForm_parametry::Edit_nameChange(TObject *Sender)
 {
 	 Form_parametry->Caption=Edit_name->Text+" - parametry";
+	 Edit_shortname->Text=Edit_name->Text.SubString(1,3);
 }
 //---------------------------------------------------------------------------
 //pøi stisku Enteru do editu vzdálenosti

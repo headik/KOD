@@ -240,6 +240,7 @@ __published:	// IDE-managed Components
 	void __fastcall casovosa1Click(TObject *Sender);
 	void __fastcall FormShortCut(TWMKey &Msg, bool &Handled);
 	void __fastcall CheckBoxPALCEClick(TObject *Sender);
+	void __fastcall FormDblClick(TObject *Sender);
 
 
 private:	// User declarations
