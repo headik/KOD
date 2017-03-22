@@ -31,11 +31,19 @@ object Form1: TForm1
   PixelsPerInch = 96
   TextHeight = 13
   object Label6: TLabel
-    Left = 544
-    Top = 312
+    Left = 448
+    Top = 210
     Width = 31
     Height = 13
     Caption = 'Label6'
+    Visible = False
+  end
+  object Label7: TLabel
+    Left = 448
+    Top = 191
+    Width = 31
+    Height = 13
+    Caption = 'Label7'
     Visible = False
   end
   object RzToolbar1: TRzToolbar
@@ -566,9 +574,12 @@ object Form1: TForm1
     Height = 58
     Title.Text.Strings = (
       'TChart')
+    Panning.MouseWheel = pmwNone
+    View3D = False
+    ZoomWheel = pmwNormal
     TabOrder = 15
     DefaultCanvas = 'TGDIPlusCanvas'
-    ColorPaletteIndex = 13
+    ColorPaletteIndex = 19
     object Series1: TGanttSeries
       ValueFormat = '##0.## %'
       ClickableLine = False
@@ -614,6 +625,7 @@ object Form1: TForm1
     Height = 58
     Title.Text.Strings = (
       'TChart')
+    View3D = False
     TabOrder = 16
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
@@ -622,12 +634,14 @@ object Form1: TForm1
       XValues.Order = loAscending
       YValues.Name = 'Bar'
       YValues.Order = loNone
+      Data = {0000000000}
     end
     object Series4: TBarSeries
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Bar'
       YValues.Order = loNone
+      Data = {0000000000}
     end
   end
   object Chart3: TChart
@@ -637,6 +651,7 @@ object Form1: TForm1
     Height = 58
     Title.Text.Strings = (
       'TChart')
+    View3D = False
     TabOrder = 17
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
@@ -660,6 +675,7 @@ object Form1: TForm1
     Height = 58
     Title.Text.Strings = (
       'TChart')
+    View3D = False
     TabOrder = 18
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13

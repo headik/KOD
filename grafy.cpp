@@ -31,11 +31,15 @@ void Cgrafy::ShowGrafy(bool stav) {
 }
 
 void Cgrafy::graf1() {
-	//
+
+
 	Form1->Chart1->Left = 0;
 	Form1->Chart1->Width = Form1->ClientWidth / 5 * 1, 5;
 	Form1->Chart1->Height = Form1->ClientHeight / 3 * 1, 5;
 	Form1->Series1->Clear();
+	Form1->Chart1->LeftAxis->Title->Caption="plán";
+	Form1->Chart1->BottomAxis->Title->Caption="min";
+	Form1->Chart1->Title->Caption = "Èasové stavy zakázek";
 
 	if (Form1->Memo1->Visible) {
 		Form1->Chart1->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
@@ -45,8 +49,8 @@ void Cgrafy::graf1() {
 		Form1->Chart1->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
 			Form1->Chart1->Height;
 	}
+	Form1->Chart1->Title->Font->Size=14;
 
-	Form1->Chart1->Title->Caption = "Èasové stavy zakázky";
 	// Form1->Chart1->Legend->Title="Èas";
 
 	/* FDQuery1->Open("select distinct(id_planu) from casy_objektu");
@@ -66,22 +70,23 @@ void Cgrafy::graf1() {
 	 FDQuery2->Next();
 	 }
 	 */
-
-	// Form1->Series1->AddGantt(0, 20, 1, "z1:0-20");
-	// Form1->Series1->AddGantt(15, 80, 2, "z2:15-80");
-	// Form1->Series1->AddGantt(60, 100, 3, "z3:60-100");
-	// Form1->Series1->AddGantt(60, 100, 4, "z4:60-100");
 	// Form1->Series1->AddGantt(90, 100, 5, "z5:90-100");
 	// Series1->AddGantt();
-	// Series2->Add(15,2,"z3",clYellow);
+	Form1->Series1->Legend->Text="legenda";
+
+		Form1->Series1->Legend->Visible=false;
+		Form1->Series2->Legend->Visible=false;
+
+
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
 	// ukazatel na první objekt v seznamu OBJEKTU, pøeskoèí hlavièku
 	while (ukaz != NULL) {
 		TPointD z = Form1->d.v.vrat_zacatek_a_konec_zakazky(ukaz);
 
-		Form1->Series1->AddGantt(z.x, z.y, ukaz->n,
-			AnsiString(z.x) + "-" + AnsiString(z.y));
-
+		Form1->Series1->AddGanttColor(z.x, z.y, ukaz->n,
+			AnsiString(z.x) + "-" + AnsiString(z.y)+ "" ,ukaz->barva);
+	   //	Form1->Series1->Legend->Text=AnsiString(ukaz->n);
+				//Form1->Series2->Color=ukaz->barva;
 		// posun na další prvek v seznamu
 		ukaz = ukaz->dalsi;
 	}
@@ -95,13 +100,18 @@ void Cgrafy::graf2() {
 
 	if (Form1->Memo1->Visible) {
 		Form1->Chart2->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
-			Form1->Memo1->Height - Form1->Chart1->Height;
+		Form1->Memo1->Height - Form1->Chart1->Height;
 	}
 	else {
 		Form1->Chart2->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
-			Form1->Chart1->Height;
+		Form1->Chart1->Height;
 	}
+	Form1->Chart2->Legend->Visible=false;
+	Form1->Chart2->Title->Font->Size=14;
 	Form1->Chart2->Title->Caption = "TT zakázek";
+	Form1->Chart2->LeftAxis->Title->Caption="min";
+	Form1->Chart2->BottomAxis->Title->Caption="plán ID";
+
 
 	Form1->Chart2->Left = Form1->Chart1->Width;
 	Form1->Chart2->Width = Form1->ClientWidth / 5 * 1, 5;
@@ -137,6 +147,8 @@ void Cgrafy::graf2() {
 		Form1->Series3->Add(Form1->d.v.vrat_prumerne_TT_zakazky(ukaz), ukaz->n,
 			ukaz->barva);
 
+		  //		Form1->Series3->Marks->St;
+
 		ukaz = ukaz->dalsi;
 
 	}
@@ -156,6 +168,7 @@ void Cgrafy::graf3() {
 		Form1->Chart3->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
 			Form1->Chart1->Height;
 	}
+	Form1->Chart3->Title->Font->Size=14;
 	Form1->Chart3->Title->Caption = "Graf kapacit";
 
 	Form1->Chart3->Left = Form1->Chart1->Width + Form1->Chart2->Width;
@@ -171,6 +184,7 @@ void Cgrafy::graf3() {
 	Form1->Series6->Add(3, "lak", clRed);
 	Form1->Series5->Add(2, "lak2", clYellow);
 	Form1->Series6->Add(2, "lak2", clRed);
+	//Form1->Chart5->AddSeries()
 
 }
 
@@ -187,8 +201,8 @@ void Cgrafy::graf4() {
 		Form1->Chart4->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
 			Form1->Chart1->Height;
 	}
-
-	Form1->Chart4->Title->Caption = "XXX";
+	Form1->Chart4->Title->Font->Size=14;
+	Form1->Chart4->Title->Caption = "Graf prostojù";
 
 	Form1->Chart4->Left = Form1->Chart1->Width + Form1->Chart2->Width +
 		Form1->Chart3->Width;
@@ -198,12 +212,20 @@ void Cgrafy::graf4() {
 	Form1->Series7->Clear();
 	Form1->Series8->Clear();
 	// souèet technolog. èasù vs souèet prostojù dle zakázek
+	Cvektory::TSeznam_cest *ukaz=Form1->d.v.CESTY->dalsi;
+	Cvektory::TVozik *ukaz1=Form1->d.v.VOZIKY->dalsi;
+	 while (ukaz != NULL){
 
-	Form1->Series7->Add(20, "Zak1", clBlue);
-	Form1->Series8->Add(5, "prostoj", clRed);
+			Form1->Series7->Add(Form1->d.v.vrat_sumPT_voziku(ukaz1),ukaz->n, ukaz->barva);
+			Form1->Series8->Add(Form1->d.v.vrat_WT_voziku(ukaz1),ukaz->n, ukaz->barva);
+     ukaz=ukaz->dalsi;
+	 }
 
-	Form1->Series7->Add(74, "Zak2", clBlue);
-	Form1->Series8->Add(30, "prostoj", clRed);
+  //	Form1->Series7->Add(20, "Zak1", clBlue);
+  //	Form1->Series8->Add(5, "prostoj", clRed);
+
+  //	Form1->Series7->Add(74, "Zak2", clBlue);
+  //	Form1->Series8->Add(30, "prostoj", clRed);
 
 }
 
@@ -232,8 +254,15 @@ void Cgrafy::graf5() { // WIP stats
 	Form1->Label6->Font->Size=25;
 	Form1->Label6->Top = Form1->Chart5->Top + 70 ;
 	Form1->Label6->Left = Form1->Chart1->Width + Form1->Chart2->Width +
-		Form1->Chart3->Width + Form1->Chart4->Width + 70;
+	Form1->Chart3->Width + Form1->Chart4->Width + 70;
 
+	Form1->Label7->Top= Form1->Chart5->Top + 70 - Form1->Label6->Font->Size;
+	Form1->Label7->Left= Form1->Chart1->Width + Form1->Chart2->Width +
+	Form1->Chart3->Width + Form1->Chart4->Width + 70;
+
+	Form1->Label7->Visible = true;
+	Form1->Label7->Font->Size=25;
+	Form1->Label7->Caption="WIP";
 	Form1->Label6->Caption = Form1->d.v.WIP();
 
   //	 Form1->Chart5->Title->Caption= Form1->d.v.WIP();
