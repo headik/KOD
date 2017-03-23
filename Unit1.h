@@ -150,10 +150,11 @@ __published:	// IDE-managed Components
 	TLabel *Label7;
 	TBarSeries *Series3;
 	TBarSeries *Series4;
-	TBarSeries *Series5;
-	TBarSeries *Series6;
 	TBarSeries *Series7;
 	TBarSeries *Series8;
+	TBarSeries *Series5;
+	TBarSeries *Series6;
+	TPanel *Panel1;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -241,6 +242,7 @@ __published:	// IDE-managed Components
 	void __fastcall casovosa1Click(TObject *Sender);
 	void __fastcall FormShortCut(TWMKey &Msg, bool &Handled);
 	void __fastcall CheckBoxPALCEClick(TObject *Sender);
+	void __fastcall Chart1Click(TObject *Sender);
 
 
 private:	// User declarations

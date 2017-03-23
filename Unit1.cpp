@@ -2309,3 +2309,15 @@ void __fastcall TForm1::CheckBoxPALCEClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TForm1::Chart1Click(TObject *Sender)
+{
+	// Panel1->Visible=true;
+	// Panel1->Width=ClientWidth;
+	// Panel1->Height=ClientHeight;
+
+
+
+
+}
+//---------------------------------------------------------------------------
+
