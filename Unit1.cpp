@@ -535,12 +535,14 @@ void __fastcall TForm1::FormShortCut(TWMKey &Msg, bool &Handled)
 			Memo1->Visible=true;
 			Button9->Visible=true;
 			Button5->Visible=true;
+			Button2->Visible=true;
 		}
 		if (Msg.CharCode==VK_F12)
 		{
 			Memo1->Visible=false;
 			Button9->Visible=false;
 			Button5->Visible=false;
+			Button2->Visible=false;
 		}
 }
 //---------------------------------------------------------------------------
@@ -1544,6 +1546,7 @@ void __fastcall TForm1::Edit_pocet_vozikuChange(TObject *Sender)
 //volá dialog k nastavení parametrů voziku
 void __fastcall TForm1::Button_vozik_parametryClick(TObject *Sender)
 {
+	//if(d.v.VOZIKY->dalsi->cesta==NULL)Button2Click(Sender);//zatím provizorní záležitost načtení pálnu výroby
 	if(d.v.VOZIKY->dalsi->cesta==NULL)Button2Click(Sender);//zatím provizorní záležitost načtení pálnu výroby
 	Form_vozik_nastaveni->Left=0;
 	Form_vozik_nastaveni->Top=0+vyska_menu+RzToolbar1->Height;
@@ -2120,11 +2123,27 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 	//ShowMessage(d.v.seznam_dopravniku);
 
 	///sekce natvrdo
-  Button2->Visible=false;
+	Button2->Visible=false;
 	d.v.hlavicka_seznamu_cest();
 	//cesta 1
 	Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
 	d.v.hlavicka_jedne_cesty(cesta_pom);
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi);//nav
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi);//ion
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi);//ion
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi);//lak
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi);//vy+t
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi);//lak
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi);//vzt
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi);//lak
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi);//vyt3
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi);//lak3
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi);//vyt3
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi);//vyt3
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi);//vyt3
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi);//vyt3
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi);//vyt3
+
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi,4);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi);
@@ -2132,6 +2151,7 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi);
 	d.v.vloz_cestu(cesta_pom);//vloží novou hotovou cestu do spoj.seznamu cest
+	/*//cesta 2
 	//cesta 2
 	Cvektory::TSeznam_cest *cesta_pom2=new Cvektory::TSeznam_cest;
 	d.v.hlavicka_jedne_cesty(cesta_pom2);
@@ -2140,6 +2160,7 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi);
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi);
 	d.v.vloz_cestu(cesta_pom2);//vloží novou hotovou cestu do spoj.seznamu cest
+	//ShowMessage(d.v.CESTY->dalsi->cesta->predchozi->n); */
 	//ShowMessage(d.v.CESTY->dalsi->cesta->predchozi->n);
 	////
 
@@ -2306,6 +2327,12 @@ void __fastcall TForm1::Button10Click(TObject *Sender)
 void __fastcall TForm1::CheckBoxPALCEClick(TObject *Sender)
 {
  Invalidate();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::FormDblClick(TObject *Sender)
+{
+Nastvitparametry1Click(Sender);
 }
 //---------------------------------------------------------------------------
 

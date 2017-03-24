@@ -17,6 +17,7 @@ object Form1: TForm1
   WindowState = wsMaximized
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
+  OnDblClick = FormDblClick
   OnKeyDown = FormKeyDown
   OnKeyUp = FormKeyUp
   OnMouseDown = FormMouseDown

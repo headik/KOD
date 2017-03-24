@@ -1031,6 +1031,27 @@ double Cvektory::vrat_prumerne_TT_zakazky(unsigned int n_zakazky)//vrátí hodno
 	return TT/i;//vrátí průměrné TT
 }
 //---------------------------------------------------------------------------
+unsigned int Cvektory::vrat_pocet_voziku_zakazky(TSeznam_cest *jaka)
+{
+	unsigned int RET=0;
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		if(vozik->cesta==jaka)RET++;
+	}
+	return RET;
+}
+unsigned int Cvektory::vrat_pocet_voziku_zakazky(unsigned int n_zakazky)
+{
+	unsigned int RET=0;
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		if(vozik->cesta->n==jaka->n)RET++;
+	}
+	return RET;
+}
+//---------------------------------------------------------------------------
 unsigned int Cvektory::WIP()//vrátí max. počet vozíků na lince
 {
 	unsigned int pocet_final=0;
