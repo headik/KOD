@@ -32,11 +32,19 @@ object Form1: TForm1
   PixelsPerInch = 96
   TextHeight = 13
   object Label6: TLabel
-    Left = 544
-    Top = 312
+    Left = 448
+    Top = 210
     Width = 31
     Height = 13
     Caption = 'Label6'
+    Visible = False
+  end
+  object Label7: TLabel
+    Left = 448
+    Top = 191
+    Width = 31
+    Height = 13
+    Caption = 'Label7'
     Visible = False
   end
   object RzToolbar1: TRzToolbar
@@ -567,24 +575,39 @@ object Form1: TForm1
     Height = 58
     Title.Text.Strings = (
       'TChart')
+    Panning.MouseWheel = pmwNone
+    View3D = False
+    ZoomWheel = pmwNormal
     TabOrder = 15
+    OnClick = Chart1Click
     DefaultCanvas = 'TGDIPlusCanvas'
-    ColorPaletteIndex = 13
+    PrintMargins = (
+      15
+      12
+      15
+      12)
+    ColorPaletteIndex = 19
     object Series1: TGanttSeries
+      Marks.Children = <
+        item
+          Shape.ShapeStyle = fosRectangle
+          Shape.Style = smsValue
+        end>
+      Marks.ChildLayout = slLeftRight
       ValueFormat = '##0.## %'
       ClickableLine = False
       Pointer.InflateMargins = True
       Pointer.Style = psRectangle
       XValues.DateTime = False
       XValues.Name = 'Start'
-      XValues.Order = loAscending
+      XValues.Order = loNone
       YValues.Name = 'Y'
       YValues.Order = loNone
       Callout.Style = psRightTriangle
       Callout.Arrow.Visible = False
       StartValues.DateTime = False
       StartValues.Name = 'Start'
-      StartValues.Order = loAscending
+      StartValues.Order = loNone
       EndValues.Name = 'End'
       EndValues.Order = loNone
       NextTask.Name = 'NextTask'
@@ -615,20 +638,32 @@ object Form1: TForm1
     Height = 58
     Title.Text.Strings = (
       'TChart')
+    View3D = False
     TabOrder = 16
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series3: TBarSeries
+      Marks.Children = <
+        item
+          Shape.ShapeStyle = fosRectangle
+          Shape.Visible = False
+          Shape.Style = smsXValue
+        end>
+      Marks.Style = smsValue
+      MultiBar = mbNone
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Bar'
       YValues.Order = loNone
+      Data = {0000000000}
     end
     object Series4: TBarSeries
+      MultiBar = mbNone
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Bar'
       YValues.Order = loNone
+      Data = {0000000000}
     end
   end
   object Chart3: TChart
@@ -638,16 +673,27 @@ object Form1: TForm1
     Height = 58
     Title.Text.Strings = (
       'TChart')
+    View3D = False
     TabOrder = 17
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series5: TBarSeries
+      Marks.Transparency = 30
+      Marks.Style = smsValue
+      Marks.Callout.ArrowHead = ahLine
+      MultiBar = mbStacked
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Bar'
       YValues.Order = loNone
     end
     object Series6: TBarSeries
+      BarBrush.Gradient.EndColor = 3513587
+      BarBrush.Gradient.Visible = True
+      Marks.Style = smsValue
+      Gradient.EndColor = 3513587
+      Gradient.Visible = True
+      MultiBar = mbStacked
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Bar'
@@ -661,6 +707,7 @@ object Form1: TForm1
     Height = 58
     Title.Text.Strings = (
       'TChart')
+    View3D = False
     TabOrder = 18
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
@@ -697,6 +744,15 @@ object Form1: TForm1
     TabOrder = 20
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
+  end
+  object Panel1: TPanel
+    Left = 542
+    Top = 289
+    Width = 185
+    Height = 41
+    Caption = 'Panel1'
+    TabOrder = 21
+    Visible = False
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -1036,7 +1092,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118008001800110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118007801800110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

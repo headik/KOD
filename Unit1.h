@@ -139,20 +139,22 @@ __published:	// IDE-managed Components
 	TButton *Button10;
 	TMenuItem *casovosa1;
 	TChart *Chart1;
-	TGanttSeries *Series1;
 	TChart *Chart2;
-	TGanttSeries *Series2;
-	TBarSeries *Series3;
-	TBarSeries *Series4;
 	TChart *Chart3;
-	TBarSeries *Series5;
-	TBarSeries *Series6;
 	TChart *Chart4;
-	TBarSeries *Series7;
-	TBarSeries *Series8;
 	TCheckBox *CheckBoxPALCE;
 	TLabel *Label6;
 	TChart *Chart5;
+	TGanttSeries *Series2;
+	TGanttSeries *Series1;
+	TLabel *Label7;
+	TBarSeries *Series3;
+	TBarSeries *Series4;
+	TBarSeries *Series7;
+	TBarSeries *Series8;
+	TBarSeries *Series5;
+	TBarSeries *Series6;
+	TPanel *Panel1;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -240,7 +242,7 @@ __published:	// IDE-managed Components
 	void __fastcall casovosa1Click(TObject *Sender);
 	void __fastcall FormShortCut(TWMKey &Msg, bool &Handled);
 	void __fastcall CheckBoxPALCEClick(TObject *Sender);
-	void __fastcall FormDblClick(TObject *Sender);
+	void __fastcall Chart1Click(TObject *Sender);
 
 
 private:	// User declarations
