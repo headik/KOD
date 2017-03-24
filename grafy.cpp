@@ -137,6 +137,7 @@ void Cgrafy::graf2() {
 //// ---------------------------------------------------------------------------
 void Cgrafy::graf3() {
 
+
 	// defaultní vykreslení grafu (checkbox reší událost onclick)
 
 	if (Form1->Memo1->Visible) {
@@ -152,7 +153,7 @@ void Cgrafy::graf3() {
 	Form1->Chart3->BottomAxis->Title->Caption = "plán";
 
 	Form1->Chart3->Title->Font->Size = 14;
-	Form1->Chart3->Title->Caption = "Technologické èasy";
+	Form1->Chart3->Title->Caption = "Vytíženost zakázky";
 
 	Form1->Chart3->Left = Form1->Chart1->Width + Form1->Chart2->Width;
 	Form1->Chart3->Width = Form1->ClientWidth / 5 * 1, 5;
@@ -160,6 +161,8 @@ void Cgrafy::graf3() {
 
 	Form1->Series5->Clear();
 	Form1->Series6->Clear();
+
+   	Form1->Chart1->SaveToBitmapFile("obr");
 
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
 	Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
@@ -191,7 +194,9 @@ void Cgrafy::graf4() {
 			Form1->Chart1->Height;
 	}
 	Form1->Chart4->Title->Font->Size = 14;
-	Form1->Chart4->Title->Caption = "Graf prostojù";
+	Form1->Chart4->Title->Caption = "Pomìr vozíkù";
+
+
 
 	Form1->Chart4->Left = Form1->Chart1->Width + Form1->Chart2->Width +
 		Form1->Chart3->Width;
@@ -199,12 +204,12 @@ void Cgrafy::graf4() {
 	Form1->Chart4->Height = Form1->ClientHeight / 3 * 1, 5;
 
 	Form1->Series7->Clear();
-	Form1->Series8->Clear();
+
 
 	// souèet technolog. èasù vs souèet prostojù dle zakázek
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
 	Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
-	while (ukaz != NULL) {
+ /*	while (ukaz != NULL) {
 
 		Form1->Series7->Add(Form1->d.v.vrat_sumPT_voziku(ukaz1), ukaz->n,
 			ukaz->barva);
@@ -212,12 +217,12 @@ void Cgrafy::graf4() {
 		Form1->Series8->Add(Form1->d.v.vrat_WT_voziku(ukaz1), ukaz->n,
 			ukaz->barva);
 		ukaz = ukaz->dalsi;
-	}
+	}     */
 
-	// Form1->Series7->Add(20, "Zak1", clBlue);
+	 Form1->Series7->Add(70, "Zak1", clYellow);
 	// Form1->Series8->Add(5, "prostoj", clRed);
 
-	// Form1->Series7->Add(74, "Zak2", clBlue);
+	 Form1->Series7->Add(30, "Zak2", clBlue);
 	// Form1->Series8->Add(30, "prostoj", clRed);
 
 }
