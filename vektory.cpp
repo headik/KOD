@@ -1047,7 +1047,7 @@ unsigned int Cvektory::vrat_pocet_voziku_zakazky(unsigned int n_zakazky)
 	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
 	while (vozik!=NULL)
 	{
-		if(vozik->cesta->n==jaka->n)RET++;
+		if(vozik->cesta->n==n_zakazky)RET++;
 	}
 	return RET;
 }

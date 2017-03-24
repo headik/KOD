@@ -17,7 +17,6 @@ object Form1: TForm1
   WindowState = wsMaximized
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
-  OnDblClick = FormDblClick
   OnKeyDown = FormKeyDown
   OnKeyUp = FormKeyUp
   OnMouseDown = FormMouseDown
@@ -282,7 +281,7 @@ object Form1: TForm1
     object Label3: TLabel
       Left = 0
       Top = 0
-      Width = 140
+      Width = 99
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -295,7 +294,6 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 99
     end
     object DrawGrid_knihovna: TDrawGrid
       Left = 0
@@ -359,7 +357,7 @@ object Form1: TForm1
     object Label4: TLabel
       Left = 0
       Top = 0
-      Width = 140
+      Width = 91
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -372,7 +370,6 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 91
     end
     object Label5: TLabel
       Left = 102
@@ -1092,7 +1089,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118007801800110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118007801840110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
