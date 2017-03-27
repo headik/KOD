@@ -1038,6 +1038,7 @@ unsigned int Cvektory::vrat_pocet_voziku_zakazky(TSeznam_cest *jaka)
 	while (vozik!=NULL)
 	{
 		if(vozik->cesta==jaka)RET++;
+		vozik=vozik->dalsi;
 	}
 	return RET;
 }
@@ -1048,6 +1049,7 @@ unsigned int Cvektory::vrat_pocet_voziku_zakazky(unsigned int n_zakazky)
 	while (vozik!=NULL)
 	{
 		if(vozik->cesta->n==n_zakazky)RET++;
+		vozik=vozik->dalsi;
 	}
 	return RET;
 }

@@ -162,7 +162,7 @@ void Cgrafy::graf3() {
 	Form1->Series5->Clear();
 	Form1->Series6->Clear();
 
-   	Form1->Chart1->SaveToBitmapFile("obr");
+   //	Form1->Chart1->SaveToBitmapFile("obr");
 
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
 	Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
@@ -208,21 +208,21 @@ void Cgrafy::graf4() {
 
 	// souèet technolog. èasù vs souèet prostojù dle zakázek
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
-	Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
- /*	while (ukaz != NULL) {
+  //	Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
+	while (ukaz != NULL) {
 
-		Form1->Series7->Add(Form1->d.v.vrat_sumPT_voziku(ukaz1), ukaz->n,
-			ukaz->barva);
-			
-		Form1->Series8->Add(Form1->d.v.vrat_WT_voziku(ukaz1), ukaz->n,
-			ukaz->barva);
+	//ShowMessage(Form1->d.v.vrat_pocet_voziku_zakazky(ukaz));
+
+
+		Form1->Series7->Add(Form1->d.v.vrat_pocet_voziku_zakazky(ukaz),ukaz->n,ukaz->barva);
+
 		ukaz = ukaz->dalsi;
-	}     */
+	}
 
-	 Form1->Series7->Add(70, "Zak1", clYellow);
+   //	 Form1->Series7->Add(70, "Zak1", clYellow);
 	// Form1->Series8->Add(5, "prostoj", clRed);
 
-	 Form1->Series7->Add(30, "Zak2", clBlue);
+   //	 Form1->Series7->Add(30, "Zak2", clBlue);
 	// Form1->Series8->Add(30, "prostoj", clRed);
 
 }
