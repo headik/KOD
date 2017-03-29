@@ -367,7 +367,7 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 							double X_predchozi=X;//uloží povodní X hodnotu
 
 							////výpočet koncové pozice
-							X+=C->CT*PX2MIN+m.cekani_na_palec(60,32.5,3,Form1->CheckBoxPALCE->Checked)/60*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
+							X+=C->CT*PX2MIN+m.cekani_na_palec(X/PX2MIN+C->CT,32.5,3,Form1->CheckBoxPALCE->Checked)/60*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
 							C->objekt->obsazenost=X;//nahraje koncovou X hodnotu do obsaženosti objektu pro další využítí
 							vozik->pozice=X;//uložení pro další použítý
 

@@ -265,15 +265,18 @@ void Cvektory::hlavicka_jedne_cesty(TSeznam_cest *jaka)
 }
 //---------------------------------------------------------------------------
 //do konkrétní cesty vloží segmenty cesty
-void Cvektory::vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,double CT)
+void Cvektory::vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,unsigned short R,double K;double CT)
 {
 	TCesta *segment=new TCesta;
 
 	segment->n=C->cesta->predchozi->n+1;//navýším počítadlo prvku o jedničku
 	segment->objekt=Objekt;
+	//--prozatim
 	if(CT==0) segment->CT=Objekt->CT;//pokud přijde CT 0, která je i implicitní, tak se převezme automaticky CT objektu nastavené ve form parametry
 	else segment->CT=CT;//zohlední se explicitní hodnota CT, předaná paremetrem metody
-
+	Objekt->rezim=R;
+	Objekt->kapacita_objektu=K;
+	//---
 	C->cesta->predchozi->dalsi=segment;//poslednímu prvku přiřadím ukazatel na nový prvek
 	segment->predchozi=C->cesta->predchozi;//nova prvek se odkazuje na prvek predchozí (v hlavicce body byl ulozen na pozici predchozi, poslední prvek)
 	segment->dalsi=NULL;//poslední prvek se na zadny dalsí prvek neodkazuje (neexistuje

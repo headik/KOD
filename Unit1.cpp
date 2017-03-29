@@ -1546,7 +1546,6 @@ void __fastcall TForm1::Edit_pocet_vozikuChange(TObject *Sender)
 //volá dialog k nastavení parametrů voziku
 void __fastcall TForm1::Button_vozik_parametryClick(TObject *Sender)
 {
-	//if(d.v.VOZIKY->dalsi->cesta==NULL)Button2Click(Sender);//zatím provizorní záležitost načtení pálnu výroby
 	if(d.v.VOZIKY->dalsi->cesta==NULL)Button2Click(Sender);//zatím provizorní záležitost načtení pálnu výroby
 	Form_vozik_nastaveni->Left=0;
 	Form_vozik_nastaveni->Top=0+vyska_menu+RzToolbar1->Height;
@@ -2144,22 +2143,30 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi);//vyt3
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi);//vyt3
    */
+	/*
+	//první test
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi,4);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi);
+	*/
+	!!!!!zde nadefinovat cestu!!!!
 	d.v.vloz_cestu(cesta_pom);//vloží novou hotovou cestu do spoj.seznamu cest
 
 	//cesta 2
+	/*
+	//první test
 	Cvektory::TSeznam_cest *cesta_pom2=new Cvektory::TSeznam_cest;
 	d.v.hlavicka_jedne_cesty(cesta_pom2);
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi,4);
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi,3);
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi);
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi);
-	d.v.vloz_cestu(cesta_pom2);//vloží novou hotovou cestu do spoj.seznamu cest
+
+	d.v.vloz_cestu(cesta_pom2);//vloží novou hotovou cestu do spoj.seznamu cest*/
+
 	//ShowMessage(d.v.CESTY->dalsi->cesta->predchozi->n); */
 	//ShowMessage(d.v.CESTY->dalsi->cesta->predchozi->n);
 	////

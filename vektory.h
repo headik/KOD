@@ -133,7 +133,7 @@ class Cvektory
 		long vymaz_seznam();
 		void hlavicka_seznamu_cest();
 		void hlavicka_jedne_cesty(TSeznam_cest *jaka);
-		void vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,double CT=0);//do konkrétní cesty vloží segmenty cesty
+		void vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,unsigned short R=0,double K=1;double CT=0);//do konkrétní cesty vloží segmenty cesty
 		void vloz_cestu(TSeznam_cest *Cesta);//vloží hotovou cestu do spojového seznamu cesty
 		TSeznam_cest *vrat_cestu(unsigned int ID_cesty);
 		long vymaz_cesty();
