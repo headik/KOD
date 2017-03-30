@@ -166,8 +166,8 @@ class Cvektory
 		double vrat_AVGsumWT_zakazky(TSeznam_cest *jaka);//vrátí čistý čas, který vozíky čekaly pro danou zakazku
 		double vrat_TT_voziku(TVozik *jaky);//vrátí takt, resp. rozdíl čásů mezi dokončením tohoto a předchozího vozíku
 		double vrat_TT_voziku(unsigned int n_voziku);//vrátí takt, resp. rozdíl čásů mezi dokončením tohoto a předchozího vozíku
-		double vrat_prumerne_TT_zakazky(TSeznam_cest *jaka);//vrátí hodnotu průměrného TT mezi vozíky v rámci dané zakázky/cesty
-		double vrat_prumerne_TT_zakazky(unsigned int n_zakazky);//vrátí hodnotu průměrného TT mezi vozíky v rámci
+		double vrat_AVG_TT_zakazky(TSeznam_cest *jaka);//vrátí hodnotu průměrného TT mezi vozíky v rámci dané zakázky/cesty
+		double vrat_AVG_TT_zakazky(unsigned int n_zakazky);//vrátí hodnotu průměrného TT mezi vozíky v rámci
 		unsigned int vrat_pocet_voziku_zakazky(TSeznam_cest *jaka);
 		unsigned int vrat_pocet_voziku_zakazky(unsigned int n_zakazky);
 		unsigned int WIP();//vrátí max. počet vozíků na lince

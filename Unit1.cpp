@@ -1693,8 +1693,8 @@ unsigned short int TForm1::OtevritSoubor(UnicodeString soubor)//realizuje samotn
 					case EDITACE: 	editacelinky1Click(this);break;
 					case TESTOVANI:	testovnkapacity1Click(this);break;
 					case REZERVY:		casoverezervy1Click(this);break;
-					case SIMULACE:	simulace1Click(this);break;
-					case CASOVAOSA:	casovosa1Click(this);break;
+					case SIMULACE:	editacelinky1Click(this);MOD=EDITACE;/*simulace1Click(this);*/break;
+					case CASOVAOSA:	editacelinky1Click(this);MOD=EDITACE;/*casovosa1Click(this);*/break;
 			}
 			DuvodUlozit(false);
 			//aktualizace statusbaru
