@@ -167,11 +167,11 @@ void Cgrafy::graf3() {
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
 	while (ukaz != NULL) {
 
-		int ve_vyrobe = Form1->d.v.vrat_AVGsumPT_zakazky(ukaz);
-		int cekani = Form1->d.v.vrat_AVGsumWT_zakazky(ukaz);
+	  //	int ve_vyrobe = Form1->d.v.vrat_AVGsumPT_zakazky(ukaz);
+	  //	int cekani = Form1->d.v.vrat_AVGsumWT_zakazky(ukaz);
 
-		Form1->Series5->Add(ve_vyrobe, ukaz->n, ukaz->barva);
-		Form1->Series6->Add(cekani, ukaz->n, clWhite);
+		Form1->Series5->Add( Form1->d.v.vrat_AVGsumPT_zakazky(ukaz), ukaz->n, ukaz->barva);
+		Form1->Series6->Add( Form1->d.v.vrat_AVGsumWT_zakazky(ukaz), ukaz->n, clWhite);
 		ukaz = ukaz->dalsi;
 	}
 
