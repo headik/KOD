@@ -165,13 +165,10 @@ void Cgrafy::graf3() {
    //	Form1->Chart1->SaveToBitmapFile("obr");
 
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
-	Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
 	while (ukaz != NULL) {
 
-		int ve_vyrobe = Form1->d.v.vrat_sumPT_voziku(ukaz1);
-		int cekani = Form1->d.v.vrat_WT_voziku(ukaz1);
-		double j=Form1->d.v.vrat_sumPT_voziku(ukaz1);
-			 //	Form1->Chart3->LeftAxis->Items->Add(j,UnicodeString(j));
+		int ve_vyrobe = Form1->d.v.vrat_AVGsumPT_zakazky(ukaz);
+		int cekani = Form1->d.v.vrat_AVGsumWT_zakazky(ukaz);
 
 		Form1->Series5->Add(ve_vyrobe, ukaz->n, ukaz->barva);
 		Form1->Series6->Add(cekani, ukaz->n, clWhite);
