@@ -265,7 +265,7 @@ void Cvektory::hlavicka_jedne_cesty(TSeznam_cest *jaka)
 }
 //---------------------------------------------------------------------------
 //do konkrétní cesty vloží segmenty cesty
-void Cvektory::vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,unsigned short R,double K;double CT)
+void Cvektory::vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,unsigned short R,double K,double CT)
 {
 	TCesta *segment=new TCesta;
 
