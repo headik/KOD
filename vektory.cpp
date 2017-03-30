@@ -1033,7 +1033,7 @@ double Cvektory::vrat_prumerne_TT_zakazky(TSeznam_cest *jaka)//vrátí hodnotu p
 	{
 		if(vozik->cesta==jaka)//pokud byl nalezen v rámci dané cesty a zároveň se nejedná o první vozík v zakázce, tak aby se nezohledňoval takt z vyplývající z náběhu link či přechodu mezi zakázkami
 		{
-			if(prvni_vozik_zakazky)prvni_vozik_zakazky=false;//ignorace taktu prvn9ho vozíku
+			if(prvni_vozik_zakazky)prvni_vozik_zakazky=false;//ignorace taktu prvního vozíku
 			else
 			{
 				TT+=vrat_TT_voziku(vozik);//zatím se jedná pouze o součet TT
@@ -1042,7 +1042,8 @@ double Cvektory::vrat_prumerne_TT_zakazky(TSeznam_cest *jaka)//vrátí hodnotu p
 		}
 		vozik=vozik->dalsi;
 	}
-	return TT/i;//vrátí průměrné TT
+	if(prvni_vozik_zakazky)return 0;//pokud je pouze jenom jeden vozík není takt
+	else return TT/i;//vrátí průměrné TT
 }
 double Cvektory::vrat_prumerne_TT_zakazky(unsigned int n_zakazky)//vrátí hodnotu průměrného TT mezi vozíky v rámci
 {
@@ -1063,7 +1064,8 @@ double Cvektory::vrat_prumerne_TT_zakazky(unsigned int n_zakazky)//vrátí hodno
 		}
 		vozik=vozik->dalsi;
 	}
-	return TT/i;//vrátí průměrné TT
+	if(prvni_vozik_zakazky)return 0;//pokud je pouze jenom jeden vozík není takt
+	else return TT/i;//vrátí průměrné TT
 }
 //---------------------------------------------------------------------------
 unsigned int Cvektory::vrat_pocet_voziku_zakazky(TSeznam_cest *jaka)
@@ -1097,7 +1099,7 @@ unsigned int Cvektory::WIP()//vrátí max. počet vozíků na lince
 	while (vozik!=NULL)
 	{
 		unsigned int pocet=0;
-		Cvektory::TVozik *vozik2=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+		Cvektory::TVozik *vozik2=vozik->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
 		while (vozik2!=NULL)
 		{
 
@@ -1108,7 +1110,7 @@ unsigned int Cvektory::WIP()//vrátí max. počet vozíků na lince
 		if(pocet_final<pocet)pocet_final=pocet;
 		vozik=vozik->dalsi;
 	}
-	return pocet_final;
+	return pocet_final+1;
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
