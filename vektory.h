@@ -160,8 +160,10 @@ class Cvektory
 		double vrat_LT_voziku(unsigned int n_voziku);//vrátí celkový čas, který strávil vozík ve výrobě včetně čekání
 		double vrat_sumPT_voziku(TVozik *jaky);//vrátí čistý čas, který strávil vozík ve výrobě bez čekání
 		double vrat_sumPT_voziku(unsigned int n_voziku);//vrátí čistý čas, který strávil vozík ve výrobě bez čekání
+		double vrat_AVGsumPT_zakazky(TSeznam_cest *jaka);//vrátí čistý čas, který strávily vozík ve výrobě bez čekání pro danou zakazku
 		double vrat_WT_voziku(TVozik *jaky);//vrátí čas čeká vozíku během výroby
 		double vrat_WT_voziku(unsigned int n_voziku);//vrátí čas čeká vozíku během výroby
+		double vrat_AVGsumWT_zakazky(TSeznam_cest *jaka);//vrátí čistý čas, který vozíky čekaly pro danou zakazku
 		double vrat_TT_voziku(TVozik *jaky);//vrátí takt, resp. rozdíl čásů mezi dokončením tohoto a předchozího vozíku
 		double vrat_TT_voziku(unsigned int n_voziku);//vrátí takt, resp. rozdíl čásů mezi dokončením tohoto a předchozího vozíku
 		double vrat_prumerne_TT_zakazky(TSeznam_cest *jaka);//vrátí hodnotu průměrného TT mezi vozíky v rámci dané zakázky/cesty

@@ -951,6 +951,22 @@ double Cvektory::vrat_sumPT_voziku(unsigned int n_voziku)//vrátí čistý čas,
 	return SUM;
 }
 //---------------------------------------------------------------------------
+double Cvektory::vrat_AVGsumPT_zakazky(TSeznam_cest *jaka)//vrátí čistý čas, který strávily vozík ve výrobě bez čekání pro danou zakazku
+{
+	double SUM=0.0; double n=0.0;
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		if(jaka==vozik->cesta)//pokud se jedna o zadanou cestu navýší počítadlo
+		{
+			SUM+=vrat_sumPT_voziku(vozik);
+			n++;
+		}
+		vozik=vozik->dalsi;
+	}
+	return SUM/n;
+}
+//---------------------------------------------------------------------------
 double Cvektory::vrat_WT_voziku(TVozik *jaky)//vrátí čas čeká vozíku během výroby
 {
 	return vrat_LT_voziku(jaky)-vrat_sumPT_voziku(jaky);
@@ -969,6 +985,22 @@ double Cvektory::vrat_WT_voziku(unsigned int n_voziku)//vrátí čas čeká voz�
 		vozik=vozik->dalsi;
 	}
 	return RET;
+}
+//---------------------------------------------------------------------------
+double Cvektory::vrat_AVGsumWT_zakazky(TSeznam_cest *jaka)//vrátí čistý čas, který vozíky čekaly pro danou zakazku
+{
+	double SUM=0.0; double n=0.0;
+	Cvektory::TVozik *vozik=VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
+	while (vozik!=NULL)
+	{
+		if(jaka==vozik->cesta)//pokud se jedna o zadanou cestu navýší počítadlo
+		{
+			SUM+=vrat_WT_voziku(vozik);
+			n++;
+		}
+		vozik=vozik->dalsi;
+	}
+	return SUM/n;
 }
 //---------------------------------------------------------------------------
 double Cvektory::vrat_TT_voziku(TVozik *jaky)//vrátí takt, resp. rozdíl čásů mezi dokončením tohoto a předchozího vozíku
