@@ -964,6 +964,8 @@ double Cvektory::vrat_AVGsumPT_zakazky(TSeznam_cest *jaka)//vrátí čistý čas
 		}
 		vozik=vozik->dalsi;
 	}
+	if(n==0)return 0;//pokud je pouze jenom jeden vozík není takt
+	else
 	return SUM/n;
 }
 //---------------------------------------------------------------------------
@@ -1000,6 +1002,8 @@ double Cvektory::vrat_AVGsumWT_zakazky(TSeznam_cest *jaka)//vrátí čistý čas
 		}
 		vozik=vozik->dalsi;
 	}
+	if(n==0)return 0;//pokud je pouze jenom jeden vozík není takt
+	else
 	return SUM/n;
 }
 //---------------------------------------------------------------------------
@@ -1023,7 +1027,7 @@ double Cvektory::vrat_TT_voziku(unsigned int n_voziku)//vrátí takt, resp. rozd
 	return RET;
 }
 //---------------------------------------------------------------------------
-double Cvektory::vrat_prumerne_TT_zakazky(TSeznam_cest *jaka)//vrátí hodnotu průměrného TT mezi vozíky v rámci dané zakázky/cesty
+double Cvektory::vrat_AVG_TT_zakazky(TSeznam_cest *jaka)//vrátí hodnotu průměrného TT mezi vozíky v rámci dané zakázky/cesty
 {
 	unsigned int i=0;
 	bool prvni_vozik_zakazky=true;//ignorace taktu prvního vozíku
@@ -1042,10 +1046,10 @@ double Cvektory::vrat_prumerne_TT_zakazky(TSeznam_cest *jaka)//vrátí hodnotu p
 		}
 		vozik=vozik->dalsi;
 	}
-	if(prvni_vozik_zakazky)return 0;//pokud je pouze jenom jeden vozík není takt
+	if(i==0)return 0;//pokud je pouze jenom jeden vozík není takt
 	else return TT/i;//vrátí průměrné TT
 }
-double Cvektory::vrat_prumerne_TT_zakazky(unsigned int n_zakazky)//vrátí hodnotu průměrného TT mezi vozíky v rámci
+double Cvektory::vrat_AVG_TT_zakazky(unsigned int n_zakazky)//vrátí hodnotu průměrného TT mezi vozíky v rámci
 {
 	unsigned int i=0;
 	bool prvni_vozik_zakazky=true;//ignorace taktu prvního vozíku
@@ -1064,7 +1068,7 @@ double Cvektory::vrat_prumerne_TT_zakazky(unsigned int n_zakazky)//vrátí hodno
 		}
 		vozik=vozik->dalsi;
 	}
-	if(prvni_vozik_zakazky)return 0;//pokud je pouze jenom jeden vozík není takt
+	if(i==0)return 0;//pokud je pouze jenom jeden vozík není takt
 	else return TT/i;//vrátí průměrné TT
 }
 //---------------------------------------------------------------------------
