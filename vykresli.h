@@ -26,7 +26,7 @@ class Cvykresli
 	void vykresli_casove_osy(TCanvas *canv);//celkové vykreslení módu èasové osy
 	void vykresli_Xosy(TCanvas *canv, short KrokY);//vykreslí statické svislice na èasové osy
 	void vykresli_casovou_osu(TCanvas *canv, AnsiString shortname, TColor color, int X1, int X2,int Y, short KrokY);
-	void vykresli_svislici_na_casove_osy(TCanvas *canv,int X);//vykreslí pohyblivou svislici na èasové osy dle umístìní kurzoru myši
+	void vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y);//vykreslí pohyblivou svislici na èasové osy dle umístìní kurzoru myši
 	void vykresli_simulaci(TCanvas *canv);//zajišuje vykreslení simulace
 	void vykresli_linku(TCanvas *canv);//zajišuje vykreslení osy linky
 	void umisti_vozik(TCanvas *canv,Cvektory::TVozik *ukaz);//zajišuje umístìní vozíku na lince

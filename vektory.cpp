@@ -1114,7 +1114,10 @@ unsigned int Cvektory::WIP()//vrátí max. počet vozíků na lince
 		if(pocet_final<pocet)pocet_final=pocet;
 		vozik=vozik->dalsi;
 	}
+	if(VOZIKY->dalsi!=NULL)//pokud existuje nějaký vozík
 	return pocet_final+1;
+	else
+	return 0;
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------

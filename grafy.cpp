@@ -123,7 +123,7 @@ void Cgrafy::graf2() {
 
 	while (ukaz != NULL) {
 
-		Form1->Series3->Add(Form1->d.v.vrat_prumerne_TT_zakazky(ukaz), ukaz->n,
+		Form1->Series3->Add(Form1->d.v.vrat_AVG_TT_zakazky(ukaz), ukaz->n,
 			ukaz->barva);
 
 		// Form1->Series3->Marks->St;

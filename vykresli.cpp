@@ -415,7 +415,7 @@ void Cvykresli::vykresli_casovou_osu(TCanvas *canv, AnsiString shortname, TColor
 }
 //---------------------------------------------------------------------------
 //vykreslí pohyblivou svislici na časové osy dle umístění kurzoru myši
-void Cvykresli::vykresli_svislici_na_casove_osy(TCanvas *canv,int X)
+void Cvykresli::vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y)
 {
 	if(X!=-200)//pokud je mimo obraz -200 jen nahodilá hodnota pro zneplatenění čí výchozí obraz
 	{
@@ -424,8 +424,12 @@ void Cvykresli::vykresli_svislici_na_casove_osy(TCanvas *canv,int X)
 		canv->Pen->Style=psDashDot;//nastevení čarkované čáry
 		canv->Pen->Color=clGray;
 		canv->Brush->Style=bsClear;
+		//svislice
 		canv->MoveTo(X,0);
-		canv->LineTo(X,Form1->ClientWidth);
+		canv->LineTo(X,Form1->ClientHeight);
+		//i vodorovna
+		canv->MoveTo(0,Y);
+		canv->LineTo(Form1->ClientWidth,Y);
 		canv->Brush->Style=bsSolid;//vracím raději do původního stavu
 	}
 }

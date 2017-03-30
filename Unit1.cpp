@@ -447,7 +447,7 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 		case TESTOVANI: d.vykresli_vektory(Canvas);break;//vykreslování všech vektorů
 		case REZERVY: d.vykresli_graf_rezervy(Canvas);break;//vykreslení grafu rezerv
 		 //	case SIMULACE:d.vykresli_simulaci(Canvas);break; - probíhá pomocí timeru, na tomto to navíc se chovalo divně
-		case CASOVAOSA:d.vykresli_casove_osy(Canvas); d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x);break;
+		case CASOVAOSA:d.vykresli_casove_osy(Canvas); d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);break;
 	}
 }
 //---------------------------------------------------------------------------
@@ -657,9 +657,9 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 
 	if(MOD==CASOVAOSA)//vykreslování posuvné (dle myši) svislice kolmé na osy procesů, slouží jakou ukázovatko času na ose
 	{
-		d.vykresli_svislici_na_casove_osy(Canvas,minule_souradnice_kurzoru.X);
+		d.vykresli_svislici_na_casove_osy(Canvas,minule_souradnice_kurzoru.X,minule_souradnice_kurzoru.Y);
 		minule_souradnice_kurzoru=TPoint(X,Y);
-		d.vykresli_svislici_na_casove_osy(Canvas,X);
+		d.vykresli_svislici_na_casove_osy(Canvas,X,Y);
 		SB(UnicodeString((X-d.Px())/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
 	}
 	else //výpis metrických souřadnic
@@ -2340,8 +2340,8 @@ void __fastcall TForm1::Button9Click(TObject *Sender)
 		//ShowMessage(d.v.WIP());
 		//S(d.v.vrat_WT_voziku(d.v.VOZIKY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi));
 		//ShowMessage(m.cekani_na_palec(60,32.5,3));
-		ShowMessage(d.v.vrat_prumerne_TT_zakazky(d.v.CESTY->dalsi));
-		ShowMessage(d.v.vrat_prumerne_TT_zakazky(d.v.CESTY->dalsi->dalsi));
+		//ShowMessage(d.v.vrat_prumerne_TT_zakazky(d.v.CESTY->dalsi));
+		//ShowMessage(d.v.vrat_prumerne_TT_zakazky(d.v.CESTY->dalsi->dalsi));
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button10Click(TObject *Sender)
