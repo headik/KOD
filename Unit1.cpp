@@ -1546,7 +1546,8 @@ void __fastcall TForm1::Edit_pocet_vozikuChange(TObject *Sender)
 //volá dialog k nastavení parametrů voziku
 void __fastcall TForm1::Button_vozik_parametryClick(TObject *Sender)
 {
-	if(d.v.VOZIKY->dalsi->cesta==NULL)Button2Click(Sender);//zatím provizorní záležitost načtení pálnu výroby
+//	if(d.v.VOZIKY->dalsi->cesta==NULL)
+	Button2Click(Sender);//zatím provizorní záležitost načtení pálnu výroby
 	Form_vozik_nastaveni->Left=0;
 	Form_vozik_nastaveni->Top=0+vyska_menu+RzToolbar1->Height;
 	if(IDOK==Form_vozik_nastaveni->ShowModal())DuvodUlozit(true);
