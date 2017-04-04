@@ -428,7 +428,7 @@ void Cvykresli::vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y)
 		canv->MoveTo(0,Y);
 		canv->LineTo(Form1->ClientWidth,Y);
 		canv->Brush->Style=bsSolid;//vracím raději do původního stavu
-		Form1->SB("Vozik : "+AnsiString(ceil((Y-KrokY/2-Form1->RzToolbar1->Height)/(KrokY*1.0))));   //pozn. KrokY/2 kvůli tomu, že střed osy je ve horozintální ose obdelníku
+		Form1->SB("Vozik : "+AnsiString(ceil((Y+PosunT.y-KrokY/2-Form1->RzToolbar1->Height)/(KrokY*1.0))));   //pozn. KrokY/2 kvůli tomu, že střed osy je ve horozintální ose obdelníku
 	}
 }
 //---------------------------------------------------------------------------
