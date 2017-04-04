@@ -56,7 +56,6 @@ class Cvykresli
 	double PX2MIN;//mìøítko PX na MIN
 	int WidthCanvasCasoveOsy,HeightCanvasCasoveOsy;
 	TPointD PosunT; //výchozí posunutí obrazu Posunu
-	int Px();//zajistí pøepoèet posunu
 
 	protected:
 

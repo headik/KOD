@@ -370,7 +370,8 @@ void __fastcall TForm1::casovosa1Click(TObject *Sender)
 			editacelinky1->Checked=false;
 			casoverezervy1->Checked=false;
 			simulace1->Checked=false;
-			d.PosunT=Posun;//výchozí posunutí obrazu Posunu
+			d.PosunT.x=0;//výchozí posunutí obrazu Posunu na časových osách, kvůli možnosti posouvání obrazu
+			d.PosunT.y=0;
 			casovosa1->Checked=true;
 			DuvodUlozit(true);
 			RzSizePanel_parametry_projekt->Visible=false;
@@ -660,7 +661,7 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 		d.vykresli_svislici_na_casove_osy(Canvas,minule_souradnice_kurzoru.X,minule_souradnice_kurzoru.Y);
 		minule_souradnice_kurzoru=TPoint(X,Y);
 		d.vykresli_svislici_na_casove_osy(Canvas,X,Y);
-		SB(UnicodeString((X-d.Px())/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
+		SB(UnicodeString(d.PosunT.x/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
 	}
 	else //výpis metrických souřadnic
 	{
@@ -923,36 +924,52 @@ void TForm1::Uloz_predchozi_pohled()
 void TForm1::DOWN()//smer dolu
 {
 		probehl_zoom=true;
-		if(MOD!=CASOVAOSA)zneplatnit_minulesouradnice();
 		Uloz_predchozi_pohled();
-		Posun.y-=m.round(Height/(8*Zoom));//o Xtinu obrazu
+		if(MOD!=CASOVAOSA)
+		{
+			Posun.y-=m.round(Width/(8*Zoom));//o Xtinu obrazu
+			zneplatnit_minulesouradnice();
+		}
+		else d.PosunT.y-=m.round(Width/(8*Zoom));//o Xtinu obrazu
 		Invalidate();
 		DuvodUlozit(true);
 }
 void TForm1::UP()//smer nahoru
 {
 		probehl_zoom=true;
-		if(MOD!=CASOVAOSA)zneplatnit_minulesouradnice();
 		Uloz_predchozi_pohled();
-		Posun.y+=m.round(Height/(8*Zoom)); //o Xtinu obrazu
+		if(MOD!=CASOVAOSA)
+		{
+			Posun.y+=m.round(Width/(8*Zoom));//o Xtinu obrazu
+			zneplatnit_minulesouradnice();
+		}
+		else d.PosunT.y+=m.round(Width/(8*Zoom));//o Xtinu obrazu
 		Invalidate();
 		DuvodUlozit(true);
 }
 void TForm1::RIGHT()//smer doprava
 {
 		probehl_zoom=true;
-		if(MOD!=CASOVAOSA)zneplatnit_minulesouradnice();
 		Uloz_predchozi_pohled();
-		Posun.x+=m.round(Width/(8*Zoom));//o Xtinu obrazu
+		if(MOD!=CASOVAOSA)
+		{
+			Posun.x+=m.round(Width/(8*Zoom));//o Xtinu obrazu
+			zneplatnit_minulesouradnice();
+		}
+		else d.PosunT.x+=m.round(Width/(8*Zoom));//o Xtinu obrazu
 		Invalidate();
 		DuvodUlozit(true);
 }
 void TForm1::LEFT()//smer doleva
 {
 		probehl_zoom=true;
-		if(MOD!=CASOVAOSA)zneplatnit_minulesouradnice();
 		Uloz_predchozi_pohled();
-		Posun.x-=m.round(Width/(8*Zoom));//o Xtinu obrazu
+		if(MOD!=CASOVAOSA)
+		{
+			Posun.x-=m.round(Width/(8*Zoom));//o Xtinu obrazu
+			zneplatnit_minulesouradnice();
+		}
+		else d.PosunT.x-=m.round(Width/(8*Zoom));//o Xtinu obrazu
 		Invalidate();
 		DuvodUlozit(true);
 }
@@ -975,8 +992,16 @@ void TForm1::pan_map(TCanvas * canv, int X, int Y)
 void TForm1::pan_move_map()
 {
 	Uloz_predchozi_pohled();
-	Posun.x-=(akt_souradnice_kurzoru_PX.x-vychozi_souradnice_kurzoru.x)/Zoom;
-	Posun.y-=(akt_souradnice_kurzoru_PX.y-vychozi_souradnice_kurzoru.y)/Zoom;
+	if(MOD!=CASOVAOSA)
+	{
+		Posun.x-=(akt_souradnice_kurzoru_PX.x-vychozi_souradnice_kurzoru.x)/Zoom;
+		Posun.y-=(akt_souradnice_kurzoru_PX.y-vychozi_souradnice_kurzoru.y)/Zoom;
+	}
+	else
+	{
+		d.PosunT.x-=(akt_souradnice_kurzoru_PX.x-vychozi_souradnice_kurzoru.x)/Zoom;
+		d.PosunT.y-=(akt_souradnice_kurzoru_PX.y-vychozi_souradnice_kurzoru.y)/Zoom;
+	}
 	Invalidate();
 	DuvodUlozit(true);
 }
