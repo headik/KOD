@@ -13,6 +13,7 @@ class Cvykresli
 	void SG(Cvektory::TVozik *ukaz);//zajištuje základní funkcionalitu technologického objektu v reimu S&G pøi vykreslování simulaci
 	void STOPKA(Cvektory::TVozik *ukaz);//zajištuje základní funkcionalitu technologického objektu STOPKA pøi vykreslování simulaci
 	bool KOLIZE(Cvektory::TVozik *V1,Cvektory::TVozik *V2);//vrací logickou hodnotu zda došlo èi nedošlo ke kolizi s jinım vozíkem
+	short KrokY;//rozteè na èasovıch osách
 
 	public:
 	Cvykresli();//konstruktor
@@ -24,7 +25,7 @@ class Cvykresli
 	void vykresli_grid(TCanvas *canv, int size_grid=10);
 	void vykresli_graf_rezervy(TCanvas *canv);//mód graf rezerv
 	void vykresli_casove_osy(TCanvas *canv);//celkové vykreslení módu èasové osy
-	void vykresli_Xosy(TCanvas *canv, short KrokY);//vykreslí statické svislice na èasové osy
+	void vykresli_Xosy(TCanvas *canv);//vykreslí statické svislice na èasové osy
 	void vykresli_casovou_osu(TCanvas *canv, AnsiString shortname, TColor color, int X1, int X2,int Y, short KrokY);
 	void vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y);//vykreslí pohyblivou svislici na èasové osy dle umístìní kurzoru myši
 	void vykresli_simulaci(TCanvas *canv);//zajišuje vykreslení simulace

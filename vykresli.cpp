@@ -14,6 +14,7 @@ Cvykresli::Cvykresli()
 	O_height=40;
 	//měřítko PX na MIN, globální proměná i pro využítí výpisu ve SB v Unit1
 	PX2MIN=30.0;
+	KrokY=30;//vizuální rozteč na ose Y mezi jednotlivými vozíky
 }
 //---------------------------------------------------------------------------
 void Cvykresli::vykresli_vektory(TCanvas *canv)
@@ -339,7 +340,7 @@ int Cvykresli::Px()
 void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 {
 	v.vymazat_casovou_obsazenost_objektu_a_pozice_voziku(v.OBJEKTY,v.VOZIKY);//vymaže předchozí časovou obsazenost objektů, jinak by se při každém dalším překreslení objekty posovali o obsazenost z předchozího vykreslení
-	short KrokY=30;//vizuální rozteč na ose Y mezi jednotlivými vozíky
+	//KrokY;//vizuální rozteč na ose Y mezi jednotlivými vozíky  zadáno globálně
 	double X=0;//výchozí odsazení na ose X
 
 	int Y=KrokY+Form1->RzToolbar1->Height;
@@ -384,7 +385,7 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 	}
 	WidthCanvasCasoveOsy=m.round(X);//uchová velikost nejdelší osy, pro použítí pro export canvasu do rastru
 	HeightCanvasCasoveOsy=Form1->RzToolbar1->Height+Y;//uchová výšku grafu
-	if(Form1->grid)vykresli_Xosy(canv,KrokY);//vykreslí statické svislice na časové osy pokud je aktivovaná mřížka
+	if(Form1->grid)vykresli_Xosy(canv);//vykreslí statické svislice na časové osy pokud je aktivovaná mřížka
 	Form1->g.ShowGrafy(true);
 	Form1->CheckBoxPALCE->Top=Form1->Chart1->Top-Form1->CheckBoxPALCE->Height;
 	Form1->CheckBoxPALCE->Visible=true;
@@ -427,15 +428,16 @@ void Cvykresli::vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y)
 		//svislice
 		canv->MoveTo(X,0);
 		canv->LineTo(X,Form1->ClientHeight);
-		//i vodorovna
+		//vodorovna
 		canv->MoveTo(0,Y);
 		canv->LineTo(Form1->ClientWidth,Y);
 		canv->Brush->Style=bsSolid;//vracím raději do původního stavu
+		Form1->SB("Vozik : "+AnsiString(ceil((Y-KrokY/2-Form1->RzToolbar1->Height)/(KrokY*1.0))));   //pozn. KrokY/2 kvůli tomu, že střed osy je ve horozintální ose obdelníku
 	}
 }
 //---------------------------------------------------------------------------
 //vykreslí statické svislice na časové osy
-void Cvykresli::vykresli_Xosy(TCanvas *canv,short KrokY)
+void Cvykresli::vykresli_Xosy(TCanvas *canv)
 {
 	canv->Pen->Mode=pmNotXor;
 	canv->Pen->Width=1;    //nastavení šířky pera

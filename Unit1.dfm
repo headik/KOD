@@ -281,7 +281,7 @@ object Form1: TForm1
     object Label3: TLabel
       Left = 0
       Top = 0
-      Width = 99
+      Width = 140
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -294,6 +294,7 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
+      ExplicitWidth = 99
     end
     object DrawGrid_knihovna: TDrawGrid
       Left = 0
@@ -357,7 +358,7 @@ object Form1: TForm1
     object Label4: TLabel
       Left = 0
       Top = 0
-      Width = 91
+      Width = 140
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -370,6 +371,7 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
+      ExplicitWidth = 91
     end
     object Label5: TLabel
       Left = 102
@@ -1089,7 +1091,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118009401940110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118009C019C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

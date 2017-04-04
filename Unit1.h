@@ -258,8 +258,6 @@ private:	// User declarations
 
 	////metody
 	void setVisualStyle(TRzVisualStyle VisualStyle=vsClassic);
-	void SB(UnicodeString Text, unsigned short Pane=4);//domnívám se, že zde má být hodnota 5
-	void S(UnicodeString Text="");//Usnadňuje přístup k ShowMessage
 	short int MB(UnicodeString text, unsigned short int typ=0,UnicodeString titulek="TISPL - Eltep");//vola rychle messabox
 	void REFRESH();
 	void ESC();
@@ -335,6 +333,8 @@ public:		// User declarations
   bool grid;
 	bool zobrazit_barvy_casovych_rezerv;
 	void DuvodUlozit(bool stav);
+	void SB(UnicodeString Text, unsigned short Pane=4);//domnívám se, že zde má být hodnota 5
+	void S(UnicodeString Text="");//Usnadňuje přístup k ShowMessage
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TForm1 *Form1;
