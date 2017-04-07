@@ -14,12 +14,14 @@ void Cgrafy::ShowGrafy(bool stav) {
 		graf3();
 		graf4();
 		graf5();
+	   //	GrafWip();
 	}
 	Form1->Chart1->Visible = stav;
 	Form1->Chart2->Visible = stav;
 	Form1->Chart3->Visible = stav;
 	Form1->Chart4->Visible = stav;
 	Form1->Chart5->Visible = false;
+   //	Form1->Panel1->Visible=stav;
 	// Form1->CheckBox1->Visible = stav;
 	// Form1->CheckBox2->Visible = stav;
 
@@ -226,7 +228,7 @@ void Cgrafy::graf4() {
 
 //// ---------------------------------------------------------------------------
 //
-void Cgrafy::graf5() { // WIP stats
+void Cgrafy::graf5() {
 
 	if (Form1->Memo1->Visible) {
 		Form1->Chart5->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
@@ -280,3 +282,27 @@ void Cgrafy::graf5() { // WIP stats
 // }
 
 // ---------------------------------------------------------------------------
+
+void Cgrafy::GrafWip(){
+
+
+
+   /*	if (Form1->Memo1->Visible) {
+		Form1->Label9->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
+			Form1->Label9->Height - Form1->Chart1->Height;
+	}
+	else {
+		Form1->Label9->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
+			Form1->Chart1->Height;
+	}
+
+	Form1->Label9->Left = Form1->Chart1->Width + Form1->Chart2->Width +
+		Form1->Chart3->Width + Form1->Chart4->Width+Form1->Chart5->Width;
+	Form1->Label9->Width = Form1->ClientWidth / 5 * 1, 5; ;
+	Form1->Label9->Height = Form1->ClientHeight / 3 * 1, 5;
+
+	Form1->Label9->Color=clBlue;
+		*/
+
+}
+
