@@ -287,6 +287,7 @@ private:	// User declarations
 	void nacist_nastaveni();
 	void ulozit_nastaveni();
 	void zavrit_uvod();//zavře úvodní dialog
+	int vrat_max_vysku_grafu();
 
 	////proměnné
 	int size_grid;
