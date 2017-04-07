@@ -641,17 +641,13 @@ void __fastcall TForm1::FormMouseDown(TObject *Sender, TMouseButton Button, TShi
 			{
 				case PAN:
 				{
-    			kurzor(pan_move);Akce=PAN_MOVE;//přepne z PAN na PAN_MOVE
-					short W=RzSizePanel_knihovna_objektu->Width;
-					short H=vyska_menu;
+				kurzor(pan_move);Akce=PAN_MOVE;//přepne z PAN na PAN_MOVE
+					int W=RzSizePanel_knihovna_objektu->Width;
+					short H=RzToolbar1->Height;
 					int Gh=vrat_max_vysku_grafu();
-					//Pan_bmp->Width=ClientWidth-W;Pan_bmp->Height=ClientHeight-H-RzStatusBar1->Height-Gh;//velikost pan plochy
-					Pan_bmp->Width=ClientWidth;Pan_bmp->Height=ClientHeight;//velikost pan plochy
-					Pan_bmp->Canvas->CopyRect(Rect(0,0,ClientWidth,ClientHeight),Canvas,Rect(0,0,ClientWidth,ClientHeight));//uloží pan výřez
-					//Pan_bmp->Canvas->CopyRect(Rect(0+W,0+H,ClientWidth+W,ClientHeight+RzStatusBar1->Height+H+Gh),Canvas,Rect(0+W,0+H,ClientWidth+W,ClientHeight+RzStatusBar1->Height+H+Gh));//uloží pan výřez
-					//Pan_bmp->Canvas->CopyRect(Rect(0+W,0+H,ClientWidth,ClientHeight-RzStatusBar1->Height-H-Gh),Canvas,Rect(0+W,0+H,ClientWidth,ClientHeight-RzStatusBar1->Height-H-Gh));//uloží pan výřez
-
-					Pan_bmp->SaveToFile("test.bmp");
+					Pan_bmp->Width=ClientWidth;Pan_bmp->Height=ClientHeight-H-Gh;//velikost pan plochy
+					Pan_bmp->Canvas->CopyRect(Rect(0+W,0+H,ClientWidth,ClientHeight-RzStatusBar1->Height-Gh),Canvas,Rect(0+W,0+H,ClientWidth,ClientHeight-RzStatusBar1->Height-Gh));//uloží pan výřez
+					//Pan_bmp->SaveToFile("test.bmp");
 					break;
 				}
 				case ZOOM_W:
@@ -2447,6 +2443,20 @@ void __fastcall TForm1::Button9Click(TObject *Sender)
 		//ShowMessage(m.cekani_na_palec(60,32.5,3));
 		//ShowMessage(d.v.vrat_prumerne_TT_zakazky(d.v.CESTY->dalsi));
 		//ShowMessage(d.v.vrat_prumerne_TT_zakazky(d.v.CESTY->dalsi->dalsi));
+
+		   //		Pan_bmp->Width=ClientWidth-W;Pan_bmp->Height=ClientHeight-H-Gh;//velikost pan plochy
+			//		Pan_bmp->Canvas->CopyRect(Rect(W,H,ClientWidth,ClientHeight-RzStatusBar1->Height-Gh),Canvas,Rect(W,H,ClientWidth,ClientHeight-RzStatusBar1->Height-Gh));//uloží pan výřez
+
+
+				   //	int W=RzSizePanel_knihovna_objektu->Width;
+				   //	Pan_bmp->Width=ClientWidth-W;Pan_bmp->Height=ClientHeight-20;//velikost pan plochy
+				   //	Pan_bmp->Canvas->CopyRect(Rect(W,H,ClientWidth,ClientHeight-RzStatusBar1->Height-Gh),Canvas,Rect(W,H,ClientWidth,ClientHeight-RzStatusBar1->Height-Gh));//uloží pan výřez
+
+					//Pan_bmp->Canvas->CopyRect(Rect(0+W,0+H,ClientWidth+W,ClientHeight+RzStatusBar1->Height+H+Gh),Canvas,Rect(0+W,0+H,ClientWidth+W,ClientHeight+RzStatusBar1->Height+H+Gh));//uloží pan výřez
+					//Pan_bmp->Canvas->CopyRect(Rect(0+W,0+H,ClientWidth,ClientHeight-RzStatusBar1->Height-H-Gh),Canvas,Rect(0+W,0+H,ClientWidth,ClientHeight-RzStatusBar1->Height-H-Gh));//uloží pan výřez
+
+				   //	Pan_bmp->SaveToFile("test.bmp");
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button10Click(TObject *Sender)
