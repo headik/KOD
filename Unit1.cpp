@@ -471,7 +471,7 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shif
 		//MEZERNÍK
 		case 32: if(Akce!=PAN_MOVE){Akce=PAN;kurzor(pan);}break;
 		//PAGE UP
-		case 33:d.PosunT.y=0;Invalidate();break;
+		case 33:;break;
 		//PAGE DOWN
 		case 34:break;
 		//END
@@ -506,8 +506,16 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shif
 			break;
 		}
 	}
-	if(funkcni_klavesa==1 && Key==36)
+
+	/*if(funkcni_klavesa==1)//CTRL
+	switch(Key)
+	{
+		case 33:d.PosunT.y=0;Invalidate();break; //PAGE-UP + CTRL
+	}
+	*/
+		if(funkcni_klavesa==1 && Key==36)
 	ShowMessage(Key);
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key, TShiftState Shift)
@@ -641,11 +649,12 @@ void __fastcall TForm1::FormMouseDown(TObject *Sender, TMouseButton Button, TShi
 			{
 				case PAN:
 				{
-				kurzor(pan_move);Akce=PAN_MOVE;//přepne z PAN na PAN_MOVE
+					kurzor(pan_move);Akce=PAN_MOVE;//přepne z PAN na PAN_MOVE
 					int W=RzSizePanel_knihovna_objektu->Width;
+					if(MOD==CASOVAOSA)W=0;//zajistí, že se posová i číslování vozíků
 					short H=RzToolbar1->Height;
 					int Gh=vrat_max_vysku_grafu();
-					Pan_bmp->Width=ClientWidth;Pan_bmp->Height=ClientHeight-H-Gh;//velikost pan plochy
+					Pan_bmp->Width=ClientWidth;Pan_bmp->Height=ClientHeight-H-Gh+10;//velikost pan plochy
 					Pan_bmp->Canvas->CopyRect(Rect(0+W,0+H,ClientWidth,ClientHeight-RzStatusBar1->Height-Gh),Canvas,Rect(0+W,0+H,ClientWidth,ClientHeight-RzStatusBar1->Height-Gh));//uloží pan výřez
 					//Pan_bmp->SaveToFile("test.bmp");
 					break;
@@ -675,7 +684,7 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 		d.vykresli_svislici_na_casove_osy(Canvas,minule_souradnice_kurzoru.X,minule_souradnice_kurzoru.Y);
 		minule_souradnice_kurzoru=TPoint(X,Y);
 		d.vykresli_svislici_na_casove_osy(Canvas,X,Y);
-		SB(UnicodeString(d.PosunT.x/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
+		SB(UnicodeString((X-d.PosunT.x)/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
 	}
 	else //výpis metrických souřadnic
 	{
@@ -943,9 +952,14 @@ void TForm1::DOWN()//smer dolu
 		{
 			Posun.y-=m.round(Width/(8*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
+			Invalidate();
 		}
-		else d.PosunT.y-=m.round(Width/(8*Zoom));//o Xtinu obrazu
-		Invalidate();
+		else
+		{
+			bool prekreslovat=false;if(d.PosunT.y!=0)prekreslovat=true;
+			if(d.PosunT.y-d.KrokY<0){d.PosunT.y=0;if(prekreslovat)Invalidate();}
+			else {d.PosunT.y-=d.KrokY;Invalidate();}
+		}
 		DuvodUlozit(true);
 }
 void TForm1::UP()//smer nahoru
@@ -957,7 +971,10 @@ void TForm1::UP()//smer nahoru
 			Posun.y+=m.round(Width/(8*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
 		}
-		else d.PosunT.y+=m.round(Width/(8*Zoom));//o Xtinu obrazu
+		else //fixace, aby nebyl možný přechod obrazu do "mínusu"
+		{
+			d.PosunT.y+=d.KrokY;
+    }
 		Invalidate();
 		DuvodUlozit(true);
 }
@@ -970,7 +987,10 @@ void TForm1::RIGHT()//smer doprava
 			Posun.x+=m.round(Width/(8*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
 		}
-		else d.PosunT.x+=m.round(Width/(8*Zoom));//o Xtinu obrazu
+		else
+		{
+			d.PosunT.x+=ClientWidth/3;
+		}
 		Invalidate();
 		DuvodUlozit(true);
 }
@@ -982,9 +1002,14 @@ void TForm1::LEFT()//smer doleva
 		{
 			Posun.x-=m.round(Width/(8*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
+			Invalidate();
 		}
-		else d.PosunT.x-=m.round(Width/(8*Zoom));//o Xtinu obrazu
-		Invalidate();
+		else
+		{
+			bool prekreslovat=false;if(d.PosunT.x!=0)prekreslovat=true;
+			if(d.PosunT.x-ClientWidth/3<0){d.PosunT.x=0;if(prekreslovat)Invalidate();}
+			else {d.PosunT.x-=ClientWidth/3;Invalidate();}
+		}
 		DuvodUlozit(true);
 }
 //---------------------------------------------------------------------------
@@ -994,10 +1019,12 @@ void TForm1::LEFT()//smer doleva
 void TForm1::pan_map(TCanvas * canv, int X, int Y)
 {
 	 canv->Brush->Color=clWhite/*clDkGray*/;canv->Brush->Style=bsSolid;
+	 //maže při posouvání obrazu starý obraz
 	 canv->FillRect(TRect(0,0,/*X-kurzor_souradnice_puvodni.x+Pan_bmp->Width*/ClientWidth,Y-vychozi_souradnice_kurzoru.y));//horní okraj
 	 canv->FillRect(TRect(0,Y-vychozi_souradnice_kurzoru.y,X-vychozi_souradnice_kurzoru.x,Y-vychozi_souradnice_kurzoru.y+Pan_bmp->Height));//levy okraj
 	 canv->FillRect(TRect(X-vychozi_souradnice_kurzoru.x+Pan_bmp->Width,Y-vychozi_souradnice_kurzoru.y,ClientWidth,ClientHeight));//pravy okraj
 	 canv->FillRect(TRect(0,Y-vychozi_souradnice_kurzoru.y+Pan_bmp->Height,X-vychozi_souradnice_kurzoru.x+Pan_bmp->Width,ClientHeight));//dolní okraj
+   //samotné posouvání Pan_bmp
 	 canv->Draw(X-vychozi_souradnice_kurzoru.x,Y-vychozi_souradnice_kurzoru.y,Pan_bmp);
 	 //canv->Brush->Color=clWhite;canv->Brush->Style=bsSolid;
 }
@@ -1010,13 +1037,18 @@ void TForm1::pan_move_map()
 	{
 		Posun.x-=(akt_souradnice_kurzoru_PX.x-vychozi_souradnice_kurzoru.x)/Zoom;
 		Posun.y-=(akt_souradnice_kurzoru_PX.y-vychozi_souradnice_kurzoru.y)/Zoom;
+		Invalidate();
 	}
 	else
 	{
-		d.PosunT.x-=(akt_souradnice_kurzoru_PX.x-vychozi_souradnice_kurzoru.x)/Zoom;
-		d.PosunT.y-=(akt_souradnice_kurzoru_PX.y-vychozi_souradnice_kurzoru.y)/Zoom;
+   //osetrit zbytecne invalidovani
+		if(d.PosunT.x-(akt_souradnice_kurzoru_PX.x-vychozi_souradnice_kurzoru.x)<0)d.PosunT.x=0;
+		else d.PosunT.x-=(akt_souradnice_kurzoru_PX.x-vychozi_souradnice_kurzoru.x);
+		if(d.PosunT.y-(akt_souradnice_kurzoru_PX.y-vychozi_souradnice_kurzoru.y)<0)d.PosunT.y=0;
+		else d.PosunT.y-=(akt_souradnice_kurzoru_PX.y-vychozi_souradnice_kurzoru.y);
+		Invalidate();
 	}
-	Invalidate();
+
 	DuvodUlozit(true);
 }
 //---------------------------------------------------------------------------
@@ -2313,7 +2345,8 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Obnovitobraz1Click(TObject *Sender)
 {
-  Invalidate();
+	//nezabira zneplatnit_minulesouradnice();
+	Invalidate();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Timer_simulaceTimer(TObject *Sender)
@@ -2455,7 +2488,7 @@ void __fastcall TForm1::Button9Click(TObject *Sender)
 					//Pan_bmp->Canvas->CopyRect(Rect(0+W,0+H,ClientWidth+W,ClientHeight+RzStatusBar1->Height+H+Gh),Canvas,Rect(0+W,0+H,ClientWidth+W,ClientHeight+RzStatusBar1->Height+H+Gh));//uloží pan výřez
 					//Pan_bmp->Canvas->CopyRect(Rect(0+W,0+H,ClientWidth,ClientHeight-RzStatusBar1->Height-H-Gh),Canvas,Rect(0+W,0+H,ClientWidth,ClientHeight-RzStatusBar1->Height-H-Gh));//uloží pan výřez
 
-				   //	Pan_bmp->SaveToFile("test.bmp");
+					 //	Pan_bmp->SaveToFile("test.bmp");
 
 }
 //---------------------------------------------------------------------------

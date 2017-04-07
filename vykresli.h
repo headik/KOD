@@ -13,7 +13,7 @@ class Cvykresli
 	void SG(Cvektory::TVozik *ukaz);//zajištuje základní funkcionalitu technologického objektu v režimu S&G pøi vykreslování simulaci
 	void STOPKA(Cvektory::TVozik *ukaz);//zajištuje základní funkcionalitu technologického objektu STOPKA pøi vykreslování simulaci
 	bool KOLIZE(Cvektory::TVozik *V1,Cvektory::TVozik *V2);//vrací logickou hodnotu zda došlo èi nedošlo ke kolizi s jiným vozíkem
-	short KrokY;//rozteè na èasových osách
+
 
 	public:
 	Cvykresli();//konstruktor
@@ -54,6 +54,7 @@ class Cvykresli
 	short O_width,O_height;//logické parametry, nezoomovat
 	unsigned long cas;//ms
 	double PX2MIN;//mìøítko PX na MIN
+	short KrokY;//rozteè na èasových osách
 	int WidthCanvasCasoveOsy,HeightCanvasCasoveOsy;
 	TPointD PosunT; //výchozí posunutí obrazu Posunu
 
