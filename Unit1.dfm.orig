@@ -32,7 +32,7 @@ object Form1: TForm1
   TextHeight = 13
   object Label6: TLabel
     Left = 448
-    Top = 210
+    Top = 220
     Width = 31
     Height = 13
     Caption = 'Label6'
@@ -281,7 +281,7 @@ object Form1: TForm1
     object Label3: TLabel
       Left = 0
       Top = 0
-      Width = 99
+      Width = 140
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -294,6 +294,7 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
+      ExplicitWidth = 99
     end
     object DrawGrid_knihovna: TDrawGrid
       Left = 0
@@ -357,7 +358,7 @@ object Form1: TForm1
     object Label4: TLabel
       Left = 0
       Top = 0
-      Width = 91
+      Width = 140
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -370,6 +371,7 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
+      ExplicitWidth = 91
     end
     object Label5: TLabel
       Left = 102
@@ -1090,10 +1092,10 @@ object Form1: TForm1
     Top = 32
     Bitmap = {
 <<<<<<< HEAD
-      494C010118009401940110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011800AC01AC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
 =======
-      494C010118009001940110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
->>>>>>> 0bd1a45a6517ee3bbc93fedf001963eeec250a20
+      494C01011800A401AC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+>>>>>>> e65f303b9560bf8b0eef93145312329457cfef50
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
