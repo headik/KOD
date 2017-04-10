@@ -213,8 +213,12 @@ double Cmy::cekani_na_palec(double cas, double roztec_palcu,double rychlost_dopr
 {
 		if(zohlednit)
 		{
-			rychlost_dopravniku*=100;//pøevod z mm na mm
-			return 60/rychlost_dopravniku*fmod(rychlost_dopravniku/60*cas,roztec_palcu);
+			//toto je 9,75...
+			double cas_presunu_mezi_palci=(60*roztec_palcu)/(rychlost_dopravniku*100);  //to 100 je pøevod na cm z m
+			ShowMessage(cas_presunu_mezi_palci);
+			double zbytek_po_deleni=(cas*60/cas_presunu_mezi_palci)-floor(cas*60/cas_presunu_mezi_palci);//0,84...
+			ShowMessage(zbytek_po_deleni);
+			return cas_presunu_mezi_palci*(1.0-zbytek_po_deleni);
 		}
 		else return 0;
 }

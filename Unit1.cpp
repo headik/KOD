@@ -2132,7 +2132,8 @@ void __fastcall TForm1::html1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-/*void __fastcall TForm1::Button2Click(TObject *Sender)
+/*
+void __fastcall TForm1::Button2Click(TObject *Sender)
 {
  AnsiString pripona="tispl";
  AnsiString alias="TISPL";
@@ -2160,6 +2161,8 @@ void __fastcall TForm1::html1Click(TObject *Sender)
   r->WriteString("",str);
  }
 	delete(r);
+
+
 }
 //---------------------------------------------------------------------------
 */
@@ -2543,6 +2546,12 @@ void __fastcall TForm1::Chart1Click(TObject *Sender)
 
 
 
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button11Click(TObject *Sender)
+{
+ShowMessage(m.cekani_na_palec(12,32.5,2,true));
 }
 //---------------------------------------------------------------------------
 
