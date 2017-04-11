@@ -684,7 +684,7 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 		d.vykresli_svislici_na_casove_osy(Canvas,minule_souradnice_kurzoru.X,minule_souradnice_kurzoru.Y);
 		minule_souradnice_kurzoru=TPoint(X,Y);
 		d.vykresli_svislici_na_casove_osy(Canvas,X,Y);
-		SB(UnicodeString((X-d.PosunT.x)/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
+		SB(UnicodeString((X+d.PosunT.x)/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
 	}
 	else //výpis metrických souřadnic
 	{
