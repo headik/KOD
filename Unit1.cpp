@@ -2166,23 +2166,6 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void __fastcall TForm1::Button2Click(TObject *Sender)
 {
 
@@ -2199,12 +2182,35 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 	///sekce natvrdo
 	Button2->Visible=false;
 	d.v.hlavicka_seznamu_cest();
+
+	///////EXTREMNÍ PŘÍKLAD//////////////////////////////
 	//cesta 1
 	Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
 	d.v.hlavicka_jedne_cesty(cesta_pom);
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi,0,1,1);//nav
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi,1,1,5);//co2
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi,1,1,8);//ION
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi,0,1,4);//lak
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi,2,1,2);//vyť
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi,0,1,4);//lak
+	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi,2,1,2);//vyť
+	d.v.vloz_cestu(cesta_pom);//vloží novou hotovou cestu do spoj.seznamu cest
+	//cesta 2
+	Cvektory::TSeznam_cest *cesta_pom2=new Cvektory::TSeznam_cest;
+	d.v.hlavicka_jedne_cesty(cesta_pom2);
+	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi,0,1,2);//nav
+	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi,1,1,2);//co2
+	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi,0,1,4);//lak
+	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi,2,1,2);//vyť
+	d.v.vloz_cestu(cesta_pom2);//vloží novou hotovou cestu do spoj.seznamu cest
+	////
 
 
-  //	MAGNA
+
+	///////MAGNA//////////////////////////////
+	/*//cesta 1
+	Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
+	d.v.hlavicka_jedne_cesty(cesta_pom);
 
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi,0,1,2);//nav - režim,kapacita,ct
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi,1,1,2);//pow
@@ -2237,10 +2243,7 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,2,11,10);//chlaz
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,0,1,2);//sves
 
-
-
 	//cesta 2
-
 	Cvektory::TSeznam_cest *cesta_pom2=new Cvektory::TSeznam_cest;
 	d.v.hlavicka_jedne_cesty(cesta_pom2);
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi,0,1,2);//nav - režim,kapacita,ct
@@ -2274,17 +2277,15 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,2,11,10);//chlaz
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,0,1,2);//sves
 
-
-	d.v.vloz_cestu(cesta_pom2);//vloží novou hotovou cestu do spoj.seznamu cest*/
+	d.v.vloz_cestu(cesta_pom2);//vloží novou hotovou cestu do spoj.seznamu cest
 	d.v.vloz_cestu(cesta_pom);//vloží novou hotovou cestu do spoj.seznamu cest
+	*/
 
 
-	//ShowMessage(d.v.CESTY->dalsi->cesta->predchozi->n); */
-	//ShowMessage(d.v.CESTY->dalsi->cesta->predchozi->n);
-
-
-	//BOSKOVICE        cesta.1
-   /*
+	///////BOSKOVICE//////////////////////////////
+	/*cesta.1
+	Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
+	d.v.hlavicka_jedne_cesty(cesta_pom);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi,0,1,2); //nav - režim,kapacita,ct
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi,0,1,2);//ožeh
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi,0,1,2);//ion
@@ -2295,11 +2296,13 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,2,17,30);//SUŠ
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,2,9,2);//CHLAZ
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,0,1,2);//SVĚŠ
-
 	d.v.vloz_cestu(cesta_pom);
 	*/
-   //	SPPP
-  /*
+
+	///////SPPP - Bánovce//////////////////////////////
+	/*
+	Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
+	d.v.hlavicka_jedne_cesty(cesta_pom);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi,0,1,2); //nav - režim,kapacita,ct
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi,0,1,2);//ion
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi,0,1,2);//otoč
@@ -2316,14 +2319,13 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,2,18,40);//suš
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,2,8.5,5);//chlaz
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,0,1,2);//svěšování
-	*/
-/*
+
 	d.v.vloz_cestu(cesta_pom);
 
-    	Cvektory::TSeznam_cest *cesta_pom2=new Cvektory::TSeznam_cest;
-		d.v.hlavicka_jedne_cesty(cesta_pom2);
+	Cvektory::TSeznam_cest *cesta_pom2=new Cvektory::TSeznam_cest;
+	d.v.hlavicka_jedne_cesty(cesta_pom2);
 
-		d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi,0,1,2); //nav - režim,kapacita,ct
+	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi,0,1,2); //nav - režim,kapacita,ct
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi,0,1,2);//ion
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi,0,1,2);//otoč
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi,0,1,2);//ion
@@ -2342,7 +2344,7 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 
 
 	d.v.vloz_cestu(cesta_pom2);
-		 */
+	*/
 
 }
 //---------------------------------------------------------------------------
@@ -2549,9 +2551,4 @@ void __fastcall TForm1::Chart1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Button11Click(TObject *Sender)
-{
-ShowMessage(m.cekani_na_palec(12,32.5,2,true));
-}
-//---------------------------------------------------------------------------
 

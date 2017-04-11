@@ -349,7 +349,7 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 			{
 					Yloc=Y;
 					Cvektory::TVozik *vozik=v.VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
-					while (vozik!=NULL)
+					while (vozik!=NULL)//jede po konkrétních vozíkách, které řeší jenom konkréttní cestu
 					{
 						if(vozik->cesta->n==SC->n)//řeší jenom pro konrétní cestu
 						{
