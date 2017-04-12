@@ -332,7 +332,7 @@ void Cvykresli::vykresli_graf_rezervy(TCanvas *canv)
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-//celkové vykreslení módu časové osy
+//celkové vykreslení módu časové osy - MaRO algoritmus
 void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 {
 	v.vymazat_casovou_obsazenost_objektu_a_pozice_voziku(v.OBJEKTY,v.VOZIKY);//vymaže předchozí časovou obsazenost objektů, jinak by se při každém dalším překreslení objekty posovali o obsazenost z předchozího vykreslení
@@ -351,7 +351,7 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 					Cvektory::TVozik *vozik=v.VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
 					while (vozik!=NULL)//jede po konkrétních vozíkách, které řeší jenom konkréttní cestu
 					{
-						if(vozik->cesta->n==SC->n)//řeší jenom pro konrétní cestu
+						if(vozik->cesta->n==SC->n)//řeší jenom pro konrétní cestu, pokud tedy vozík odpovídá aktuální zakázce
 						{
 							if(vozik->pozice==-1)vozik->pozice=0;//protože implicitní hodnota pozice vozíku==-1
 
@@ -363,14 +363,11 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 							if(C->n==1)vozik->start=X;//uloží výchozí X hodnotu, prvního objektu pro daný vozík
 							double X_predchozi=X;//uloží povodní X hodnotu
 
-							////výpočet koncové pozice
-							X+=C->CT*PX2MIN+m.cekani_na_palec(X/PX2MIN+C->CT,32.5,3,Form1->CheckBoxPALCE->Checked)/60*PX2MIN;//uloží hodnotu posunu o délku technologického času na ose X
-							C->objekt->obsazenost=X;//nahraje koncovou X hodnotu do obsaženosti objektu pro další využítí
-							vozik->pozice=X;//uložení pro další použítý
+							////vykreslení procesu (jednoho obdelníčku "v plavecké dráze") včetně výpočtu koncové pozice
+							X=proces(canv,X,X_predchozi,Yloc,C,vozik);
 
-							////zajištění vykreslení
-							vykresli_casovou_osu(canv,C->objekt->short_name,vozik->barva,m.round(X_predchozi)-PosunT.x,m.round(X)-PosunT.x,Yloc-PosunT.y,KrokY);//samotné vykreslení časového obdelníku na časové ose
-							Yloc+=KrokY;//posunutí na ose Y
+							////--konec výpočet koncové pozice
+							Yloc+=KrokY;//posunutí na ose Y na další vozík
 						}
 						vozik=vozik->dalsi;//posun na další prvek v seznam
 					}
@@ -379,36 +376,73 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 			SC=SC->dalsi;//posun na další prvek v seznamu CEST
 			Y=Yloc;
 	}
+	//hodnoty pro další grafické použití či nastavení
 	WidthCanvasCasoveOsy=m.round(X);//uchová velikost nejdelší osy, pro použítí pro export canvasu do rastru
-	HeightCanvasCasoveOsy=Form1->RzToolbar1->Height+Y;//uchová výšku grafu
+	HeightCanvasCasoveOsy=Y-KrokY/2;//uchová výšku grafu
 	if(Form1->grid)vykresli_Xosy(canv);//vykreslí statické svislice na časové osy pokud je aktivovaná mřížka
 	Form1->g.ShowGrafy(true);
 	Form1->CheckBoxPALCE->Top=Form1->Chart1->Top-Form1->CheckBoxPALCE->Height;
 	Form1->CheckBoxPALCE->Visible=true;
 }
 //---------------------------------------------------------------------------
-//vykreslí jednu dílčí časovou osu (obdelníček objektu) pro jeden vozík, vytaženo pouze kvůli přehlednosti
-void Cvykresli::vykresli_casovou_osu(TCanvas *canv, AnsiString shortname, TColor color, int X1, int X2, int Y, short KrokY)
+//vypočítá konec procesu (odbdelníčku)
+double Cvykresli::proces(TCanvas *canv, double X,double X_predchozi, int Y, Cvektory::TCesta *C,Cvektory::TVozik *vozik)
+{
+	 double D=2;//rychlost dopravníku, zatím natvrdo
+	 double R=32.5;//rozteč palců,zatím natvrdo
+	 //standardní situace
+	 X+=C->CT*PX2MIN;
+	 vykresli_proces(canv,C->objekt->short_name,vozik->barva,0,m.round(X_predchozi)-PosunT.x,m.round(X)-PosunT.x,Y-PosunT.y,KrokY);//samotné vykreslení časového obdelníku na časové ose
+	 // nestandardní - nelogická situace, pokud bude čas procesu včetně času přejezdu vozíkukratší než u totožného přechozího objektu (vozíky např. v rámci CO2 se nemohou předbíhat), přičte se i tato vzdálenost (vykresleno šrafovaně)
+	 if(X < C->objekt->obsazenost+m.prejezd_voziku(vozik->delka,D)*PX2MIN)
+	 {
+			//dorovnání na čas předchozího vozíku
+	 		X_predchozi=X;//uloží povodní X hodnotu
+	 		X=C->objekt->obsazenost;
+			vykresli_proces(canv,C->objekt->short_name,vozik->barva,1,m.round(X_predchozi)-PosunT.x,m.round(X)-PosunT.x,Y-PosunT.y,KrokY);//samotné vykreslení časového obdelníku na časové ose
+			//cas_prekonani_zpozdeni_o_min_delku_jednoho_voziku
+			X_predchozi=X;//uloží povodní X hodnotu
+	 		X+=m.prejezd_voziku(vozik->delka,D)*PX2MIN;
+			vykresli_proces(canv,C->objekt->short_name,vozik->barva,2,m.round(X_predchozi)-PosunT.x,m.round(X)-PosunT.x,Y-PosunT.y,KrokY);//samotné vykreslení časového obdelníku na časové ose
+	 }
+	 //ještě posun o čekání na palce v každém případě (pokud tedy není kontinuální, což je řešeno přímo v metodě)
+	 X_predchozi=X;
+	 X+=m.cekani_na_palec(X/PX2MIN+C->CT,R,D,C->objekt->rezim,Form1->CheckBoxPALCE->Checked)/60*PX2MIN;
+	 if(X_predchozi!=X)vykresli_proces(canv,C->objekt->short_name,vozik->barva,3,m.round(X_predchozi)-PosunT.x,m.round(X)-PosunT.x,Y-PosunT.y,KrokY);//samotné vykreslení časového obdelníku na časové ose
+	 //uložení hodnot pro další použití (v dalších kolech)
+	 C->objekt->obsazenost=X;//nahraje koncovou X hodnotu do obsaženosti objektu pro další využítí
+	 vozik->pozice=X;//uložení pro další použítý vozík
+	 return X;
+}
+//---------------------------------------------------------------------------
+//vykreslí jeden dílčí časový proces (obdelníček procesu objektu) pro jeden vozík, vytaženo pouze kvůli přehlednosti
+void Cvykresli::vykresli_proces(TCanvas *canv, AnsiString shortname, TColor color, short typ, int X1, int X2, int Y, short KrokY)
 {
 	////osa
 	//set_pen(canv,color,2);//nastavení pera barvy osy
 	canv->Pen->Width=1;
 	canv->Pen->Mode=pmCopy;
 	canv->Pen->Style=psSolid;
-	canv->Pen->Color=clWhite;//TColor RGB(200,200,200);
-	canv->Brush->Style=bsSolid;
 	canv->Brush->Color=color;
+	switch(typ)
+	{
+			case 0: canv->Brush->Style=bsSolid;canv->Pen->Color=clWhite;break;//pro typ: normální proces
+			case 1: canv->Brush->Style=bsDiagCross;canv->Pen->Color=color;break;//pro typ: doplněný o konec na čekání na proces totožný předchozí
+			case 2: canv->Brush->Style=bsCross;canv->Pen->Color=color;break;//pro typ: nutná doba přejezdu vozíku
+			case 3: canv->Brush->Style=bsHorizontal;canv->Pen->Color=color;break;//pro typ: doba čekání na palec
+	}
 	canv->Rectangle(X1,Y-KrokY/2,X2+1,Y+KrokY/2);
-	//canv->FillRect(TRect(X1,Y-KrokY/2,X2+1,Y+KrokY/2));
-
 	////popisek
-	SetBkMode(canv->Handle,OPAQUE);//nastvení transparentního pozadí
-	//if(color!=clBlack)canv->Font->Color=clBlack;else canv->Font->Color=clWhite;//pokud je výplň obdelníčku černě, tak popisek bude bíle
-	canv->Font->Color=clWhite;
-	canv->Font->Size=8;
-	canv->Font->Name="Arial";
-	canv->Font->Style = TFontStyles()<< fsBold;//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
-	canv->TextOutW(((X2+X1)/2)-canv->TextWidth(shortname)/2,Y-canv->TextHeight(shortname)/2,shortname);//vypíše vycentrovaný (polovina nových a starých souřadnic a posun referenčního písma o horizontálně=TextWidth/2 a verticálně=TextHeight/2) popisek shorname t-objektu
+	if(typ==0)
+	{
+			SetBkMode(canv->Handle,OPAQUE);//nastvení transparentního pozadí
+			//if(color!=clBlack)canv->Font->Color=clBlack;else canv->Font->Color=clWhite;//pokud je výplň obdelníčku černě, tak popisek bude bíle
+			canv->Font->Color=clWhite;
+			canv->Font->Size=8;
+			canv->Font->Name="Arial";
+			canv->Font->Style = TFontStyles()<< fsBold;//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
+			canv->TextOutW(((X2+X1)/2)-canv->TextWidth(shortname)/2,Y-canv->TextHeight(shortname)/2,shortname);//vypíše vycentrovaný (polovina nových a starých souřadnic a posun referenčního písma o horizontálně=TextWidth/2 a verticálně=TextHeight/2) popisek shorname t-objektu
+	}
 }
 //---------------------------------------------------------------------------
 //vykreslí pohyblivou svislici na časové osy dle umístění kurzoru myši
@@ -444,7 +478,7 @@ void Cvykresli::vykresli_Xosy(TCanvas *canv)
 	canv->Font->Size=7;
 	canv->Font->Name="Arial";
 	canv->Font->Style = TFontStyles();
-	canv->Font->Pitch = TFontPitch::fpFixed;
+	canv->Font->Pitch = TFontPitch::fpFixed;//každé písmeno fontu stejně široké
 	canv->Font->Pitch = System::Uitypes::TFontPitch::fpFixed;
 	short o=1;
 	if(PosunT.x>10)o=-30;
@@ -455,13 +489,13 @@ void Cvykresli::vykresli_Xosy(TCanvas *canv)
 	for(int i=start;i<=WidthCanvasCasoveOsy;i+=PX2MIN*2)//po dvou minutách
 	{
 		canv->MoveTo(i-PosunT.x,0);
-		canv->LineTo(i-PosunT.x,HeightCanvasCasoveOsy);
+		canv->LineTo(i-PosunT.x,HeightCanvasCasoveOsy-1);//-1 pouze optická korekce
 		canv->Brush->Style=bsSolid;
 		canv->Brush->Color=clWhite;
 		canv->TextOutW(i-canv->TextWidth(i/PX2MIN)/2-PosunT.x,0+Form1->RzToolbar1->Height,i/PX2MIN);
 	}
 
-	//svislé číslování vozíků
+	//vodorovné číslování vozíků
 	canv->Brush->Style=bsSolid;
 	canv->Font->Style=TFontStyles()<< fsBold;
 	canv->Font->Color=clWhite;
@@ -475,21 +509,25 @@ void Cvykresli::vykresli_Xosy(TCanvas *canv)
 
 	//začátky a konce zakázek
 	Cvektory::TSeznam_cest *ukaz=v.CESTY->dalsi;
+	int konec=KrokY;
 	while (ukaz!=NULL)//projede všechny zakázky, cesty
 	{
 		TPointD RET=v.vrat_zacatek_a_konec_zakazky(ukaz);
+		konec+=v.vrat_pocet_voziku_zakazky(ukaz)*KrokY;
 		canv->Pen->Color=ukaz->barva;
+		canv->Pen->Style=psSolid;
+		canv->Pen->Width=2;
 		canv->Brush->Style=bsSolid;
 		canv->Brush->Color=clWhite;
-		if(RET.x>0)
+		if(RET.x>0)//x - plete, jedná se jen o začátek
 		{
 			canv->MoveTo(RET.x*PX2MIN-PosunT.x,0);
-			canv->LineTo(RET.x*PX2MIN-PosunT.x,HeightCanvasCasoveOsy);
+			canv->LineTo(RET.x*PX2MIN-PosunT.x,konec+KrokY/2-3-PosunT.y/*HeightCanvasCasoveOsy*/);
 		}
-		if(RET.y>0)
+		if(RET.y>0)//y - plete, jedná se jen o konec
 		{
 			canv->MoveTo(RET.y*PX2MIN-PosunT.x,0);
-			canv->LineTo(RET.y*PX2MIN-PosunT.x,HeightCanvasCasoveOsy);
+			canv->LineTo(RET.y*PX2MIN-PosunT.x,konec+KrokY/2-3-PosunT.y/*HeightCanvasCasoveOsy*/);
 		}
 		canv->Brush->Style=bsSolid;
 		canv->Brush->Color=ukaz->barva;

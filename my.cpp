@@ -209,9 +209,9 @@ TPointDbool Cmy::zkratit_polygon_na_roztec(double d, double r,double xp, double 
 		return RET;
 }
 /////////////////////////////////////////////////////////////////////////////
-double Cmy::cekani_na_palec(double cas, double roztec_palcu,double rychlost_dopravniku,bool zohlednit)//vrátí dobu èekání na palec v sec, zadání je u èas (výstupu vozíku z objektu) v sec, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
+double Cmy::cekani_na_palec(double cas, double roztec_palcu,double rychlost_dopravniku,short rezim,bool zohlednit)//vrátí dobu èekání na palec v sec, zadání je u èas (výstupu vozíku z objektu) v sec, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
 {
-		if(zohlednit)
+		if(zohlednit && rezim!=1)//pokud se jedná o kontinuální režim neøeší se
 		{
 			double cas_presunu_mezi_palci=(60*roztec_palcu)/(rychlost_dopravniku*100);  //to 100 je pøevod na cm z m
 			double zbytek_po_deleni=(cas*60/cas_presunu_mezi_palci)-floor(cas*60/cas_presunu_mezi_palci);//tzn. kde se nachází
@@ -220,3 +220,7 @@ double Cmy::cekani_na_palec(double cas, double roztec_palcu,double rychlost_dopr
 		else return 0;
 }
 /////////////////////////////////////////////////////////////////////////////
+double Cmy::prejezd_voziku(double delka, double rychlost_dopravniku)
+{
+	return delka/rychlost_dopravniku;
+}
