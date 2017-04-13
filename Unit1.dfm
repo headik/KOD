@@ -32,7 +32,7 @@ object Form1: TForm1
   TextHeight = 13
   object Label6: TLabel
     Left = 448
-    Top = 220
+    Top = 241
     Width = 31
     Height = 13
     Caption = 'Label6'
@@ -350,9 +350,9 @@ object Form1: TForm1
     object Label2: TLabel
       Left = 5
       Top = 48
-      Width = 36
+      Width = 94
       Height = 13
-      Caption = 'VOZ'#205'KY'
+      Caption = 'DEFINICE ZAK'#193'ZEK'
       Transparent = True
     end
     object Label4: TLabel
@@ -753,15 +753,6 @@ object Form1: TForm1
     TabOrder = 21
     Visible = False
   end
-  object Button11: TButton
-    Left = 416
-    Top = 296
-    Width = 75
-    Height = 25
-    Caption = 'Button11'
-    TabOrder = 22
-    OnClick = Button11Click
-  end
   object MainMenu1: TMainMenu
     Left = 152
     Top = 32
@@ -840,6 +831,7 @@ object Form1: TForm1
       end
       object simulace1: TMenuItem
         Caption = 'simulace'
+        Enabled = False
         RadioItem = True
         ShortCut = 120
         OnClick = simulace1Click
@@ -1100,7 +1092,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C01011800B401B80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011800CC01CC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

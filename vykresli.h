@@ -26,8 +26,9 @@ class Cvykresli
 	void vykresli_graf_rezervy(TCanvas *canv);//mód graf rezerv
 	void vykresli_casove_osy(TCanvas *canv);//celkové vykreslení módu èasové osy
 	void vykresli_Xosy(TCanvas *canv);//vykreslí statické svislice na èasové osy
-	void vykresli_casovou_osu(TCanvas *canv, AnsiString shortname, TColor color, int X1, int X2,int Y, short KrokY);
-	void vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y);//vykreslí pohyblivou svislici na èasové osy dle umístìní kurzoru myši
+	double proces(TCanvas *canv, double X, double X_predchozi, int Y, Cvektory::TCesta *C, Cvektory::TVozik *vozik);
+	void vykresli_proces(TCanvas *canv, AnsiString shortname, TColor color,short typ, int X1, int Xy2,int Y, short KrokY);//vykreslí jeden dílèí èasovı proces (obdelníèek procesu objektu) pro jeden vozík, vytaeno pouze kvùli pøehlednosti
+	void vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y);//vykreslí pohyblivou svislici yna èasové osy dle umístìní kurzoru myši
 	void vykresli_simulaci(TCanvas *canv);//zajišuje vykreslení simulace
 	void vykresli_linku(TCanvas *canv);//zajišuje vykreslení osy linky
 	void umisti_vozik(TCanvas *canv,Cvektory::TVozik *ukaz);//zajišuje umístìní vozíku na lince

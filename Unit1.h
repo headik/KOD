@@ -155,7 +155,6 @@ __published:	// IDE-managed Components
 	TBarSeries *Series5;
 	TBarSeries *Series6;
 	TPanel *Panel1;
-	TButton *Button11;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -244,7 +243,6 @@ __published:	// IDE-managed Components
 	void __fastcall FormShortCut(TWMKey &Msg, bool &Handled);
 	void __fastcall CheckBoxPALCEClick(TObject *Sender);
 	void __fastcall Chart1Click(TObject *Sender);
-	void __fastcall Button11Click(TObject *Sender);
 
 
 private:	// User declarations
