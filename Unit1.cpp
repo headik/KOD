@@ -2551,7 +2551,7 @@ void __fastcall TForm1::Chart1Click(TObject *Sender)
 
 void __fastcall TForm1::Button11Click(TObject *Sender)
 {
-ShowMessage(m.cekani_na_palec(12,32.5,2,true));
+ShowMessage(m.cekani_na_palec(0.55,32.5,2,true));
 }
 //---------------------------------------------------------------------------
 
