@@ -224,3 +224,14 @@ double Cmy::prejezd_voziku(double delka, double rychlost_dopravniku)
 {
 	return delka/rychlost_dopravniku;
 }
+/////////////////////////////////////////////////////////////////////////////
+//zesvìtlí barvu
+TColor Cmy::clLight(TColor C,short A)//A - míra zesvìtlení
+{
+	BYTE R=GetRValue(C);if(A>255-R)R=255;else R+=A;
+	BYTE G=GetGValue(C);if(A>255-G)G=255;else G+=A;
+	BYTE B=GetBValue(C);if(A>255-B)B=255;else B+=A;
+
+	return (TColor)RGB(R,G,B);
+}
+/////////////////////////////////////////////////////////////////////////////

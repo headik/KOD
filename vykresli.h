@@ -13,7 +13,9 @@ class Cvykresli
 	void SG(Cvektory::TVozik *ukaz);//zajištuje základní funkcionalitu technologického objektu v reimu S&G pøi vykreslování simulaci
 	void STOPKA(Cvektory::TVozik *ukaz);//zajištuje základní funkcionalitu technologického objektu STOPKA pøi vykreslování simulaci
 	bool KOLIZE(Cvektory::TVozik *V1,Cvektory::TVozik *V2);//vrací logickou hodnotu zda došlo èi nedošlo ke kolizi s jinım vozíkem
-
+	void vykresli_proces(TCanvas *canv, AnsiString shortname, TColor color,short typ, int X1, int X2,int Y, short KrokY);//vykreslí jeden dílèí èasovı proces (obdelníèek procesu objektu) pro jeden vozík, vytaeno pouze kvùli pøehlednosti
+	void vykresli_Xosy(TCanvas *canv);//vykreslí statické svislice na èasové osy
+	void vykresli_oddelovaci_linku();//vykreslí oddìlovací linku mezi grafy a canvasem
 
 	public:
 	Cvykresli();//konstruktor
@@ -26,9 +28,8 @@ class Cvykresli
 	void vykresli_graf_rezervy(TCanvas *canv);//mód graf rezerv
 	void vykresli_casove_osy(TCanvas *canv);//MARO metoda, celkové vykreslení módu èasové osy
 	void vykresli_vytizenost_objektu(TCanvas *canv);
-	void vykresli_Xosy(TCanvas *canv);//vykreslí statické svislice na èasové osy
+
 	double proces(TCanvas *canv, unsigned int n, double X_predchozi, double X, int Y, Cvektory::TCesta *C, Cvektory::TVozik *vozik);
-	void vykresli_proces(TCanvas *canv, AnsiString shortname, TColor color,short typ, int X1, int Xy2,int Y, short KrokY);//vykreslí jeden dílèí èasovı proces (obdelníèek procesu objektu) pro jeden vozík, vytaeno pouze kvùli pøehlednosti
 	void vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y);//vykreslí pohyblivou svislici yna èasové osy dle umístìní kurzoru myši
 	void vykresli_technologicke_procesy(TCanvas *canv);//ROMA metoda, vykreslí graf technologickıch procesù vùèi jednotlivım t-objektùm v èase
 	void vykresli_simulaci(TCanvas *canv);//zajišuje vykreslení simulace

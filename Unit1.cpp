@@ -31,7 +31,7 @@ AnsiString Parametry;
 __fastcall TForm1::TForm1(TComponent* Owner)
 	: TForm(Owner)
 {
-    srand(time(NULL));
+	srand(time(NULL));
 	m2px=0.1;//uchovává hodnotu prostorového rozlišení programu, nativní rozlišení 0,1 m na 1 pixel při zoomu 1x
 
 	//vytvoření TEMP adresáře (pro ini)
@@ -736,7 +736,7 @@ void __fastcall TForm1::FormMouseDown(TObject *Sender, TMouseButton Button, TShi
 				case CASOVAOSA:
 				{                              //min                  //vozik
 					proces_pom=d.v.najdi_proces((X+d.PosunT.x)/d.PX2MIN,ceil((Y+d.PosunT.y-d.KrokY/2-RzToolbar1->Height)/(d.KrokY*1.0)));//vrací nalezen proces, proces_pom se využívá ještě dále
-					if(proces_pom!=NULL)Zobrazitparametry1->Visible=true;
+					if(proces_pom!=NULL && !d.mod_vytizenost_objektu)Zobrazitparametry1->Visible=true;
 					else Zobrazitparametry1->Visible=false;
 				}break;
 				case TECHNOPROCESY:break;
@@ -2076,7 +2076,7 @@ void __fastcall TForm1::Export1Click(TObject *Sender)
 				case EDITACE: d.vykresli_vektory(Bitmap->Canvas);break;//vykreslování všech vektorů   ///PROZATIM
 				case TESTOVANI: d.vykresli_vektory(Bitmap->Canvas);break;//vykreslování všech vektorů
 				case REZERVY: d.vykresli_graf_rezervy(Bitmap->Canvas);break;//vykreslení grafu rezerv
-				case CASOVAOSA: Bitmap->Width=d.WidthCanvasCasoveOsy; Bitmap->Height=d.HeightCanvasCasoveOsy; d.vykresli_casove_osy(Bitmap->Canvas);break;
+				case CASOVAOSA:	nastaveni_grafickeho_vystupu(Bitmap);break;
 			}
 
 			//vraceni puvodních hodnot
@@ -2122,6 +2122,52 @@ void __fastcall TForm1::Export1Click(TObject *Sender)
 			Screen->Cursor=crDefault;//změní kurzor na default
 			SB("Export do "+export_format+" dokončen.");
 	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Rychlexport1Click(TObject *Sender)
+{
+	 Screen->Cursor=crHourGlass;//změní kurzor na přesýpací hodiny
+
+	 //založení Bitmapy včetně parametrů
+	 Graphics::TBitmap * Bitmap = new Graphics::TBitmap;
+	 nastaveni_grafickeho_vystupu(Bitmap);
+
+	 //uložení z Bitmapy do Png (do Jpg dělalo drobnou grafickou chybu
+	 TPngImage* Png=new TPngImage;
+	 Png->Assign(Bitmap);
+	 delete Bitmap;
+
+	 AnsiString FileName="export_"+UnicodeString(DateToStr(Now()))+"_"+ms.replace(TimeToStr(Now()),"_",":")+".png";
+	 Png->SaveToFile(FileName);delete Png;//uloží PNG do souboru a smaže na něj ukazatel
+	 ShellExecute(0,L"open",UnicodeString(FileName).c_str(),0,0,SW_SHOWNORMAL);//otevře výstup
+	 Screen->Cursor=crDefault;//změní kurzor na default
+	 SB("Rychlý export dokončen.");
+}
+//---------------------------------------------------------------------------
+void TForm1::nastaveni_grafickeho_vystupu(Graphics::TBitmap * Bitmap)
+{
+	 Bitmap->Width=d.WidthCanvasCasoveOsy;
+	 Bitmap->Height=d.HeightCanvasCasoveOsy;
+	 TPointD puvPosunT=d.PosunT;//zazálohování aktuálního posunu
+	 d.PosunT.x=0;d.PosunT.y=0;//provizorní navrácení na výchozí pozici
+	 d.vykresli_casove_osy(Bitmap->Canvas);
+	 d.PosunT=puvPosunT;//navrácení do stavu, aby uživatel posun do výchozí pozice nezaznamenal
+
+	 //nadpis výstupu
+	 Bitmap->Canvas->Font->Color=clGray;
+	 Bitmap->Canvas->Font->Size=12;
+	 Bitmap->Canvas->Font->Name="Arial";
+	 Bitmap->Canvas->Brush->Style=bsSolid;
+	 Bitmap->Canvas->Brush->Color=clWhite;
+	 Bitmap->Canvas->Pen->Color=clWhite;
+	 Bitmap->Canvas->Pen->Mode=pmCopy;
+	 Bitmap->Canvas->Rectangle(0,0,d.WidthCanvasCasoveOsy,d.KrokY);//pouze bílé pozadí titulku
+	 Bitmap->Canvas->Font->Style = TFontStyles()<< fsBold;//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
+	 AnsiString T="Zobrazení časových os technologických procesů projektu: ";
+	 Bitmap->Canvas->TextOutW(8,5,T);
+	 short W=Bitmap->Canvas->TextWidth(T);
+	 Bitmap->Canvas->Font->Style = TFontStyles()<< fsBold << fsItalic;//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
+	 Bitmap->Canvas->TextOutW(8+W,5,FileName);
 }
 //---------------------------------------------------------------------------
 //zajistí report do Formátu CSV nebo JPG
@@ -2618,6 +2664,8 @@ void __fastcall TForm1::Button11Click(TObject *Sender)
 	if(d.v.PROCESY!=NULL && d.v.PROCESY->predchozi->n>0)//pokud je více objektů
 	{
 		d.mod_vytizenost_objektu=!d.mod_vytizenost_objektu;
+		CheckBoxPALCE->Visible=!CheckBoxPALCE->Visible;
+		SB("");
 		Invalidate();
 	}
 }
@@ -2627,7 +2675,7 @@ void __fastcall TForm1::Button11Click(TObject *Sender)
 void __fastcall TForm1::MagnaClick(TObject *Sender)
 {
  //otevřít soubor
- //OtevritSoubor(zde bude cesta k souboru magna.tispl);
+ OtevritSoubor("magna200v.tispl");
 
  //načíst plán výroby
  	///////MAGNA//////////////////////////////
@@ -2704,4 +2752,6 @@ void __fastcall TForm1::MagnaClick(TObject *Sender)
 	d.v.vloz_cestu(cesta_pom);//vloží novou hotovou cestu do spoj.seznamu cest
 }
 //---------------------------------------------------------------------------
+
+
 

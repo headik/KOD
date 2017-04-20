@@ -368,6 +368,10 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 							if(C->n==1)vozik->start=X;//uloží výchozí X hodnotu, prvního objektu pro daný vozík
 							double X_predchozi=X;//uloží povodní X hodnotu
 
+							//buffer pokud předchází
+							if(vozik->pozice<X && vozik->pozice>0)
+							vykresli_proces(canv,"BUF",m.clLight(vozik->barva,80),0,vozik->pozice-PosunT.x,X-PosunT.x,Yloc-PosunT.y,KrokY);
+
 							////vykreslení procesu (jednoho obdelníčku "v plavecké dráze") včetně výpočtu koncové pozice
 							X=proces(canv,++n,X_predchozi,X,Yloc,C,vozik);
 
@@ -386,14 +390,15 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 	HeightCanvasCasoveOsy=Y-KrokY/2;//uchová výšku grafu
 	if(Form1->grid)vykresli_Xosy(canv);//vykreslí statické svislice na časové osy pokud je aktivovaná mřížka
 	Form1->g.ShowGrafy(true);
-	Form1->CheckBoxPALCE->Top=Form1->Chart1->Top-Form1->CheckBoxPALCE->Height;
+	Form1->CheckBoxPALCE->Top=Form1->Chart1->Top-Form1->CheckBoxPALCE->Height-2; //-2 vizuální záležitost
 	Form1->CheckBoxPALCE->Visible=true;
 	}
 	else
 	{
 			vykresli_vytizenost_objektu(canv);
 			if(Form1->grid)vykresli_Xosy(canv);
-  }
+	}
+	vykresli_oddelovaci_linku();
 
 }
 //---------------------------------------------------------------------------
@@ -403,16 +408,15 @@ double Cvykresli::proces(TCanvas *canv, unsigned int n, double X_predchozi, doub
 	 double D=2;//rychlost dopravníku, zatím natvrdo
 	 double R=32.5;//rozteč palců,zatím natvrdo
 	 Cvektory::TProces *P=new Cvektory::TProces;//uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
-	 P->n_v_zakazce=n;//dpolnit //uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
-	 P->cesta=C; //uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
-	 P->vozik=vozik;
+	 P->n_v_zakazce=n;//uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
+	 P->cesta=C;//uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
+	 P->vozik=vozik;//uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
 	 P->Tpoc=X_predchozi/PX2MIN;//uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
 
 	 //standardní situace
 	 X+=C->CT*PX2MIN;
 	 vykresli_proces(canv,C->objekt->short_name,vozik->barva,0,m.round(X_predchozi)-PosunT.x,m.round(X)-PosunT.x,Y-PosunT.y,KrokY);//samotné vykreslení časového obdelníku na časové ose
 	 P->Tkon=X/PX2MIN; //uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
-
 	 // nestandardní - nelogická situace, pokud bude čas procesu včetně času přejezdu vozíkukratší než u totožného přechozího objektu (vozíky např. v rámci CO2 se nemohou předbíhat), přičte se i tato vzdálenost (vykresleno šrafovaně)
 	 if(X < C->objekt->obsazenost+m.prejezd_voziku(vozik->delka,D)*PX2MIN)
 	 {
@@ -427,7 +431,7 @@ double Cvykresli::proces(TCanvas *canv, unsigned int n, double X_predchozi, doub
 			vykresli_proces(canv,C->objekt->short_name,vozik->barva,2,m.round(X_predchozi)-PosunT.x,m.round(X)-PosunT.x,Y-PosunT.y,KrokY);//samotné vykreslení časového obdelníku na časové ose
 			P->Tpre=X/PX2MIN; //uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
 	 }
-	 else//pokud situace nenastane, tak ošetření proti tomu, aby se neukládaly náhodného hodnoty
+	 else//pokud situace NEnastane, tak ošetření proti tomu, aby se neukládaly náhodného hodnoty
 	 {
 		 P->Tdor=X/PX2MIN;
 		 P->Tpre=X/PX2MIN;
@@ -490,12 +494,15 @@ void Cvykresli::vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y)
 		canv->MoveTo(X,0);
 		canv->LineTo(X,Form1->ClientHeight);
 		//vodorovna
-		canv->MoveTo(0,Y);
-		canv->LineTo(Form1->ClientWidth,Y);
-		canv->Brush->Style=bsSolid;//vracím raději do původního stavu
-		unsigned int V=ceil((Y+PosunT.y-KrokY/2-Form1->RzToolbar1->Height)/(KrokY*1.0));//pozn. KrokY/2 kvůli tomu, že střed osy je ve horozintální ose obdelníku
-		if(V<=v.VOZIKY->predchozi->n)	Form1->SB("Vozík: "+AnsiString(V));
-		else Form1->SB("");//pokud je už mimo oblast
+		if(!mod_vytizenost_objektu)//při modu vytížení objektů se nezobrazí
+		{
+			canv->MoveTo(0,Y);
+			canv->LineTo(Form1->ClientWidth,Y);
+			canv->Brush->Style=bsSolid;//vracím raději do původního stavu
+			unsigned int V=ceil((Y+PosunT.y-KrokY/2-Form1->RzToolbar1->Height)/(KrokY*1.0));//pozn. KrokY/2 kvůli tomu, že střed osy je ve horozintální ose obdelníku
+			if(V<=v.VOZIKY->predchozi->n)	Form1->SB("Vozík: "+AnsiString(V));
+			else Form1->SB("");//pokud je už mimo oblast
+		}
 	}
 }
 //---------------------------------------------------------------------------
@@ -624,6 +631,16 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 
 		P=P->dalsi;
 	};
+}
+//---------------------------------------------------------------------------
+//vykreslí oddělovací linku mezi grafy a canvasem
+void Cvykresli::vykresli_oddelovaci_linku()
+{ //musí být kresleno do Form1->Canvas nikoliv do canv kvůli tomu, aby se linka při exportu do rastu neexportovala také
+	Form1->Canvas->Pen->Width=1;
+	Form1->Canvas->Pen->Style=psSolid;
+	Form1->Canvas->Pen->Color=clGray;
+	Form1->Canvas->MoveTo(0,Form1->CheckBoxPALCE->Top+Form1->CheckBoxPALCE->Height);
+	Form1->Canvas->LineTo(Form1->ClientWidth,Form1->CheckBoxPALCE->Top+Form1->CheckBoxPALCE->Height);
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------

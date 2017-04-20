@@ -254,6 +254,7 @@ __published:	// IDE-managed Components
 	void __fastcall Zobrazitparametry1Click(TObject *Sender);
 	void __fastcall Button11Click(TObject *Sender);
 	void __fastcall MagnaClick(TObject *Sender);
+	void __fastcall Rychlexport1Click(TObject *Sender);
 
 
 private:	// User declarations
@@ -300,6 +301,7 @@ private:	// User declarations
 	void ulozit_nastaveni();
 	void zavrit_uvod();//zavře úvodní dialog
 	int vrat_max_vysku_grafu();
+	void nastaveni_grafickeho_vystupu(Graphics::TBitmap * Bitmap);
 
 	////proměnné
 	int size_grid;
