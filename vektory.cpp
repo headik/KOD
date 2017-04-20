@@ -1184,7 +1184,7 @@ unsigned int Cvektory::WIP()//vrátí max. počet vozíků na lince
 }
 //---------------------------------------------------------------------------
 //srovnává všechny kombinace, možná by šlo zjednodušit
-double Cvektory::vrat_kapacitu_objektu(TObjekt *O)
+unsigned int Cvektory::vrat_kapacitu_objektu(TObjekt *O)
 {
 	 unsigned int pocet_final=0;
 	 if(O->rezim!=0)//pokud se nejedná o S&G, ten má kapacitu vždy 1, pokud ano algoritmus se přeskočí
