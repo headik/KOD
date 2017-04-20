@@ -192,7 +192,7 @@ class Cvektory
 		unsigned int vrat_pocet_voziku_zakazky(TSeznam_cest *jaka);
 		unsigned int vrat_pocet_voziku_zakazky(unsigned int n_zakazky);
 		unsigned int WIP();//vrátí max. počet vozíků na lince
-		double vrat_kapacitu_objektu(TObjekt *O);
+		unsigned int vrat_kapacitu_objektu(TObjekt *O);
 
 	private:
 		struct C_uzel//pro konverzi do bináru
