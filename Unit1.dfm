@@ -826,6 +826,14 @@ object Form1: TForm1
         Caption = 'Magna'
         OnClick = MagnaClick
       end
+      object SPPP1: TMenuItem
+        Caption = 'SPPP'
+        OnClick = SPPP1Click
+      end
+      object Boskovice1: TMenuItem
+        Caption = 'Boskovice'
+        OnClick = Boskovice1Click
+      end
     end
     object Md1: TMenuItem
       Caption = '&M'#243'd'
@@ -1126,7 +1134,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C01011800DC01DC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011800DC01E00110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
