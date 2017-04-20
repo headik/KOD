@@ -753,6 +753,15 @@ object Form1: TForm1
     TabOrder = 21
     Visible = False
   end
+  object Button11: TButton
+    Left = 687
+    Top = 360
+    Width = 75
+    Height = 25
+    Caption = 'Button11'
+    TabOrder = 22
+    OnClick = Button11Click
+  end
   object MainMenu1: TMainMenu
     Left = 152
     Top = 32
@@ -829,18 +838,25 @@ object Form1: TForm1
         RadioItem = True
         OnClick = casoverezervy1Click
       end
+      object casovosa1: TMenuItem
+        Caption = #269'asov'#225' osa'
+        RadioItem = True
+        ShortCut = 120
+        OnClick = casovosa1Click
+      end
+      object technologickprocesy1: TMenuItem
+        Caption = 'technologick'#233' procesy'
+        Enabled = False
+        RadioItem = True
+        ShortCut = 121
+        OnClick = technologickprocesy1Click
+      end
       object simulace1: TMenuItem
         Caption = 'simulace'
         Enabled = False
         RadioItem = True
-        ShortCut = 120
+        ShortCut = 122
         OnClick = simulace1Click
-      end
-      object casovosa1: TMenuItem
-        Caption = #269'asov'#225' osa'
-        RadioItem = True
-        ShortCut = 121
-        OnClick = casovosa1Click
       end
     end
     object Pohled1: TMenuItem
@@ -1002,6 +1018,7 @@ object Form1: TForm1
     end
   end
   object PopupMenu1: TPopupMenu
+    OnPopup = PopupMenu1Popup
     Left = 184
     Top = 32
     object Nastvitparametry1: TMenuItem
@@ -1013,6 +1030,16 @@ object Form1: TForm1
       Caption = 'Smazat objekt'
       Visible = False
       OnClick = Smazat1Click
+    end
+    object Zobrazitparametry1: TMenuItem
+      Caption = 'Zobrazit parametry'
+      Visible = False
+      OnClick = Zobrazitparametry1Click
+    end
+    object Rychlexport1: TMenuItem
+      Caption = 'Rychl'#253' export'
+      Visible = False
+      OnClick = Export1Click
     end
     object N5: TMenuItem
       Caption = '-'
@@ -1092,7 +1119,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C01011800CC01CC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011800D801D80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

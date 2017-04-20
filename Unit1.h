@@ -155,6 +155,10 @@ __published:	// IDE-managed Components
 	TBarSeries *Series5;
 	TBarSeries *Series6;
 	TPanel *Panel1;
+	TMenuItem *technologickprocesy1;
+	TMenuItem *Rychlexport1;
+	TMenuItem *Zobrazitparametry1;
+	TButton *Button11;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -243,11 +247,15 @@ __published:	// IDE-managed Components
 	void __fastcall FormShortCut(TWMKey &Msg, bool &Handled);
 	void __fastcall CheckBoxPALCEClick(TObject *Sender);
 	void __fastcall Chart1Click(TObject *Sender);
+	void __fastcall technologickprocesy1Click(TObject *Sender);
+	void __fastcall PopupMenu1Popup(TObject *Sender);
+	void __fastcall Zobrazitparametry1Click(TObject *Sender);
+	void __fastcall Button11Click(TObject *Sender);
 
 
 private:	// User declarations
 	////struktury, výčty
-	enum Tmod{NO=0,EDITACE,TESTOVANI,REZERVY,SIMULACE,CASOVAOSA};Tmod MOD;
+	enum Tmod{NO=0,EDITACE,TESTOVANI,REZERVY,CASOVAOSA,TECHNOPROCESY,SIMULACE};Tmod MOD;
 	enum Takce{NIC=0,PAN,PAN_MOVE,ZOOM_W,ZOOM_W_MENU,ADD,MOVE};Takce Akce;
 	enum TKurzory {standard=0,posun_v,posun_b,posun_p,posun_l,posun_t,kalibrovat,pan,pan_move,window,add_o};
 	struct Tnastaveni{bool autosave;unsigned short int minut;bool posledni_file;};Tnastaveni nastaveni;
@@ -255,6 +263,7 @@ private:	// User declarations
 	////instance
 	Graphics::TBitmap *Pan_bmp;
 	Cvektory::TObjekt *pom;
+	Cvektory::TProces *proces_pom;
 
 	////metody
 	void setVisualStyle(TRzVisualStyle VisualStyle=vsClassic);

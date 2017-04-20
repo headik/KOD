@@ -39,7 +39,7 @@ void Cvektory::hlavicka_objekty()
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-//uloží bod a jeho parametry do seznamu
+//uloží objekt a jeho parametry do seznamu
 short Cvektory::vloz_objekt(unsigned int id, double X, double Y)
 {
 	TObjekt *novy=new TObjekt;
@@ -71,7 +71,7 @@ short Cvektory::vloz_objekt(unsigned int id, double X, double Y)
 	return 0;
 };
 //---------------------------------------------------------------------------
-//uloží bod a jeho parametry do seznamu                                   //p předchozí
+//uloží objekt a jeho parametry do seznamu                                   //p předchozí
 short Cvektory::vloz_objekt(unsigned int id, double X, double Y,TObjekt *p)
 {
 	TObjekt *novy=new TObjekt;
@@ -102,7 +102,7 @@ short Cvektory::vloz_objekt(unsigned int id, double X, double Y,TObjekt *p)
 	return 0;
 };
 //---------------------------------------------------------------------------
-//uloží bod a jeho parametry do seznamu - přetížená fce
+//uloží objekt a jeho parametry do seznamu - přetížená fce
 short Cvektory::vloz_objekt(TObjekt *Objekt)
 {
 	TObjekt *novy=new TObjekt;
@@ -117,7 +117,7 @@ short Cvektory::vloz_objekt(TObjekt *Objekt)
 	return 0;
 };
 //---------------------------------------------------------------------------
-//hledá bod v dané oblasti                                       //pracuje v logic souradnicich tzn. již nepouživat *Zoom  použít pouze m2px
+//hledá objekt v dané oblasti                                       //pracuje v logic souradnicich tzn. již nepouživat *Zoom  použít pouze m2px
 Cvektory::TObjekt *Cvektory::najdi_objekt(double X, double Y,double offsetX, double offsetY)
 {
 	Cvektory::TObjekt *ret=NULL;
@@ -130,7 +130,7 @@ Cvektory::TObjekt *Cvektory::najdi_objekt(double X, double Y,double offsetX, dou
 	return ret;
 }
 //---------------------------------------------------------------------------
-//smaze bod ze seznamu
+//smaze objekt ze seznamu
 short int Cvektory::smaz_objekt(TObjekt *Objekt)
 {
 	//vyřazení prvku ze seznamu a napojení prvku dalšího na prvek předchozí prku mazaného
@@ -138,24 +138,24 @@ short int Cvektory::smaz_objekt(TObjekt *Objekt)
 	{
 		Objekt->predchozi->dalsi=Objekt->dalsi;
 		Objekt->dalsi->predchozi=Objekt->predchozi;
-  }
-  else//poslední prvek
+	}
+	else//poslední prvek
   {
 		if(Objekt->n==1)//pokud je mazaný prvek hned za hlavičkou
     {
 			OBJEKTY->predchozi=Objekt->predchozi; //popř hlavička bude ukazovat sama na sebe
 			OBJEKTY->dalsi=NULL;
-    }
+		}
     else
-    {
+		{
 			Objekt->predchozi->dalsi=NULL;
 			OBJEKTY->predchozi=Objekt->predchozi;//zapis do hlavičky poslední prvek seznamu
     }
-  }
+	}
 
-  Objekt=NULL;delete Objekt;//smaže mazaný prvek
+	Objekt=NULL;delete Objekt;//smaže mazaný prvek
 
-  return 0;
+	return 0;
 
 };
 void Cvektory::sniz_indexy(TObjekt *Objekt)
@@ -332,6 +332,69 @@ long Cvektory::vymaz_cesty()
 
 	return pocet_smazanych_objektu;
 };
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+void Cvektory::hlavicka_procesy()
+{
+	TProces *novy=new TProces;
+	novy->n=0;
+	novy->n_v_zakazce=0;
+	novy->Tpoc=0;
+	novy->Tkon=0;
+	novy->Tdor=0;
+	novy->Tpre=0;
+	novy->Tcek=0;
+	novy->cesta=NULL;
+	novy->vozik=NULL;
+
+	novy->predchozi=novy;//ukazuje sam na sebe
+	novy->dalsi=NULL;//další je zatim NULL
+	PROCESY=novy;
+}
+//---------------------------------------------------------------------------
+//uloží ukazatel na vozík do spojového seznamu voziku přetížená fce
+void Cvektory::vloz_proces(TProces *Proces)
+{
+	TProces *novy=new TProces;
+	novy=Proces;//novy bude ukazovat tam kam prvek data
+
+	novy->n=PROCESY->predchozi->n+1;//navýším počítadlo prvku o jedničku
+	PROCESY->predchozi->dalsi=novy;//poslednímu prvku přiřadím ukazatel na nový prvek
+	novy->predchozi=PROCESY->predchozi;//novy prvek se odkazuje na prvek predchozí (v hlavicce body byl ulozen na pozici predchozi, poslední prvek)
+	novy->dalsi=NULL;//poslední prvek se na zadny dalsí prvek neodkazuje (neexistuje
+	PROCESY->predchozi=novy;//nový poslední prvek zápis do hlavičky,body->predchozi zápis do hlavičky odkaz na poslední prvek seznamu "predchozi" v tomto případě zavádějicí
+}
+//---------------------------------------------------------------------------
+//hledá bod mezi procesy
+Cvektory::TProces *Cvektory::najdi_proces(double cas, double vozik)
+{
+	TProces *RET=NULL;
+	TProces *P=PROCESY->dalsi;
+	while (P!=NULL)
+	{
+		if(P->vozik->n==vozik && P->Tpoc<=cas && cas<P->Tcek)//pokud se myš nachází nad právě cyklem procházeným procesem
+		{
+			 RET=P;//proces nalezen
+			 break;//ukončí předčasně while cyklus-zbytečně by se hledalo dál, proces byl již nalezen
+		}
+		P=P->dalsi;
+	};
+	return RET;
+}
+//---------------------------------------------------------------------------
+long Cvektory::vymaz_seznam_procesu()
+{
+	long pocet_smazanych_objektu=0;
+	while (PROCESY!=NULL)
+	{
+		pocet_smazanych_objektu++;
+		PROCESY->predchozi=NULL;
+		delete PROCESY->predchozi;
+		PROCESY=PROCESY->dalsi;
+	};
+
+	return pocet_smazanych_objektu;
+}
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -1120,6 +1183,85 @@ unsigned int Cvektory::WIP()//vrátí max. počet vozíků na lince
 	return 0;
 }
 //---------------------------------------------------------------------------
+//srovnává všechny kombinace, možná by šlo zjednodušit
+double Cvektory::vrat_kapacitu_objektu(TObjekt *O)
+{
+	 unsigned int pocet_final=0;
+	 if(O->rezim!=0)//pokud se nejedná o S&G, ten má kapacitu vždy 1, pokud ano algoritmus se přeskočí
+	 {
+			 TProces *P=PROCESY->dalsi;
+			 while (P!=NULL)
+			 {
+				 unsigned int pocet=0;
+				 if(P->cesta->objekt->n==O->n)//pokud se jedná o hledaný objekt
+				 {
+						TProces *P2=P->dalsi;
+						while (P2!=NULL)
+						{
+							if(P2->cesta->objekt->n==O->n && P->Tcek>P2->Tpoc)//pokud se jedná o spoluhledaný objekt a objekty se v čase zároveň překrývají (tudíž se navyšuje jejich kapacita)
+							pocet++;
+							P2=P2->dalsi;
+						}
+				 }
+				 if(pocet_final<pocet)pocet_final=pocet;
+				 P=P->dalsi;
+			 };
+	 }
+	 if(O!=NULL && PROCESY!=NULL && PROCESY->predchozi->n>0) return pocet_final+1;
+	 else return 0;
+}
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+void Cvektory::vse_odstranit()
+{
+		//objekty
+		if(OBJEKTY->predchozi->n>0)//pokud je více objektů
+		{
+			vymaz_seznam();//vymaze body z paměti
+			delete OBJEKTY; OBJEKTY=NULL;
+		}
+
+		//voziky
+		if(VOZIKY->predchozi->n>0)//pokud je více objektů
+		{
+			vymaz_seznam_voziku();//vymaze body z paměti
+			delete VOZIKY; VOZIKY=NULL;
+		}
+
+		//palce
+		if(PALCE->predchozi->n>0)//pokud je více objektů
+		{
+			vymaz_seznam();//vymaze body z paměti
+			delete PALCE; PALCE=NULL;
+		}
+
+//		//cesty    padá dodělat
+//		if(CESTY!=NULL && CESTY->predchozi->n>0)//pokud je více objektů
+//		{
+//			vymaz_cesty();
+//			delete CESTY; CESTY=NULL;
+//		}
+
+		//procesy
+		if(PROCESY!=NULL && PROCESY->predchozi->n>0)//pokud je více objektů
+		{
+			vymaz_seznam_procesu();
+			delete PROCESY; PROCESY=NULL;
+		}
+
+
+
+				/*  až budu pracovat s UNDO a REDO
+		v.vymaz_seznam(v.p_redo);
+		v.vymaz_seznam(v.p_undo);
+		v.vymaz_seznam(v.l_redo);
+		v.vymaz_seznam(v.l_undo);
+
+		delete v.p_redo;v.p_redo=NULL;
+		delete v.p_undo;v.p_undo=NULL;
+		delete v.l_redo;v.l_redo=NULL;
+		delete v.l_undo;v.l_undo=NULL;
+		*/
+}
 

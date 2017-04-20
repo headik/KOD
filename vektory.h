@@ -84,6 +84,22 @@ class Cvektory
 		};
 		TVozik *VOZIKY;
 
+		struct TProces
+		{
+			unsigned int n; //pořadí objektu ve spoj.seznamu
+			unsigned int n_v_zakazce;//pořadí objektu v rámci zakázky
+			double Tpoc;//X-počateční
+			double Tkon;//X-koncové
+			double Tdor;//X-dorovnání předchozího vozíku
+			double Tpre;//X- nutná doba přejezdu, zpoždění za předchozím vozíkem
+			double Tcek;//X- nutná doba cekani na palec
+			struct TCesta *cesta; //při změna datového modelu spíše zakazka
+			struct TVozik *vozik;
+			struct TProces *predchozi;
+			struct TProces *dalsi;
+		};
+		TProces *PROCESY; //zadaný CT - obsažen v cestě, objekt obsažen v cestě
+
 		struct TPalec
 		{
 			unsigned long n; //pořadí objektu ve spoj.seznamu
@@ -137,6 +153,10 @@ class Cvektory
 		void vloz_cestu(TSeznam_cest *Cesta);//vloží hotovou cestu do spojového seznamu cesty
 		TSeznam_cest *vrat_cestu(unsigned int ID_cesty);
 		long vymaz_cesty();
+		void hlavicka_procesy();
+		void vloz_proces(TProces *Proces);
+		TProces *najdi_proces(double cas, double vozik);//hledá bod mezi procesy
+		long vymaz_seznam_procesu();
 		short int uloz_do_souboru(UnicodeString FileName);
 		short int nacti_ze_souboru(UnicodeString FileName);
 		short int ulozit_report(UnicodeString FileName);
@@ -148,6 +168,7 @@ class Cvektory
 		void hlavicka_palce();
 		void vloz_palec();//přidá nový vozík do seznamu PALCE
 		long vymaz_seznam_palcu();
+		void vse_odstranit();//odstraní všechny vektory (všechny globální spojáky)
 		//technické, statistické a ekonomické ukazatele
 		void get_LT_a_max_min_TT();
 		double sum_WT();
@@ -171,7 +192,7 @@ class Cvektory
 		unsigned int vrat_pocet_voziku_zakazky(TSeznam_cest *jaka);
 		unsigned int vrat_pocet_voziku_zakazky(unsigned int n_zakazky);
 		unsigned int WIP();//vrátí max. počet vozíků na lince
-
+		double vrat_kapacitu_objektu(TObjekt *O);
 
 	private:
 		struct C_uzel//pro konverzi do bináru

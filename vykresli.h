@@ -24,11 +24,13 @@ class Cvykresli
 	void vykresli_rectangle(TCanvas *canv, Cvektory::TObjekt *ukaz);
 	void vykresli_grid(TCanvas *canv, int size_grid=10);
 	void vykresli_graf_rezervy(TCanvas *canv);//mód graf rezerv
-	void vykresli_casove_osy(TCanvas *canv);//celkové vykreslení módu èasové osy
+	void vykresli_casove_osy(TCanvas *canv);//MARO metoda, celkové vykreslení módu èasové osy
+	void vykresli_vytizenost_objektu(TCanvas *canv);
 	void vykresli_Xosy(TCanvas *canv);//vykreslí statické svislice na èasové osy
-	double proces(TCanvas *canv, double X, double X_predchozi, int Y, Cvektory::TCesta *C, Cvektory::TVozik *vozik);
+	double proces(TCanvas *canv, unsigned int n, double X_predchozi, double X, int Y, Cvektory::TCesta *C, Cvektory::TVozik *vozik);
 	void vykresli_proces(TCanvas *canv, AnsiString shortname, TColor color,short typ, int X1, int Xy2,int Y, short KrokY);//vykreslí jeden dílèí èasovı proces (obdelníèek procesu objektu) pro jeden vozík, vytaeno pouze kvùli pøehlednosti
 	void vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y);//vykreslí pohyblivou svislici yna èasové osy dle umístìní kurzoru myši
+	void vykresli_technologicke_procesy(TCanvas *canv);//ROMA metoda, vykreslí graf technologickıch procesù vùèi jednotlivım t-objektùm v èase
 	void vykresli_simulaci(TCanvas *canv);//zajišuje vykreslení simulace
 	void vykresli_linku(TCanvas *canv);//zajišuje vykreslení osy linky
 	void umisti_vozik(TCanvas *canv,Cvektory::TVozik *ukaz);//zajišuje umístìní vozíku na lince
@@ -58,6 +60,7 @@ class Cvykresli
 	short KrokY;//rozteè na èasovıch osách
 	int WidthCanvasCasoveOsy,HeightCanvasCasoveOsy;
 	TPointD PosunT; //vıchozí posunutí obrazu Posunu
+	bool mod_vytizenost_objektu;
 
 	protected:
 
