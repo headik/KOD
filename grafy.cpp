@@ -35,6 +35,7 @@ void Cgrafy::ShowGrafy(bool stav) {
 void Cgrafy::graf1() {
 
 	Form1->Chart1->Left = 0;
+	Form1->Chart1->Color=clWhite;
 	Form1->Chart1->Width = Form1->ClientWidth / 5 * 1, 5;
 	Form1->Chart1->Height = Form1->ClientHeight / 3 * 1, 5;
 	Form1->Series1->Clear();
@@ -107,6 +108,7 @@ void Cgrafy::graf2() {
 			Form1->Chart1->Height;
 	}
 	Form1->Chart2->Legend->Visible = false;
+	Form1->Chart2->Color=clWhite;
 	Form1->Chart2->Title->Font->Size = 14;
 	Form1->Chart2->Title->Caption = "TT zakázek";
 	Form1->Chart2->LeftAxis->Title->Caption = "min";
@@ -142,6 +144,8 @@ void Cgrafy::graf3() {
 
 	// defaultní vykreslení grafu (checkbox reší událost onclick)
 
+	Form1->Chart3->Color=clWhite;
+
 	if (Form1->Memo1->Visible) {
 		Form1->Chart3->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
 			Form1->Memo1->Height - Form1->Chart1->Height;
@@ -151,8 +155,13 @@ void Cgrafy::graf3() {
 			Form1->Chart1->Height;
 	}
 	Form1->Chart3->Legend->Visible = false;
+	Form1->Chart3->LeftAxis->Title->Font->Size=14;
 	Form1->Chart3->LeftAxis->Title->Caption = "min";
+	Form1->Chart3->BottomAxis->Title->Font->Size=14;
 	Form1->Chart3->BottomAxis->Title->Caption = "plán";
+	Form1->Chart3->LeftAxis->Items->Format->Font->Size=12;
+	Form1->Chart3->BottomAxis->Items->Format->Font->Size=12;
+
 
 	Form1->Chart3->Title->Font->Size = 14;
 	Form1->Chart3->Title->Caption = "Vytíženost zakázky";
@@ -184,6 +193,9 @@ void Cgrafy::graf3() {
 void Cgrafy::graf4() {
 
 	// defaultní vykreslení grafu (checkbox reší událost onclick)
+
+	Form1->Chart4->Color=clWhite;
+
 	if (Form1->Memo1->Visible) {
 		Form1->Chart4->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
 			Form1->Memo1->Height - Form1->Chart1->Height;
@@ -239,8 +251,8 @@ void Cgrafy::graf5() {
 			Form1->Chart1->Height;
 	}
 
-	Form1->Chart5->Left = Form1->Chart1->Width + Form1->Chart2->Width +
-		Form1->Chart3->Width + Form1->Chart4->Width;
+	Form1->Chart5->Color=clWhite;
+	Form1->Chart5->Left = Form1->Chart1->Width + Form1->Chart2->Width + Form1->Chart3->Width + Form1->Chart4->Width;
 	Form1->Chart5->Width = Form1->ClientWidth / 5 * 1, 5; ;
 	Form1->Chart5->Height = Form1->ClientHeight / 3 * 1, 5;
 
