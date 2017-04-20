@@ -485,7 +485,6 @@ object Form1: TForm1
     Caption = 'zav'#233'st pl'#225'n v'#253'roby'
     TabOrder = 6
     Visible = False
-    OnClick = Button2Click
   end
   object Button3: TButton
     Left = 160
@@ -834,6 +833,10 @@ object Form1: TForm1
         Caption = 'Boskovice'
         OnClick = Boskovice1Click
       end
+      object eXtreme1: TMenuItem
+        Caption = 'eXtreme'
+        OnClick = eXtreme1Click
+      end
     end
     object Md1: TMenuItem
       Caption = '&M'#243'd'
@@ -1134,7 +1137,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C01011800DC01E00110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011800DC01E40110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
