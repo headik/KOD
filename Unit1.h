@@ -159,6 +159,8 @@ __published:	// IDE-managed Components
 	TMenuItem *Rychlexport1;
 	TMenuItem *Zobrazitparametry1;
 	TButton *Button11;
+	TMenuItem *N2;
+	TMenuItem *Magna;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -251,6 +253,7 @@ __published:	// IDE-managed Components
 	void __fastcall PopupMenu1Popup(TObject *Sender);
 	void __fastcall Zobrazitparametry1Click(TObject *Sender);
 	void __fastcall Button11Click(TObject *Sender);
+	void __fastcall MagnaClick(TObject *Sender);
 
 
 private:	// User declarations
