@@ -137,7 +137,7 @@ class Cvektory
 		void hlavicka_objekty();
 		short vloz_objekt(unsigned int id, double X, double Y);//vloží prvek do seznamu
 		short vloz_objekt(TObjekt *Objekt);//přetížená fce
-		short vloz_objekt(unsigned int id, double X, double Y,TObjekt *p);//přetížená fce
+		short vloz_objekt(unsigned int id, double X, double Y,TObjekt *p);//přetížená fce vkládá mezi objekty
 		TObjekt *najdi_objekt(double X, double Y,double offsetX, double offsetY);//hledá bod v dané oblasti
 		short smaz_objekt(TObjekt *Objekt);//smaže prvek ze seznamu
 		void sniz_indexy(TObjekt *Objekt);

@@ -121,7 +121,6 @@ __published:	// IDE-managed Components
 	TLabel *Label8;
 	TButton *Button_dopravnik_parametry;
 	TButton *Button_vozik_parametry;
-	TButton *Button2;
 	TMenuItem *Obnovitobraz1;
 	TMenuItem *Report1;
 	TMenuItem *csv1;
@@ -164,6 +163,7 @@ __published:	// IDE-managed Components
 	TMenuItem *SPPP1;
 	TMenuItem *Boskovice1;
 	TMenuItem *eXtreme1;
+	TMenuItem *casovevytizenostiobjektu1;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -254,12 +254,12 @@ __published:	// IDE-managed Components
 	void __fastcall technologickprocesy1Click(TObject *Sender);
 	void __fastcall PopupMenu1Popup(TObject *Sender);
 	void __fastcall Zobrazitparametry1Click(TObject *Sender);
-	void __fastcall Button11Click(TObject *Sender);
 	void __fastcall MagnaClick(TObject *Sender);
 	void __fastcall Rychlexport1Click(TObject *Sender);
 	void __fastcall SPPP1Click(TObject *Sender);
 	void __fastcall Boskovice1Click(TObject *Sender);
 	void __fastcall eXtreme1Click(TObject *Sender);
+	void __fastcall casovevytizenostiobjektu1Click(TObject *Sender);
 
 
 private:	// User declarations

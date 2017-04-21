@@ -88,6 +88,7 @@ object Form_vozik_nastaveni: TForm_vozik_nastaveni
     Lines.Strings = (
       'Memo1')
     TabOrder = 6
+    Visible = False
   end
   object Memo_spojak: TButton
     Left = 371

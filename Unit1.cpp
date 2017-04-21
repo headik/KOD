@@ -356,11 +356,12 @@ void __fastcall TForm1::casovosa1Click(TObject *Sender)
 			DuvodUlozit(true);
 			RzSizePanel_parametry_projekt->Visible=false;
 			RzSizePanel_knihovna_objektu->Visible=false;
-      PopupMenu1->AutoPopup=true;
+			PopupMenu1->AutoPopup=true;
 			Button3->Visible=false;
 			Invalidate();
-			simulace1->Enabled=true;
+			casovevytizenostiobjektu1->Enabled=true;
 			technologickprocesy1->Enabled=true;
+			simulace1->Enabled=true;
 	}
 }
 //---------------------------------------------------------------------------
@@ -608,14 +609,12 @@ void __fastcall TForm1::FormShortCut(TWMKey &Msg, bool &Handled)
 			Memo1->Visible=true;
 			Button9->Visible=true;
 			Button5->Visible=true;
-			Button2->Visible=true;
 		}
 		if (Msg.CharCode==VK_F12)
 		{
 			Memo1->Visible=false;
 			Button9->Visible=false;
 			Button5->Visible=false;
-			Button2->Visible=false;
 		}
 }
 //---------------------------------------------------------------------------
@@ -1593,7 +1592,14 @@ void __fastcall TForm1::Smazat1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Zobrazitparametry1Click(TObject *Sender)
 {
-	S(AnsiString("n: ")+proces_pom->n+AnsiString(" | n_v_zakazce: ")+proces_pom->n_v_zakazce+AnsiString(" | Tpoc: ")+proces_pom->Tpoc+AnsiString(" | Tkon: ")+proces_pom->Tkon+AnsiString(" | Tdor: ")+proces_pom->Tdor+AnsiString(" | Tpre: ")+proces_pom->Tpre+AnsiString(" | Tcek: ")+proces_pom->Tcek+AnsiString(" | Shortname: ")+proces_pom->cesta->objekt->short_name);
+	AnsiString rezim="";
+	switch(proces_pom->cesta->objekt->rezim)
+	{
+			case 0:rezim="stop & go";break;
+			case 1:rezim="kontinuální";break;
+			case 2:rezim="postprocesní";break;
+	}
+	S(AnsiString(proces_pom->n)+" | n_v_zakazce: "+AnsiString(proces_pom->n_v_zakazce)+" | Tpoc: "+AnsiString(proces_pom->Tpoc)+" | Tkon: "+AnsiString(proces_pom->Tkon)+" | Tdor: "+AnsiString(proces_pom->Tdor)+" | Tpre: "+AnsiString(proces_pom->Tpre)+" | Tcek: "+AnsiString(proces_pom->Tcek)+" | Shortname: "+AnsiString(proces_pom->cesta->objekt->short_name)+" | režim: "+AnsiString(rezim));
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Nastvitparametry1Click(TObject *Sender)
@@ -2417,7 +2423,7 @@ void __fastcall TForm1::Button9Click(TObject *Sender)
 		while (ukaz!=NULL)
 		{
 			//akce s ukazatelem
-      if(ukaz->vozik->n==2)
+      //if(ukaz->vozik->n==2)
 			Memo1->Lines->Add(AnsiString("n: ")+ukaz->n+AnsiString(" | n_v_zakazce: ")+ukaz->n_v_zakazce+AnsiString(" | Tpoc: ")+ukaz->Tpoc+AnsiString(" | Tkon: ")+ukaz->Tkon+AnsiString(" | Tdor: ")+ukaz->Tdor+AnsiString(" | Tpre: ")+ukaz->Tpre+AnsiString(" | Tcek: ")+ukaz->Tcek+AnsiString(" | Shortname: ")+ukaz->cesta->objekt->short_name);
 			//posun na další prvek v seznamu
 			ukaz=ukaz->dalsi;
@@ -2477,24 +2483,10 @@ void __fastcall TForm1::Chart1Click(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::Button11Click(TObject *Sender)
-{
-	if(d.v.PROCESY!=NULL && d.v.PROCESY->predchozi->n>0)//pokud je více objektů
-	{
-		d.mod_vytizenost_objektu=!d.mod_vytizenost_objektu;
-		CheckBoxPALCE->Visible=!CheckBoxPALCE->Visible;
-		SB("");
-		Invalidate();
-	}
-}
-//---------------------------------------------------------------------------
-
-
 void __fastcall TForm1::MagnaClick(TObject *Sender)
 {
  //otevřít soubor
 	OtevritSoubor("magna.tispl");
-	Button2->Visible=false;
 	d.v.hlavicka_seznamu_cest();
 
  //načíst plán výroby
@@ -2556,7 +2548,6 @@ void __fastcall TForm1::MagnaClick(TObject *Sender)
 void __fastcall TForm1::SPPP1Click(TObject *Sender)
 {
 		OtevritSoubor("SPPP.tispl");
-		Button2->Visible=false;
 		d.v.hlavicka_seznamu_cest();
 
 		Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
@@ -2610,7 +2601,6 @@ void __fastcall TForm1::Boskovice1Click(TObject *Sender)
 {
 
 	OtevritSoubor("boskovice.tispl");
-	Button2->Visible=false;
 	d.v.hlavicka_seznamu_cest();
 
 	Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
@@ -2635,7 +2625,6 @@ void __fastcall TForm1::eXtreme1Click(TObject *Sender)
 {
 
 	OtevritSoubor("extreme.tispl");
-	Button2->Visible=false;
 	d.v.hlavicka_seznamu_cest();
 	//cesta 1
 	Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
@@ -2660,4 +2649,17 @@ void __fastcall TForm1::eXtreme1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
+
+
+void __fastcall TForm1::casovevytizenostiobjektu1Click(TObject *Sender)
+{
+	if(d.v.PROCESY!=NULL && d.v.PROCESY->predchozi->n>0)//pokud je více objektů
+	{
+		d.mod_vytizenost_objektu=!d.mod_vytizenost_objektu;
+		CheckBoxPALCE->Visible=!CheckBoxPALCE->Visible;
+		SB("");
+		Invalidate();
+	}
+}
+//---------------------------------------------------------------------------
 

@@ -477,22 +477,13 @@ object Form1: TForm1
     TabOrder = 5
     Visible = False
   end
-  object Button2: TButton
-    Left = 160
-    Top = 329
-    Width = 139
-    Height = 25
-    Caption = 'zav'#233'st pl'#225'n v'#253'roby'
-    TabOrder = 6
-    Visible = False
-  end
   object Button3: TButton
     Left = 160
     Top = 112
     Width = 85
     Height = 25
     Caption = 'Nav'#283'sit voz'#237'k (0)'
-    TabOrder = 7
+    TabOrder = 6
     Visible = False
     OnClick = Button3Click
   end
@@ -502,7 +493,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = 'Pauza simulace'
-    TabOrder = 8
+    TabOrder = 7
     Visible = False
     OnClick = Button4Click
   end
@@ -512,7 +503,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = 'stopka'
-    TabOrder = 9
+    TabOrder = 8
     Visible = False
     OnClick = Button5Click
   end
@@ -522,7 +513,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = #269'ekat na palec'
-    TabOrder = 10
+    TabOrder = 9
     Visible = False
     OnClick = Button6Click
   end
@@ -532,7 +523,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = 'Krok simulace'
-    TabOrder = 11
+    TabOrder = 10
     Visible = False
     OnClick = Button7Click
   end
@@ -542,17 +533,17 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = 'D'#233'lka dopravn'#237'ku'
-    TabOrder = 12
+    TabOrder = 11
     Visible = False
     OnClick = Button8Click
   end
   object Button9: TButton
-    Left = 166
-    Top = 360
+    Left = 160
+    Top = 329
     Width = 129
     Height = 25
     Caption = 'vypsat spoj'#225'k VOZIKY'
-    TabOrder = 13
+    TabOrder = 12
     Visible = False
     OnClick = Button9Click
   end
@@ -562,7 +553,7 @@ object Form1: TForm1
     Width = 110
     Height = 25
     Caption = 'zkr'#225'tit linky dle palc'#367
-    TabOrder = 14
+    TabOrder = 13
     Visible = False
     OnClick = Button10Click
   end
@@ -576,7 +567,7 @@ object Form1: TForm1
     Panning.MouseWheel = pmwNone
     View3D = False
     ZoomWheel = pmwNormal
-    TabOrder = 15
+    TabOrder = 14
     OnClick = Chart1Click
     DefaultCanvas = 'TGDIPlusCanvas'
     PrintMargins = (
@@ -637,7 +628,7 @@ object Form1: TForm1
     Title.Text.Strings = (
       'TChart')
     View3D = False
-    TabOrder = 16
+    TabOrder = 15
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series3: TBarSeries
@@ -672,7 +663,7 @@ object Form1: TForm1
     Title.Text.Strings = (
       'TChart')
     View3D = False
-    TabOrder = 17
+    TabOrder = 16
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series5: TBarSeries
@@ -706,7 +697,7 @@ object Form1: TForm1
     Title.Text.Strings = (
       'TChart')
     View3D = False
-    TabOrder = 18
+    TabOrder = 17
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series7: TBarSeries
@@ -728,7 +719,7 @@ object Form1: TForm1
     Width = 160
     Height = 17
     Caption = 'zohlednit rozte'#269' palc'#367' '#345'et'#283'zu'
-    TabOrder = 19
+    TabOrder = 18
     Visible = False
     OnClick = CheckBoxPALCEClick
   end
@@ -739,7 +730,7 @@ object Form1: TForm1
     Height = 42
     Title.Text.Strings = (
       'TChart')
-    TabOrder = 20
+    TabOrder = 19
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
   end
@@ -749,17 +740,17 @@ object Form1: TForm1
     Width = 185
     Height = 41
     Caption = 'Panel1'
-    TabOrder = 21
+    TabOrder = 20
     Visible = False
   end
   object Button11: TButton
-    Left = 687
+    Left = 166
     Top = 360
     Width = 75
     Height = 25
-    Caption = 'Button11'
-    TabOrder = 22
-    OnClick = Button11Click
+    Caption = 'zobrazit '#269'asov'#233' vyt'#237#382'enosti technologick'#253'ch objekt'#367
+    TabOrder = 21
+    Visible = False
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -862,18 +853,24 @@ object Form1: TForm1
         ShortCut = 120
         OnClick = casovosa1Click
       end
+      object casovevytizenostiobjektu1: TMenuItem
+        Caption = #269'asov'#233' vyt'#237#382'enosti objekt'#367
+        Enabled = False
+        ShortCut = 121
+        OnClick = casovevytizenostiobjektu1Click
+      end
       object technologickprocesy1: TMenuItem
         Caption = 'technologick'#233' procesy'
         Enabled = False
         RadioItem = True
-        ShortCut = 121
+        ShortCut = 122
         OnClick = technologickprocesy1Click
       end
       object simulace1: TMenuItem
         Caption = 'simulace'
         Enabled = False
         RadioItem = True
-        ShortCut = 122
+        ShortCut = 123
         OnClick = simulace1Click
       end
     end

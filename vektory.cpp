@@ -71,11 +71,10 @@ short Cvektory::vloz_objekt(unsigned int id, double X, double Y)
 	return 0;
 };
 //---------------------------------------------------------------------------
-//uloží objekt a jeho parametry do seznamu                                   //p předchozí
+//uloží objekt a jeho parametry do seznamu mezi objekty                //p předchozí
 short Cvektory::vloz_objekt(unsigned int id, double X, double Y,TObjekt *p)
 {
 	TObjekt *novy=new TObjekt;
-
 	novy->id=id;
 	novy->short_name=knihovna_objektu[id].short_name;
 	novy->name=knihovna_objektu[id].name;

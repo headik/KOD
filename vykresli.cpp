@@ -368,9 +368,12 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 							if(C->n==1)vozik->start=X;//uloží výchozí X hodnotu, prvního objektu pro daný vozík
 							double X_predchozi=X;//uloží povodní X hodnotu
 
-							//buffer pokud předchází
+							//vykreslení a uložení buffer pokud předchází
 							if(vozik->pozice<X && vozik->pozice>0)
 							vykresli_proces(canv,"BUF",m.clLight(vozik->barva,80),0,vozik->pozice-PosunT.x,X-PosunT.x,Yloc-PosunT.y,KrokY);
+							//Nefunguje zatím správněCvektory::TProces *P=new Cvektory::TProces;
+							//P->n_v_zakazce=n+1;P->Tpoc=vozik->pozice-PosunT.x/PX2MIN;P->Tkon=X-PosunT.x/PX2MIN;P->Tdor=P->Tkon;P->Tpre=P->Tkon;P->Tcek=P->Tkon;P->cesta=C;P->vozik=vozik;
+							//v.vloz_proces(P);
 
 							////vykreslení procesu (jednoho obdelníčku "v plavecké dráze") včetně výpočtu koncové pozice
 							X=proces(canv,++n,X_predchozi,X,Yloc,C,vozik);
@@ -463,7 +466,7 @@ void Cvykresli::vykresli_proces(TCanvas *canv, AnsiString shortname, TColor colo
 			case 0: canv->Brush->Style=bsSolid;canv->Pen->Color=clWhite;break;//pro typ: normální proces
 			case 1: canv->Brush->Style=bsDiagCross;canv->Pen->Color=color;break;//pro typ: doplněný o konec na čekání na proces totožný předchozí
 			case 2: canv->Brush->Style=bsCross;canv->Pen->Color=color;break;//pro typ: nutná doba přejezdu vozíku
-			case 3: canv->Brush->Style=bsHorizontal;canv->Pen->Color=color;break;//pro typ: doba čekání na palec
+			case 3: canv->Brush->Style=bsVertical;canv->Pen->Color=color;break;//pro typ: doba čekání na palec
 			case 4: canv->Brush->Style=bsSolid;canv->Pen->Color=color;canv->Pen->Mode=pmMask;break;//pro typ: obsazenost procesu
 	}
 	canv->Rectangle(X1,Y-KrokY/2,X2+1,Y+KrokY/2);
@@ -601,8 +604,8 @@ void Cvykresli::vykresli_vytizenost_objektu(TCanvas *canv)
 			}
 			P=P->dalsi;
 		};
-		//vycentrovaný popisek v rámci objektu
 
+		//vycentrovaný popisek v rámci objektu
 		SetBkMode(canv->Handle,TRANSPARENT/*OPAQUE*/);//nastvení transparentního pozadí
 		canv->Font->Color=clWhite;
 		canv->Font->Size=8;
@@ -623,14 +626,75 @@ void Cvykresli::vykresli_vytizenost_objektu(TCanvas *canv)
 //ROMA metoda, vykreslí graf technologických procesů vůči jednotlivým t-objektům v čase
 void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 {
-	Cvektory::TProces *P=v.PROCESY->dalsi;
-	while (P!=NULL)
-	{
-		if(P->vozik->n==1 && P->Tpoc<=10 && 10<P->Tcek)//filtr
-		ShowMessage(P->cesta->objekt->name);
+	short S=50;//prozatim natvrdo šířka vozíku
+	unsigned int X=S;unsigned int Xpuv=X;
+	unsigned int KZ=v.vrat_zacatek_a_konec_zakazky(v.CESTY->predchozi).y+1;//konec zakazky
 
+	canv->Pen->Mode=pmCopy;
+	canv->Pen->Width=2;    //nastavení šířky pera
+	canv->Pen->Style=psSolid;
+	canv->Pen->Color=clBlack;
+	canv->Font->Color=clBlack;
+
+	Cvektory::TProces *P=v.PROCESY->dalsi;
+
+	/*while (P!=NULL)
+	{
+		unsigned int x=0;
+		unsigned int y=S+S/2+Form1->RzToolbar1->Height;
+		for(unsigned int MIN=0;MIN<=KZ;MIN++)
+		{
+				if(P->vozik->n==1 && P->Tpoc<=MIN && MIN<P->Tcek)//filtr
+				{
+					canv->Rectangle(x-S/2,y-S/2,x+S/2,y+S/2);
+					AnsiString T=P->vozik->n;
+					canv->TextOutW(x-canv->TextWidth(T)/2,y-canv->TextHeight(T)/2,T);
+					x=MIN*S;
+					y+=S;
+				}
+		}
 		P=P->dalsi;
-	};
+	};  */
+
+
+	unsigned int Y=Form1->RzToolbar1->Height;
+
+	//nastavení popisku
+	SetBkMode(canv->Handle,/*TRANSPARENT*/OPAQUE);//nastvení transparentního pozadí
+	canv->Pen->Mode=pmNotXor;
+	canv->Pen->Width=1;    //nastavení šířky pera
+	canv->Pen->Style=psDot;
+	canv->Pen->Color=TColor RGB(200,200,200);   //míchání světlě šedé
+	canv->Brush->Style=bsClear;
+	canv->Font->Color=clGray;
+	canv->Font->Style = TFontStyles()<< fsBold;//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
+	canv->Font->Size=7;
+	canv->Font->Name="Arial";
+	canv->Font->Style = TFontStyles();
+	canv->Font->Pitch = TFontPitch::fpFixed;//každé písmeno fontu stejně široké
+	canv->Font->Pitch = System::Uitypes::TFontPitch::fpFixed;
+
+	//vodorovný popisek
+	Cvektory::TObjekt *ukaz=v.OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
+	while (ukaz!=NULL)
+	{
+		Xpuv=X;
+		X+=v.vrat_kapacitu_objektu(ukaz)*S;
+		canv->MoveTo(X,Y);
+		canv->LineTo(X,KZ*KrokY);
+		AnsiString T=ukaz->short_name;
+		canv->TextOutW((Xpuv+X)/2-canv->TextWidth(T)/2,Y,T);
+		ukaz=ukaz->dalsi;
+	}
+
+	//svislý popisek
+	Y+=S+S/2;
+	canv->Font->Style = TFontStyles();//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
+	for(unsigned int i=0;i<=KZ;i++)//po minutách
+	{
+			canv->TextOutW(0,Y,i);
+			Y+=S;
+	}
 }
 //---------------------------------------------------------------------------
 //vykreslí oddělovací linku mezi grafy a canvasem
