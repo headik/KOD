@@ -121,6 +121,7 @@ __published:	// IDE-managed Components
 	TLabel *Label8;
 	TButton *Button_dopravnik_parametry;
 	TButton *Button_vozik_parametry;
+	TButton *Button2;
 	TMenuItem *Obnovitobraz1;
 	TMenuItem *Report1;
 	TMenuItem *csv1;
@@ -163,7 +164,6 @@ __published:	// IDE-managed Components
 	TMenuItem *SPPP1;
 	TMenuItem *Boskovice1;
 	TMenuItem *eXtreme1;
-	TMenuItem *casovevytizenostiobjektu1;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -254,17 +254,19 @@ __published:	// IDE-managed Components
 	void __fastcall technologickprocesy1Click(TObject *Sender);
 	void __fastcall PopupMenu1Popup(TObject *Sender);
 	void __fastcall Zobrazitparametry1Click(TObject *Sender);
+	void __fastcall Button11Click(TObject *Sender);
 	void __fastcall MagnaClick(TObject *Sender);
+<<<<<<< HEAD
 	void __fastcall Rychlexport1Click(TObject *Sender);
+=======
 	void __fastcall SPPP1Click(TObject *Sender);
 	void __fastcall Boskovice1Click(TObject *Sender);
 	void __fastcall eXtreme1Click(TObject *Sender);
-	void __fastcall casovevytizenostiobjektu1Click(TObject *Sender);
+>>>>>>> e736c6712d6de14de8549391b3bc457026674ce9
 
 
 private:	// User declarations
 	////struktury, výčty
-	enum Tedice{DEVELOPER,BUSINESS,CLIENT,VIEWER};Tedice EDICE;
 	enum Tmod{NO=0,EDITACE,TESTOVANI,REZERVY,CASOVAOSA,TECHNOPROCESY,SIMULACE};Tmod MOD;
 	enum Takce{NIC=0,PAN,PAN_MOVE,ZOOM_W,ZOOM_W_MENU,ADD,MOVE};Takce Akce;
 	enum TKurzory {standard=0,posun_v,posun_b,posun_p,posun_l,posun_t,kalibrovat,pan,pan_move,window,add_o};
@@ -276,7 +278,6 @@ private:	// User declarations
 	Cvektory::TProces *proces_pom;
 
 	////metody
-	void edice();
 	void setVisualStyle(TRzVisualStyle VisualStyle=vsClassic);
 	short int MB(UnicodeString text, unsigned short int typ=0,UnicodeString titulek="TISPL - Eltep");//vola rychle messabox
 	void REFRESH();

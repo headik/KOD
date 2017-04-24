@@ -32,7 +32,7 @@ object Form1: TForm1
   TextHeight = 13
   object Label6: TLabel
     Left = 448
-    Top = 220
+    Top = 241
     Width = 31
     Height = 13
     Caption = 'Label6'
@@ -350,9 +350,9 @@ object Form1: TForm1
     object Label2: TLabel
       Left = 5
       Top = 48
-      Width = 36
+      Width = 94
       Height = 13
-      Caption = 'VOZ'#205'KY'
+      Caption = 'DEFINICE ZAK'#193'ZEK'
       Transparent = True
     end
     object Label4: TLabel
@@ -485,7 +485,6 @@ object Form1: TForm1
     Caption = 'zav'#233'st pl'#225'n v'#253'roby'
     TabOrder = 6
     Visible = False
-    OnClick = Button2Click
   end
   object Button3: TButton
     Left = 160
@@ -548,8 +547,8 @@ object Form1: TForm1
     OnClick = Button8Click
   end
   object Button9: TButton
-    Left = 160
-    Top = 365
+    Left = 166
+    Top = 360
     Width = 129
     Height = 25
     Caption = 'vypsat spoj'#225'k VOZIKY'
@@ -753,6 +752,15 @@ object Form1: TForm1
     TabOrder = 21
     Visible = False
   end
+  object Button11: TButton
+    Left = 687
+    Top = 360
+    Width = 75
+    Height = 25
+    Caption = 'Button11'
+    TabOrder = 22
+    OnClick = Button11Click
+  end
   object MainMenu1: TMainMenu
     Left = 152
     Top = 32
@@ -810,6 +818,25 @@ object Form1: TForm1
         ShortCut = 32883
         OnClick = Konec1Click
       end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object Magna: TMenuItem
+        Caption = 'Magna'
+        OnClick = MagnaClick
+      end
+      object SPPP1: TMenuItem
+        Caption = 'SPPP'
+        OnClick = SPPP1Click
+      end
+      object Boskovice1: TMenuItem
+        Caption = 'Boskovice'
+        OnClick = Boskovice1Click
+      end
+      object eXtreme1: TMenuItem
+        Caption = 'eXtreme'
+        OnClick = eXtreme1Click
+      end
     end
     object Md1: TMenuItem
       Caption = '&M'#243'd'
@@ -829,17 +856,25 @@ object Form1: TForm1
         RadioItem = True
         OnClick = casoverezervy1Click
       end
-      object simulace1: TMenuItem
-        Caption = 'simulace'
-        RadioItem = True
-        ShortCut = 120
-        OnClick = simulace1Click
-      end
       object casovosa1: TMenuItem
         Caption = #269'asov'#225' osa'
         RadioItem = True
-        ShortCut = 121
+        ShortCut = 120
         OnClick = casovosa1Click
+      end
+      object technologickprocesy1: TMenuItem
+        Caption = 'technologick'#233' procesy'
+        Enabled = False
+        RadioItem = True
+        ShortCut = 121
+        OnClick = technologickprocesy1Click
+      end
+      object simulace1: TMenuItem
+        Caption = 'simulace'
+        Enabled = False
+        RadioItem = True
+        ShortCut = 122
+        OnClick = simulace1Click
       end
     end
     object Pohled1: TMenuItem
@@ -1001,6 +1036,7 @@ object Form1: TForm1
     end
   end
   object PopupMenu1: TPopupMenu
+    OnPopup = PopupMenu1Popup
     Left = 184
     Top = 32
     object Nastvitparametry1: TMenuItem
@@ -1012,6 +1048,16 @@ object Form1: TForm1
       Caption = 'Smazat objekt'
       Visible = False
       OnClick = Smazat1Click
+    end
+    object Zobrazitparametry1: TMenuItem
+      Caption = 'Zobrazit parametry'
+      Visible = False
+      OnClick = Zobrazitparametry1Click
+    end
+    object Rychlexport1: TMenuItem
+      Caption = 'Rychl'#253' export'
+      Visible = False
+      OnClick = Rychlexport1Click
     end
     object N5: TMenuItem
       Caption = '-'
@@ -1092,10 +1138,10 @@ object Form1: TForm1
     Top = 32
     Bitmap = {
 <<<<<<< HEAD
-      494C01011800AC01AC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011800E001E00110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
 =======
-      494C01011800A401AC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
->>>>>>> e65f303b9560bf8b0eef93145312329457cfef50
+      494C01011800DC01E40110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+>>>>>>> e736c6712d6de14de8549391b3bc457026674ce9
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -37,6 +37,7 @@ class Cmy
 	bool cele_cislo(double number);
 	double mod_d(double number1,double number2);//možno nahradit fci fmod z math.h  - to si už tak nejsem jistý viz paramatry této funkce - ukazatel?
 	bool isFinite(double number1,double number2);
+	TColor clLight(TColor C,short A);//A - míra zesvìtlení
 	double azimut(double X1,double Y1,double X2,double Y2);
 	double uhel(double X1,double Y1,double X2,double Y2);
 	double delka(double X1,double Y1,double X2,double Y2);

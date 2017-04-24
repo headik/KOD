@@ -43,6 +43,9 @@ __published:	// IDE-managed Components
 	void __fastcall RzStringGrid1GetEditMask(TObject *Sender, int ACol, int ARow, UnicodeString &Value);
 	void __fastcall Button_DELClick(TObject *Sender);
 	void __fastcall RzStringGrid1Click(TObject *Sender);
+	void __fastcall Button_OKKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+
+
 
 
 

@@ -71,11 +71,10 @@ short Cvektory::vloz_objekt(unsigned int id, double X, double Y)
 	return 0;
 };
 //---------------------------------------------------------------------------
-//uloží objekt a jeho parametry do seznamu                                   //p předchozí
+//uloží objekt a jeho parametry do seznamu mezi objekty                //p předchozí
 short Cvektory::vloz_objekt(unsigned int id, double X, double Y,TObjekt *p)
 {
 	TObjekt *novy=new TObjekt;
-
 	novy->id=id;
 	novy->short_name=knihovna_objektu[id].short_name;
 	novy->name=knihovna_objektu[id].name;
@@ -966,6 +965,20 @@ TPointD Cvektory::vrat_zacatek_a_konec_zakazky(unsigned int ID_zakazky)//ukazate
 	return RET;
 }
 //---------------------------------------------------------------------------
+//nemusí se vždy jednat o poslední zakázku
+double Cvektory::vrat_nejpozdejsi_konec_zakazek()
+{
+	double MAX=0;
+	TSeznam_cest *C=CESTY->dalsi;
+	while(C!=NULL)
+	{
+		double DO=vrat_zacatek_a_konec_zakazky(C).y;//konec zakazky v min
+		if(DO>MAX)MAX=DO;
+		C=C->dalsi;
+	}
+	return MAX;;
+}
+//---------------------------------------------------------------------------
 double Cvektory::vrat_LT_voziku(TVozik *jaky)//vrátí celkový čas, který strávil vozík ve výrobě včetně čekání
 {
 	if(jaky!=NULL) return (jaky->pozice-jaky->start)/Form1->d.PX2MIN;
@@ -1211,6 +1224,16 @@ unsigned int Cvektory::vrat_kapacitu_objektu(TObjekt *O)
 	 else return 0;
 }
 //---------------------------------------------------------------------------
+void Cvektory::uloz_doporucene_kapacity_objetku()
+{
+	TObjekt *ukaz=OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
+	while (ukaz!=NULL)
+	{
+		ukaz->doporucena_kapacita_objektu=vrat_kapacitu_objektu(ukaz);
+		ukaz=ukaz->dalsi;
+	}
+}
+//---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 void Cvektory::vse_odstranit()
@@ -1264,4 +1287,5 @@ void Cvektory::vse_odstranit()
 		delete v.l_undo;v.l_undo=NULL;
 		*/
 }
+//---------------------------------------------------------------------------
 
