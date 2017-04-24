@@ -639,8 +639,8 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 	double K=0.5;//Krok po kolika minutach se bude zobrazovat
 	double OD=0;//od které min se proces začne vypisovat
 	double DO=v.vrat_nejpozdejsi_konec_zakazek();//konec zakazky v min
-	unsigned int Nod=2;//rozmezí Jaký se vypíše vozik,
-	unsigned int Ndo=2;//rozmezí Jaký se vypíše vozik, pokud bude 0 vypisují se všechny
+	unsigned int Nod=1;//rozmezí Jaký se vypíše vozik,
+	unsigned int Ndo=1;//rozmezí Jaký se vypíše vozik, pokud bude 0 vypisují se všechny
 	//--
 	//výchozí proměnné
 	int PXM=50;//měřítko pixelů na metr v tomto modu, zároveň však používám jako krok posunu na ose Y (přetížení proměnné)
