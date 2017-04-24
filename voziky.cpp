@@ -225,7 +225,10 @@ void __fastcall TForm_vozik_nastaveni::FormShow(TObject *Sender) {
 // ---------------------------------------------------------------------------
 void __fastcall TForm_vozik_nastaveni::Button_OKClick(TObject *Sender)
 {
+	if(Form1->d.v.CESTY!=NULL && Form1->d.v.CESTY->predchozi->n>0) //pouze provizorní ošetøení
 	OK_status = true;
+	else
+	Form1->S("Projekt je nutné naèíst z historie, aby obsahoval cesty!");//pouze provizorní ošetøení
 }
 // -------------------------------------- -------------------------------------
 void __fastcall TForm_vozik_nastaveni::FormCloseQuery(TObject *Sender,	bool &CanClose)
@@ -547,3 +550,58 @@ void __fastcall TForm_vozik_nastaveni::RzStringGrid1Click(TObject *Sender) {
 
 }
 // ---------------------------------------------------------------------------
+
+
+void __fastcall TForm_vozik_nastaveni::Button_OKKeyDown(TObject *Sender, WORD &Key,
+          TShiftState Shift)
+{
+   		UINT funkcni_klavesa=0;
+	switch(Key)
+	{
+		//BACKSPACE
+		case 8: break;
+		//ENTER
+		case 13:break;
+		//ESC
+		case 27:Close();break;
+		//MEZERNÍK
+		case 32:break;
+		//PAGE UP
+		case 33:;break;
+		//PAGE DOWN
+		case 34:break;
+		//END
+		case 35:break;
+		//HOME
+		case 36:break;
+		//ŠIPKA DOLÙ
+		case 40:break;
+		//ŠIPKA LEVÁ
+		case 37:break;
+		//ŠIPKA PRAVÁ
+		case 39:break;
+		//ŠIPKA NAHORU
+		case 38:break;
+		//ŠIPKA DOLÙ
+		case 98:break;
+		//ŠIPKA LEVÁ
+		case 100:break;
+		//ŠIPKA PRAVÁ
+		case 102:break;
+		//ŠIPKA NAHORU
+		case 104:break;
+		//CTRL, SHIFT
+		default:
+		{
+			if(Shift.Contains(ssShift) && Shift.Contains(ssCtrl)){funkcni_klavesa=3;}//SHIFT + CTRL
+			else
+			{
+				if(Shift.Contains(ssShift)){funkcni_klavesa=2;}//SHIFT
+				if(Shift.Contains(ssCtrl)){funkcni_klavesa=1;}//CTRL
+			}
+			break;
+		}
+	}
+}
+//---------------------------------------------------------------------------
+

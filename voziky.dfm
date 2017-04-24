@@ -26,6 +26,7 @@ object Form_vozik_nastaveni: TForm_vozik_nastaveni
     ModalResult = 1
     TabOrder = 0
     OnClick = Button_OKClick
+    OnKeyDown = Button_OKKeyDown
   end
   object RzStringGrid1: TRzStringGrid
     Left = 0

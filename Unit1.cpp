@@ -93,8 +93,15 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	duvod_k_ulozeni=false;
 	NovySouborClick(this);
 
-	/*přesunuto do showform
-	*/
+	EDICE=DEVELOPER;//BUSINESS,CLIENT,VIEWER
+	edice();//zakázání či povolení grafických uživatelských prvků dle úrovně edice
+
+}
+//---------------------------------------------------------------------------
+//zakázání či povolení grafických uživatelských prvků dle úrovně edice
+void TForm1::edice()
+{
+  //tady bude switch na jednotlivé edice v kterém bude následné povolení či zakázání patřičných ovládacíh prvků
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormShow(TObject *Sender)
@@ -182,6 +189,13 @@ nastaveni.posledni_file=true;/////////////////provizorní než budu načítat in
 			if(FileName!="Nový.tispl" && FileName!="")OtevritSoubor(FileName);
 			delete ini;
 		}
+	}
+
+	//prozatim, jen abych si ušetřil počet kliknutí při testování
+  if(FileName.Pos("extreme.tisp"))
+	{
+		eXtreme1Click(Sender);
+		Button_vozik_parametryClick(Sender);
 	}
 
 
@@ -380,6 +394,8 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	d.PosunT.x=0;//výchozí posunutí obrazu Posunu na časových osách, kvůli možnosti posouvání obrazu
 	d.PosunT.y=0;
 	zneplatnit_minulesouradnice();
+	CheckBoxPALCE->Visible=false;
+	g.ShowGrafy(false);
 	DuvodUlozit(true);
 	RzSizePanel_parametry_projekt->Visible=false;
 	RzSizePanel_knihovna_objektu->Visible=false;
@@ -603,8 +619,8 @@ void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key, TShiftState Shift)
 //---------------------------------------------------------------------------
 //explicitní klávesové zkratky
 void __fastcall TForm1::FormShortCut(TWMKey &Msg, bool &Handled)
-{                           //prozatim jen pro účely vývoje
-		if (Msg.CharCode==VK_F11)
+{  //prozatim jen pro účely vývoje
+	 /*	if (Msg.CharCode==VK_F11)
 		{
 			Memo1->Visible=true;
 			Button9->Visible=true;
@@ -615,7 +631,7 @@ void __fastcall TForm1::FormShortCut(TWMKey &Msg, bool &Handled)
 			Memo1->Visible=false;
 			Button9->Visible=false;
 			Button5->Visible=false;
-		}
+		}*/
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormMouseWheelUp(TObject *Sender, TShiftState Shift, TPoint &MousePos,
@@ -1024,7 +1040,7 @@ void TForm1::DOWN()//smer dolu
 {
 		probehl_zoom=true;
 		Uloz_predchozi_pohled();
-		if(MOD!=CASOVAOSA)
+		if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 		{
 			Posun.y-=m.round(Width/(8*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
@@ -1042,7 +1058,7 @@ void TForm1::UP()//smer nahoru
 {
 		probehl_zoom=true;
 		Uloz_predchozi_pohled();
-		if(MOD!=CASOVAOSA)
+		if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 		{
 			Posun.y+=m.round(Width/(8*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
@@ -1058,7 +1074,7 @@ void TForm1::RIGHT()//smer doprava
 {
 		probehl_zoom=true;
 		Uloz_predchozi_pohled();
-		if(MOD!=CASOVAOSA)
+		if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 		{
 			Posun.x+=m.round(Width/(8*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
@@ -1074,7 +1090,7 @@ void TForm1::LEFT()//smer doleva
 {
 		probehl_zoom=true;
 		Uloz_predchozi_pohled();
-		if(MOD!=CASOVAOSA)
+		if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 		{
 			Posun.x-=m.round(Width/(8*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
@@ -1109,7 +1125,7 @@ void TForm1::pan_map(TCanvas * canv, int X, int Y)
 void TForm1::pan_move_map()
 {
 	Uloz_predchozi_pohled();
-	if(MOD!=CASOVAOSA)
+	if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 	{
 		Posun.x-=(akt_souradnice_kurzoru_PX.x-vychozi_souradnice_kurzoru.x)/Zoom;
 		Posun.y-=(akt_souradnice_kurzoru_PX.y-vychozi_souradnice_kurzoru.y)/Zoom;

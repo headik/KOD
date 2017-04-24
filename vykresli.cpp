@@ -370,7 +370,7 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 
 							//vykreslení a uložení buffer pokud předchází
 							if(vozik->pozice<X && vozik->pozice>0)
-							vykresli_proces(canv,"BUF",m.clLight(vozik->barva,80),0,vozik->pozice-PosunT.x,X-PosunT.x,Yloc-PosunT.y,KrokY);
+							vykresli_proces(canv,"BUF - "+C->predchozi->objekt->short_name,m.clLight(vozik->barva,80),4,vozik->pozice-PosunT.x,X-PosunT.x,Yloc-PosunT.y,KrokY);
 							//Nefunguje zatím správněCvektory::TProces *P=new Cvektory::TProces;
 							//P->n_v_zakazce=n+1;P->Tpoc=vozik->pozice-PosunT.x/PX2MIN;P->Tkon=X-PosunT.x/PX2MIN;P->Tdor=P->Tkon;P->Tpre=P->Tkon;P->Tcek=P->Tkon;P->cesta=C;P->vozik=vozik;
 							//v.vloz_proces(P);
@@ -388,6 +388,8 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 			SC=SC->dalsi;//posun na další prvek v seznamu CEST
 			Y=Yloc;
 	}
+	//výpočet hodnot kapacit pro další využítí (grafy, ROMA atd.)
+	v.uloz_doporucene_kapacity_objetku();
 	//hodnoty pro další grafické použití či nastavení
 	WidthCanvasCasoveOsy=m.round(X);//uchová velikost nejdelší osy, pro použítí pro export canvasu do rastru
 	HeightCanvasCasoveOsy=Y-KrokY/2;//uchová výšku grafu
@@ -467,13 +469,20 @@ void Cvykresli::vykresli_proces(TCanvas *canv, AnsiString shortname, TColor colo
 			case 1: canv->Brush->Style=bsDiagCross;canv->Pen->Color=color;break;//pro typ: doplněný o konec na čekání na proces totožný předchozí
 			case 2: canv->Brush->Style=bsCross;canv->Pen->Color=color;break;//pro typ: nutná doba přejezdu vozíku
 			case 3: canv->Brush->Style=bsVertical;canv->Pen->Color=color;break;//pro typ: doba čekání na palec
-			case 4: canv->Brush->Style=bsSolid;canv->Pen->Color=color;canv->Pen->Mode=pmMask;break;//pro typ: obsazenost procesu
+			case 4: canv->Brush->Style=bsSolid;canv->Pen->Color=clWhite;break;//pro typ: obsazenost procesu
 	}
-	canv->Rectangle(X1,Y-KrokY/2,X2+1,Y+KrokY/2);
-	////popisek
-	if(typ==0)
+	canv->Rectangle(X1,Y-KrokY/2,X2+1,Y+KrokY/2);//X2+1 pouze grafická záležitost - zmenšení mezery
+	//následující musí být mimo switch kvůli pořadí vykreslování
+	if(typ==4)//v případě bufferu vykreslení svislice přemaskující bílý spoj, tím se buffer napojí na předchozí objekt
 	{
-			SetBkMode(canv->Handle,OPAQUE);//nastvení transparentního pozadí
+    canv->Pen->Color=color;
+		canv->MoveTo(X1,Y-KrokY/2+1);canv->LineTo(X1,Y+KrokY/2-1);//-+1 grafická vyfikundace
+	}
+	////popisek
+	//normal 0    buffer který má popisek menší než délku obdelničku
+	if(typ==0 /*|| (typ==4 && canv->TextWidth(shortname)<X2-X1)*/)
+	{
+			SetBkMode(canv->Handle,OPAQUE);//nastvení netransparentního pozadí
 			//if(color!=clBlack)canv->Font->Color=clBlack;else canv->Font->Color=clWhite;//pokud je výplň obdelníčku černě, tak popisek bude bíle
 			canv->Font->Color=clWhite;
 			canv->Font->Size=8;
@@ -626,74 +635,128 @@ void Cvykresli::vykresli_vytizenost_objektu(TCanvas *canv)
 //ROMA metoda, vykreslí graf technologických procesů vůči jednotlivým t-objektům v čase
 void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 {
-	short S=50;//prozatim natvrdo šířka vozíku
-	unsigned int X=S;unsigned int Xpuv=X;
-	unsigned int KZ=v.vrat_zacatek_a_konec_zakazky(v.CESTY->predchozi).y+1;//konec zakazky
+	//--proměné k účelu filtrace
+	double K=0.5;//Krok po kolika minutach se bude zobrazovat
+	double OD=0;//od které min se proces začne vypisovat
+	double DO=v.vrat_nejpozdejsi_konec_zakazek();//konec zakazky v min
+	unsigned int Nod=2;//rozmezí Jaký se vypíše vozik,
+	unsigned int Ndo=2;//rozmezí Jaký se vypíše vozik, pokud bude 0 vypisují se všechny
+	//--
+	//výchozí proměnné
+	int PXM=50;//měřítko pixelů na metr v tomto modu, zároveň však používám jako krok posunu na ose Y (přetížení proměnné)
+	int S=2*PXM;//prozatim natvrdo vozik 2 metry
+	unsigned int X=0;//posun po X-ové ose
+	short Yofset=50+Form1->RzToolbar1->Height;
+	unsigned int Y=Yofset;//Posun po Y-oso včetně výchozí pozice
+	canv->Font->Size=10;//nutno tady kvůli správné velikosti, pokud dojde ke změně je nutné párově změnit
+	short Xofset=4+canv->TextWidth(DO+K)+4;//zajistí správný počátek prvního objektu dle šířky nejdelší vypisované minuty
 
-	canv->Pen->Mode=pmCopy;
-	canv->Pen->Width=2;    //nastavení šířky pera
-	canv->Pen->Style=psSolid;
-	canv->Pen->Color=clBlack;
-	canv->Font->Color=clBlack;
-
-	Cvektory::TProces *P=v.PROCESY->dalsi;
-
-	/*while (P!=NULL)
-	{
-		unsigned int x=0;
-		unsigned int y=S+S/2+Form1->RzToolbar1->Height;
-		for(unsigned int MIN=0;MIN<=KZ;MIN++)
-		{
-				if(P->vozik->n==1 && P->Tpoc<=MIN && MIN<P->Tcek)//filtr
-				{
-					canv->Rectangle(x-S/2,y-S/2,x+S/2,y+S/2);
-					AnsiString T=P->vozik->n;
-					canv->TextOutW(x-canv->TextWidth(T)/2,y-canv->TextHeight(T)/2,T);
-					x=MIN*S;
-					y+=S;
-				}
-		}
-		P=P->dalsi;
-	};  */
-
-
-	unsigned int Y=Form1->RzToolbar1->Height;
-
-	//nastavení popisku
-	SetBkMode(canv->Handle,/*TRANSPARENT*/OPAQUE);//nastvení transparentního pozadí
-	canv->Pen->Mode=pmNotXor;
-	canv->Pen->Width=1;    //nastavení šířky pera
-	canv->Pen->Style=psDot;
-	canv->Pen->Color=TColor RGB(200,200,200);   //míchání světlě šedé
-	canv->Brush->Style=bsClear;
-	canv->Font->Color=clGray;
-	canv->Font->Style = TFontStyles()<< fsBold;//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
-	canv->Font->Size=7;
-	canv->Font->Name="Arial";
-	canv->Font->Style = TFontStyles();
-	canv->Font->Pitch = TFontPitch::fpFixed;//každé písmeno fontu stejně široké
-	canv->Font->Pitch = System::Uitypes::TFontPitch::fpFixed;
-
-	//vodorovný popisek
+	//uložení pozice objektů na X ose
 	Cvektory::TObjekt *ukaz=v.OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
 	while (ukaz!=NULL)
 	{
-		Xpuv=X;
-		X+=v.vrat_kapacitu_objektu(ukaz)*S;
-		canv->MoveTo(X,Y);
-		canv->LineTo(X,KZ*KrokY);
-		AnsiString T=ukaz->short_name;
-		canv->TextOutW((Xpuv+X)/2-canv->TextWidth(T)/2,Y,T);
+		X+=ukaz->doporucena_kapacita_objektu*S;
+		ukaz->obsazenost=X;//zneužití proměné obsazenost,//přes ->předchozí asi by nešlo načítat, protože pořadí objektu na cestě a ve spojaku OBJEKTY nemusí být totožné
 		ukaz=ukaz->dalsi;
 	}
 
-	//svislý popisek
-	Y+=S+S/2;
-	canv->Font->Style = TFontStyles();//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
-	for(unsigned int i=0;i<=KZ;i++)//po minutách
+	////////VOZÍČKY
+	//nastavení popisku
+	SetBkMode(canv->Handle,/*TRANSPARENT*/OPAQUE);//nastvení transparentního pozadí
+	canv->Font->Style = TFontStyles()<< fsBold;//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
+	canv->Font->Size=12;
+	canv->Font->Name="Arial";
+	canv->Font->Pitch = TFontPitch::fpFixed;//každé písmeno fontu stejně široké
+	canv->Font->Pitch = System::Uitypes::TFontPitch::fpFixed;
+	//nastavení pera pro vykreslení vozíčku
+	canv->Pen->Mode=pmCopy;
+	canv->Pen->Width=1;
+	canv->Pen->Style=psSolid;
+	canv->Pen->Color=clWhite;
+	canv->Brush->Style=bsSolid;
+	canv->Font->Color=clWhite;
+	//samotné vykreslení
+	Cvektory::TProces *P=v.PROCESY->dalsi;
+	while (P!=NULL)
 	{
-			canv->TextOutW(0,Y,i);
-			Y+=S;
+		for(double MIN=OD;MIN<=DO;MIN+=K)
+		{   //filtr na rozsah vozíků, nebo podku Ndo==0, tak se vypíší všechny
+				if(((Nod<=P->vozik->n && P->vozik->n<=Ndo) || Ndo==0) && P->Tpoc<=MIN && MIN<P->Tcek)//filtr
+				{
+					//výpočet umístění na ose X
+					if(P->cesta->objekt->doporucena_kapacita_objektu==1)
+					{
+						X=P->cesta->objekt->obsazenost;//pokud se do objektu vejde pouze jenom jeden objekt
+						X+=Xofset-S/2;//ještě grafické odsazení o odsazení výchozí osy a o šířku jednoho vozíku
+					}
+//					if(P->predchozi->n==0)//pokud bych chtěl zobrazovat v jednokapacitních objektech kontinuálně, bacha dělá neplechu ve smyčkách
+//					{
+//						X=0+((P->cesta->objekt->obsazenost-0)*(MIN-P->Tpoc)/(P->Tcek-P->Tpoc));
+//						X+=Xofset+S/2;//ještě grafické odsazení o odsazení výchozí osy a o šířku jednoho vozíku
+//					}
+					else
+					{
+						X=P->predchozi->cesta->objekt->obsazenost+((P->cesta->objekt->obsazenost-P->predchozi->cesta->objekt->obsazenost)*(MIN-P->Tpoc)/(P->Tcek-P->Tpoc));
+						X+=Xofset+S/2;//ještě grafické odsazení o odsazení výchozí osy a o šířku jednoho vozíku
+					}
+					//výpočet umístění na ose Y (jedná se pouze o umístění na řádku správné minuty)
+					Y=PXM*MIN/K+Yofset;
+					//vykreslení vozíku
+					canv->Brush->Color=P->vozik->barva;
+					canv->Rectangle(X-S/2-PosunT.x,Y-PXM/2-PosunT.y,X+S/2+1-PosunT.x,Y+PXM/2-PosunT.y);  //+1 pouze grafická vyfikundace
+					AnsiString T=P->vozik->n;
+					canv->TextOutW(X-canv->TextWidth(T)/2-PosunT.x,Y-canv->TextHeight(T)/2-PosunT.y,T);
+					//break;//proces byl v dané minutě nalezen nemá cenu hledat dál
+				}
+		}
+		P=P->dalsi;
+	}
+
+	////////POPISKY
+	////vodorovný popisek - OBJEKTY (ale svislé čáry)
+	//nastavení
+	canv->Pen->Width=2;
+	canv->Pen->Mode=pmCopy;
+	canv->Pen->Style=psSolid;
+	canv->Pen->Color=clGray;
+	canv->Brush->Color=clWhite;
+	canv->Font->Color=clGray;
+	canv->Font->Size=10;
+	Y=Form1->RzToolbar1->Height+4;
+	X=Xofset;unsigned int Xpuv=X;
+	//samotný výpis
+	//nakreslení úvodní svislice (začátek pravděpodobně navěšování)
+	canv->MoveTo(X-PosunT.x,Y);canv->LineTo(X-PosunT.x,DO*PXM);
+	ukaz=v.OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
+	while (ukaz!=NULL)
+	{
+		X=ukaz->obsazenost+Xofset;
+		canv->MoveTo(X-PosunT.x,Y);
+		canv->LineTo(X-PosunT.x,DO*PXM);
+		AnsiString T=ukaz->short_name;
+		canv->TextOutW((Xpuv+X)/2-canv->TextWidth(T)/2-PosunT.x,Y,T);
+		Xpuv=X;
+		ukaz=ukaz->dalsi;
+	}
+	////svislý popisek - MINUTY  (ale vodorovné čáry)
+	Y=Yofset;
+	X=4;//2 - grafické odsazení
+	canv->Pen->Width=1;
+	canv->Pen->Mode=pmNotXor;
+	canv->Pen->Style=psDot;
+	canv->Pen->Color=TColor RGB(200,200,200);   //míchání světlě šedé
+	canv->Brush->Color=clWhite;
+	canv->Font->Color=clGray;
+	canv->Font->Size=10;//musí být stejný jako u objektů
+	for(double MIN=OD;MIN<=DO;MIN+=K)//po půlminutách
+	{
+		if(Form1->grid)//pokud je požadován grid
+		{
+			canv->MoveTo(X,Y-PosunT.y-PXM/2);//-PXM/2 aby linie byly nád a pod vozíkem
+			canv->LineTo(Form1->ClientWidth,Y-PosunT.y-PXM/2);
+		}
+		canv->TextOutW(X,Y-canv->TextHeight(MIN)/2-PosunT.y,MIN);
+		Y+=PXM;
 	}
 }
 //---------------------------------------------------------------------------
@@ -717,11 +780,11 @@ void Cvykresli::rotace_textu(TCanvas *canv, long rotace)//úhel rotace je deseti
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-//nastaví pero
-void Cvykresli::set_pen(TCanvas *canv, TColor color, int width, int style)//popř.PS_ENDCAP_FLAT PS_ENDCAP_ROUND, PS_ENDCAP_SQUERE viz Matoušek III str. 179
+//nastaví pero                                                             //http://www.zive.cz/clanky/geometricka-pera/sc-3-a-103079
+void Cvykresli::set_pen(TCanvas *canv, TColor color, int width, int style)//PS_ENDCAP_FLAT PS_ENDCAP_ROUND, PS_ENDCAP_SQUARE viz Matoušek III str. 179
 {
 		DeleteObject(canv->Pen->Handle);//zruší původní pero
-		DWORD pStyle = PS_GEOMETRIC | PS_SOLID | style | PS_JOIN_BEVEL;
+		DWORD pStyle = PS_GEOMETRIC | PS_SOLID | style /*| PS_JOIN_BEVEL*/ | PS_INSIDEFRAME;
 		DWORD pWidth = width;
 
 		LOGBRUSH lBrush;

@@ -177,6 +177,7 @@ class Cvektory
 		double MIN_TT;
 		TPointD vrat_zacatek_a_konec_zakazky(TSeznam_cest *jaka);//ukazatel na cestu resp, zakázku
 		TPointD vrat_zacatek_a_konec_zakazky(unsigned int n_zakazky);//n resp. ID cestu resp, zakázku
+		double vrat_nejpozdejsi_konec_zakazek();//nemusí se vždy jednat o poslední zakázku
 		double vrat_LT_voziku(TVozik *jaky);//vrátí celkový čas, který strávil vozík ve výrobě včetně čekání
 		double vrat_LT_voziku(unsigned int n_voziku);//vrátí celkový čas, který strávil vozík ve výrobě včetně čekání
 		double vrat_sumPT_voziku(TVozik *jaky);//vrátí čistý čas, který strávil vozík ve výrobě bez čekání
@@ -192,7 +193,7 @@ class Cvektory
 		unsigned int vrat_pocet_voziku_zakazky(TSeznam_cest *jaka);
 		unsigned int vrat_pocet_voziku_zakazky(unsigned int n_zakazky);
 		unsigned int WIP();//vrátí max. počet vozíků na lince
-		unsigned int vrat_kapacitu_objektu(TObjekt *O);
+		void uloz_doporucene_kapacity_objetku();
 
 	private:
 		struct C_uzel//pro konverzi do bináru
@@ -235,6 +236,7 @@ class Cvektory
 
 		AnsiString get_csv_xls(AnsiString S);
 		AnsiString get_html();
+		unsigned int vrat_kapacitu_objektu(TObjekt *O);//stačí v sekci private, protože ukládám přímo přímo do atributů objektu pomocí uloz_doporucene_kapacity_objetku();
 
 	protected:
 

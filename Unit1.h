@@ -264,6 +264,7 @@ __published:	// IDE-managed Components
 
 private:	// User declarations
 	////struktury, výčty
+	enum Tedice{DEVELOPER,BUSINESS,CLIENT,VIEWER};Tedice EDICE;
 	enum Tmod{NO=0,EDITACE,TESTOVANI,REZERVY,CASOVAOSA,TECHNOPROCESY,SIMULACE};Tmod MOD;
 	enum Takce{NIC=0,PAN,PAN_MOVE,ZOOM_W,ZOOM_W_MENU,ADD,MOVE};Takce Akce;
 	enum TKurzory {standard=0,posun_v,posun_b,posun_p,posun_l,posun_t,kalibrovat,pan,pan_move,window,add_o};
@@ -275,6 +276,7 @@ private:	// User declarations
 	Cvektory::TProces *proces_pom;
 
 	////metody
+	void edice();
 	void setVisualStyle(TRzVisualStyle VisualStyle=vsClassic);
 	short int MB(UnicodeString text, unsigned short int typ=0,UnicodeString titulek="TISPL - Eltep");//vola rychle messabox
 	void REFRESH();
