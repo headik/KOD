@@ -226,12 +226,21 @@ double Cmy::prejezd_voziku(double delka, double rychlost_dopravniku)
 }
 /////////////////////////////////////////////////////////////////////////////
 //zesvìtlí barvu
-TColor Cmy::clLight(TColor C,short A)//A - míra zesvìtlení
+TColor Cmy::clIntensive(TColor C,short A)//+A - míra zesvìtlení,-A míra ztmavení
 {
-	BYTE R=GetRValue(C);if(A>255-R)R=255;else R+=A;
-	BYTE G=GetGValue(C);if(A>255-G)G=255;else G+=A;
-	BYTE B=GetBValue(C);if(A>255-B)B=255;else B+=A;
-
+	BYTE R=GetRValue(C); BYTE G=GetGValue(C); BYTE B=GetBValue(C);
+	if(A>0)//zesvìtlení
+	{
+		if(A>255-R)R=255;else R+=A;
+		if(A>255-G)G=255;else G+=A;
+		if(A>255-B)B=255;else B+=A;
+	}
+	if(A<0)//ztmavení
+	{
+		if((-1)*A>R)R=0;else R+=A;
+		if((-1)*A>G)G=0;else G+=A;
+		if((-1)*A>B)B=0;else B+=A;
+	}
 	return (TColor)RGB(R,G,B);
 }
 /////////////////////////////////////////////////////////////////////////////

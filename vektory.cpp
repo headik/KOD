@@ -28,7 +28,7 @@ void Cvektory::hlavicka_objekty()
 	novy->typ_dopravniku=0;
 	novy->delka_dopravniku=0;
 	novy->kapacita_objektu=0;
-	novy->doporucena_kapacita_objektu=0;
+	novy->dop_kapacita_objektu=0;
 	novy->techn_parametry="";
 	novy->obsazenost=0;
 
@@ -59,7 +59,7 @@ short Cvektory::vloz_objekt(unsigned int id, double X, double Y)
 	novy->typ_dopravniku=0;
 	novy->delka_dopravniku=0;
 	novy->kapacita_objektu=0;
-	novy->doporucena_kapacita_objektu=0;
+	novy->dop_kapacita_objektu=0;
 	novy->techn_parametry="";
 	novy->obsazenost=0;
 
@@ -88,7 +88,7 @@ short Cvektory::vloz_objekt(unsigned int id, double X, double Y,TObjekt *p)
 	novy->typ_dopravniku=0;
 	novy->delka_dopravniku=0;
 	novy->kapacita_objektu=0;
-	novy->doporucena_kapacita_objektu=0;
+	novy->dop_kapacita_objektu=0;
 	novy->techn_parametry="";
 	novy->obsazenost=0;
 
@@ -379,6 +379,23 @@ Cvektory::TProces *Cvektory::najdi_proces(double cas, double vozik)
 		P=P->dalsi;
 	};
 	return RET;
+}
+//---------------------------------------------------------------------------
+//vratí následující proces na stejném objektu jako proces zadaný
+Cvektory::TProces *Cvektory::vrat_nasledujici_proces_objektu(TProces *Proces)
+{
+		TProces *RET=NULL;
+		TProces *P=Proces->dalsi;
+		while (P!=NULL)
+		{
+			if(P->cesta->objekt==Proces->cesta->objekt)
+			{
+				RET=P;
+				break;
+			}
+			P=P->dalsi;
+		};
+		return P;
 }
 //---------------------------------------------------------------------------
 long Cvektory::vymaz_seznam_procesu()
@@ -1229,7 +1246,7 @@ void Cvektory::uloz_doporucene_kapacity_objetku()
 	TObjekt *ukaz=OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
 	while (ukaz!=NULL)
 	{
-		ukaz->doporucena_kapacita_objektu=vrat_kapacitu_objektu(ukaz);
+		ukaz->dop_kapacita_objektu=vrat_kapacitu_objektu(ukaz);
 		ukaz=ukaz->dalsi;
 	}
 }

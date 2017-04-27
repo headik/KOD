@@ -746,11 +746,29 @@ object Form1: TForm1
   object Button11: TButton
     Left = 166
     Top = 360
-    Width = 75
+    Width = 195
     Height = 25
     Caption = 'zobrazit '#269'asov'#233' vyt'#237#382'enosti technologick'#253'ch objekt'#367
     TabOrder = 21
-    Visible = False
+    OnClick = Button11Click
+  end
+  object Button2: TButton
+    Left = 378
+    Top = 360
+    Width = 75
+    Height = 25
+    Caption = 'EXPO'
+    TabOrder = 22
+    OnClick = Button2Click
+  end
+  object Button12: TButton
+    Left = 472
+    Top = 360
+    Width = 75
+    Height = 25
+    Caption = 'PLAY'
+    TabOrder = 23
+    OnClick = Button12Click
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -852,12 +870,6 @@ object Form1: TForm1
         RadioItem = True
         ShortCut = 120
         OnClick = casovosa1Click
-      end
-      object casovevytizenostiobjektu1: TMenuItem
-        Caption = #269'asov'#233' vyt'#237#382'enosti objekt'#367
-        Enabled = False
-        ShortCut = 121
-        OnClick = casovevytizenostiobjektu1Click
       end
       object technologickprocesy1: TMenuItem
         Caption = 'technologick'#233' procesy'
@@ -1134,7 +1146,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C01011800EC01EC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011800FC01FC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2099,5 +2111,18 @@ object Form1: TForm1
     OnTimer = Timer_simulaceTimer
     Left = 376
     Top = 32
+  end
+  object Timer_neaktivity: TTimer
+    Enabled = False
+    OnTimer = Timer_neaktivityTimer
+    Left = 408
+    Top = 32
+  end
+  object Timer_animace: TTimer
+    Enabled = False
+    Interval = 40
+    OnTimer = Timer_animaceTimer
+    Left = 376
+    Top = 64
   end
 end

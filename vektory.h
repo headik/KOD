@@ -31,7 +31,7 @@ class Cvektory
 			short typ_dopravniku;
 			double delka_dopravniku;
 			double kapacita_objektu;
-			double doporucena_kapacita_objektu;
+			double dop_kapacita_objektu;//doporučená, vypočítáná
 			double obsazenost;//čas obsazenosti
 			UnicodeString techn_parametry;//obsah valuestringlistu, nelze ukládát pouze jednotlivá data, protože se seznam může u S&G měnit
 			struct TObjekt *predchozi;
@@ -156,6 +156,7 @@ class Cvektory
 		void hlavicka_procesy();
 		void vloz_proces(TProces *Proces);
 		TProces *najdi_proces(double cas, double vozik);//hledá bod mezi procesy
+		TProces *vrat_nasledujici_proces_objektu(TProces *Proces);//vratí následující proces na stejném objektu jako proces zadaný
 		long vymaz_seznam_procesu();
 		short int uloz_do_souboru(UnicodeString FileName);
 		short int nacti_ze_souboru(UnicodeString FileName);

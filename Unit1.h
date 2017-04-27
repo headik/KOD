@@ -163,7 +163,10 @@ __published:	// IDE-managed Components
 	TMenuItem *SPPP1;
 	TMenuItem *Boskovice1;
 	TMenuItem *eXtreme1;
-	TMenuItem *casovevytizenostiobjektu1;
+	TButton *Button2;
+	TTimer *Timer_neaktivity;
+	TButton *Button12;
+	TTimer *Timer_animace;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -260,6 +263,11 @@ __published:	// IDE-managed Components
 	void __fastcall Boskovice1Click(TObject *Sender);
 	void __fastcall eXtreme1Click(TObject *Sender);
 	void __fastcall casovevytizenostiobjektu1Click(TObject *Sender);
+	void __fastcall Button11Click(TObject *Sender);
+	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall Timer_neaktivityTimer(TObject *Sender);
+	void __fastcall Button12Click(TObject *Sender);
+	void __fastcall Timer_animaceTimer(TObject *Sender);
 
 
 private:	// User declarations
@@ -338,6 +346,7 @@ private:	// User declarations
 
 	bool duvod_k_ulozeni;
 	bool stisknuto_storno;
+	short pocitadlo_doby_neaktivity;
 
 	UnicodeString FileName;
 
