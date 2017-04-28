@@ -281,7 +281,7 @@ object Form1: TForm1
     object Label3: TLabel
       Left = 0
       Top = 0
-      Width = 140
+      Width = 99
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -294,7 +294,6 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 99
     end
     object DrawGrid_knihovna: TDrawGrid
       Left = 0
@@ -358,7 +357,7 @@ object Form1: TForm1
     object Label4: TLabel
       Left = 0
       Top = 0
-      Width = 140
+      Width = 91
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -371,7 +370,6 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 91
     end
     object Label5: TLabel
       Left = 102
@@ -744,8 +742,8 @@ object Form1: TForm1
     Visible = False
   end
   object Button11: TButton
-    Left = 166
-    Top = 360
+    Left = 542
+    Top = 4
     Width = 195
     Height = 25
     Caption = 'zobrazit '#269'asov'#233' vyt'#237#382'enosti technologick'#253'ch objekt'#367
@@ -753,21 +751,23 @@ object Form1: TForm1
     OnClick = Button11Click
   end
   object Button2: TButton
-    Left = 378
+    Left = 166
     Top = 360
     Width = 75
     Height = 25
     Caption = 'EXPO'
     TabOrder = 22
+    Visible = False
     OnClick = Button2Click
   end
   object Button12: TButton
-    Left = 472
-    Top = 360
-    Width = 75
+    Left = 480
+    Top = 2
+    Width = 43
     Height = 25
     Caption = 'PLAY'
     TabOrder = 23
+    Visible = False
     OnClick = Button12Click
   end
   object MainMenu1: TMainMenu
@@ -1146,7 +1146,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C01011800FC01FC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118000402040210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -334,7 +334,7 @@ void Cvykresli::vykresli_graf_rezervy(TCanvas *canv)
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-//celkové vykreslení módu časové osy - MaRO algoritmus
+////celkové vykreslení módu časové osy - MaRO algoritmus
 void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 {
 	if(!mod_vytizenost_objektu)
@@ -369,14 +369,14 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 							if(C->n==1)vozik->start=X;//uloží výchozí X hodnotu, prvního objektu pro daný vozík
 							double X_predchozi=X;//uloží povodní X hodnotu
 
-							//vykreslení a uložení buffer pokud předchází
+							////BUFFER vykreslení a uložení buffer pokud předchází
 							if(vozik->pozice<X && vozik->pozice>0)
 							vykresli_proces(canv,"BUF - "+C->predchozi->objekt->short_name,m.clIntensive(vozik->barva,80),4,vozik->pozice-PosunT.x,X-PosunT.x,Yloc-PosunT.y,KrokY);
 							//Nefunguje zatím správněCvektory::TProces *P=new Cvektory::TProces;
 							//P->n_v_zakazce=n+1;P->Tpoc=vozik->pozice-PosunT.x/PX2MIN;P->Tkon=X-PosunT.x/PX2MIN;P->Tdor=P->Tkon;P->Tpre=P->Tkon;P->Tcek=P->Tkon;P->cesta=C;P->vozik=vozik;
 							//v.vloz_proces(P);
 
-							////vykreslení procesu (jednoho obdelníčku "v plavecké dráze") včetně výpočtu koncové pozice
+							////vykreslení procesu (jednoho obdelníčku "v plavecké dráze") včetně výpočtu koncové pozice a uložení dílčích hodnot
 							X=proces(canv,++n,X_predchozi,X,Yloc,C,vozik);
 
 							//posunutí na ose Y na další vozík
@@ -407,6 +407,7 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 	vykresli_oddelovaci_linku();
 
 }
+//---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //vypočítá konec procesu (odbdelníčku)
 double Cvykresli::proces(TCanvas *canv, unsigned int n, double X_predchozi, double X, int Y, Cvektory::TCesta *C,Cvektory::TVozik *vozik)
@@ -671,7 +672,8 @@ void Cvykresli::vytizenost_procesu(TCanvas *canv, Cvektory::TProces *P,double X,
 	 X=P->Tcek;
 }
 //---------------------------------------------------------------------------
-//ROMA metoda, vykreslí graf technologických procesů vůči jednotlivým t-objektům v čase
+//---------------------------------------------------------------------------
+////ROMA metoda, vykreslí graf technologických procesů vůči jednotlivým t-objektům v čase
 void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 {
 	//--nastavení proměnných k účelu filtrace, nastavováno z unit1 či volání animace, pro přehlednost a lenost necháno zde předáním na lokální proměnné
@@ -723,13 +725,13 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 		{   //filtr na rozsah vozíků, nebo podku Ndo==0, tak se vypíší všechny
 				if(((Nod<=P->vozik->n && P->vozik->n<=Ndo) || Ndo==0) && P->Tpoc<=MIN && MIN<P->Tcek)//filtr
 				{
-					//výpočet umístění na ose X
-					if(P->cesta->objekt->dop_kapacita_objektu==1)
-					{
-						X=P->cesta->objekt->obsazenost;//pokud se do objektu vejde pouze jenom jeden objekt
-						X+=Xofset-S/2;//ještě grafické odsazení o odsazení výchozí osy a o šířku jednoho vozíku
-					}
-					else
+//					//výpočet umístění na ose X
+//					if(P->cesta->objekt->dop_kapacita_objektu==1)//pro jednokapacitní resp. S&G
+//					{
+//						X=P->cesta->objekt->obsazenost;//pokud se do objektu vejde pouze jenom jeden objekt
+//						X+=Xofset-S/2;//ještě grafické odsazení o odsazení výchozí osy a o šířku jednoho vozíku
+//					}
+//					else
 					{
 						X=P->cesta->objekt->predchozi->obsazenost+
 						(
@@ -738,13 +740,20 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 						);
 						X+=Xofset+S/2;//ještě grafické odsazení o odsazení výchozí osy a o šířku jednoho vozíku
 					}
-					//výpočet umístění na ose Y (jedná se pouze o umístění na řádku správné minuty)
-					if(!A)Y=PXM*MIN/K+Yofset;
 					//vykreslení vozíku
 					canv->Brush->Color=P->vozik->barva;
-					canv->Rectangle(X-S/2-PosunT.x,Y-PXM/2-PosunT.y,X+S/2+1-PosunT.x,Y+PXM/2-PosunT.y);  //+1 pouze grafická vyfikundace
 					AnsiString T=P->vozik->n;
-					canv->TextOutW(X-canv->TextWidth(T)/2-PosunT.x,Y-canv->TextHeight(T)/2-PosunT.y,T);
+					if(!A)//pokud se nejedná o animaci, aby bylo možné posouvat obraz na ose Y a při animaci naopak nebylo možné
+					{
+						Y=PXM*MIN/K+Yofset;//výpočet umístění na ose Y (jedná se pouze o umístění na řádku správné minuty)
+						canv->Rectangle(X-S/2-PosunT.x,Y-PXM/2-PosunT.y,X+S/2+1-PosunT.x,Y+PXM/2-PosunT.y);  //+1 pouze grafická vyfikundace
+						canv->TextOutW(X-canv->TextWidth(T)/2-PosunT.x,Y-canv->TextHeight(T)/2-PosunT.y,T);
+					}
+					else//jedná se o animaci
+					{
+						canv->Rectangle(X-S/2-PosunT.x,Y-PXM/2,X+S/2+1-PosunT.x,Y+PXM/2);  //+1 pouze grafická vyfikundace
+						canv->TextOutW(X-canv->TextWidth(T)/2-PosunT.x,Y-canv->TextHeight(T)/2,T);
+					}
 					//break;//proces byl v dané minutě nalezen nemá cenu hledat dál
 				}
 		}
@@ -764,14 +773,14 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 	Y=Form1->RzToolbar1->Height+4;
 	X=Xofset;unsigned int Xpuv=X;
 	//samotný výpis
-	//nakreslení úvodní svislice (začátek pravděpodobně navěšování)
-	canv->MoveTo(X-PosunT.x,Y);canv->LineTo(X-PosunT.x,DO*PXM);
+	canv->MoveTo(X-PosunT.x,Y);if(!A)canv->LineTo(X-PosunT.x,Yofset+PXM*DO/K-PosunT.y);else canv->LineTo(X-PosunT.x,Yofset+PXM);//nakreslení první svislice (začátek pravděpodobně navěšování)
 	ukaz=v.OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
 	while (ukaz!=NULL)
 	{
 		X=ukaz->obsazenost+Xofset;
 		canv->MoveTo(X-PosunT.x,Y);
-		canv->LineTo(X-PosunT.x,DO*PXM);
+		if(!A)canv->LineTo(X-PosunT.x,Yofset+PXM*DO/K-PosunT.y);//pokud se nejedná o animaci, pozn. osa Y si stejně vypisuje nějak divně
+		else canv->LineTo(X-PosunT.x,Yofset+PXM);//pokud se jedná o animaci
 		AnsiString T=ukaz->short_name;
 		canv->TextOutW((Xpuv+X)/2-canv->TextWidth(T)/2-PosunT.x,Y,T);
 		Xpuv=X;
@@ -789,15 +798,25 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 	canv->Font->Size=10;//musí být stejný jako u objektů
 	for(double MIN=OD;MIN<=DO;MIN+=K)//po půlminutách či nastaveném kroku
 	{
-		if(Form1->grid)//pokud je požadován grid
+		if(!A)//pokud se nejedná o animaci
 		{
-			canv->MoveTo(X,Y-PosunT.y-PXM/2);//-PXM/2 aby linie byly nád a pod vozíkem
-			canv->LineTo(Form1->ClientWidth,Y-PosunT.y-PXM/2);
+			if(Form1->grid)//pokud je požadován grid
+			{
+				canv->MoveTo(X,Y-PosunT.y-PXM/2);//-PXM/2 aby linie byly nád a pod vozíkem
+				canv->LineTo(Form1->ClientWidth,Y-PosunT.y-PXM/2);
+			}
+			canv->TextOutW(X,Y-canv->TextHeight(MIN)/2-PosunT.y,MIN);
+			Y+=PXM;
 		}
-		canv->TextOutW(X,Y-canv->TextHeight(MIN)/2-PosunT.y,MIN);
-		Y+=PXM;
+		else//pokud se jedná o animaci
+		{
+			canv->TextOutW(X,Y-canv->TextHeight(MIN)/2,MIN);
+		}
 	}
+	//popisek [min]
+	canv->TextOutW(2,0+Form1->RzToolbar1->Height,"[min]");
 }
+//---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //vykreslí oddělovací linku mezi grafy a canvasem
 void Cvykresli::vykresli_oddelovaci_linku()

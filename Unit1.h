@@ -262,7 +262,6 @@ __published:	// IDE-managed Components
 	void __fastcall SPPP1Click(TObject *Sender);
 	void __fastcall Boskovice1Click(TObject *Sender);
 	void __fastcall eXtreme1Click(TObject *Sender);
-	void __fastcall casovevytizenostiobjektu1Click(TObject *Sender);
 	void __fastcall Button11Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall Timer_neaktivityTimer(TObject *Sender);
