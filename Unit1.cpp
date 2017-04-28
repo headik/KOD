@@ -374,7 +374,7 @@ void __fastcall TForm1::testovnkapacity1Click(TObject *Sender)
 	RzSizePanel_knihovna_objektu->Visible=true;
 	PopupMenu1->AutoPopup=true;
 	Timer_neaktivity->Enabled=false;
-	CheckBox1->Visible=false;
+	Timer_animace->Enabled=false;
 	Button12->Visible=false;
 	Invalidate();
 }
@@ -398,7 +398,7 @@ void __fastcall TForm1::casoverezervy1Click(TObject *Sender)
 	RzSizePanel_parametry_projekt->Visible=false;
 	RzSizePanel_knihovna_objektu->Visible=false;
 	PopupMenu1->AutoPopup=false;
-	CheckBox1->Visible=false;
+	Timer_animace->Enabled=false;
 	Button12->Visible=false;
 	Invalidate();
 }
@@ -406,7 +406,7 @@ void __fastcall TForm1::casoverezervy1Click(TObject *Sender)
 void __fastcall TForm1::casovosa1Click(TObject *Sender)
 {
 	if(d.v.VOZIKY->dalsi->cesta==NULL)
-	ShowMessage("Pozor, nejdříve je nutné zadat plán výroby!");
+	ShowMessage("Pozor, nejdříve je nutné v definici zakázek zadat plán výroby!");
 	else
 	{ if(MOD!=CASOVAOSA)
 		{
@@ -430,8 +430,10 @@ void __fastcall TForm1::casovosa1Click(TObject *Sender)
 			PopupMenu1->AutoPopup=true;
 			Button3->Visible=false;
 			Timer_neaktivity->Enabled=true;
+			pocitadlo_doby_neaktivity=-1;//implicitní hodnota
 			technologickprocesy1->Enabled=true;
 			CheckBox1->Visible=true;
+			Timer_animace->Enabled=false;
 			Button12->Visible=false;
 			Invalidate();
 		}
@@ -471,6 +473,9 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	d.TP.Nod=0;//rozmezí Jaký se vypíše vozik,
 	d.TP.Ndo=0;//rozmezí Jaký se vypíše vozik, pokud bude 0 vypisují se všechny
 	d.TP.A=false;//jednořádková animace
+	Timer_animace->Enabled=false;
+	Button12->Visible=true;
+	Button12->Caption="PLAY";
 	//---
 	Invalidate();
 }
@@ -499,6 +504,8 @@ void __fastcall TForm1::simulace1Click(TObject *Sender)
 	d.priprav_palce();
 	Timer_simulace->Enabled=true;
 	Timer_neaktivity->Enabled=false;
+	Timer_animace->Enabled=false;
+	Button12->Visible=false;
 }
 //---------------------------------------------------------------------------
 //událost při zobrazení pop-up menu zobrazuje a skrývá položky pop-up menu
@@ -594,7 +601,7 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 		//	case SIMULACE:d.vykresli_simulaci(Canvas);break; - probíhá pomocí timeru, na tomto to navíc se chovalo divně
 		case CASOVAOSA:d.vykresli_casove_osy(Canvas);d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
 		//testovací režim, kvůli přechodu ze šetřice obrazovky
-		if(pocitadlo_doby_neaktivity==60)Invalidate();//ošetření kvůli šetřiči obrazovky
+		if(pocitadlo_doby_neaktivity==60 || pocitadlo_doby_neaktivity==-1)Invalidate();//ošetření kvůli šetřiči obrazovky
 		pocitadlo_doby_neaktivity=0;Timer_neaktivity->Enabled=true;
 		//--
 		break;
@@ -2760,18 +2767,7 @@ void __fastcall TForm1::eXtreme1Click(TObject *Sender)
 	d.v.vloz_cestu(cesta_pom2);//vloží novou hotovou cestu do spoj.seznamu cest
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TForm1::casovevytizenostiobjektu1Click(TObject *Sender)
-{
-	if(d.v.PROCESY!=NULL && d.v.PROCESY->predchozi->n>0)//pokud je více objektů
-	{
-		d.mod_vytizenost_objektu=!d.mod_vytizenost_objektu;
-		CheckBoxPALCE->Visible=!CheckBoxPALCE->Visible;
-		SB("");
-		Invalidate();
-	}
-}
-//---------------------------------------------------------------------------
+//kod přepínače v časových osách
 void __fastcall TForm1::Button11Click(TObject *Sender)
 {
 	if(d.v.PROCESY!=NULL && d.v.PROCESY->predchozi->n>0)//pokud je více objektů
@@ -2781,8 +2777,6 @@ void __fastcall TForm1::Button11Click(TObject *Sender)
 		SB("");
 		Invalidate();
 	}
-
-
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button2Click(TObject *Sender)
@@ -2807,6 +2801,8 @@ void __fastcall TForm1::Button12Click(TObject *Sender)
 	Timer_animace->Enabled=!Timer_animace->Enabled;
 	if(Timer_animace->Enabled)
 	{
+		d.PosunT.x=0;//výchozí posunutí obrazu Posunu na časových osách, kvůli možnosti posouvání obrazu
+		d.PosunT.y=0;
 		Button12->Caption="STOP";
 		Timer_animace->Interval=40;
 		d.TP.K=0.05;//Krok po kolika minutach se bude zobrazovat
@@ -2829,7 +2825,7 @@ void __fastcall TForm1::Timer_animaceTimer(TObject *Sender)
 	else
 	{
 		Timer_animace->Enabled=false;
-		Button12->Caption="DOKONCENO!";
+		Button12->Caption="PLAY";
 		technologickprocesy1Click(Sender);//vratí statický mod
   }
 }

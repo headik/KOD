@@ -281,7 +281,7 @@ object Form1: TForm1
     object Label3: TLabel
       Left = 0
       Top = 0
-      Width = 140
+      Width = 99
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -294,7 +294,6 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 99
     end
     object DrawGrid_knihovna: TDrawGrid
       Left = 0
@@ -358,7 +357,7 @@ object Form1: TForm1
     object Label4: TLabel
       Left = 0
       Top = 0
-      Width = 140
+      Width = 91
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -371,7 +370,6 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 91
     end
     object Label5: TLabel
       Left = 102
@@ -756,7 +754,7 @@ object Form1: TForm1
   object Button12: TButton
     Left = 542
     Top = 4
-    Width = 75
+    Width = 43
     Height = 25
     Caption = 'PLAY'
     TabOrder = 22
