@@ -169,8 +169,6 @@ __published:	// IDE-managed Components
 	TChart *Chart6;
 	TCheckBox *CheckBox1;
 	TBarSeries *Series9;
-	TButton *Button11;
-	TButton *Button13;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -266,7 +264,6 @@ __published:	// IDE-managed Components
 	void __fastcall SPPP1Click(TObject *Sender);
 	void __fastcall Boskovice1Click(TObject *Sender);
 	void __fastcall eXtreme1Click(TObject *Sender);
-	void __fastcall Button11Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall Timer_neaktivityTimer(TObject *Sender);
 	void __fastcall Button12Click(TObject *Sender);

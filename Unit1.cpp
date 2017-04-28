@@ -95,7 +95,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	duvod_k_ulozeni=false;
 	NovySouborClick(this);
 
-	EDICE=DEVELOPER;//BUSINESS,CLIENT,VIEWER
+	EDICE=VIEWER;//BUSINESS,CLIENT,VIEWER
 	edice();//zakázání či povolení grafických uživatelských prvků dle úrovně edice
 
 }
@@ -2767,18 +2767,6 @@ void __fastcall TForm1::eXtreme1Click(TObject *Sender)
 	d.v.vloz_cestu(cesta_pom2);//vloží novou hotovou cestu do spoj.seznamu cest
 }
 //---------------------------------------------------------------------------
-//kod přepínače v časových osách
-void __fastcall TForm1::Button11Click(TObject *Sender)
-{
-	if(d.v.PROCESY!=NULL && d.v.PROCESY->predchozi->n>0)//pokud je více objektů
-	{
-		d.mod_vytizenost_objektu=!d.mod_vytizenost_objektu;
-		CheckBoxPALCE->Visible=!CheckBoxPALCE->Visible;
-		SB("");
-		Invalidate();
-	}
-}
-//---------------------------------------------------------------------------
 void __fastcall TForm1::Button2Click(TObject *Sender)
 {
 	 switch(d.NOLIEX)
@@ -2847,7 +2835,7 @@ if(d.v.PROCESY!=NULL && d.v.PROCESY->predchozi->n>0)//pokud je více objektů
 
 void __fastcall TForm1::Button13Click(TObject *Sender)
 {
-	Memo1->Visible=true;
+  /*	Memo1->Visible=true;
 
 	Memo1->Lines->Add("Výpis OBJEKTY:");
 	Cvektory::TObjekt *ukaz=d.v.OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
@@ -2867,7 +2855,7 @@ void __fastcall TForm1::Button13Click(TObject *Sender)
 		Memo1->Lines->Add(AnsiString(C->n)+";"+AnsiString(C->objekt->n)+";"+AnsiString(C->objekt->short_name)+";"+AnsiString(C->objekt->rezim));
 		C=C->dalsi;
 	}
-
+     */
 }
 //---------------------------------------------------------------------------
 

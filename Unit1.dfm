@@ -281,7 +281,7 @@ object Form1: TForm1
     object Label3: TLabel
       Left = 0
       Top = 0
-      Width = 99
+      Width = 140
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -294,6 +294,7 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
+      ExplicitWidth = 99
     end
     object DrawGrid_knihovna: TDrawGrid
       Left = 0
@@ -357,7 +358,7 @@ object Form1: TForm1
     object Label4: TLabel
       Left = 0
       Top = 0
-      Width = 91
+      Width = 140
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -370,6 +371,7 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
+      ExplicitWidth = 91
     end
     object Label5: TLabel
       Left = 102
@@ -630,6 +632,7 @@ object Form1: TForm1
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series3: TBarSeries
+      BarPen.Visible = False
       Marks.Children = <
         item
           Shape.ShapeStyle = fosRectangle
@@ -645,6 +648,7 @@ object Form1: TForm1
       Data = {0000000000}
     end
     object Series4: TBarSeries
+      BarPen.Visible = False
       MultiBar = mbNone
       XValues.Name = 'X'
       XValues.Order = loAscending
@@ -665,6 +669,7 @@ object Form1: TForm1
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series5: TBarSeries
+      BarPen.Visible = False
       Marks.Transparency = 30
       Marks.Style = smsValue
       Marks.Callout.ArrowHead = ahLine
@@ -677,6 +682,7 @@ object Form1: TForm1
     object Series6: TBarSeries
       BarBrush.Gradient.EndColor = 3513587
       BarBrush.Gradient.Visible = True
+      BarPen.Visible = False
       Marks.Style = smsValue
       Gradient.EndColor = 3513587
       Gradient.Visible = True
@@ -692,6 +698,7 @@ object Form1: TForm1
     Top = 35
     Width = 73
     Height = 58
+    Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
     View3D = False
@@ -699,12 +706,14 @@ object Form1: TForm1
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series7: TBarSeries
+      BarPen.Visible = False
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Bar'
       YValues.Order = loNone
     end
     object Series8: TBarSeries
+      BarPen.Visible = False
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Bar'
@@ -712,8 +721,8 @@ object Form1: TForm1
     end
   end
   object CheckBoxPALCE: TCheckBox
-    Left = 0
-    Top = 383
+    Left = 331
+    Top = 4
     Width = 160
     Height = 17
     Caption = 'zohlednit rozte'#269' palc'#367' '#345'et'#283'zu'
@@ -742,8 +751,8 @@ object Form1: TForm1
     Visible = False
   end
   object Button2: TButton
-    Left = 454
-    Top = 4
+    Left = 737
+    Top = 0
     Width = 75
     Height = 25
     Caption = 'EXPO'
@@ -752,8 +761,8 @@ object Form1: TForm1
     OnClick = Button2Click
   end
   object Button12: TButton
-    Left = 542
-    Top = 4
+    Left = 625
+    Top = 2
     Width = 43
     Height = 25
     Caption = 'PLAY'
@@ -773,6 +782,7 @@ object Form1: TForm1
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series9: TBarSeries
+      BarPen.Visible = False
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Bar'
@@ -780,32 +790,14 @@ object Form1: TForm1
     end
   end
   object CheckBox1: TCheckBox
-    Left = 326
-    Top = 8
+    Left = 497
+    Top = 4
     Width = 122
     Height = 21
     Caption = 'Vyt'#237#382'enost objekt'#367
     TabOrder = 24
     Visible = False
     OnClick = CheckBox1Click
-  end
-  object Button11: TButton
-    Left = 166
-    Top = 375
-    Width = 75
-    Height = 25
-    Caption = 'Button11'
-    TabOrder = 25
-    OnClick = Button11Click
-  end
-  object Button13: TButton
-    Left = 270
-    Top = 375
-    Width = 75
-    Height = 25
-    Caption = 'Button13'
-    TabOrder = 26
-    OnClick = Button13Click
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -1181,7 +1173,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C01011800FC01000210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011800FC01040210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
