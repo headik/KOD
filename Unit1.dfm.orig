@@ -32,7 +32,7 @@ object Form1: TForm1
   TextHeight = 13
   object Label6: TLabel
     Left = 448
-    Top = 241
+    Top = 210
     Width = 31
     Height = 13
     Caption = 'Label6'
@@ -281,7 +281,7 @@ object Form1: TForm1
     object Label3: TLabel
       Left = 0
       Top = 0
-      Width = 140
+      Width = 99
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -294,7 +294,6 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 99
     end
     object DrawGrid_knihovna: TDrawGrid
       Left = 0
@@ -358,7 +357,7 @@ object Form1: TForm1
     object Label4: TLabel
       Left = 0
       Top = 0
-      Width = 140
+      Width = 91
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -371,7 +370,6 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 91
     end
     object Label5: TLabel
       Left = 102
@@ -477,22 +475,13 @@ object Form1: TForm1
     TabOrder = 5
     Visible = False
   end
-  object Button2: TButton
-    Left = 160
-    Top = 329
-    Width = 139
-    Height = 25
-    Caption = 'zav'#233'st pl'#225'n v'#253'roby'
-    TabOrder = 6
-    Visible = False
-  end
   object Button3: TButton
     Left = 160
     Top = 112
     Width = 85
     Height = 25
     Caption = 'Nav'#283'sit voz'#237'k (0)'
-    TabOrder = 7
+    TabOrder = 6
     Visible = False
     OnClick = Button3Click
   end
@@ -502,7 +491,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = 'Pauza simulace'
-    TabOrder = 8
+    TabOrder = 7
     Visible = False
     OnClick = Button4Click
   end
@@ -512,7 +501,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = 'stopka'
-    TabOrder = 9
+    TabOrder = 8
     Visible = False
     OnClick = Button5Click
   end
@@ -522,7 +511,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = #269'ekat na palec'
-    TabOrder = 10
+    TabOrder = 9
     Visible = False
     OnClick = Button6Click
   end
@@ -532,7 +521,7 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = 'Krok simulace'
-    TabOrder = 11
+    TabOrder = 10
     Visible = False
     OnClick = Button7Click
   end
@@ -542,17 +531,17 @@ object Form1: TForm1
     Width = 85
     Height = 25
     Caption = 'D'#233'lka dopravn'#237'ku'
-    TabOrder = 12
+    TabOrder = 11
     Visible = False
     OnClick = Button8Click
   end
   object Button9: TButton
-    Left = 166
-    Top = 360
+    Left = 160
+    Top = 329
     Width = 129
     Height = 25
     Caption = 'vypsat spoj'#225'k VOZIKY'
-    TabOrder = 13
+    TabOrder = 12
     Visible = False
     OnClick = Button9Click
   end
@@ -562,7 +551,7 @@ object Form1: TForm1
     Width = 110
     Height = 25
     Caption = 'zkr'#225'tit linky dle palc'#367
-    TabOrder = 14
+    TabOrder = 13
     Visible = False
     OnClick = Button10Click
   end
@@ -576,7 +565,7 @@ object Form1: TForm1
     Panning.MouseWheel = pmwNone
     View3D = False
     ZoomWheel = pmwNormal
-    TabOrder = 15
+    TabOrder = 14
     OnClick = Chart1Click
     DefaultCanvas = 'TGDIPlusCanvas'
     PrintMargins = (
@@ -637,7 +626,7 @@ object Form1: TForm1
     Title.Text.Strings = (
       'TChart')
     View3D = False
-    TabOrder = 16
+    TabOrder = 15
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series3: TBarSeries
@@ -672,7 +661,7 @@ object Form1: TForm1
     Title.Text.Strings = (
       'TChart')
     View3D = False
-    TabOrder = 17
+    TabOrder = 16
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series5: TBarSeries
@@ -706,7 +695,7 @@ object Form1: TForm1
     Title.Text.Strings = (
       'TChart')
     View3D = False
-    TabOrder = 18
+    TabOrder = 17
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series7: TBarSeries
@@ -728,7 +717,7 @@ object Form1: TForm1
     Width = 160
     Height = 17
     Caption = 'zohlednit rozte'#269' palc'#367' '#345'et'#283'zu'
-    TabOrder = 19
+    TabOrder = 18
     Visible = False
     OnClick = CheckBoxPALCEClick
   end
@@ -739,7 +728,7 @@ object Form1: TForm1
     Height = 42
     Title.Text.Strings = (
       'TChart')
-    TabOrder = 20
+    TabOrder = 19
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
   end
@@ -749,17 +738,102 @@ object Form1: TForm1
     Width = 185
     Height = 41
     Caption = 'Panel1'
-    TabOrder = 21
+    TabOrder = 20
     Visible = False
   end
+<<<<<<< HEAD
+  object Button2: TButton
+    Left = 454
+    Top = 4
+    Width = 75
+    Height = 25
+    Caption = 'EXPO'
+    TabOrder = 21
+=======
   object Button11: TButton
-    Left = 687
+    Left = 542
+    Top = 4
+    Width = 195
+    Height = 25
+    Caption = 'zobrazit '#269'asov'#233' vyt'#237#382'enosti technologick'#253'ch objekt'#367
+    TabOrder = 21
+    OnClick = Button11Click
+  end
+  object Button2: TButton
+    Left = 166
     Top = 360
     Width = 75
     Height = 25
-    Caption = 'Button11'
+    Caption = 'EXPO'
     TabOrder = 22
+>>>>>>> 26e906ee174207542ffb90971e47208e7b7ea606
+    Visible = False
+    OnClick = Button2Click
+  end
+  object Button12: TButton
+<<<<<<< HEAD
+    Left = 542
+    Top = 4
+    Width = 75
+    Height = 25
+    Caption = 'PLAY'
+    TabOrder = 22
+=======
+    Left = 480
+    Top = 2
+    Width = 43
+    Height = 25
+    Caption = 'PLAY'
+    TabOrder = 23
+>>>>>>> 26e906ee174207542ffb90971e47208e7b7ea606
+    Visible = False
+    OnClick = Button12Click
+  end
+  object Chart6: TChart
+    Left = 520
+    Top = 107
+    Width = 65
+    Height = 56
+    Title.Text.Strings = (
+      'TChart')
+    View3D = False
+    TabOrder = 23
+    DefaultCanvas = 'TGDIPlusCanvas'
+    ColorPaletteIndex = 13
+    object Series9: TBarSeries
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
+  end
+  object CheckBox1: TCheckBox
+    Left = 326
+    Top = 8
+    Width = 122
+    Height = 21
+    Caption = 'Vyt'#237#382'enost objekt'#367
+    TabOrder = 24
+    Visible = False
+    OnClick = CheckBox1Click
+  end
+  object Button11: TButton
+    Left = 166
+    Top = 375
+    Width = 75
+    Height = 25
+    Caption = 'Button11'
+    TabOrder = 25
     OnClick = Button11Click
+  end
+  object Button13: TButton
+    Left = 270
+    Top = 375
+    Width = 75
+    Height = 25
+    Caption = 'Button13'
+    TabOrder = 26
+    OnClick = Button13Click
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -822,19 +896,19 @@ object Form1: TForm1
         Caption = '-'
       end
       object Magna: TMenuItem
-        Caption = 'Magna'
+        Caption = '&1   Magna'
         OnClick = MagnaClick
       end
       object SPPP1: TMenuItem
-        Caption = 'SPPP'
+        Caption = '&2   SPPP'
         OnClick = SPPP1Click
       end
       object Boskovice1: TMenuItem
-        Caption = 'Boskovice'
+        Caption = '&3   Boskovice'
         OnClick = Boskovice1Click
       end
       object eXtreme1: TMenuItem
-        Caption = 'eXtreme'
+        Caption = '&4   eXtreme'
         OnClick = eXtreme1Click
       end
     end
@@ -864,16 +938,14 @@ object Form1: TForm1
       end
       object technologickprocesy1: TMenuItem
         Caption = 'technologick'#233' procesy'
-        Enabled = False
         RadioItem = True
-        ShortCut = 121
+        ShortCut = 122
         OnClick = technologickprocesy1Click
       end
       object simulace1: TMenuItem
         Caption = 'simulace'
-        Enabled = False
         RadioItem = True
-        ShortCut = 122
+        ShortCut = 123
         OnClick = simulace1Click
       end
     end
@@ -1138,10 +1210,10 @@ object Form1: TForm1
     Top = 32
     Bitmap = {
 <<<<<<< HEAD
-      494C01011800E001E00110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011800FC01000210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
 =======
-      494C01011800DC01E40110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
->>>>>>> e736c6712d6de14de8549391b3bc457026674ce9
+      494C010118000402040210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+>>>>>>> 26e906ee174207542ffb90971e47208e7b7ea606
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2106,5 +2178,18 @@ object Form1: TForm1
     OnTimer = Timer_simulaceTimer
     Left = 376
     Top = 32
+  end
+  object Timer_neaktivity: TTimer
+    Enabled = False
+    OnTimer = Timer_neaktivityTimer
+    Left = 408
+    Top = 32
+  end
+  object Timer_animace: TTimer
+    Enabled = False
+    Interval = 40
+    OnTimer = Timer_animaceTimer
+    Left = 376
+    Top = 64
   end
 end
