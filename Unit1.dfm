@@ -743,32 +743,71 @@ object Form1: TForm1
     TabOrder = 20
     Visible = False
   end
-  object Button11: TButton
-    Left = 166
-    Top = 360
-    Width = 195
-    Height = 25
-    Caption = 'zobrazit '#269'asov'#233' vyt'#237#382'enosti technologick'#253'ch objekt'#367
-    TabOrder = 21
-    OnClick = Button11Click
-  end
   object Button2: TButton
-    Left = 378
-    Top = 360
+    Left = 454
+    Top = 4
     Width = 75
     Height = 25
     Caption = 'EXPO'
-    TabOrder = 22
+    TabOrder = 21
+    Visible = False
     OnClick = Button2Click
   end
   object Button12: TButton
-    Left = 472
-    Top = 360
+    Left = 542
+    Top = 4
     Width = 75
     Height = 25
     Caption = 'PLAY'
-    TabOrder = 23
+    TabOrder = 22
+    Visible = False
     OnClick = Button12Click
+  end
+  object Chart6: TChart
+    Left = 520
+    Top = 107
+    Width = 65
+    Height = 56
+    Title.Text.Strings = (
+      'TChart')
+    View3D = False
+    TabOrder = 23
+    DefaultCanvas = 'TGDIPlusCanvas'
+    ColorPaletteIndex = 13
+    object Series9: TBarSeries
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
+  end
+  object CheckBox1: TCheckBox
+    Left = 326
+    Top = 8
+    Width = 122
+    Height = 21
+    Caption = 'Vyt'#237#382'enost objekt'#367
+    TabOrder = 24
+    Visible = False
+    OnClick = CheckBox1Click
+  end
+  object Button11: TButton
+    Left = 166
+    Top = 375
+    Width = 75
+    Height = 25
+    Caption = 'Button11'
+    TabOrder = 25
+    OnClick = Button11Click
+  end
+  object Button13: TButton
+    Left = 270
+    Top = 375
+    Width = 75
+    Height = 25
+    Caption = 'Button13'
+    TabOrder = 26
+    OnClick = Button13Click
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -873,14 +912,12 @@ object Form1: TForm1
       end
       object technologickprocesy1: TMenuItem
         Caption = 'technologick'#233' procesy'
-        Enabled = False
         RadioItem = True
         ShortCut = 122
         OnClick = technologickprocesy1Click
       end
       object simulace1: TMenuItem
         Caption = 'simulace'
-        Enabled = False
         RadioItem = True
         ShortCut = 123
         OnClick = simulace1Click
@@ -1146,7 +1183,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C01011800FC01FC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011800FC01000210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

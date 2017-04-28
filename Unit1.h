@@ -157,7 +157,6 @@ __published:	// IDE-managed Components
 	TMenuItem *technologickprocesy1;
 	TMenuItem *Rychlexport1;
 	TMenuItem *Zobrazitparametry1;
-	TButton *Button11;
 	TMenuItem *N2;
 	TMenuItem *Magna;
 	TMenuItem *SPPP1;
@@ -167,6 +166,11 @@ __published:	// IDE-managed Components
 	TTimer *Timer_neaktivity;
 	TButton *Button12;
 	TTimer *Timer_animace;
+	TChart *Chart6;
+	TCheckBox *CheckBox1;
+	TBarSeries *Series9;
+	TButton *Button11;
+	TButton *Button13;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -268,6 +272,8 @@ __published:	// IDE-managed Components
 	void __fastcall Timer_neaktivityTimer(TObject *Sender);
 	void __fastcall Button12Click(TObject *Sender);
 	void __fastcall Timer_animaceTimer(TObject *Sender);
+	void __fastcall CheckBox1Click(TObject *Sender);
+	void __fastcall Button13Click(TObject *Sender);
 
 
 private:	// User declarations

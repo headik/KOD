@@ -14,6 +14,7 @@ void Cgrafy::ShowGrafy(bool stav) {
 		graf3();
 		graf4();
 		graf5();
+		graf6();
 		 //	GrafWip();
 	}
 	Form1->Chart1->Visible = stav;
@@ -21,6 +22,7 @@ void Cgrafy::ShowGrafy(bool stav) {
 	Form1->Chart3->Visible = stav;
 	Form1->Chart4->Visible = stav;
 	Form1->Chart5->Visible = false;
+	Form1->Chart6->Visible = stav;
 	Form1->Label6->Visible = stav;
 	Form1->Label7->Visible = stav;
    //	Form1->Panel1->Visible=stav;
@@ -44,6 +46,10 @@ void Cgrafy::graf1() {
 	Form1->Chart1->LeftAxis->Title->Caption = "plán";
 	Form1->Chart1->BottomAxis->Title->Caption = "min";
 	Form1->Chart1->Title->Caption = "Èasové stavy zakázek";
+	Form1->Chart1->LeftAxis->Items->Format->Font->Size=12;
+	Form1->Chart1->BottomAxis->Items->Format->Font->Size=12;
+
+	Form1->Chart1->Border->Visible=false;
 
 	if (Form1->Memo1->Visible) {
 		Form1->Chart1->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
@@ -112,9 +118,16 @@ void Cgrafy::graf2() {
 	Form1->Chart2->Legend->Visible = false;
 	Form1->Chart2->Color=clWhite;
 	Form1->Chart2->Title->Font->Size = 14;
+	Form1->Chart2->Title->Color=clGray;
 	Form1->Chart2->Title->Caption = "TT zakázek";
 	Form1->Chart2->LeftAxis->Title->Caption = "min";
 	Form1->Chart2->BottomAxis->Title->Caption = "plán";
+	Form1->Chart2->LeftAxis->Items->Format->Font->Size=12;
+	Form1->Chart2->BottomAxis->Items->Format->Font->Size=12;
+
+
+
+	Form1->Chart2->Border->Visible=false;
 
 	Form1->Chart2->Left = Form1->Chart1->Width;
 	Form1->Chart2->Width = Form1->ClientWidth / 5 * 1, 5;
@@ -164,6 +177,8 @@ void Cgrafy::graf3() {
 	Form1->Chart3->LeftAxis->Items->Format->Font->Size=12;
 	Form1->Chart3->BottomAxis->Items->Format->Font->Size=12;
 
+	Form1->Chart3->Border->Visible=false;
+
 
 	Form1->Chart3->Title->Font->Size = 14;
 	Form1->Chart3->Title->Caption = "Vytíženost zakázky";
@@ -208,6 +223,11 @@ void Cgrafy::graf4() {
 	}
 	Form1->Chart4->Title->Font->Size = 14;
 	Form1->Chart4->Title->Caption = "Pomìr vozíkù";
+	Form1->Chart4->LeftAxis->Items->Format->Font->Size=12;
+	Form1->Chart4->BottomAxis->Items->Format->Font->Size=12;
+
+
+	Form1->Chart4->Border->Visible=false;
 
 
 
@@ -224,19 +244,11 @@ void Cgrafy::graf4() {
   //	Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
 	while (ukaz != NULL) {
 
-	//ShowMessage(Form1->d.v.vrat_pocet_voziku_zakazky(ukaz));
-
-
 		Form1->Series7->Add(Form1->d.v.vrat_pocet_voziku_zakazky(ukaz),ukaz->n,ukaz->barva);
+
 
 		ukaz = ukaz->dalsi;
 	}
-
-   //	 Form1->Series7->Add(70, "Zak1", clYellow);
-	// Form1->Series8->Add(5, "prostoj", clRed);
-
-   //	 Form1->Series7->Add(30, "Zak2", clBlue);
-	// Form1->Series8->Add(30, "prostoj", clRed);
 
 }
 
@@ -257,22 +269,31 @@ void Cgrafy::graf5() {
 	Form1->Chart5->Left = Form1->Chart1->Width + Form1->Chart2->Width + Form1->Chart3->Width + Form1->Chart4->Width;
 	Form1->Chart5->Width = Form1->ClientWidth / 5 * 1, 5; ;
 	Form1->Chart5->Height = Form1->ClientHeight / 3 * 1, 5;
+	Form1->Chart5->LeftAxis->Items->Format->Font->Size=12;
+	Form1->Chart5->BottomAxis->Items->Format->Font->Size=12;
 
 	Form1->Chart5->AxisVisible = false;
 	// Form1->Chart5->Visible = false;
 
+	Form1->Chart5->Border->Visible=false;
+
 
 	Form1->Label6->Visible = true;
 	Form1->Label6->Font->Size = 25;
-	Form1->Label6->Top = Form1->Chart5->Top + 75;
+	Form1->Label6->Top = Form1->Chart5->Top -35;
 	Form1->Label6->Left = Form1->Chart1->Width + Form1->Chart2->Width +
 		Form1->Chart3->Width + Form1->Chart4->Width + 70;
 
-	Form1->Label7->Top = Form1->Chart5->Top + 70 - Form1->Label6->Font->Size;
+	Form1->Label7->Top = Form1->Chart5->Top - Form1->Label6->Font->Size -40;
 	Form1->Label7->Left = Form1->Chart1->Width + Form1->Chart2->Width +
 		Form1->Chart3->Width + Form1->Chart4->Width + 70;
 
 	Form1->Label7->Visible = true;
+  //	Form1->Label7->Font->Color=clBlack;
+
+  //	Form1->Label6->Font->Color=clBlack;
+	Form1->Label7->Font->Color=clBlack;
+
 	Form1->Label7->Font->Size = 25;
 	Form1->Label7->Caption = "WIP";
 	Form1->Label6->Caption = Form1->d.v.WIP();
@@ -282,18 +303,54 @@ void Cgrafy::graf5() {
 }
 //// ---------------------------------------------------------------------------
 //
-// void Cgrafy::graf6() { // Buffery
-//
-// // defaultní vykreslení grafu (checkbox reší událost onclick)
-// Form1->Chart5->Top = 500;
-// Form1->Chart5->Left = Chart1->Width + Chart2->Width + Chart3->Width +
-// Form1->Chart4->Width + 30;
-// Form1->Chart5->Width = 200;
-// Form1->Chart5->Height = 400;
-//
-// Form1->Chart5->AxisVisible = false;
-//
-// }
+ void Cgrafy::graf6() { // Kapacity
+
+	if (Form1->Memo1->Visible) {
+		Form1->Chart6->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
+			Form1->Memo1->Height - Form1->Chart1->Height;
+	}
+	else {
+		Form1->Chart6->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
+			Form1->Chart1->Height;
+	}
+
+	Form1->Chart6->Color=clWhite;
+	Form1->Chart6->Left = Form1->Chart1->Width *4;
+	Form1->Chart6->Width = Form1->ClientWidth / 5 * 1, 5; ;
+	Form1->Chart6->Height = Form1->ClientHeight / 3 * 1, 5;
+
+	Form1->Chart5->AxisVisible = true;
+
+		Form1->Chart6->Title->Font->Size = 14;
+		Form1->Chart6->Title->Caption = "Doporuèené kapacity";
+	Form1->Chart6->LeftAxis->Items->Format->Font->Size=12;
+	Form1->Chart6->BottomAxis->Items->Format->Font->Size=12;
+
+	Form1->Chart6->Border->Visible=false;
+
+
+	Form1->Label6->Visible = true;
+	Form1->Label6->Font->Size = 25;
+	Form1->Label6->Top = Form1->Chart5->Top -35;
+	Form1->Label6->Left = Form1->Chart1->Width + Form1->Chart2->Width +
+		Form1->Chart3->Width + Form1->Chart4->Width + 70;
+
+	Form1->Label7->Top = Form1->Chart5->Top - Form1->Label6->Font->Size -40;
+	Form1->Label7->Left = Form1->Chart1->Width + Form1->Chart2->Width +
+		Form1->Chart3->Width + Form1->Chart4->Width + 70;
+
+		Form1->Series9->Clear();
+
+			Cvektory::TObjekt *ukaz = Form1->d.v.OBJEKTY->dalsi;
+  //	Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
+	while (ukaz != NULL) {
+
+		Form1->Series9->Add(ukaz->dop_kapacita_objektu,ukaz->short_name,clBlue);
+
+		ukaz = ukaz->dalsi;
+	}
+
+ }
 
 // ---------------------------------------------------------------------------
 
