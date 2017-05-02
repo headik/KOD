@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'ELTEP - TISPL - Timing Inspection of Single Purpose Lines'
-  ClientHeight = 474
-  ClientWidth = 860
+  ClientHeight = 542
+  ClientWidth = 946
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -31,16 +31,16 @@ object Form1: TForm1
   PixelsPerInch = 96
   TextHeight = 13
   object Label6: TLabel
-    Left = 448
-    Top = 210
+    Left = 896
+    Top = 113
     Width = 31
     Height = 13
     Caption = 'Label6'
     Visible = False
   end
   object Label7: TLabel
-    Left = 448
-    Top = 191
+    Left = 896
+    Top = 94
     Width = 31
     Height = 13
     Caption = 'Label7'
@@ -49,7 +49,7 @@ object Form1: TForm1
   object RzToolbar1: TRzToolbar
     Left = 0
     Top = 0
-    Width = 860
+    Width = 946
     Height = 29
     Images = ImageList1
     BorderInner = fsNone
@@ -195,8 +195,8 @@ object Form1: TForm1
   end
   object RzStatusBar1: TRzStatusBar
     Left = 0
-    Top = 455
-    Width = 860
+    Top = 523
+    Width = 946
     Height = 19
     BorderInner = fsNone
     BorderOuter = fsNone
@@ -242,7 +242,7 @@ object Form1: TForm1
     object RzStatusPane4: TRzStatusPane
       Left = 378
       Top = 0
-      Width = 482
+      Width = 568
       Height = 19
       Hint = 'Rychl'#225' n'#225'pov'#283'da aplikace'
       Align = alClient
@@ -468,8 +468,8 @@ object Form1: TForm1
   end
   object Memo1: TMemo
     Left = 0
-    Top = 406
-    Width = 860
+    Top = 474
+    Width = 946
     Height = 49
     Align = alBottom
     Lines.Strings = (
@@ -558,8 +558,8 @@ object Form1: TForm1
     OnClick = Button10Click
   end
   object Chart1: TChart
-    Left = 438
-    Top = 35
+    Left = 497
+    Top = 29
     Width = 76
     Height = 58
     Title.Text.Strings = (
@@ -621,9 +621,9 @@ object Form1: TForm1
     end
   end
   object Chart2: TChart
-    Left = 520
-    Top = 35
-    Width = 57
+    Left = 571
+    Top = 29
+    Width = 76
     Height = 58
     Title.Text.Strings = (
       'TChart')
@@ -658,9 +658,9 @@ object Form1: TForm1
     end
   end
   object Chart3: TChart
-    Left = 583
-    Top = 35
-    Width = 65
+    Left = 642
+    Top = 29
+    Width = 76
     Height = 58
     Title.Text.Strings = (
       'TChart')
@@ -694,9 +694,9 @@ object Form1: TForm1
     end
   end
   object Chart4: TChart
-    Left = 654
-    Top = 35
-    Width = 73
+    Left = 713
+    Top = 29
+    Width = 76
     Height = 58
     Legend.Visible = False
     Title.Text.Strings = (
@@ -720,65 +720,46 @@ object Form1: TForm1
       YValues.Order = loNone
     end
   end
-  object CheckBoxPALCE: TCheckBox
-    Left = 331
-    Top = 4
-    Width = 160
-    Height = 17
-    Caption = 'zohlednit rozte'#269' palc'#367' '#345'et'#283'zu'
-    TabOrder = 18
-    Visible = False
-    OnClick = CheckBoxPALCEClick
-  end
   object Chart5: TChart
-    Left = 433
-    Top = 114
-    Width = 81
+    Left = 786
+    Top = 37
+    Width = 76
     Height = 42
     Title.Text.Strings = (
       'TChart')
-    TabOrder = 19
+    TabOrder = 18
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
   end
-  object Panel1: TPanel
-    Left = 542
-    Top = 289
-    Width = 185
-    Height = 41
-    Caption = 'Panel1'
-    TabOrder = 20
-    Visible = False
-  end
   object Button2: TButton
-    Left = 737
-    Top = 0
+    Left = 852
+    Top = 1
     Width = 75
     Height = 25
     Caption = 'EXPO'
-    TabOrder = 21
+    TabOrder = 19
     Visible = False
     OnClick = Button2Click
   end
-  object Button12: TButton
-    Left = 625
+  object ButtonPLAY: TButton
+    Left = 786
     Top = 2
     Width = 43
     Height = 25
     Caption = 'PLAY'
-    TabOrder = 22
+    TabOrder = 20
     Visible = False
-    OnClick = Button12Click
+    OnClick = ButtonPLAYClick
   end
   object Chart6: TChart
-    Left = 520
-    Top = 107
-    Width = 65
+    Left = 868
+    Top = 32
+    Width = 76
     Height = 56
     Title.Text.Strings = (
       'TChart')
     View3D = False
-    TabOrder = 23
+    TabOrder = 21
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series9: TBarSeries
@@ -789,15 +770,43 @@ object Form1: TForm1
       YValues.Order = loNone
     end
   end
-  object CheckBox1: TCheckBox
+  object CheckBoxVytizenost: TCheckBox
     Left = 497
-    Top = 4
-    Width = 122
-    Height = 21
-    Caption = 'Vyt'#237#382'enost objekt'#367
+    Top = 5
+    Width = 152
+    Height = 19
+    Caption = 'zobrazit vyt'#237#382'enost objekt'#367
+    Color = clBtnFace
+    ParentColor = False
+    TabOrder = 22
+    Visible = False
+    OnClick = CheckBoxVytizenostClick
+  end
+  object CheckBoxAnimovatSG: TCheckBox
+    Left = 655
+    Top = 5
+    Width = 131
+    Height = 19
+    Caption = 'animovat i SG objekty'
+    Checked = True
+    Color = clBtnFace
+    ParentColor = False
+    State = cbChecked
+    TabOrder = 23
+    Visible = False
+    OnClick = CheckBoxVytizenostClick
+  end
+  object CheckBoxPALCE: TCheckBox
+    Left = 331
+    Top = 6
+    Width = 160
+    Height = 17
+    Caption = 'zohlednit rozte'#269' palc'#367' '#345'et'#283'zu'
+    Color = clBtnFace
+    ParentColor = False
     TabOrder = 24
     Visible = False
-    OnClick = CheckBox1Click
+    OnClick = CheckBoxPALCEClick
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -1173,7 +1182,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C01011800FC01040210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118001002100210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2149,7 +2158,7 @@ object Form1: TForm1
     Enabled = False
     Interval = 40
     OnTimer = Timer_animaceTimer
-    Left = 376
-    Top = 64
+    Left = 440
+    Top = 32
   end
 end

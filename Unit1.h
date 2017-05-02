@@ -141,7 +141,6 @@ __published:	// IDE-managed Components
 	TChart *Chart2;
 	TChart *Chart3;
 	TChart *Chart4;
-	TCheckBox *CheckBoxPALCE;
 	TLabel *Label6;
 	TChart *Chart5;
 	TGanttSeries *Series2;
@@ -153,7 +152,6 @@ __published:	// IDE-managed Components
 	TBarSeries *Series8;
 	TBarSeries *Series5;
 	TBarSeries *Series6;
-	TPanel *Panel1;
 	TMenuItem *technologickprocesy1;
 	TMenuItem *Rychlexport1;
 	TMenuItem *Zobrazitparametry1;
@@ -164,11 +162,13 @@ __published:	// IDE-managed Components
 	TMenuItem *eXtreme1;
 	TButton *Button2;
 	TTimer *Timer_neaktivity;
-	TButton *Button12;
+	TButton *ButtonPLAY;
 	TTimer *Timer_animace;
 	TChart *Chart6;
-	TCheckBox *CheckBox1;
+	TCheckBox *CheckBoxVytizenost;
 	TBarSeries *Series9;
+	TCheckBox *CheckBoxAnimovatSG;
+	TCheckBox *CheckBoxPALCE;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -266,15 +266,15 @@ __published:	// IDE-managed Components
 	void __fastcall eXtreme1Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall Timer_neaktivityTimer(TObject *Sender);
-	void __fastcall Button12Click(TObject *Sender);
+	void __fastcall ButtonPLAYClick(TObject *Sender);
 	void __fastcall Timer_animaceTimer(TObject *Sender);
-	void __fastcall CheckBox1Click(TObject *Sender);
+	void __fastcall CheckBoxVytizenostClick(TObject *Sender);
 	void __fastcall Button13Click(TObject *Sender);
 
 
 private:	// User declarations
 	////struktury, výčty
-	enum Tedice{DEVELOPER,BUSINESS,CLIENT,VIEWER};Tedice EDICE;
+	enum Tedice{DEVELOPER,BUSINESS,CLIENT,VIEWER,DEMO};Tedice EDICE;
 	enum Tmod{NO=0,EDITACE,TESTOVANI,REZERVY,CASOVAOSA,TECHNOPROCESY,SIMULACE};Tmod MOD;
 	enum Takce{NIC=0,PAN,PAN_MOVE,ZOOM_W,ZOOM_W_MENU,ADD,MOVE};Takce Akce;
 	enum TKurzory {standard=0,posun_v,posun_b,posun_p,posun_l,posun_t,kalibrovat,pan,pan_move,window,add_o};

@@ -95,7 +95,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	duvod_k_ulozeni=false;
 	NovySouborClick(this);
 
-	EDICE=VIEWER;//BUSINESS,CLIENT,VIEWER
+	EDICE=DEVELOPER;//DEVELOPER,BUSINESS,CLIENT,VIEWER,DEMO
 	edice();//zakázání či povolení grafických uživatelských prvků dle úrovně edice
 
 }
@@ -103,18 +103,15 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 //zakázání či povolení grafických uživatelských prvků dle úrovně edice
 void TForm1::edice()
 {
-	   //
-
-  //tady bude switch na jednotlivé edice v kterém bude následné povolení či zakázání patřičných ovládacíh prvků
-
-	switch (EDICE) {
-			case 0:
-				break;
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:  //viewer
+	//switch na jednotlivé edice v kterém bude následné povolení či zakázání patřičných ovládacíh prvků
+	switch (EDICE)
+	{
+			case 0: Form1->Caption=Form1->Caption+" DEVELOPER";break;
+			case 1: Form1->Caption=Form1->Caption+" BUSINESS";break;
+			case 2:	Form1->Caption=Form1->Caption+" CLIENT";break;
+			case 3: Form1->Caption=Form1->Caption+" VIEWER";break;
+			case 4:  //demo
+				Form1->Caption=Form1->Caption+" DEMO";
 				NovySoubor->Enabled=false;
 				Otevrit->Enabled=false;
 				Otevritsablonu->Enabled=false;
@@ -141,14 +138,10 @@ void TForm1::edice()
 
 				Edit_takt_time->Enabled=false;
 				Button_dopravnik_parametry->Enabled=false;
-
-
 				break;
-
 			default:
-
 				break;
-			}
+	}
 
 }
 //---------------------------------------------------------------------------
@@ -343,15 +336,16 @@ void __fastcall TForm1::editacelinky1Click(TObject *Sender)
 	casoverezervy1->Checked=false;
 	casovosa1->Checked=false;
 	technologickprocesy1->Checked=false;
-	CheckBoxPALCE->Visible=false;
-	g.ShowGrafy(false);
 	RzSizePanel_parametry_projekt->Visible=true;
 	RzSizePanel_knihovna_objektu->Visible=true;
 	PopupMenu1->AutoPopup=true;
 	DuvodUlozit(true);
+	ButtonPLAY->Visible=false;
 	Timer_neaktivity->Enabled=false;
-	CheckBox1->Visible=false;
-	Button12->Visible=false;
+	CheckBoxVytizenost->Visible=false;
+	CheckBoxAnimovatSG->Visible=false;
+	CheckBoxPALCE->Visible=false;
+	g.ShowGrafy(false);
 	Invalidate();
 }
 //---------------------------------------------------------------------------
@@ -368,14 +362,16 @@ void __fastcall TForm1::testovnkapacity1Click(TObject *Sender)
 	simulace1->Checked=false;
 	casovosa1->Checked=false;
 	technologickprocesy1->Checked=false;
-	CheckBoxPALCE->Visible=false;
-	g.ShowGrafy(false);
 	RzSizePanel_parametry_projekt->Visible=true;
 	RzSizePanel_knihovna_objektu->Visible=true;
 	PopupMenu1->AutoPopup=true;
 	Timer_neaktivity->Enabled=false;
 	Timer_animace->Enabled=false;
-	Button12->Visible=false;
+	CheckBoxVytizenost->Visible=false;
+	CheckBoxAnimovatSG->Visible=false;
+	CheckBoxPALCE->Visible=false;
+	ButtonPLAY->Visible=false;
+	g.ShowGrafy(false);
 	Invalidate();
 }
 //---------------------------------------------------------------------------
@@ -392,14 +388,16 @@ void __fastcall TForm1::casoverezervy1Click(TObject *Sender)
 	simulace1->Checked=false;
 	casovosa1->Checked=false;
 	technologickprocesy1->Checked=false;
-	CheckBoxPALCE->Visible=false;
-	g.ShowGrafy(false);
 	DuvodUlozit(true);
 	RzSizePanel_parametry_projekt->Visible=false;
 	RzSizePanel_knihovna_objektu->Visible=false;
 	PopupMenu1->AutoPopup=false;
 	Timer_animace->Enabled=false;
-	Button12->Visible=false;
+	ButtonPLAY->Visible=false;
+	CheckBoxVytizenost->Visible=false;
+	CheckBoxAnimovatSG->Visible=false;
+	CheckBoxPALCE->Visible=false;
+	g.ShowGrafy(false);
 	Invalidate();
 }
 //---------------------------------------------------------------------------
@@ -432,9 +430,11 @@ void __fastcall TForm1::casovosa1Click(TObject *Sender)
 			Timer_neaktivity->Enabled=true;
 			pocitadlo_doby_neaktivity=-1;//implicitní hodnota
 			technologickprocesy1->Enabled=true;
-			CheckBox1->Visible=true;
 			Timer_animace->Enabled=false;
-			Button12->Visible=false;
+			ButtonPLAY->Visible=false;
+			CheckBoxPALCE->Visible=true;
+			CheckBoxVytizenost->Visible=true;
+			CheckBoxAnimovatSG->Visible=false;
 			Invalidate();
 		}
 	}
@@ -463,8 +463,8 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	PopupMenu1->AutoPopup=false;
 	Button3->Visible=false;
 	Timer_neaktivity->Enabled=false;
-	Button12->Visible=true;
-	CheckBox1->Visible=false;
+	CheckBoxVytizenost->Visible=false;
+	CheckBoxAnimovatSG->Visible=true;
 	//filtrace
 	d.TP.K=0.5;//Krok po kolika minutach se bude zobrazovat
 	d.TP.OD=0;//od které min se proces začne vypisovat
@@ -474,8 +474,8 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	d.TP.Ndo=0;//rozmezí Jaký se vypíše vozik, pokud bude 0 vypisují se všechny
 	d.TP.A=false;//jednořádková animace
 	Timer_animace->Enabled=false;
-	Button12->Visible=true;
-	Button12->Caption="PLAY";
+	ButtonPLAY->Visible=true;
+	ButtonPLAY->Caption="PLAY";
 	//---
 	Invalidate();
 }
@@ -498,14 +498,15 @@ void __fastcall TForm1::simulace1Click(TObject *Sender)
 	RzSizePanel_knihovna_objektu->Visible=false;
 	PopupMenu1->AutoPopup=false;
 	Button3->Visible=true;
-	Button12->Visible=false;
-	Invalidate();
 	d.cas=0;
 	d.priprav_palce();
 	Timer_simulace->Enabled=true;
 	Timer_neaktivity->Enabled=false;
 	Timer_animace->Enabled=false;
-	Button12->Visible=false;
+	ButtonPLAY->Visible=false;
+	CheckBoxVytizenost->Visible=false;
+	CheckBoxAnimovatSG->Visible=false;
+	Invalidate();
 }
 //---------------------------------------------------------------------------
 //událost při zobrazení pop-up menu zobrazuje a skrývá položky pop-up menu
@@ -2784,14 +2785,15 @@ void __fastcall TForm1::Timer_neaktivityTimer(TObject *Sender)
  if(++pocitadlo_doby_neaktivity==60)Timer_neaktivity->Enabled=false;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::Button12Click(TObject *Sender)
+void __fastcall TForm1::ButtonPLAYClick(TObject *Sender)
 {
 	Timer_animace->Enabled=!Timer_animace->Enabled;
 	if(Timer_animace->Enabled)
 	{
+		CheckBoxAnimovatSG->Visible=true;
 		d.PosunT.x=0;//výchozí posunutí obrazu Posunu na časových osách, kvůli možnosti posouvání obrazu
 		d.PosunT.y=0;
-		Button12->Caption="STOP";
+		ButtonPLAY->Caption="STOP";
 		Timer_animace->Interval=40;
 		d.TP.K=0.05;//Krok po kolika minutach se bude zobrazovat
     d.TP.DO=-d.TP.K;//výchozí čás (záporný interval, kvůli tomu, aby se začínalo od nuly)
@@ -2799,7 +2801,7 @@ void __fastcall TForm1::Button12Click(TObject *Sender)
 		d.TP.Ndo=0;//rozmezí Jaký se vypíše vozik, pokud bude 0 vypisují se všechny
 		d.TP.A=true;//jednořádková animace
 	}
-	else Button12->Caption="PLAY";
+	else ButtonPLAY->Caption="PLAY";
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Timer_animaceTimer(TObject *Sender)
@@ -2813,13 +2815,13 @@ void __fastcall TForm1::Timer_animaceTimer(TObject *Sender)
 	else
 	{
 		Timer_animace->Enabled=false;
-		Button12->Caption="PLAY";
+		ButtonPLAY->Caption="PLAY";
 		technologickprocesy1Click(Sender);//vratí statický mod
   }
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::CheckBox1Click(TObject *Sender)
+void __fastcall TForm1::CheckBoxVytizenostClick(TObject *Sender)
 {
 
 if(d.v.PROCESY!=NULL && d.v.PROCESY->predchozi->n>0)//pokud je více objektů

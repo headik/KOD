@@ -396,8 +396,6 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 	HeightCanvasCasoveOsy=Y-KrokY/2;//uchová výšku grafu
 	if(Form1->grid)vykresli_Xosy(canv);//vykreslí statické svislice na časové osy pokud je aktivovaná mřížka
 	Form1->g.ShowGrafy(true);
-	Form1->CheckBoxPALCE->Top=Form1->Chart1->Top-Form1->CheckBoxPALCE->Height-2; //-2 vizuální záležitost
-	Form1->CheckBoxPALCE->Visible=true;
 	}
 	else
 	{
@@ -725,13 +723,13 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 		{   //filtr na rozsah vozíků, nebo podku Ndo==0, tak se vypíší všechny
 				if(((Nod<=P->vozik->n && P->vozik->n<=Ndo) || Ndo==0) && P->Tpoc<=MIN && MIN<P->Tcek)//filtr
 				{
-//					//výpočet umístění na ose X
-//					if(P->cesta->objekt->dop_kapacita_objektu==1)//pro jednokapacitní resp. S&G
-//					{
-//						X=P->cesta->objekt->obsazenost;//pokud se do objektu vejde pouze jenom jeden objekt
-//						X+=Xofset-S/2;//ještě grafické odsazení o odsazení výchozí osy a o šířku jednoho vozíku
-//					}
-//					else
+					//výpočet umístění na ose X
+					if(P->cesta->objekt->dop_kapacita_objektu==1 && !Form1->CheckBoxAnimovatSG->Checked)//pro jednokapacitní resp. S&G
+					{
+						X=P->cesta->objekt->obsazenost;//pokud se do objektu vejde pouze jenom jeden objekt
+						X+=Xofset-S/2;//ještě grafické odsazení o odsazení výchozí osy a o šířku jednoho vozíku
+					}
+					else
 					{
 						X=P->cesta->objekt->predchozi->obsazenost+
 						(
