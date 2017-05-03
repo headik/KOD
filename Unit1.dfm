@@ -742,7 +742,7 @@ object Form1: TForm1
     OnClick = Button2Click
   end
   object ButtonPLAY: TButton
-    Left = 786
+    Left = 792
     Top = 2
     Width = 43
     Height = 25
@@ -771,10 +771,10 @@ object Form1: TForm1
     end
   end
   object CheckBoxVytizenost: TCheckBox
-    Left = 497
-    Top = 5
+    Left = 487
+    Top = 7
     Width = 152
-    Height = 19
+    Height = 15
     Caption = 'zobrazit vyt'#237#382'enost objekt'#367
     Color = clBtnFace
     ParentColor = False
@@ -783,11 +783,11 @@ object Form1: TForm1
     OnClick = CheckBoxVytizenostClick
   end
   object CheckBoxAnimovatSG: TCheckBox
-    Left = 655
-    Top = 5
-    Width = 131
-    Height = 19
-    Caption = 'animovat i SG objekty'
+    Left = 644
+    Top = 7
+    Width = 145
+    Height = 16
+    Caption = 'animovat i jednokapacitn'#237
     Checked = True
     Color = clBtnFace
     ParentColor = False
@@ -797,10 +797,10 @@ object Form1: TForm1
     OnClick = CheckBoxVytizenostClick
   end
   object CheckBoxPALCE: TCheckBox
-    Left = 331
-    Top = 6
+    Left = 322
+    Top = 7
     Width = 160
-    Height = 17
+    Height = 15
     Caption = 'zohlednit rozte'#269' palc'#367' '#345'et'#283'zu'
     Color = clBtnFace
     ParentColor = False

@@ -463,6 +463,7 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	PopupMenu1->AutoPopup=false;
 	Button3->Visible=false;
 	Timer_neaktivity->Enabled=false;
+	CheckBoxPALCE->Visible=false;
 	CheckBoxVytizenost->Visible=false;
 	CheckBoxAnimovatSG->Visible=true;
 	//filtrace
@@ -506,6 +507,7 @@ void __fastcall TForm1::simulace1Click(TObject *Sender)
 	ButtonPLAY->Visible=false;
 	CheckBoxVytizenost->Visible=false;
 	CheckBoxAnimovatSG->Visible=false;
+	CheckBoxPALCE->Visible=false;
 	Invalidate();
 }
 //---------------------------------------------------------------------------
