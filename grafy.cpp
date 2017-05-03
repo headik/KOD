@@ -113,6 +113,10 @@ void Cgrafy::nastaveni()
 
 void Cgrafy::graf1() {
 
+
+   //	Form1->Chart1->AddSeries(new TBarSeries(this));
+  //  Form1->Series1[]
+
 	Form1->Chart1->Left = 0;
    //	Form1->Chart1->Color = clWhite;
 	Form1->Chart1->Width = Form1->ClientWidth / 5 * 1, 5;
@@ -181,7 +185,6 @@ void Cgrafy::graf2() {
 		Form1->Series3->Add(Form1->d.v.vrat_AVG_TT_zakazky(ukaz), ukaz->n,
 			ukaz->barva);
 
-		// Form1->Series3->Marks->St;
 
 		ukaz = ukaz->dalsi;
 
@@ -193,8 +196,6 @@ void Cgrafy::graf2() {
 void Cgrafy::graf3() {
 
 	// defaultní vykreslení grafu (checkbox reší událost onclick)
-
-	Form1->Chart3->Color = clWhite;
 
 	if (Form1->Memo1->Visible) {
 		Form1->Chart3->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
@@ -221,13 +222,12 @@ void Cgrafy::graf3() {
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
 	while (ukaz != NULL) {
 
-		// int ve_vyrobe = Form1->d.v.vrat_AVGsumPT_zakazky(ukaz);
-		// int cekani = Form1->d.v.vrat_AVGsumWT_zakazky(ukaz);
+			Form1->Series5->Add(Form1->d.v.vrat_AVGsumPT_zakazky(ukaz), ukaz->n,ukaz->barva);
 
-		Form1->Series5->Add(Form1->d.v.vrat_AVGsumPT_zakazky(ukaz), ukaz->n,
-			ukaz->barva);
-		Form1->Series6->Add(Form1->d.v.vrat_AVGsumWT_zakazky(ukaz), ukaz->n,
-			clWhite);
+			if(Form1->d.v.vrat_AVGsumWT_zakazky(ukaz)>0)
+			{
+			Form1->Series6->Add(Form1->d.v.vrat_AVGsumWT_zakazky(ukaz), ukaz->n,Form1->m.clIntensive(ukaz->barva,80));
+			}
 		ukaz = ukaz->dalsi;
 	}
 
@@ -238,8 +238,6 @@ void Cgrafy::graf3() {
 void Cgrafy::graf4() {
 
 	// defaultní vykreslení grafu (checkbox reší událost onclick)
-
-	Form1->Chart4->Color = clWhite;
 
 	if (Form1->Memo1->Visible) {
 		Form1->Chart4->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
