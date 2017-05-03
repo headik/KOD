@@ -724,12 +724,13 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 				if(((Nod<=P->vozik->n && P->vozik->n<=Ndo) || Ndo==0) && P->Tpoc<=MIN && MIN<P->Tcek)//filtr
 				{
 					//výpočet umístění na ose X
-					if(P->cesta->objekt->dop_kapacita_objektu==1 && !Form1->CheckBoxAnimovatSG->Checked)//pro jednokapacitní resp. S&G
+          //pro jednokapacitní resp. S&G neanimuje, pokud není nastaveno Checkboxem jina
+					if(P->cesta->objekt->dop_kapacita_objektu==1 && !Form1->CheckBoxAnimovatSG->Checked)
 					{
 						X=P->cesta->objekt->obsazenost;//pokud se do objektu vejde pouze jenom jeden objekt
 						X+=Xofset-S/2;//ještě grafické odsazení o odsazení výchozí osy a o šířku jednoho vozíku
 					}
-					else
+					else //animace i v rámci objektu
 					{
 						X=P->cesta->objekt->predchozi->obsazenost+
 						(
