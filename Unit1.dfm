@@ -32,18 +32,10 @@ object Form1: TForm1
   TextHeight = 13
   object Label6: TLabel
     Left = 896
-    Top = 113
-    Width = 31
-    Height = 13
-    Caption = 'Label6'
-    Visible = False
-  end
-  object Label7: TLabel
-    Left = 896
     Top = 94
     Width = 31
     Height = 13
-    Caption = 'Label7'
+    Caption = 'Label6'
     Visible = False
   end
   object RzToolbar1: TRzToolbar
@@ -721,9 +713,9 @@ object Form1: TForm1
     end
   end
   object Chart5: TChart
-    Left = 786
-    Top = 37
-    Width = 76
+    Left = 784
+    Top = 35
+    Width = 87
     Height = 42
     Title.Text.Strings = (
       'TChart')
@@ -1182,7 +1174,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118001002100210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118001802180210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

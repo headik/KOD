@@ -21,43 +21,93 @@ Cvykresli::Cvykresli()
 //---------------------------------------------------------------------------
 void Cvykresli::vykresli_vektory(TCanvas *canv)
 {
-		////OBJEKTY
-		Cvektory::TObjekt *ukaz;
-
-		//spojovací linie
-		ukaz=v.OBJEKTY->dalsi;//přeskočí hlavičku
-		while (ukaz!=NULL)
+		////CESTY - jsou li k dispozici
+		if(v.CESTY!=NULL && v.CESTY->predchozi->n>0)
 		{
-			canv->Pen->Style=psSolid;
-			canv->Pen->Width=m.round(2*Form1->Zoom);
-			canv->Pen->Color=clGray;
-			if(ukaz->n==1)//pro situaci z posledního prvku na první
+			Cvektory::TSeznam_cest *SC=v.CESTY->dalsi;
+			while(SC!=NULL)//prochází seznam cest
 			{
-				//if(ukaz->n!=ukaz->predchozi->predchozi->n)//pokud jsou minimálně dva prky, ale šipka bude obousměrnná - možná žádoucí
-				if(v.OBJEKTY->predchozi->n>=3)//až budou alespoň tři prvky,tj. poslední prvek bude mít index n větší než 3
+					Cvektory::TCesta *C=SC->cesta->dalsi;
+					while(C!=NULL)//prochází jednotlivé prvky cesty
+					{
+						canv->Pen->Color=SC->barva;
+						canv->Pen->Style=psSolid;
+						canv->Pen->Width=m.round(2*Form1->Zoom);
+						if(SC->barva==clGray)canv->Pen->Mode=pmCopy;else canv->Pen->Mode=pmNotXor;//pmMask; pokud se jedná o defaultní barvu vykopíruje se jina se vytvoří kombinace
+						if(C->objekt->n==1)//pro situaci z posledního prvku na první
+						{
+							//if(ukaz->n!=ukaz->predchozi->predchozi->n)//pokud jsou minimálně dva prky, ale šipka bude obousměrnná - možná žádoucí
+							if(v.OBJEKTY->predchozi->n>=3)//až budou alespoň tři prvky,tj. poslední prvek bude mít index n větší než 3
+							{
+								canv->MoveTo(m.L2Px(C->predchozi->predchozi->objekt->X)+O_width*Form1->Zoom/2,m.L2Py(C->predchozi->predchozi->objekt->Y)+O_height*Form1->Zoom/2);
+								canv->LineTo(m.L2Px(C->objekt->X)+O_width*Form1->Zoom/2,m.L2Py(C->objekt->Y)+O_height*Form1->Zoom/2);
+								sipka(canv,m.L2Px((C->predchozi->predchozi->objekt->X+C->objekt->X)/2)+O_width*Form1->Zoom/2,m.L2Py((C->predchozi->predchozi->objekt->Y+C->objekt->Y)/2)+O_height*Form1->Zoom/2,m.azimut(C->predchozi->predchozi->objekt->X,C->predchozi->predchozi->objekt->Y,C->objekt->X,C->objekt->Y));//zajistí vykreslení šipky - orientace spojovací linie
+								if(SC->barva!=clGray)prislusnost_cesty(canv,SC->barva,m.L2Px((C->predchozi->predchozi->objekt->X+C->objekt->X)/2)+O_width*Form1->Zoom/2,m.L2Py((C->predchozi->predchozi->objekt->Y+C->objekt->Y)/2)+O_height*Form1->Zoom/2,m.azimut(C->predchozi->predchozi->objekt->X,C->predchozi->predchozi->objekt->Y,C->objekt->X,C->objekt->Y),SC->n);
+							}
+						}
+						else
+						{
+							canv->MoveTo(m.L2Px(C->predchozi->objekt->X)+O_width*Form1->Zoom/2,m.L2Py(C->predchozi->objekt->Y)+O_height*Form1->Zoom/2);
+							canv->LineTo(m.L2Px(C->objekt->X)+O_width*Form1->Zoom/2,m.L2Py(C->objekt->Y)+O_height*Form1->Zoom/2);
+							sipka(canv,m.L2Px((C->predchozi->objekt->X+C->objekt->X)/2)+O_width*Form1->Zoom/2,m.L2Py((C->predchozi->objekt->Y+C->objekt->Y)/2)+O_height*Form1->Zoom/2,m.azimut(C->predchozi->objekt->X,C->predchozi->objekt->Y,C->objekt->X,C->objekt->Y));//zajistí vykreslení šipky - orientace spojovací linie
+							if(SC->barva!=clGray)prislusnost_cesty(canv,SC->barva,m.L2Px((C->predchozi->objekt->X+C->objekt->X)/2)+O_width*Form1->Zoom/2,m.L2Py((C->predchozi->objekt->Y+C->objekt->Y)/2)+O_height*Form1->Zoom/2,m.azimut(C->predchozi->objekt->X,C->predchozi->objekt->Y,C->objekt->X,C->objekt->Y),SC->n);
+						}
+						C=C->dalsi;
+					}
+					SC=SC->dalsi;
+			}
+		}
+		else //pokud nejsou k dispozici nadefinované cesty vykreslí se přímo jen spojovací linie mezi objekty (tj. defaultní cesta)
+		{
+			Cvektory::TObjekt* ukaz=v.OBJEKTY->dalsi;//přeskočí hlavičku
+			while (ukaz!=NULL)
+			{
+				canv->Pen->Style=psSolid;
+				canv->Pen->Mode=pmCopy;
+				canv->Pen->Width=m.round(1*Form1->Zoom);//musí být tady, jina to přebije nastavení metody sipka
+				canv->Pen->Color=clGray;
+				if(ukaz->n==1)//pro situaci z posledního prvku na první
 				{
-					canv->MoveTo(m.L2Px(ukaz->predchozi->predchozi->X)+O_width*Form1->Zoom/2,m.L2Py(ukaz->predchozi->predchozi->Y)+O_height*Form1->Zoom/2);
-					canv->LineTo(m.L2Px(ukaz->X)+O_width*Form1->Zoom/2,m.L2Py(ukaz->Y)+O_height*Form1->Zoom/2);
-					sipka(canv,m.L2Px((ukaz->predchozi->predchozi->X+ukaz->X)/2)+O_width*Form1->Zoom/2,m.L2Py((ukaz->predchozi->predchozi->Y+ukaz->Y)/2)+O_height*Form1->Zoom/2,m.azimut(ukaz->predchozi->predchozi->X,ukaz->predchozi->predchozi->Y,ukaz->X,ukaz->Y));//zajistí vykreslení šipky - orientace spojovací linie
+					//if(ukaz->n!=ukaz->predchozi->predchozi->n)//pokud jsou minimálně dva prky, ale šipka bude obousměrnná - možná žádoucí
+					if(v.OBJEKTY->predchozi->n>=3)//až budou alespoň tři prvky,tj. poslední prvek bude mít index n větší než 3
+					{
+						canv->MoveTo(m.L2Px(ukaz->predchozi->predchozi->X)+O_width*Form1->Zoom/2,m.L2Py(ukaz->predchozi->predchozi->Y)+O_height*Form1->Zoom/2);
+						canv->LineTo(m.L2Px(ukaz->X)+O_width*Form1->Zoom/2,m.L2Py(ukaz->Y)+O_height*Form1->Zoom/2);
+						sipka(canv,m.L2Px((ukaz->predchozi->predchozi->X+ukaz->X)/2)+O_width*Form1->Zoom/2,m.L2Py((ukaz->predchozi->predchozi->Y+ukaz->Y)/2)+O_height*Form1->Zoom/2,m.azimut(ukaz->predchozi->predchozi->X,ukaz->predchozi->predchozi->Y,ukaz->X,ukaz->Y));//zajistí vykreslení šipky - orientace spojovací linie
+					}
 				}
+				else
+				{
+					canv->MoveTo(m.L2Px(ukaz->predchozi->X)+O_width*Form1->Zoom/2,m.L2Py(ukaz->predchozi->Y)+O_height*Form1->Zoom/2);
+					canv->LineTo(m.L2Px(ukaz->X)+O_width*Form1->Zoom/2,m.L2Py(ukaz->Y)+O_height*Form1->Zoom/2);
+					sipka(canv,m.L2Px((ukaz->predchozi->X+ukaz->X)/2)+O_width*Form1->Zoom/2,m.L2Py((ukaz->predchozi->Y+ukaz->Y)/2)+O_height*Form1->Zoom/2,m.azimut(ukaz->predchozi->X,ukaz->predchozi->Y,ukaz->X,ukaz->Y));//zajistí vykreslení šipky - orientace spojovací linie
+				}
+				ukaz=ukaz->dalsi;//posun na další prvek
 			}
-			else
-			{
-				canv->MoveTo(m.L2Px(ukaz->predchozi->X)+O_width*Form1->Zoom/2,m.L2Py(ukaz->predchozi->Y)+O_height*Form1->Zoom/2);
-				canv->LineTo(m.L2Px(ukaz->X)+O_width*Form1->Zoom/2,m.L2Py(ukaz->Y)+O_height*Form1->Zoom/2);
-				sipka(canv,m.L2Px((ukaz->predchozi->X+ukaz->X)/2)+O_width*Form1->Zoom/2,m.L2Py((ukaz->predchozi->Y+ukaz->Y)/2)+O_height*Form1->Zoom/2,m.azimut(ukaz->predchozi->X,ukaz->predchozi->Y,ukaz->X,ukaz->Y));//zajistí vykreslení šipky - orientace spojovací linie
-			}
-			ukaz=ukaz->dalsi;//posun na další prvek
 		}
 
+		////OBJEKTY
 		//samotné objekty, kreslím až v samostatném následujícím cyklu, aby se nakreslilo do horní vrstvy
-		ukaz=v.OBJEKTY->dalsi;//přeskočí hlavičku
-		while (ukaz!=NULL)
+		Cvektory::TObjekt *O=v.OBJEKTY->dalsi;//přeskočí hlavičku
+		while (O!=NULL)
 		{
-			vykresli_rectangle(canv,ukaz);
-			ukaz=ukaz->dalsi;//posun na další prvek
+			vykresli_rectangle(canv,O);
+			O=O->dalsi;//posun na další prvek
 		}
-		//delete ukaz;ukaz=NULL;  nesmíš!!! smažu si DATA!
+}
+//---------------------------------------------------------------------------
+//vykreslí barevný čtvereček jako příslušnost k dané cestě
+void Cvykresli::prislusnost_cesty(TCanvas *canv,TColor Color,int X,int Y,float A,short N)
+{
+			short S=m.round(4*Form1->Zoom);//šířka čtverečku od středu
+			short O=m.round(10*Form1->Zoom);//odsazení od šipky
+			canv->Pen->Width=1;
+			canv->Pen->Color=Color;
+			canv->Pen->Style=psSolid;
+			canv->Pen->Mode=pmCopy;//pmNotXor;//pmMask;
+			canv->Brush->Color=Color;
+			if(0<=A && A<15 || 135<=A && A<250 || 315<A && A<=360)canv->Rectangle(O+X-S+S*2*(N-1),Y-S,O+X+S+S*2*(N-1),Y+S);//vodorovně za
+			if(15<=A && A<135 || 250<=A && A<315 )canv->Rectangle(X-S,O+Y-S+S*2*(N-1),X+S,O+Y+S+S*2*(N-1));//svisle pod
 }
 //---------------------------------------------------------------------------
 //zajistí vykreslení šipky - orientace spojovací linie
@@ -109,6 +159,7 @@ void Cvykresli::vykresli_rectangle(TCanvas *canv,Cvektory::TObjekt *ukaz)
 		canv->Brush->Color=clWhite;
 		canv->Pen->Color=clBlack;
 		canv->Pen->Mode=pmCopy;
+		//canv->Font->Name="Arial";
 		canv->Font->Name="MS Sans Serif";
 		canv->Font->Size=8;
 		rotace_textu(canv,0);
@@ -402,8 +453,6 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 			vykresli_vytizenost_objektu(canv);
 			if(Form1->grid)vykresli_Xosy(canv);
 	}
-	vykresli_oddelovaci_linku();
-
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -469,7 +518,7 @@ void Cvykresli::vykresli_proces(TCanvas *canv, AnsiString shortname, TColor colo
 			case 1: canv->Brush->Style=bsDiagCross;canv->Pen->Color=color;break;//pro typ: doplněný o konec na čekání na proces totožný předchozí
 			case 2: canv->Brush->Style=bsCross;canv->Pen->Color=color;break;//pro typ: nutná doba přejezdu vozíku
 			case 3: canv->Brush->Style=bsVertical;canv->Pen->Color=color;break;//pro typ: doba čekání na palec
-			case 4: canv->Brush->Style=bsSolid;canv->Pen->Color=clWhite;canv->Pen->Mode=pmMask;/*zajistí vykreslení procesu transparentně*/break;//pro typ: obsazenost procesu
+			case 4: canv->Brush->Style=bsSolid;canv->Pen->Color=clWhite;canv->Pen->Mode=pmMask;//pmNotXor;/*zajistí vykreslení procesu transparentně*/break;//pro typ: obsazenost procesu
 	}
 	canv->Rectangle(X1,Y-KrokY/2,X2+1,Y+KrokY/2);//X2+1 pouze grafická záležitost - zmenšení mezery
 	//následující musí být mimo switch kvůli pořadí vykreslování
@@ -817,15 +866,6 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-//vykreslí oddělovací linku mezi grafy a canvasem
-void Cvykresli::vykresli_oddelovaci_linku()
-{ //musí být kresleno do Form1->Canvas nikoliv do canv kvůli tomu, aby se linka při exportu do rastu neexportovala také
-	Form1->Canvas->Pen->Width=1;
-	Form1->Canvas->Pen->Style=psSolid;
-	Form1->Canvas->Pen->Color=clGray;
-	Form1->Canvas->MoveTo(0,Form1->CheckBoxPALCE->Top+Form1->CheckBoxPALCE->Height);
-	Form1->Canvas->LineTo(Form1->ClientWidth,Form1->CheckBoxPALCE->Top+Form1->CheckBoxPALCE->Height);
-}
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 void Cvykresli::rotace_textu(TCanvas *canv, long rotace)//úhel rotace je desetinách stupně

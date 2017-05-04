@@ -106,12 +106,12 @@ void TForm1::edice()
 	//switch na jednotlivé edice v kterém bude následné povolení či zakázání patřičných ovládacíh prvků
 	switch (EDICE)
 	{
-			case 0: Form1->Caption=Form1->Caption+" DEVELOPER";break;
-			case 1: Form1->Caption=Form1->Caption+" BUSINESS";break;
-			case 2:	Form1->Caption=Form1->Caption+" CLIENT";break;
-			case 3: Form1->Caption=Form1->Caption+" VIEWER";break;
+			case 0: Edice_caption="DEVELOPER";break;
+			case 1: Edice_caption="BUSINESS";break;
+			case 2:	Edice_caption="CLIENT";break;
+			case 3: Edice_caption="VIEWER";break;
 			case 4:  //demo
-				Form1->Caption=Form1->Caption+" DEMO";
+				Edice_caption=" DEMO";
 				NovySoubor->Enabled=false;
 				Otevrit->Enabled=false;
 				Otevritsablonu->Enabled=false;
@@ -142,6 +142,7 @@ void TForm1::edice()
 			default:
 				break;
 	}
+	Form1->Caption=Form1->Caption+" | "+Edice_caption;//vypis edice v titulku programu
 
 }
 //---------------------------------------------------------------------------
@@ -207,7 +208,7 @@ void __fastcall TForm1::NovySouborClick(TObject *Sender)
 
 			 SB("Kliknutím na libovolné místo přidáte objekt z knihovny");
 
-			 FileName="Nový.tispl";if(Form1->Caption.Pos(" - ["))Form1->Caption=Form1->Caption.SubString(1,Form1->Caption.Pos(" - [")-1)+" - ["+FileName+"]";else Form1->Caption=Form1->Caption+" - ["+FileName+"]";
+			 FileName="Nový.tispl";if(Form1->Caption.Pos(" - ["))Form1->Caption=Form1->Caption.SubString(1,Form1->Caption.Pos(" - [")-1)+" - ["+FileName+"]"+" | "+Edice_caption;else Form1->Caption=Form1->Caption+" - ["+FileName+"]"+" | "+Edice_caption;
 			 Invalidate();
 	 }
 }
@@ -1848,7 +1849,7 @@ void __fastcall TForm1::UlozitjakoClick(TObject *Sender)
 		duvod_k_ulozeni=true;
 		Ulozit_soubor();
 		if(FileName.Pos(".tisplTemp")){FileName=origFileName;DuvodUlozit(true);}
-		if(Form1->Caption.Pos(" - ["))Form1->Caption=Form1->Caption.SubString(1,Form1->Caption.Pos(" - [")-1)+" - ["+FileName+"]";else Form1->Caption=Form1->Caption+" - ["+FileName+"]";
+		if(Form1->Caption.Pos(" - ["))Form1->Caption=Form1->Caption.SubString(1,Form1->Caption.Pos(" - [")-1)+" - ["+FileName+"]"+" | "+Edice_caption;else Form1->Caption=Form1->Caption+" - ["+FileName+"]"+" | "+Edice_caption;
 	}
 	else//stisknuto storno
 	stisknuto_storno=true;
@@ -1937,7 +1938,7 @@ unsigned short int TForm1::OtevritSoubor(UnicodeString soubor)//realizuje samotn
 		case 1://Soubor byl nalezen
 		{
 			FileName=soubor;//pro globální využití
-			if(Form1->Caption.Pos(" - ["))Form1->Caption=Form1->Caption.SubString(1,Form1->Caption.Pos(" - [")-1)+" - ["+FileName+"]";else Form1->Caption=Form1->Caption+" - ["+FileName+"]";
+			if(Form1->Caption.Pos(" - ["))Form1->Caption=Form1->Caption.SubString(1,Form1->Caption.Pos(" - [")-1)+" - ["+FileName+"]"+" | "+Edice_caption;else Form1->Caption=Form1->Caption+" - ["+FileName+"]"+" | "+Edice_caption;
 			//načtení dat z hlavičky souboru
 			Zoom=d.v.File_hlavicka.Zoom;
 			Posun.x=d.v.File_hlavicka.PosunutiX;

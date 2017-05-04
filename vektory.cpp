@@ -271,6 +271,7 @@ void Cvektory::vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,unsigned short
 	segment->n=C->cesta->predchozi->n+1;//navýším počítadlo prvku o jedničku
 	segment->objekt=Objekt;
 	//--prozatim
+  C->barva=clGray;//defaultní barva cesty
 	if(CT==0) segment->CT=Objekt->CT;//pokud přijde CT 0, která je i implicitní, tak se převezme automaticky CT objektu nastavené ve form parametry
 	else segment->CT=CT;//zohlední se explicitní hodnota CT, předaná paremetrem metody
 	Objekt->rezim=R;
@@ -1276,12 +1277,12 @@ void Cvektory::vse_odstranit()
 			delete PALCE; PALCE=NULL;
 		}
 
-//		//cesty    padá dodělat
-//		if(CESTY!=NULL && CESTY->predchozi->n>0)//pokud je více objektů
-//		{
-//			vymaz_cesty();
-//			delete CESTY; CESTY=NULL;
-//		}
+		//cesty
+		if(CESTY!=NULL && CESTY->predchozi->n>0)//pokud je více objektů
+		{
+			//vymaz_cesty();   padá dodělat
+			delete CESTY; CESTY=NULL;
+		}
 
 		//procesy
 		if(PROCESY!=NULL && PROCESY->predchozi->n>0)//pokud je více objektů

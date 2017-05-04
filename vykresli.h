@@ -16,7 +16,6 @@ class Cvykresli
 	void vykresli_proces(TCanvas *canv, AnsiString shortname, TColor color,short typ, int X1, int X2,int Y, short KrokY);//vykreslí jeden dílèí èasový proces (obdelníèek procesu objektu) pro jeden vozík, vytaženo pouze kvùli pøehlednosti
 	void vytizenost_procesu(TCanvas *canv, Cvektory::TProces *P,double X,int Y);
 	void vykresli_Xosy(TCanvas *canv);//vykreslí statické svislice na èasové osy
-	void vykresli_oddelovaci_linku();//vykreslí oddìlovací linku mezi grafy a canvasem
 
 	public:
 	Cvykresli();//konstruktor
@@ -37,11 +36,11 @@ class Cvykresli
 
 	void vykresli_vektory(TCanvas *canv);
 	void vykresli_rectangle(TCanvas *canv, Cvektory::TObjekt *ukaz);
+	void prislusnost_cesty(TCanvas *canv,TColor Color,int X,int Y,float A,short N);
 	void vykresli_grid(TCanvas *canv, int size_grid=10);
 	void vykresli_graf_rezervy(TCanvas *canv);//mód graf rezerv
 	void vykresli_casove_osy(TCanvas *canv);//MARO metoda, celkové vykreslení módu èasové osy
 	void vykresli_vytizenost_objektu(TCanvas *canv);
-
 
 	double proces(TCanvas *canv, unsigned int n, double X_predchozi, double X, int Y, Cvektory::TCesta *C, Cvektory::TVozik *vozik);
 	void vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y);//vykreslí pohyblivou svislici yna èasové osy dle umístìní kurzoru myši

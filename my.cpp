@@ -82,9 +82,13 @@ double Cmy::delka(double X1,double Y1,double X2,double Y2)
 double Cmy::azimut(double X1,double Y1,double X2,double Y2)
 {
 		try{
-			float A=acos((Y2-Y1)/(delka(X1,Y1,X2,Y2)*1.0))*180/M_PI;
-			if(X2<X1)A=360-A;
-			return A;
+			if(delka(X1,Y1,X2,Y2)!=0)
+			{
+				float A=acos((Y2-Y1)/(delka(X1,Y1,X2,Y2)*1.0))*180/M_PI;
+				if(X2<X1)A=360-A;
+				return A;
+			}
+			else return 0;
 		}
 		catch(...)
 		{return 0;}
@@ -92,7 +96,11 @@ double Cmy::azimut(double X1,double Y1,double X2,double Y2)
 double Cmy::uhel(double X1,double Y1,double X2,double Y2)
 {
 		try{
-			return acos((Y2-Y1)/(delka(X1,Y1,X2,Y2)*1.0))*180/M_PI;
+			if(delka(X1,Y1,X2,Y2)!=0)
+			{
+				return acos((Y2-Y1)/(delka(X1,Y1,X2,Y2)*1.0))*180/M_PI;
+			}
+			else return 0;
 		}
 		catch(...)
 		{return 0;}

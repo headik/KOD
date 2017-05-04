@@ -145,7 +145,6 @@ __published:	// IDE-managed Components
 	TChart *Chart5;
 	TGanttSeries *Series2;
 	TGanttSeries *Series1;
-	TLabel *Label7;
 	TBarSeries *Series3;
 	TBarSeries *Series4;
 	TBarSeries *Series7;
@@ -351,6 +350,7 @@ private:	// User declarations
 	short pocitadlo_doby_neaktivity;
 
 	UnicodeString FileName;
+	UnicodeString Edice_caption;
 
 
 public:		// User declarations

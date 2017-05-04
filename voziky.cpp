@@ -228,7 +228,7 @@ void __fastcall TForm_vozik_nastaveni::Button_OKClick(TObject *Sender)
 	if(Form1->d.v.CESTY!=NULL && Form1->d.v.CESTY->predchozi->n>0) //pouze provizorní ošetøení
 	OK_status = true;
 	else
-	Form1->S("Projekt je nutné naèíst z historie, aby obsahoval cesty!");//pouze provizorní ošetøení
+	Form1->S("Projekt je nutné naèíst z výpisu poslednì otevøených souboru v menu projekt, aby obsahoval cesty!");//pouze provizorní ošetøení
 }
 // -------------------------------------- -------------------------------------
 void __fastcall TForm_vozik_nastaveni::FormCloseQuery(TObject *Sender,	bool &CanClose)
@@ -264,6 +264,7 @@ void __fastcall TForm_vozik_nastaveni::FormCloseQuery(TObject *Sender,	bool &Can
 			//posun na další prvek v seznamu
 			ukaz = ukaz->dalsi; //posun na další prvek v seznamu
 		}
+		Form1->Invalidate();
 	}
 	vymaz_barvu();
 }
