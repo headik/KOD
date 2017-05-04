@@ -14,7 +14,6 @@ void Cgrafy::ShowGrafy(bool stav) {
 		graf2();
 		graf3();
 		graf4();
-		graf5();
 		graf6();
 		nastaveni();
 	}
@@ -22,33 +21,87 @@ void Cgrafy::ShowGrafy(bool stav) {
 	Form1->Chart2->Visible = stav;
 	Form1->Chart3->Visible = stav;
 	Form1->Chart4->Visible = stav;
-	Form1->Chart5->Visible = false;
 	Form1->Chart6->Visible = stav;
-	Form1->Label6->Visible = stav;
+	Form1->wip->Visible = stav;
 
 }
 
-
+/////////////////////////////////////////////////////
 void Cgrafy::nastaveni()
 {
+			 //WIP label
+			Form1->wip->Font->Color=RGB(109,121,132);
+			Form1->wip->Visible = true;
+			Form1->wip->Font->Size = 20;
+			Form1->wip->Top = Form1->Chart1->Top - 35;
+			Form1->wip->Left = 20;
+			Form1->wip->Caption = "WIP: " + AnsiString(Form1->d.v.WIP());
+
+
+
 		//globalni nastaveni grafu
 		Form1->Chart1->Legend->Visible = false;
 		Form1->Chart1->Color = clWhite;
-		Form1->Chart1->Title->Font->Size = 14;
+		Form1->Chart1->Title->Font->Size = 16;
+		Form1->Chart1->Title->Font->Name="Arial";
+		Form1->Chart1->Title->Font->Color=RGB(100,100,100);//RGB(84,83,82);
 		Form1->Chart1->LeftAxis->Title->Font->Size = 14;
 		Form1->Chart1->BottomAxis->Title->Font->Size = 14;
-		Form1->Chart1->Title->Color = clGray;
+		Form1->Chart1->LeftAxis->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart1->LeftAxis->Title->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart1->BottomAxis->Title->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart1->BottomAxis->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart1->LeftAxis->Items->Format->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart1->LeftAxis->Items->Format->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart1->BottomAxis->Items->Format->Font->Color=Form1->Chart1->Title->Font->Color;
 		Form1->Chart1->LeftAxis->Items->Format->Font->Size = 12;
+		Form1->Chart1->BottomAxis->Items->Format->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart1->LeftAxis->Items->Format->Font->Color=RGB(100,100,100);//RGB(84,83,82);
 		Form1->Chart1->BottomAxis->Items->Format->Font->Size = 12;
-		Form1->Chart1->Border->Visible = false;
-		//Form1->Chart3->LeftAxis->Items->Format->Width=1;
+		Form1->Chart1->BottomAxis->Items->Format->Font->Color=Form1->Chart1->LeftAxis->Items->Format->Font->Color;
+		Form1->Chart1->Border->Visible = false;  //u gant grafu nejde border nastavit v kodu, musi se v editoru
 		Form1->Chart1->LeftAxis->Axis->Width=1;
 		Form1->Chart1->BottomAxis->Axis->Width=1;
+		Form1->Chart1->Walls->Visible=false;
+		Form1->Chart1->BottomAxis->Grid->Visible=false;
+		//Form1->Series2->Marks->Font->Size=5;
+		Form1->Series1->Marks->Arrow->Visible=false;
 
-		 ///////////////////////////
+		Form1->Series3->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
+		Form1->Series5->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
+		Form1->Series6->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
+		Form1->Series7->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
+		Form1->Series9->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
 
+		Form1->Series1->Marks->BackColor=clWhite;
+
+		Form1->Series3->Marks->BackColor=Form1->Series1->Marks->BackColor;
+		Form1->Series5->Marks->BackColor=Form1->Series1->Marks->BackColor;
+		Form1->Series6->Marks->BackColor=Form1->Series1->Marks->BackColor;
+		Form1->Series7->Marks->BackColor=Form1->Series1->Marks->BackColor;
+		Form1->Series9->Marks->BackColor=Form1->Series1->Marks->BackColor;
+
+		Form1->Series1->Marks->Font->Size=10;
+		Form1->Series3->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
+		Form1->Series5->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
+		Form1->Series6->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
+		Form1->Series7->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
+		Form1->Series9->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
+
+
+
+		///////////////////////////
+		Form1->Chart2->LeftAxis->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart2->BottomAxis->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart2->LeftAxis->Items->Format->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart2->BottomAxis->Items->Format->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart2->LeftAxis->Title->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart2->BottomAxis->Title->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart2->BottomAxis->Items->Format->Font->Color=Form1->Chart1->LeftAxis->Items->Format->Font->Color;
 		Form1->Chart2->Legend->Visible=Form1->Chart1->Legend->Visible;
 		Form1->Chart2->Color=Form1->Chart1->Color;
+		Form1->Chart2->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart2->Title->Font->Color=Form1->Chart1->Title->Font->Color;
 		Form1->Chart2->Title->Font->Size=Form1->Chart1->Title->Font->Size;
 		Form1->Chart2->LeftAxis->Title->Font->Size=Form1->Chart1->LeftAxis->Title->Font->Size;
 		Form1->Chart2->BottomAxis->Title->Font->Size=Form1->Chart1->BottomAxis->Title->Font->Size;
@@ -58,9 +111,22 @@ void Cgrafy::nastaveni()
 		Form1->Chart2->Border->Visible=Form1->Chart1->Border->Visible;
 		Form1->Chart2->LeftAxis->Axis->Width=Form1->Chart1->LeftAxis->Axis->Width;
 		Form1->Chart2->BottomAxis->Axis->Width=Form1->Chart1->BottomAxis->Axis->Width;
+		Form1->Chart2->Walls->Visible=Form1->Chart1->Walls->Visible;
+		Form1->Chart2->BottomAxis->Grid->Visible=Form1->Chart1->BottomAxis->Grid->Visible;
+		Form1->Chart2->LeftAxis->Items->Format->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart2->BottomAxis->Items->Format->Font->Color=Form1->Chart1->Title->Font->Color;
 
+		Form1->Chart3->LeftAxis->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart3->BottomAxis->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart3->LeftAxis->Items->Format->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart3->LeftAxis->Title->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart3->BottomAxis->Title->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart3->BottomAxis->Items->Format->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart3->BottomAxis->Items->Format->Font->Color=Form1->Chart1->LeftAxis->Items->Format->Font->Color;
 		Form1->Chart3->Legend->Visible=Form1->Chart1->Legend->Visible;
 		Form1->Chart3->Color=Form1->Chart1->Color;
+		Form1->Chart3->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart3->Title->Font->Color=Form1->Chart1->Title->Font->Color;
 		Form1->Chart3->Title->Font->Size=Form1->Chart1->Title->Font->Size;
 		Form1->Chart3->LeftAxis->Title->Font->Size=Form1->Chart1->LeftAxis->Title->Font->Size;
 		Form1->Chart3->BottomAxis->Title->Font->Size=Form1->Chart1->BottomAxis->Title->Font->Size;
@@ -70,33 +136,46 @@ void Cgrafy::nastaveni()
 		Form1->Chart3->Border->Visible=Form1->Chart1->Border->Visible;
 		Form1->Chart3->LeftAxis->Axis->Width=Form1->Chart1->LeftAxis->Axis->Width;
 		Form1->Chart3->BottomAxis->Axis->Width=Form1->Chart1->BottomAxis->Axis->Width;
+		Form1->Chart3->Walls->Visible=Form1->Chart1->Walls->Visible;
+		Form1->Chart3->BottomAxis->Grid->Visible=Form1->Chart1->BottomAxis->Grid->Visible;
+		Form1->Chart3->LeftAxis->Items->Format->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart3->BottomAxis->Items->Format->Font->Color=Form1->Chart1->Title->Font->Color;
 
+		Form1->Chart4->LeftAxis->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart4->BottomAxis->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart4->LeftAxis->Items->Format->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart4->LeftAxis->Title->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart4->BottomAxis->Title->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart4->BottomAxis->Items->Format->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart4->BottomAxis->Items->Format->Font->Color=Form1->Chart1->LeftAxis->Items->Format->Font->Color;
 		Form1->Chart4->Legend->Visible=Form1->Chart1->Legend->Visible;
 		Form1->Chart4->Color=Form1->Chart1->Color;
+		Form1->Chart4->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart4->Title->Font->Color=Form1->Chart1->Title->Font->Color;
 		Form1->Chart4->Title->Font->Size=Form1->Chart1->Title->Font->Size;
 		Form1->Chart4->LeftAxis->Title->Font->Size=Form1->Chart1->LeftAxis->Title->Font->Size;
 		Form1->Chart4->BottomAxis->Title->Font->Size=Form1->Chart1->BottomAxis->Title->Font->Size;
 		Form1->Chart4->Title->Color=Form1->Chart1->Title->Color;
 		Form1->Chart4->LeftAxis->Items->Format->Font->Size=Form1->Chart1->LeftAxis->Items->Format->Font->Size;
 		Form1->Chart4->BottomAxis->Items->Format->Font->Size=Form1->Chart1->BottomAxis->Items->Format->Font->Size;
-		Form1->Chart4->Border->Visible=Form1->Chart1->Border->Visible;
 		Form1->Chart4->LeftAxis->Axis->Width=Form1->Chart1->LeftAxis->Axis->Width;
 		Form1->Chart4->BottomAxis->Axis->Width=Form1->Chart1->BottomAxis->Axis->Width;
+		Form1->Chart4->Walls->Visible=Form1->Chart1->Walls->Visible;
+		Form1->Chart4->BottomAxis->Grid->Visible=Form1->Chart1->BottomAxis->Grid->Visible;
+		Form1->Chart4->LeftAxis->Items->Format->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart4->BottomAxis->Items->Format->Font->Color=Form1->Chart1->Title->Font->Color;
 
-		Form1->Chart5->Legend->Visible=Form1->Chart1->Legend->Visible;
-		Form1->Chart5->Color=Form1->Chart1->Color;
-		Form1->Chart5->Title->Font->Size=Form1->Chart1->Title->Font->Size;
-		Form1->Chart5->LeftAxis->Title->Font->Size=Form1->Chart1->LeftAxis->Title->Font->Size;
-		Form1->Chart5->BottomAxis->Title->Font->Size=Form1->Chart1->BottomAxis->Title->Font->Size;
-		Form1->Chart5->Title->Color=Form1->Chart1->Title->Color;
-		Form1->Chart5->LeftAxis->Items->Format->Font->Size=Form1->Chart1->LeftAxis->Items->Format->Font->Size;
-		Form1->Chart5->BottomAxis->Items->Format->Font->Size=Form1->Chart1->BottomAxis->Items->Format->Font->Size;
-		Form1->Chart5->Border->Visible=Form1->Chart1->Border->Visible;
-		Form1->Chart5->LeftAxis->Axis->Width=Form1->Chart1->LeftAxis->Axis->Width;
-		Form1->Chart5->BottomAxis->Axis->Width=Form1->Chart1->BottomAxis->Axis->Width;
-
+		Form1->Chart6->LeftAxis->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart6->BottomAxis->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart6->LeftAxis->Items->Format->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart6->LeftAxis->Title->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart6->BottomAxis->Title->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart6->BottomAxis->Items->Format->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart6->BottomAxis->Items->Format->Font->Color=Form1->Chart1->LeftAxis->Items->Format->Font->Color;
 		Form1->Chart6->Legend->Visible=Form1->Chart1->Legend->Visible;
 		Form1->Chart6->Color=Form1->Chart1->Color;
+		Form1->Chart6->Title->Font->Name=Form1->Chart1->Title->Font->Name;
+		Form1->Chart6->Title->Font->Color=Form1->Chart1->Title->Font->Color;
 		Form1->Chart6->Title->Font->Size=Form1->Chart1->Title->Font->Size;
 		Form1->Chart6->LeftAxis->Title->Font->Size=Form1->Chart1->LeftAxis->Title->Font->Size;
 		Form1->Chart6->BottomAxis->Title->Font->Size=Form1->Chart1->BottomAxis->Title->Font->Size;
@@ -106,6 +185,13 @@ void Cgrafy::nastaveni()
 		Form1->Chart6->Border->Visible=Form1->Chart1->Border->Visible;
 		Form1->Chart6->LeftAxis->Axis->Width=Form1->Chart1->LeftAxis->Axis->Width;
 		Form1->Chart6->BottomAxis->Axis->Width=Form1->Chart1->BottomAxis->Axis->Width;
+		Form1->Chart6->Walls->Visible=Form1->Chart1->Walls->Visible;
+		Form1->Chart6->BottomAxis->Grid->Visible=Form1->Chart1->BottomAxis->Grid->Visible;
+		Form1->Chart6->LeftAxis->Items->Format->Font->Color=Form1->Chart1->Title->Font->Color;
+		Form1->Chart6->BottomAxis->Items->Format->Font->Color=Form1->Chart1->Title->Font->Color;
+
+
+
 
 
 
@@ -123,7 +209,7 @@ void Cgrafy::graf1() {
 	Form1->Chart1->Height = Form1->ClientHeight / 3 * 1, 5;
 
 	Form1->Series1->Clear();
-	Form1->Chart1->LeftAxis->Title->Caption = "plán";
+	Form1->Chart1->LeftAxis->Title->Caption = "zakázka";
 	Form1->Chart1->BottomAxis->Title->Caption = "min";
 	Form1->Chart1->Title->Caption = "Èasové stavy zakázek";
 
@@ -167,14 +253,14 @@ void Cgrafy::graf2() {
 
 	Form1->Chart2->Title->Caption = "TT zakázek";
 	Form1->Chart2->LeftAxis->Title->Caption = "min";
-	Form1->Chart2->BottomAxis->Title->Caption = "plán";
+	Form1->Chart2->BottomAxis->Title->Caption = "zakázka";
 
 	Form1->Chart2->Left = Form1->Chart1->Width;
 	Form1->Chart2->Width = Form1->ClientWidth / 5 * 1, 5;
 	Form1->Chart2->Height = Form1->ClientHeight / 3 * 1, 5;
 
 	Form1->Series3->Clear();
-	Form1->Series4->Clear(); // souèet technolog.èasù - celý plán výroby
+	//Form1->Series4->Clear(); // souèet technolog.èasù - celý zakázka výroby
 
 	Form1->Series3->Marks->Visible = true;
 	// tohle se nezobrazi, nevim Form1->Series3->Marks->Text="text";
@@ -207,7 +293,7 @@ void Cgrafy::graf3() {
 	}
 
 	Form1->Chart3->LeftAxis->Title->Caption = "min";
-	Form1->Chart3->BottomAxis->Title->Caption = "plán";
+	Form1->Chart3->BottomAxis->Title->Caption = "zakázka";
 	Form1->Chart3->Title->Caption = "Vytíženost zakázky";
 
 	Form1->Chart3->Left = Form1->Chart1->Width + Form1->Chart2->Width;
@@ -217,7 +303,6 @@ void Cgrafy::graf3() {
 	Form1->Series5->Clear();
 	Form1->Series6->Clear();
 
-	// Form1->Chart1->SaveToBitmapFile("obr");
 
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
 	while (ukaz != NULL) {
@@ -249,7 +334,7 @@ void Cgrafy::graf4() {
 	}
 	Form1->Chart4->Title->Caption = "Pomìr vozíkù";
 	Form1->Chart4->LeftAxis->Title->Caption = "min";
-	Form1->Chart4->BottomAxis->Title->Caption = "plán";
+	Form1->Chart4->BottomAxis->Title->Caption = "zakázka";
 
 	Form1->Chart4->Left = Form1->Chart1->Width + Form1->Chart2->Width +
 		Form1->Chart3->Width;
@@ -257,6 +342,8 @@ void Cgrafy::graf4() {
 	Form1->Chart4->Height = Form1->ClientHeight / 3 * 1, 5;
 
 	Form1->Series7->Clear();
+
+	Form1->Chart4->Border->Color=clGreen;
 
 	// souèet technolog. èasù vs souèet prostojù dle zakázek
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
@@ -275,7 +362,7 @@ void Cgrafy::graf4() {
 //
 void Cgrafy::graf5() {
 
-	if (Form1->Memo1->Visible) {
+  /*	if (Form1->Memo1->Visible) {
 		Form1->Chart5->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
 			Form1->Memo1->Height - Form1->Chart1->Height;
 	}
@@ -289,15 +376,9 @@ void Cgrafy::graf5() {
 	Form1->Chart5->Width = Form1->ClientWidth / 5 * 1, 5; ;
 	Form1->Chart5->Height = Form1->ClientHeight / 3 * 1, 5;
 
-	Form1->Chart5->AxisVisible = false;
+	Form1->Chart5->AxisVisible = false;     */
 
-	Form1->Label6->Visible = true;
-	Form1->Label6->Font->Size = 25;
-	Form1->Label6->Top = Form1->Chart5->Top - 35;
-	Form1->Label6->Left = Form1->Chart1->Width + Form1->Chart2->Width +
-		Form1->Chart3->Width + Form1->Chart4->Width + 70;
 
-	Form1->Label6->Caption = "WIP: " + AnsiString(Form1->d.v.WIP());
 
 
 }
@@ -319,17 +400,12 @@ void Cgrafy::graf6() { // Kapacity
 	Form1->Chart6->Width = Form1->ClientWidth / 5 * 1, 5; ;
 	Form1->Chart6->Height = Form1->ClientHeight / 3 * 1, 5;
 
-	Form1->Chart5->AxisVisible = true;
+	Form1->Chart6->AxisVisible = true;
 
 	Form1->Chart6->Title->Caption = "Doporuèené kapacity";
 	Form1->Chart6->LeftAxis->Title->Caption = "kapacity";
 	Form1->Chart6->BottomAxis->Title->Caption = "objekty";
 
-	Form1->Label6->Visible = true;
-	Form1->Label6->Font->Size = 25;
-	Form1->Label6->Top = Form1->Chart5->Top - 35;
-	Form1->Label6->Left = Form1->Chart1->Width + Form1->Chart2->Width +
-		Form1->Chart3->Width + Form1->Chart4->Width + 70;
 
 	Form1->Series9->Clear();
 
@@ -337,8 +413,7 @@ void Cgrafy::graf6() { // Kapacity
 	// Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
 	while (ukaz != NULL) {
 
-		Form1->Series9->Add(ukaz->dop_kapacita_objektu, ukaz->short_name,
-			clBlue);
+		Form1->Series9->Add(ukaz->dop_kapacita_objektu, ukaz->short_name,(TColor) RGB(0,128,255));
 
 		ukaz = ukaz->dalsi;
 	}
@@ -346,4 +421,3 @@ void Cgrafy::graf6() { // Kapacity
 }
 
 // ---------------------------------------------------------------------------
-

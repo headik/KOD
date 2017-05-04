@@ -346,6 +346,8 @@ void __fastcall TForm1::editacelinky1Click(TObject *Sender)
 	CheckBoxVytizenost->Visible=false;
 	CheckBoxAnimovatSG->Visible=false;
 	CheckBoxPALCE->Visible=false;
+	CheckBoxVymena_barev->Visible=false;
+	Label_zamerovac->Visible=false;
 	g.ShowGrafy(false);
 	Invalidate();
 }
@@ -371,7 +373,9 @@ void __fastcall TForm1::testovnkapacity1Click(TObject *Sender)
 	CheckBoxVytizenost->Visible=false;
 	CheckBoxAnimovatSG->Visible=false;
 	CheckBoxPALCE->Visible=false;
+	CheckBoxVymena_barev->Visible=false;
 	ButtonPLAY->Visible=false;
+	Label_zamerovac->Visible=false;
 	g.ShowGrafy(false);
 	Invalidate();
 }
@@ -398,6 +402,8 @@ void __fastcall TForm1::casoverezervy1Click(TObject *Sender)
 	CheckBoxVytizenost->Visible=false;
 	CheckBoxAnimovatSG->Visible=false;
 	CheckBoxPALCE->Visible=false;
+	CheckBoxVymena_barev->Visible=false;
+	Label_zamerovac->Visible=false;
 	g.ShowGrafy(false);
 	Invalidate();
 }
@@ -436,6 +442,8 @@ void __fastcall TForm1::casovosa1Click(TObject *Sender)
 			CheckBoxPALCE->Visible=true;
 			CheckBoxVytizenost->Visible=true;
 			CheckBoxAnimovatSG->Visible=false;
+			CheckBoxVymena_barev->Visible=true;
+			Label_zamerovac->Visible=false;
 			Invalidate();
 		}
 	}
@@ -467,6 +475,7 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	CheckBoxPALCE->Visible=false;
 	CheckBoxVytizenost->Visible=false;
 	CheckBoxAnimovatSG->Visible=true;
+	CheckBoxVymena_barev->Visible=false;
 	//filtrace
 	d.TP.K=0.5;//Krok po kolika minutach se bude zobrazovat
 	d.TP.OD=0;//od které min se proces začne vypisovat
@@ -479,6 +488,7 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	ButtonPLAY->Visible=true;
 	ButtonPLAY->Caption="PLAY";
 	//---
+	Label_zamerovac->Visible=false;
 	Invalidate();
 }
 //---------------------------------------------------------------------------
@@ -509,6 +519,8 @@ void __fastcall TForm1::simulace1Click(TObject *Sender)
 	CheckBoxVytizenost->Visible=false;
 	CheckBoxAnimovatSG->Visible=false;
 	CheckBoxPALCE->Visible=false;
+	CheckBoxVymena_barev->Visible=false;
+	Label_zamerovac->Visible=false;
 	Invalidate();
 }
 //---------------------------------------------------------------------------
@@ -606,7 +618,7 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 		case CASOVAOSA:d.vykresli_casove_osy(Canvas);d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
 		//testovací režim, kvůli přechodu ze šetřice obrazovky
 		if(pocitadlo_doby_neaktivity==60 || pocitadlo_doby_neaktivity==-1)Invalidate();//ošetření kvůli šetřiči obrazovky
-		pocitadlo_doby_neaktivity=0;Timer_neaktivity->Enabled=true;
+		if(Label_zamerovac->Visible==false)pocitadlo_doby_neaktivity=0;Timer_neaktivity->Enabled=true;
 		//--
 		break;
 		case TECHNOPROCESY:d.vykresli_technologicke_procesy(Canvas); break;
@@ -877,6 +889,7 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 			minule_souradnice_kurzoru=TPoint(X,Y);
 			d.vykresli_svislici_na_casove_osy(Canvas,X,Y);
 			SB(UnicodeString((X+d.PosunT.x)/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
+			Label_zamerovac->Visible=false;
 	}
 	else //výpis metrických souřadnic
 	{
@@ -2570,7 +2583,6 @@ int TForm1::vrat_max_vysku_grafu()
  if(RET<=Chart2->Height && Chart2->Visible)RET=Chart2->Height;
  if(RET<=Chart3->Height && Chart3->Visible)RET=Chart3->Height;
  if(RET<=Chart4->Height && Chart4->Visible)RET=Chart4->Height;
- if(RET<=Chart5->Height && Chart5->Visible)RET=Chart5->Height;
  if(RET<=Chart6->Height && Chart6->Visible)RET=Chart6->Height;
  //případně doplnit další grafy!!!!!
  return RET;
@@ -2668,13 +2680,12 @@ void __fastcall TForm1::MagnaClick(TObject *Sender)
 	d.v.vloz_cestu(cesta_pom);
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TForm1::SPPP1Click(TObject *Sender)
 {
-		OtevritSoubor("SPPP.tispl");
-		d.v.hlavicka_seznamu_cest();
+	OtevritSoubor("SPPP.tispl");
+	d.v.hlavicka_seznamu_cest();
 
-		Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
+	Cvektory::TSeznam_cest *cesta_pom=new Cvektory::TSeznam_cest;
 
 	d.v.hlavicka_jedne_cesty(cesta_pom);
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi,0,1,2); //nav - režim,kapacita,ct
@@ -2716,14 +2727,11 @@ void __fastcall TForm1::SPPP1Click(TObject *Sender)
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,2,8.5,5);//chlaz
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,0,1,2);//svěšování
 
-
 	d.v.vloz_cestu(cesta_pom2);
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TForm1::Boskovice1Click(TObject *Sender)
 {
-
 	OtevritSoubor("boskovice.tispl");
 	d.v.hlavicka_seznamu_cest();
 
@@ -2741,13 +2749,10 @@ void __fastcall TForm1::Boskovice1Click(TObject *Sender)
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,2,9,2);//CHLAZ
 	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,0,1,2);//SVĚŠ
 	d.v.vloz_cestu(cesta_pom);
-
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TForm1::eXtreme1Click(TObject *Sender)
 {
-
 	OtevritSoubor("extreme.tispl");
 	d.v.hlavicka_seznamu_cest();
 	//cesta 1
@@ -2786,6 +2791,8 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 void __fastcall TForm1::Timer_neaktivityTimer(TObject *Sender)
 {
  if(++pocitadlo_doby_neaktivity==60)Timer_neaktivity->Enabled=false;
+
+ if(MOD==CASOVAOSA && pocitadlo_doby_neaktivity>=2) d.zobrazit_label_zamerovac(akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ButtonPLAYClick(TObject *Sender)
@@ -2823,18 +2830,16 @@ void __fastcall TForm1::Timer_animaceTimer(TObject *Sender)
   }
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TForm1::CheckBoxVytizenostClick(TObject *Sender)
 {
-
-if(d.v.PROCESY!=NULL && d.v.PROCESY->predchozi->n>0)//pokud je více objektů
+	if(d.v.PROCESY!=NULL && d.v.PROCESY->predchozi->n>0)//pokud je více objektů
 	{
 		d.mod_vytizenost_objektu=!d.mod_vytizenost_objektu;
 		CheckBoxPALCE->Visible=!CheckBoxPALCE->Visible;
+		CheckBoxVymena_barev->Visible=!CheckBoxVymena_barev->Visible;
 		SB("");
 		Invalidate();
 	}
-
 }
 //---------------------------------------------------------------------------
 
@@ -2861,6 +2866,13 @@ void __fastcall TForm1::Button13Click(TObject *Sender)
 		C=C->dalsi;
 	}
      */
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::CheckBoxVymena_barevClick(TObject *Sender)
+{
+	Invalidate();
 }
 //---------------------------------------------------------------------------
 

@@ -404,7 +404,7 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 			while(C!=NULL)//jde po konkrétní cestě
 			{
 					Yloc=Y;
-          unsigned int n=0;//pořádí v rámci zakázky
+					unsigned int n=0;//pořádí v rámci zakázky
 					Cvektory::TVozik *vozik=v.VOZIKY->dalsi;//ukazatel na první objekt v seznamu VOZÍKŮ, přeskočí hlavičku
 					while (vozik!=NULL)//jede po konkrétních vozíkách, které řeší jenom konkréttní cestu
 					{
@@ -426,6 +426,25 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 							//Nefunguje zatím správněCvektory::TProces *P=new Cvektory::TProces;
 							//P->n_v_zakazce=n+1;P->Tpoc=vozik->pozice-PosunT.x/PX2MIN;P->Tkon=X-PosunT.x/PX2MIN;P->Tdor=P->Tkon;P->Tpre=P->Tkon;P->Tcek=P->Tkon;P->cesta=C;P->vozik=vozik;
 							//v.vloz_proces(P);
+
+							//čekání na čištění pistole a výměnu barev včetně čekání
+							if(Form1->CheckBoxVymena_barev->Checked && C->objekt->short_name=="LAK")
+							{
+									short n_cisteni=2;//po kolika vozících
+									double T_cisteni=50/60.0;//50s čištění
+									double T_vymena=240/60.0;//4 min čištění
+									if(n%n_cisteni==0 && n!=0)//čištění, mimo první vozík protože buď je připravená linka (v případě první zakázky nebo je čištění součástí mezizakázkové výměny barev)
+									{
+										vykresli_proces(canv,"Č",m.clIntensive(vozik->barva,-20),4,X-PosunT.x,X+T_cisteni*PX2MIN-PosunT.x,Yloc-PosunT.y,KrokY);
+										X+=T_cisteni*PX2MIN-PosunT.x;
+									}
+									if(n==0 && C->n>1)//výměna barev + čistění, mimo první zakázku, u té předpokládáme připravenost linky
+									{
+										vykresli_proces(canv,"V+Č",m.clIntensive(vozik->barva,-40),4,X-PosunT.x,X+T_vymena*PX2MIN-PosunT.x,Yloc-PosunT.y,KrokY);
+										X+=T_vymena*PX2MIN-PosunT.x;
+									}
+									X_predchozi=X;//pokud toto zakomentuji prodlouží se CT resp. vykreslí se např. LAK o ten kus delší
+							}
 
 							////vykreslení procesu (jednoho obdelníčku "v plavecké dráze") včetně výpočtu koncové pozice a uložení dílčích hodnot
 							X=proces(canv,++n,X_predchozi,X,Yloc,C,vozik);
@@ -561,10 +580,23 @@ void Cvykresli::vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y)
 			canv->LineTo(Form1->ClientWidth,Y);
 			canv->Brush->Style=bsSolid;//vracím raději do původního stavu
 			unsigned int V=ceil((Y+PosunT.y-KrokY/2-Form1->RzToolbar1->Height)/(KrokY*1.0));//pozn. KrokY/2 kvůli tomu, že střed osy je ve horozintální ose obdelníku
-			if(V<=v.VOZIKY->predchozi->n)	Form1->SB("Vozík: "+AnsiString(V));
+			if(V<=v.VOZIKY->predchozi->n)Form1->SB("Vozík: "+AnsiString(V));
 			else Form1->SB("");//pokud je už mimo oblast
 		}
 	}
+}
+//---------------------------------------------------------------------------
+//vypíše labal zaměřovač na pozici kurzoru myši
+void Cvykresli::zobrazit_label_zamerovac(int X,int Y)
+{
+	unsigned int V=ceil((Y+PosunT.y-KrokY/2-Form1->RzToolbar1->Height)/(KrokY*1.0));//pozn. KrokY/2 kvůli tomu, že střed osy je ve horozintální ose obdelníku
+	if(!mod_vytizenost_objektu && V<=v.VOZIKY->predchozi->n)
+	{
+				Form1->Label_zamerovac->Left=X+5; Form1->Label_zamerovac->Top=Y+20; //+ odsazení
+				Form1->Label_zamerovac->Caption=" vozík: "+AnsiString(V)+"\n min: "+AnsiString((X+PosunT.x)/PX2MIN)+" ";
+				Form1->Label_zamerovac->Visible=true;
+	}
+	else Form1->Label_zamerovac->Visible=false;
 }
 //---------------------------------------------------------------------------
 //vykreslí statické svislice na časové osy

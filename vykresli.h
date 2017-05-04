@@ -44,6 +44,7 @@ class Cvykresli
 
 	double proces(TCanvas *canv, unsigned int n, double X_predchozi, double X, int Y, Cvektory::TCesta *C, Cvektory::TVozik *vozik);
 	void vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y);//vykreslí pohyblivou svislici yna èasové osy dle umístìní kurzoru myši
+	void zobrazit_label_zamerovac(int X,int Y);//vypiše labal zamìøovaè
 	void vykresli_technologicke_procesy(TCanvas *canv);//ROMA metoda, vykreslí graf technologickıch procesù vùèi jednotlivım t-objektùm v èase
 	void vykresli_simulaci(TCanvas *canv);//zajišuje vykreslení simulace
 	void vykresli_linku(TCanvas *canv);//zajišuje vykreslení osy linky

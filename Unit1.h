@@ -141,14 +141,9 @@ __published:	// IDE-managed Components
 	TChart *Chart2;
 	TChart *Chart3;
 	TChart *Chart4;
-	TLabel *Label6;
-	TChart *Chart5;
-	TGanttSeries *Series2;
+	TLabel *wip;
 	TGanttSeries *Series1;
 	TBarSeries *Series3;
-	TBarSeries *Series4;
-	TBarSeries *Series7;
-	TBarSeries *Series8;
 	TBarSeries *Series5;
 	TBarSeries *Series6;
 	TMenuItem *technologickprocesy1;
@@ -168,6 +163,14 @@ __published:	// IDE-managed Components
 	TBarSeries *Series9;
 	TCheckBox *CheckBoxAnimovatSG;
 	TCheckBox *CheckBoxPALCE;
+	TLabel *Label_zamerovac;
+	TCheckBox *CheckBoxVymena_barev;
+	TPieSeries *Series7;
+	TTeeGDIPlus *TeeGDIPlus1;
+	TTeeGDIPlus *TeeGDIPlus2;
+	TTeeGDIPlus *TeeGDIPlus3;
+	TTeeGDIPlus *TeeGDIPlus4;
+	TTeeGDIPlus *TeeGDIPlus5;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -269,6 +272,7 @@ __published:	// IDE-managed Components
 	void __fastcall Timer_animaceTimer(TObject *Sender);
 	void __fastcall CheckBoxVytizenostClick(TObject *Sender);
 	void __fastcall Button13Click(TObject *Sender);
+	void __fastcall CheckBoxVymena_barevClick(TObject *Sender);
 
 
 private:	// User declarations
@@ -347,10 +351,11 @@ private:	// User declarations
 
 	bool duvod_k_ulozeni;
 	bool stisknuto_storno;
-	short pocitadlo_doby_neaktivity;
 
 	UnicodeString FileName;
 	UnicodeString Edice_caption;
+
+	short pocitadlo_doby_neaktivity;
 
 
 public:		// User declarations

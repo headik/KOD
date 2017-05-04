@@ -30,12 +30,38 @@ object Form1: TForm1
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label6: TLabel
+  object wip: TLabel
     Left = 896
-    Top = 94
-    Width = 31
-    Height = 13
-    Caption = 'Label6'
+    Top = 50
+    Width = 27
+    Height = 19
+    Caption = 'wip'
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Visible = False
+  end
+  object Label_zamerovac: TLabel
+    Left = 151
+    Top = 80
+    Width = 28
+    Height = 26
+    Margins.Left = 6
+    Margins.Top = 6
+    Margins.Right = 6
+    Margins.Bottom = 6
+    Caption = 'voz'#237'k:'#13'min:'
+    Color = clWhite
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
     Visible = False
   end
   object RzToolbar1: TRzToolbar
@@ -577,8 +603,11 @@ object Form1: TForm1
       Marks.ChildLayout = slLeftRight
       ValueFormat = '##0.## %'
       ClickableLine = False
+      Pointer.HorizSize = 18
       Pointer.InflateMargins = True
+      Pointer.Pen.Visible = False
       Pointer.Style = psRectangle
+      Pointer.VertSize = 18
       XValues.DateTime = False
       XValues.Name = 'Start'
       XValues.Order = loNone
@@ -589,23 +618,6 @@ object Form1: TForm1
       StartValues.DateTime = False
       StartValues.Name = 'Start'
       StartValues.Order = loNone
-      EndValues.Name = 'End'
-      EndValues.Order = loNone
-      NextTask.Name = 'NextTask'
-      NextTask.Order = loNone
-    end
-    object Series2: TGanttSeries
-      ClickableLine = False
-      Pointer.InflateMargins = True
-      Pointer.Style = psRectangle
-      XValues.Name = 'Start'
-      XValues.Order = loAscending
-      YValues.Name = 'Y'
-      YValues.Order = loNone
-      Callout.Style = psRightTriangle
-      Callout.Arrow.Visible = False
-      StartValues.Name = 'Start'
-      StartValues.Order = loAscending
       EndValues.Name = 'End'
       EndValues.Order = loNone
       NextTask.Name = 'NextTask'
@@ -631,16 +643,13 @@ object Form1: TForm1
           Shape.Visible = False
           Shape.Style = smsXValue
         end>
+      Marks.Frame.Visible = False
+      Marks.Shadow.Visible = False
+      Marks.Transparent = True
       Marks.Style = smsValue
-      MultiBar = mbNone
-      XValues.Name = 'X'
-      XValues.Order = loAscending
-      YValues.Name = 'Bar'
-      YValues.Order = loNone
-      Data = {0000000000}
-    end
-    object Series4: TBarSeries
-      BarPen.Visible = False
+      Marks.Callout.ArrowHeadSize = 0
+      Marks.Callout.Distance = 5
+      Marks.Callout.Length = 0
       MultiBar = mbNone
       XValues.Name = 'X'
       XValues.Order = loAscending
@@ -662,9 +671,18 @@ object Form1: TForm1
     ColorPaletteIndex = 13
     object Series5: TBarSeries
       BarPen.Visible = False
+      Marks.Frame.Visible = False
       Marks.Transparency = 30
+      Marks.Transparent = True
       Marks.Style = smsValue
-      Marks.Callout.ArrowHead = ahLine
+      Marks.Arrow.Visible = False
+      Marks.Callout.Pen.Visible = False
+      Marks.Callout.Arrow.Visible = False
+      Marks.Callout.ArrowHeadSize = 0
+      Marks.Callout.Distance = 5
+      Marks.Callout.Length = 0
+      Marks.Symbol.Frame.Visible = False
+      Marks.Symbol.Pen.Visible = False
       MultiBar = mbStacked
       XValues.Name = 'X'
       XValues.Order = loAscending
@@ -673,11 +691,14 @@ object Form1: TForm1
     end
     object Series6: TBarSeries
       BarBrush.Gradient.EndColor = 3513587
-      BarBrush.Gradient.Visible = True
       BarPen.Visible = False
+      Marks.Frame.Visible = False
+      Marks.Transparent = True
       Marks.Style = smsValue
+      Marks.Callout.ArrowHeadSize = 0
+      Marks.Callout.Distance = 5
+      Marks.Callout.Length = 0
       Gradient.EndColor = 3513587
-      Gradient.Visible = True
       MultiBar = mbStacked
       XValues.Name = 'X'
       XValues.Order = loAscending
@@ -694,34 +715,43 @@ object Form1: TForm1
     Title.Text.Strings = (
       'TChart')
     View3D = False
+    View3DOptions.Elevation = 315
+    View3DOptions.Orthogonal = False
+    View3DOptions.Perspective = 0
+    View3DOptions.Rotation = 360
     TabOrder = 17
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
-    object Series7: TBarSeries
-      BarPen.Visible = False
-      XValues.Name = 'X'
+    object Series7: TPieSeries
+      Marks.Frame.Visible = False
+      Marks.Transparent = True
+      Marks.Arrow.Visible = False
+      Marks.Callout.Arrow.Visible = False
+      Marks.Callout.ArrowHeadSize = 0
+      Marks.Callout.Distance = 5
+      Marks.Callout.Length = 0
       XValues.Order = loAscending
-      YValues.Name = 'Bar'
+      YValues.Name = 'Pie'
       YValues.Order = loNone
+      Frame.InnerBrush.BackColor = clRed
+      Frame.InnerBrush.Gradient.EndColor = clGray
+      Frame.InnerBrush.Gradient.MidColor = clWhite
+      Frame.InnerBrush.Gradient.StartColor = 4210752
+      Frame.InnerBrush.Gradient.Visible = True
+      Frame.MiddleBrush.BackColor = clYellow
+      Frame.MiddleBrush.Gradient.EndColor = 8553090
+      Frame.MiddleBrush.Gradient.MidColor = clWhite
+      Frame.MiddleBrush.Gradient.StartColor = clGray
+      Frame.MiddleBrush.Gradient.Visible = True
+      Frame.OuterBrush.BackColor = clGreen
+      Frame.OuterBrush.Gradient.EndColor = 4210752
+      Frame.OuterBrush.Gradient.MidColor = clWhite
+      Frame.OuterBrush.Gradient.StartColor = clSilver
+      Frame.OuterBrush.Gradient.Visible = True
+      Frame.Width = 4
+      OtherSlice.Legend.Visible = False
+      PiePen.Visible = False
     end
-    object Series8: TBarSeries
-      BarPen.Visible = False
-      XValues.Name = 'X'
-      XValues.Order = loAscending
-      YValues.Name = 'Bar'
-      YValues.Order = loNone
-    end
-  end
-  object Chart5: TChart
-    Left = 784
-    Top = 35
-    Width = 87
-    Height = 42
-    Title.Text.Strings = (
-      'TChart')
-    TabOrder = 18
-    DefaultCanvas = 'TGDIPlusCanvas'
-    ColorPaletteIndex = 13
   end
   object Button2: TButton
     Left = 852
@@ -729,33 +759,48 @@ object Form1: TForm1
     Width = 75
     Height = 25
     Caption = 'EXPO'
-    TabOrder = 19
+    TabOrder = 18
     Visible = False
     OnClick = Button2Click
   end
   object ButtonPLAY: TButton
-    Left = 792
-    Top = 2
+    Left = 795
+    Top = 1
     Width = 43
     Height = 25
     Caption = 'PLAY'
-    TabOrder = 20
+    TabOrder = 19
     Visible = False
     OnClick = ButtonPLAYClick
   end
   object Chart6: TChart
-    Left = 868
-    Top = 32
+    Left = 792
+    Top = 29
     Width = 76
     Height = 56
+    Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
     View3D = False
-    TabOrder = 21
+    TabOrder = 20
     DefaultCanvas = 'TGDIPlusCanvas'
+    PrintMargins = (
+      15
+      13
+      15
+      13)
     ColorPaletteIndex = 13
     object Series9: TBarSeries
       BarPen.Visible = False
+      Marks.Frame.Visible = False
+      Marks.Shadow.Visible = False
+      Marks.Transparent = True
+      Marks.Style = smsValue
+      Marks.Arrow.Visible = False
+      Marks.Callout.Arrow.Visible = False
+      Marks.Callout.ArrowHeadSize = 0
+      Marks.Callout.Distance = 5
+      Marks.Callout.Length = 0
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Bar'
@@ -770,7 +815,7 @@ object Form1: TForm1
     Caption = 'zobrazit vyt'#237#382'enost objekt'#367
     Color = clBtnFace
     ParentColor = False
-    TabOrder = 22
+    TabOrder = 21
     Visible = False
     OnClick = CheckBoxVytizenostClick
   end
@@ -784,7 +829,7 @@ object Form1: TForm1
     Color = clBtnFace
     ParentColor = False
     State = cbChecked
-    TabOrder = 23
+    TabOrder = 22
     Visible = False
     OnClick = CheckBoxVytizenostClick
   end
@@ -796,9 +841,23 @@ object Form1: TForm1
     Caption = 'zohlednit rozte'#269' palc'#367' '#345'et'#283'zu'
     Color = clBtnFace
     ParentColor = False
-    TabOrder = 24
+    TabOrder = 23
     Visible = False
     OnClick = CheckBoxPALCEClick
+  end
+  object CheckBoxVymena_barev: TCheckBox
+    Left = 795
+    Top = 7
+    Width = 227
+    Height = 15
+    Caption = 'zohlednit '#269'i'#353't'#283'n'#237' pistole a v'#253'm'#283'nu barev'
+    Color = clBtnFace
+    Ctl3D = False
+    ParentColor = False
+    ParentCtl3D = False
+    TabOrder = 24
+    Visible = False
+    OnClick = CheckBoxVymena_barevClick
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -2152,5 +2211,40 @@ object Form1: TForm1
     OnTimer = Timer_animaceTimer
     Left = 440
     Top = 32
+  end
+  object TeeGDIPlus1: TTeeGDIPlus
+    Active = True
+    AntiAliasText = gpfBest
+    TeePanel = Chart1
+    Left = 504
+    Top = 96
+  end
+  object TeeGDIPlus2: TTeeGDIPlus
+    Active = True
+    AntiAliasText = gpfBest
+    TeePanel = Chart2
+    Left = 632
+    Top = 96
+  end
+  object TeeGDIPlus3: TTeeGDIPlus
+    Active = True
+    AntiAliasText = gpfBest
+    TeePanel = Chart3
+    Left = 600
+    Top = 96
+  end
+  object TeeGDIPlus4: TTeeGDIPlus
+    Active = True
+    AntiAliasText = gpfBest
+    TeePanel = Chart4
+    Left = 568
+    Top = 96
+  end
+  object TeeGDIPlus5: TTeeGDIPlus
+    Active = True
+    AntiAliasText = gpfBest
+    TeePanel = Chart6
+    Left = 536
+    Top = 96
   end
 end
