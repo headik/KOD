@@ -487,7 +487,10 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	Timer_animace->Enabled=false;
 	ButtonPLAY->Visible=true;
 	ButtonPLAY->Caption="PLAY";
+	ComboBoxDOmin->Visible=true;
+	ComboBoxDOmin->Items->Add(d.TP.KZ);//plnění komba max časem
 	//---
+
 	Label_zamerovac->Visible=false;
 	Invalidate();
 }
@@ -2875,4 +2878,13 @@ void __fastcall TForm1::CheckBoxVymena_barevClick(TObject *Sender)
 	Invalidate();
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TForm1::ComboBoxDOminChange(TObject *Sender)
+{
+		//ještě ošetření aby zadal hodnotu od menší nebo rovno hodnotě do
+		d.TP.DO=ms.MyToDouble(ComboBoxDOmin->Text);
+		Invalidate();
+}
+//---------------------------------------------------------------------------
+
 

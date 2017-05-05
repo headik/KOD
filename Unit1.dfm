@@ -47,8 +47,8 @@ object Form1: TForm1
   object Label_zamerovac: TLabel
     Left = 151
     Top = 80
-    Width = 28
-    Height = 26
+    Width = 32
+    Height = 28
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6
@@ -56,10 +56,10 @@ object Form1: TForm1
     Caption = 'voz'#237'k:'#13'min:'
     Color = clWhite
     Font.Charset = EASTEUROPE_CHARSET
-    Font.Color = clWindowText
+    Font.Color = clGray
     Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
     ParentColor = False
     ParentFont = False
     Visible = False
@@ -723,12 +723,14 @@ object Form1: TForm1
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series7: TPieSeries
+      Marks.Font.Color = clWhite
       Marks.Frame.Visible = False
       Marks.Transparent = True
+      Marks.Style = smsValue
       Marks.Arrow.Visible = False
       Marks.Callout.Arrow.Visible = False
       Marks.Callout.ArrowHeadSize = 0
-      Marks.Callout.Distance = 5
+      Marks.Callout.Distance = -35
       Marks.Callout.Length = 0
       XValues.Order = loAscending
       YValues.Name = 'Pie'
@@ -858,6 +860,15 @@ object Form1: TForm1
     TabOrder = 24
     Visible = False
     OnClick = CheckBoxVymena_barevClick
+  end
+  object ComboBoxDOmin: TComboBox
+    Left = 262
+    Top = 87
+    Width = 40
+    Height = 21
+    TabOrder = 25
+    Visible = False
+    OnChange = ComboBoxDOminChange
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -1233,7 +1244,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118001802180210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118001C021C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

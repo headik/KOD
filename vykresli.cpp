@@ -592,6 +592,7 @@ void Cvykresli::zobrazit_label_zamerovac(int X,int Y)
 	unsigned int V=ceil((Y+PosunT.y-KrokY/2-Form1->RzToolbar1->Height)/(KrokY*1.0));//pozn. KrokY/2 kvůli tomu, že střed osy je ve horozintální ose obdelníku
 	if(!mod_vytizenost_objektu && V<=v.VOZIKY->predchozi->n)
 	{
+        Form1->Label_zamerovac->Font->Color=(TColor) RGB(100,100,100);
 				Form1->Label_zamerovac->Left=X+5; Form1->Label_zamerovac->Top=Y+20; //+ odsazení
 				Form1->Label_zamerovac->Caption=" vozík: "+AnsiString(V)+"\n min: "+AnsiString((X+PosunT.x)/PX2MIN)+" ";
 				Form1->Label_zamerovac->Visible=true;

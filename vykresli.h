@@ -22,16 +22,16 @@ class Cvykresli
 	Cvektory v;
 	Cmy m;
 
-  //--promìnné k úèelu filtrace
+	//--promìnné k úèelu filtrace
 	struct TTP
 	{
 		double K;//Krok po kolika minutach se bude zobrazovat
 		double OD;//od které min se proces zaène vypisovat
-		double DO;//do ktere se bue vypisovat
+		double DO;//do ktere se bude vypisovat
 		double KZ;//kosntatní konec zakazky v min
-		unsigned int Nod;//rozmezí Jaký se vypíše vozik,
-		unsigned int Ndo;//rozmezí Jaký se vypíše vozik, pokud bude 0 vypisují se všechny
-		bool A;
+		unsigned int Nod;//rozmezí jaký se vypíše vozik,
+		unsigned int Ndo;//rozmezí jaký se vypíše vozik, pokud bude 0 vypisují se všechny
+		bool A;//animace true nebo false
 	};TTP TP;//nastavení modu technologické procesy
 
 	void vykresli_vektory(TCanvas *canv);
