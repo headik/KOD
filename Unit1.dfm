@@ -663,6 +663,7 @@ object Form1: TForm1
     Top = 29
     Width = 76
     Height = 58
+    Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
     View3D = False
@@ -707,10 +708,10 @@ object Form1: TForm1
     end
   end
   object Chart4: TChart
-    Left = 713
-    Top = 29
-    Width = 76
-    Height = 58
+    Left = 716
+    Top = 32
+    Width = 73
+    Height = 53
     Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
@@ -810,8 +811,8 @@ object Form1: TForm1
     end
   end
   object CheckBoxVytizenost: TCheckBox
-    Left = 487
-    Top = 7
+    Left = 262
+    Top = 156
     Width = 152
     Height = 15
     Caption = 'zobrazit vyt'#237#382'enost objekt'#367
@@ -822,8 +823,8 @@ object Form1: TForm1
     OnClick = CheckBoxVytizenostClick
   end
   object CheckBoxAnimovatSG: TCheckBox
-    Left = 644
-    Top = 7
+    Left = 262
+    Top = 177
     Width = 145
     Height = 16
     Caption = 'animovat i jednokapacitn'#237
@@ -836,10 +837,10 @@ object Form1: TForm1
     OnClick = CheckBoxVytizenostClick
   end
   object CheckBoxPALCE: TCheckBox
-    Left = 322
-    Top = 7
-    Width = 160
-    Height = 15
+    Left = 262
+    Top = 114
+    Width = 163
+    Height = 20
     Caption = 'zohlednit rozte'#269' palc'#367' '#345'et'#283'zu'
     Color = clBtnFace
     ParentColor = False
@@ -848,9 +849,9 @@ object Form1: TForm1
     OnClick = CheckBoxPALCEClick
   end
   object CheckBoxVymena_barev: TCheckBox
-    Left = 795
-    Top = 7
-    Width = 227
+    Left = 262
+    Top = 135
+    Width = 211
     Height = 15
     Caption = 'zohlednit '#269'i'#353't'#283'n'#237' pistole a v'#253'm'#283'nu barev'
     Color = clBtnFace
@@ -862,13 +863,43 @@ object Form1: TForm1
     OnClick = CheckBoxVymena_barevClick
   end
   object ComboBoxDOmin: TComboBox
-    Left = 262
+    Left = 310
     Top = 87
     Width = 40
     Height = 21
     TabOrder = 25
+    Text = 'Do'
     Visible = False
     OnChange = ComboBoxDOminChange
+    Items.Strings = (
+      ''
+      '20'
+      '50'
+      '100'
+      '150'
+      '200')
+  end
+  object ComboBoxODmin: TComboBox
+    Left = 264
+    Top = 87
+    Width = 40
+    Height = 21
+    TabOrder = 26
+    Text = 'Od'
+    Visible = False
+    OnChange = ComboBoxODminChange
+    Items.Strings = (
+      ''
+      '0'
+      '1'
+      '2'
+      '3'
+      '4'
+      '5'
+      '10'
+      '30'
+      '60'
+      '90')
   end
   object MainMenu1: TMainMenu
     Left = 152
@@ -1244,7 +1275,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118001C021C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118001C02200210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

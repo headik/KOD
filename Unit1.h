@@ -172,6 +172,7 @@ __published:	// IDE-managed Components
 	TTeeGDIPlus *TeeGDIPlus4;
 	TTeeGDIPlus *TeeGDIPlus5;
 	TComboBox *ComboBoxDOmin;
+	TComboBox *ComboBoxODmin;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -274,6 +275,7 @@ __published:	// IDE-managed Components
 	void __fastcall CheckBoxVytizenostClick(TObject *Sender);
 	void __fastcall Button13Click(TObject *Sender);
 	void __fastcall CheckBoxVymena_barevClick(TObject *Sender);
+	void __fastcall ComboBoxODminChange(TObject *Sender);
 	void __fastcall ComboBoxDOminChange(TObject *Sender);
 
 

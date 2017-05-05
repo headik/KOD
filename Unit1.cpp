@@ -348,6 +348,8 @@ void __fastcall TForm1::editacelinky1Click(TObject *Sender)
 	CheckBoxPALCE->Visible=false;
 	CheckBoxVymena_barev->Visible=false;
 	Label_zamerovac->Visible=false;
+	ComboBoxODmin->Visible=false;
+	ComboBoxDOmin->Visible=false;
 	g.ShowGrafy(false);
 	Invalidate();
 }
@@ -376,6 +378,8 @@ void __fastcall TForm1::testovnkapacity1Click(TObject *Sender)
 	CheckBoxVymena_barev->Visible=false;
 	ButtonPLAY->Visible=false;
 	Label_zamerovac->Visible=false;
+	ComboBoxODmin->Visible=false;
+	ComboBoxDOmin->Visible=false;
 	g.ShowGrafy(false);
 	Invalidate();
 }
@@ -404,6 +408,8 @@ void __fastcall TForm1::casoverezervy1Click(TObject *Sender)
 	CheckBoxPALCE->Visible=false;
 	CheckBoxVymena_barev->Visible=false;
 	Label_zamerovac->Visible=false;
+	ComboBoxODmin->Visible=false;
+	ComboBoxDOmin->Visible=false;
 	g.ShowGrafy(false);
 	Invalidate();
 }
@@ -440,9 +446,18 @@ void __fastcall TForm1::casovosa1Click(TObject *Sender)
 			Timer_animace->Enabled=false;
 			ButtonPLAY->Visible=false;
 			CheckBoxPALCE->Visible=true;
-			CheckBoxVytizenost->Visible=true;
-			CheckBoxAnimovatSG->Visible=false;
+			CheckBoxPALCE->Left=326;
+			CheckBoxPALCE->Top=5;
 			CheckBoxVymena_barev->Visible=true;
+			CheckBoxVymena_barev->Left=CheckBoxPALCE->Left+170;
+			CheckBoxVymena_barev->Top=CheckBoxPALCE->Top;
+			CheckBoxVytizenost->Visible=true;
+			CheckBoxVytizenost->Left=CheckBoxPALCE->Left+CheckBoxVymena_barev->Left-100;
+			CheckBoxVytizenost->Top=CheckBoxPALCE->Top;
+			CheckBoxAnimovatSG->Visible=false;
+			ComboBoxODmin->Visible=false;
+			ComboBoxDOmin->Visible=false;
+
 			Label_zamerovac->Visible=false;
 			Invalidate();
 		}
@@ -475,6 +490,8 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	CheckBoxPALCE->Visible=false;
 	CheckBoxVytizenost->Visible=false;
 	CheckBoxAnimovatSG->Visible=true;
+	CheckBoxAnimovatSG->Top=CheckBoxPALCE->Top;
+	CheckBoxAnimovatSG->Left=CheckBoxPALCE->Left;
 	CheckBoxVymena_barev->Visible=false;
 	//filtrace
 	d.TP.K=0.5;//Krok po kolika minutach se bude zobrazovat
@@ -487,8 +504,16 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	Timer_animace->Enabled=false;
 	ButtonPLAY->Visible=true;
 	ButtonPLAY->Caption="PLAY";
+	ComboBoxODmin->Top=CheckBoxPALCE->Top;
+	ComboBoxODmin->Left=CheckBoxAnimovatSG->Left+150;
+	ComboBoxODmin->Visible=true;
 	ComboBoxDOmin->Visible=true;
+	ComboBoxDOmin->Top=CheckBoxPALCE->Top;
+	ComboBoxDOmin->Left=ComboBoxODmin->Left+60;
 	ComboBoxDOmin->Items->Add(d.TP.KZ);//plnění komba max časem
+	ButtonPLAY->Top=CheckBoxPALCE->Top;
+	ButtonPLAY->Left=ComboBoxODmin->Width+ComboBoxDOmin->Left+5;
+
 	//---
 
 	Label_zamerovac->Visible=false;
@@ -524,6 +549,8 @@ void __fastcall TForm1::simulace1Click(TObject *Sender)
 	CheckBoxPALCE->Visible=false;
 	CheckBoxVymena_barev->Visible=false;
 	Label_zamerovac->Visible=false;
+	ComboBoxODmin->Visible=false;
+	ComboBoxDOmin->Visible=false;
 	Invalidate();
 }
 //---------------------------------------------------------------------------
@@ -2877,14 +2904,22 @@ void __fastcall TForm1::CheckBoxVymena_barevClick(TObject *Sender)
 {
 	Invalidate();
 }
+
+ //-------------------------------------------------------------
+void __fastcall TForm1::ComboBoxODminChange(TObject *Sender)
+{
+		//ještě ošetření aby zadal hodnotu od menší nebo rovno hodnotě do
+		d.TP.OD=ms.MyToDouble(ComboBoxODmin->Text);
+		Invalidate();
+}
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ComboBoxDOminChange(TObject *Sender)
 {
+
 		//ještě ošetření aby zadal hodnotu od menší nebo rovno hodnotě do
 		d.TP.DO=ms.MyToDouble(ComboBoxDOmin->Text);
 		Invalidate();
 }
 //---------------------------------------------------------------------------
-
 
