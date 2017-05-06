@@ -121,7 +121,6 @@ __published:	// IDE-managed Components
 	TLabel *Label8;
 	TButton *Button_dopravnik_parametry;
 	TButton *Button_vozik_parametry;
-	TButton *Button2;
 	TMenuItem *Obnovitobraz1;
 	TMenuItem *Report1;
 	TMenuItem *csv1;
@@ -142,28 +141,42 @@ __published:	// IDE-managed Components
 	TChart *Chart2;
 	TChart *Chart3;
 	TChart *Chart4;
-	TCheckBox *CheckBoxPALCE;
-	TLabel *Label6;
-	TChart *Chart5;
-	TGanttSeries *Series2;
+	TLabel *wip;
 	TGanttSeries *Series1;
-	TLabel *Label7;
 	TBarSeries *Series3;
-	TBarSeries *Series4;
-	TBarSeries *Series7;
-	TBarSeries *Series8;
 	TBarSeries *Series5;
 	TBarSeries *Series6;
-	TPanel *Panel1;
 	TMenuItem *technologickprocesy1;
 	TMenuItem *Rychlexport1;
 	TMenuItem *Zobrazitparametry1;
-	TButton *Button11;
 	TMenuItem *N2;
 	TMenuItem *Magna;
 	TMenuItem *SPPP1;
 	TMenuItem *Boskovice1;
 	TMenuItem *eXtreme1;
+	TButton *Button2;
+	TTimer *Timer_neaktivity;
+	TButton *ButtonPLAY;
+	TTimer *Timer_animace;
+	TChart *Chart6;
+	TCheckBox *CheckBoxVytizenost;
+	TBarSeries *Series9;
+	TCheckBox *CheckBoxAnimovatSG;
+	TCheckBox *CheckBoxPALCE;
+	TLabel *Label_zamerovac;
+	TCheckBox *CheckBoxVymena_barev;
+	TPieSeries *Series7;
+	TTeeGDIPlus *TeeGDIPlus1;
+	TTeeGDIPlus *TeeGDIPlus2;
+	TTeeGDIPlus *TeeGDIPlus3;
+	TTeeGDIPlus *TeeGDIPlus4;
+	TTeeGDIPlus *TeeGDIPlus5;
+	TComboBox *ComboBoxDOmin;
+<<<<<<< HEAD
+	TMenuItem *antialiasing1;
+=======
+	TComboBox *ComboBoxODmin;
+>>>>>>> 87a40ca55d16f0928c96030b72bedf3031025f7e
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -254,19 +267,26 @@ __published:	// IDE-managed Components
 	void __fastcall technologickprocesy1Click(TObject *Sender);
 	void __fastcall PopupMenu1Popup(TObject *Sender);
 	void __fastcall Zobrazitparametry1Click(TObject *Sender);
-	void __fastcall Button11Click(TObject *Sender);
 	void __fastcall MagnaClick(TObject *Sender);
-<<<<<<< HEAD
 	void __fastcall Rychlexport1Click(TObject *Sender);
-=======
 	void __fastcall SPPP1Click(TObject *Sender);
 	void __fastcall Boskovice1Click(TObject *Sender);
 	void __fastcall eXtreme1Click(TObject *Sender);
->>>>>>> e736c6712d6de14de8549391b3bc457026674ce9
+	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall Timer_neaktivityTimer(TObject *Sender);
+	void __fastcall ButtonPLAYClick(TObject *Sender);
+	void __fastcall Timer_animaceTimer(TObject *Sender);
+	void __fastcall CheckBoxVytizenostClick(TObject *Sender);
+	void __fastcall Button13Click(TObject *Sender);
+	void __fastcall CheckBoxVymena_barevClick(TObject *Sender);
+	void __fastcall ComboBoxODminChange(TObject *Sender);
+	void __fastcall ComboBoxDOminChange(TObject *Sender);
+	void __fastcall antialiasing1Click(TObject *Sender);
 
 
 private:	// User declarations
 	////struktury, výčty
+	enum Tedice{DEVELOPER,BUSINESS,CLIENT,VIEWER,DEMO};Tedice EDICE;
 	enum Tmod{NO=0,EDITACE,TESTOVANI,REZERVY,CASOVAOSA,TECHNOPROCESY,SIMULACE};Tmod MOD;
 	enum Takce{NIC=0,PAN,PAN_MOVE,ZOOM_W,ZOOM_W_MENU,ADD,MOVE};Takce Akce;
 	enum TKurzory {standard=0,posun_v,posun_b,posun_p,posun_l,posun_t,kalibrovat,pan,pan_move,window,add_o};
@@ -278,9 +298,10 @@ private:	// User declarations
 	Cvektory::TProces *proces_pom;
 
 	////metody
+	void edice();
 	void setVisualStyle(TRzVisualStyle VisualStyle=vsClassic);
 	short int MB(UnicodeString text, unsigned short int typ=0,UnicodeString titulek="TISPL - Eltep");//vola rychle messabox
-	void REFRESH();
+	void REFRESH(bool invalidate=true); //vybere buď Invalidate nebo FormPaint(this) dle if(!antialiasing a dle Invalidate=true), tedy když bude zapnutý antialising jde vždy do větve else
 	void ESC();
 	void UP();void DOWN();void RIGHT();void LEFT();void Uloz_predchozi_pohled();//realizují posuny obrazu
 	void ZOOM_IN();//přiblížení
@@ -341,6 +362,9 @@ private:	// User declarations
 	bool stisknuto_storno;
 
 	UnicodeString FileName;
+	UnicodeString Edice_caption;
+
+	short pocitadlo_doby_neaktivity;
 
 
 public:		// User declarations
@@ -355,6 +379,9 @@ public:		// User declarations
 	TPointD Posun;//proměnné uchovávajicí velikost posunu obrazu (pro scrollování atp.), je to ve fyzických souřadnicích zařízení
   bool grid;
 	bool zobrazit_barvy_casovych_rezerv;
+	bool antialiasing;
+	double Zoom_predchozi_AA;//při antialiasingu
+
 	void DuvodUlozit(bool stav);
 	void SB(UnicodeString Text, unsigned short Pane=4);//domnívám se, že zde má být hodnota 5
 	void S(UnicodeString Text="");//Usnadňuje přístup k ShowMessage
