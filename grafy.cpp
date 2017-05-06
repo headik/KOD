@@ -88,6 +88,12 @@ void Cgrafy::nastaveni()
 		Form1->Series7->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
 		Form1->Series9->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
 
+		Form1->Series1->Marks->Font->Color=RGB(100,100,100);
+		Form1->Series3->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
+		//Form1->Series5->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
+		//Form1->Series6->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
+		Form1->Series7->Marks->Font->Color=clWhite;
+		Form1->Series9->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
 
 
 		///////////////////////////
