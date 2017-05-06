@@ -172,6 +172,7 @@ __published:	// IDE-managed Components
 	TTeeGDIPlus *TeeGDIPlus4;
 	TTeeGDIPlus *TeeGDIPlus5;
 	TComboBox *ComboBoxDOmin;
+	TMenuItem *antialiasing1;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -275,6 +276,7 @@ __published:	// IDE-managed Components
 	void __fastcall Button13Click(TObject *Sender);
 	void __fastcall CheckBoxVymena_barevClick(TObject *Sender);
 	void __fastcall ComboBoxDOminChange(TObject *Sender);
+	void __fastcall antialiasing1Click(TObject *Sender);
 
 
 private:	// User declarations
@@ -294,7 +296,7 @@ private:	// User declarations
 	void edice();
 	void setVisualStyle(TRzVisualStyle VisualStyle=vsClassic);
 	short int MB(UnicodeString text, unsigned short int typ=0,UnicodeString titulek="TISPL - Eltep");//vola rychle messabox
-	void REFRESH();
+	void REFRESH(bool invalidate=true); //vybere buď Invalidate nebo FormPaint(this) dle if(!antialiasing a dle Invalidate=true), tedy když bude zapnutý antialising jde vždy do větve else
 	void ESC();
 	void UP();void DOWN();void RIGHT();void LEFT();void Uloz_predchozi_pohled();//realizují posuny obrazu
 	void ZOOM_IN();//přiblížení
@@ -372,6 +374,9 @@ public:		// User declarations
 	TPointD Posun;//proměnné uchovávajicí velikost posunu obrazu (pro scrollování atp.), je to ve fyzických souřadnicích zařízení
   bool grid;
 	bool zobrazit_barvy_casovych_rezerv;
+	bool antialiasing;
+	double Zoom_predchozi_AA;//při antialiasingu
+
 	void DuvodUlozit(bool stav);
 	void SB(UnicodeString Text, unsigned short Pane=4);//domnívám se, že zde má být hodnota 5
 	void S(UnicodeString Text="");//Usnadňuje přístup k ShowMessage

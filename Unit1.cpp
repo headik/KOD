@@ -14,6 +14,7 @@
 #include "dopravniky.h"
 #include "voziky.h"
 #include "uvod.h"
+#include "antialiasing.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -90,6 +91,8 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	Timer_backup->Enabled=true;
 
 	pocitadlo_doby_neaktivity=0;
+
+	antialiasing=false;
 
 	//nastavení implicitního souboru
 	duvod_k_ulozeni=false;
@@ -604,33 +607,62 @@ void TForm1::kurzor(TKurzory typ_kurzor)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormPaint(TObject *Sender)
 {
-	//vynulovaní překreslovací oblasti kvůli REFRESH()resp. FormPaint(this)
-	/*Canvas->Brush->Color=clWhite;Canvas->Brush->Style=bsSolid;
-	Canvas->FillRect(TRect(0,0,ClientWidth,ClientHeight));//chceto spis rastr viz omapeditor a sekm mapový podklad*/
-	//ani toto to nevyřešilo stejně dojde k probliku Canvas->Draw(0,0,R);//podbarví nejdříve bílou plochou z bmp
-
 	//vykreslení gridu
-	if(grid && Zoom>0.5 && MOD!=REZERVY && MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)d.vykresli_grid(Canvas,size_grid);//pokud je velké přiblížení tak nevykreslí
+	if(grid && Zoom>0.5 && !antialiasing && MOD!=REZERVY && MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)d.vykresli_grid(Canvas,size_grid);//pokud je velké přiblížení tak nevykreslí
 
+	//jednoltivé mody
+	Zoom_predchozi_AA=Zoom;//musí být tu, před mody (mohl by být i před kreslením gridu)
 	switch(MOD)
 	{
-		case EDITACE: d.vykresli_vektory(Canvas);break;//vykreslování všech vektorů   ///PROZATIM
+		case EDITACE: ////vykreslování všech vektorů
+		{
+			if(!antialiasing)d.vykresli_vektory(Canvas);
+			else
+			{
+				Cantialising a;
+				if(grid && Zoom_predchozi_AA>0.5)
+				{
+					Graphics::TBitmap *bmp_grid=new Graphics::TBitmap;
+					bmp_grid->Width=ClientWidth;bmp_grid->Height=ClientHeight;
+					d.vykresli_grid(bmp_grid->Canvas,size_grid);//pokud je velké přiblížení tak nevykreslí//vykreslení gridu
+					Canvas->Draw(0,0,bmp_grid);
+					delete (bmp_grid);bmp_grid= NULL;//velice nutné
+					//bmp_in->Canvas->Brush->Color=clWhite;Canvas->Brush->Style=bsSolid;
+					//bmp_in->Canvas->FillRect(TRect(0,0,ClientWidth,ClientHeight));//chceto spis rastr viz omapeditor a sekm mapový podklad*/
+					a.grid=true;
+				}
+				else a.grid=false;
+				Graphics::TBitmap *bmp_in=new Graphics::TBitmap;
+				bmp_in->Width=ClientWidth*3;bmp_in->Height=ClientHeight*3;//velikost canvasu//*3 vyplývá z logiky algoritmu antialiasingu
+				Zoom*=3;//*3 vyplývá z logiky algoritmu antialiasingu
+				d.vykresli_vektory(bmp_in->Canvas);
+				Zoom=Zoom_predchozi_AA;//navrácení zoomu na původní hodnotu
+				Canvas->Draw(0,0,a.antialiasing(bmp_in));
+				delete (bmp_in);bmp_in= NULL;//velice nutné
+			}
+			break;
+		}
 		case TESTOVANI: d.vykresli_vektory(Canvas);break;//vykreslování všech vektorů
 		case REZERVY: d.vykresli_graf_rezervy(Canvas);break;//vykreslení grafu rezerv
-		//	case SIMULACE:d.vykresli_simulaci(Canvas);break; - probíhá pomocí timeru, na tomto to navíc se chovalo divně
-		case CASOVAOSA:d.vykresli_casove_osy(Canvas);d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
-		//testovací režim, kvůli přechodu ze šetřice obrazovky
-		if(pocitadlo_doby_neaktivity==60 || pocitadlo_doby_neaktivity==-1)Invalidate();//ošetření kvůli šetřiči obrazovky
-		if(Label_zamerovac->Visible==false)pocitadlo_doby_neaktivity=0;Timer_neaktivity->Enabled=true;
-		//--
-		break;
+		case CASOVAOSA:
+		{
+			d.vykresli_casove_osy(Canvas);d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
+			//testovací režim, kvůli přechodu ze šetřice obrazovky
+			if(pocitadlo_doby_neaktivity==60 || pocitadlo_doby_neaktivity==-1)Invalidate();//ošetření kvůli šetřiči obrazovky
+			if(Label_zamerovac->Visible==false)pocitadlo_doby_neaktivity=0;Timer_neaktivity->Enabled=true;
+			//--
+			break;
+		}
 		case TECHNOPROCESY:d.vykresli_technologicke_procesy(Canvas); break;
+		//	case SIMULACE:d.vykresli_simulaci(Canvas);break; - probíhá pomocí timeru, na tomto to navíc se chovalo divně
 	}
 }
 //---------------------------------------------------------------------------
-void TForm1::REFRESH()
+//vybere buď Invalidate nebo FormPaint(this) dle if(!antialiasing)
+void TForm1::REFRESH(bool invalidate)
 {
-	FormPaint(this);
+	if(!antialiasing && invalidate)Invalidate();
+	else FormPaint(this);//pokude je zapntutý antialiasing neproblikne, ale jen se "přeplácne" bitmapou nedojde k probliknutí
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -1088,7 +1120,7 @@ void TForm1::ZOOM()
 		//Mouse->CursorPos=TPoint(ClientWidth/2,(ClientHeight-RzStatusBar1->Height)/2); - špatně
 		if(vycentrovat)Mouse->CursorPos=TPoint(m.L2Px(akt_souradnice_kurzoru.x),m.L2Py(akt_souradnice_kurzoru.y)+vyska_menu);
 		vycentrovat=true;
-		Invalidate();
+		REFRESH();//Invalidate();
 		DuvodUlozit(true);
 }
 //---------------------------------------------------------------------------
@@ -1116,7 +1148,7 @@ void TForm1::ZOOM_WINDOW()
 	Posun.y=m.round(-Centr.y/m2px-(ClientHeight)/2/Zoom);
 	SB(Zoom,2);
 
-	Invalidate();
+	REFRESH();
 	//aktualizace_statusbaru(akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
 	//checkZoomMenuItems();//povolení či zakázní zoomu
 	kurzor(standard);
@@ -1129,7 +1161,7 @@ void __fastcall TForm1::Predchozipohled1Click(TObject *Sender)
 	Posun=Posun_predchozi;
 	Predchozipohled1->Enabled=false;
 	RzToolButton12->Enabled=false;
-	Invalidate();
+	REFRESH();
 	DuvodUlozit(true);
 }
 void TForm1::Uloz_predchozi_pohled()
@@ -1149,7 +1181,7 @@ void TForm1::DOWN()//smer dolu
 		{
 			Posun.y-=m.round(Width/(8*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
-			Invalidate();
+			REFRESH();
 		}
 		else
 		{
@@ -1172,7 +1204,7 @@ void TForm1::UP()//smer nahoru
 		{
 			d.PosunT.y+=d.KrokY;
     }
-		Invalidate();
+		REFRESH();
 		DuvodUlozit(true);
 }
 void TForm1::RIGHT()//smer doprava
@@ -1188,7 +1220,7 @@ void TForm1::RIGHT()//smer doprava
 		{
 			d.PosunT.x+=ClientWidth/3;
 		}
-		Invalidate();
+		REFRESH();
 		DuvodUlozit(true);
 }
 void TForm1::LEFT()//smer doleva
@@ -1199,7 +1231,7 @@ void TForm1::LEFT()//smer doleva
 		{
 			Posun.x-=m.round(Width/(8*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
-			Invalidate();
+			REFRESH();
 		}
 		else
 		{
@@ -1234,7 +1266,7 @@ void TForm1::pan_move_map()
 	{
 		Posun.x-=(akt_souradnice_kurzoru_PX.x-vychozi_souradnice_kurzoru.x)/Zoom;
 		Posun.y-=(akt_souradnice_kurzoru_PX.y-vychozi_souradnice_kurzoru.y)/Zoom;
-		Invalidate();
+		REFRESH();
 	}
 	else
 	{
@@ -1335,7 +1367,7 @@ void __fastcall TForm1::RzToolButton11Click(TObject *Sender)
 
   }catch(...){};
 
-	Invalidate();
+	REFRESH();
 	DuvodUlozit(true);
 }
 //---------------------------------------------------------------------------
@@ -2882,9 +2914,15 @@ void __fastcall TForm1::CheckBoxVymena_barevClick(TObject *Sender)
 void __fastcall TForm1::ComboBoxDOminChange(TObject *Sender)
 {
 		//ještě ošetření aby zadal hodnotu od menší nebo rovno hodnotě do
-		d.TP.DO=ms.MyToDouble(ComboBoxDOmin->Text);
+		d.TP.OD=ms.MyToDouble(ComboBoxDOmin->Text);
 		Invalidate();
 }
 //---------------------------------------------------------------------------
-
+//zapne či vypne antialiasing
+void __fastcall TForm1::antialiasing1Click(TObject *Sender)
+{
+	antialiasing=!antialiasing;
+	REFRESH();
+}
+//---------------------------------------------------------------------------
 

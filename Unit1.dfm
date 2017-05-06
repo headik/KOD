@@ -776,10 +776,10 @@ object Form1: TForm1
     OnClick = ButtonPLAYClick
   end
   object Chart6: TChart
-    Left = 792
+    Left = 784
     Top = 29
-    Width = 76
-    Height = 56
+    Width = 84
+    Height = 58
     Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
@@ -862,8 +862,8 @@ object Form1: TForm1
     OnClick = CheckBoxVymena_barevClick
   end
   object ComboBoxDOmin: TComboBox
-    Left = 262
-    Top = 87
+    Left = 525
+    Top = 2
     Width = 40
     Height = 21
     TabOrder = 25
@@ -973,12 +973,14 @@ object Form1: TForm1
       end
       object technologickprocesy1: TMenuItem
         Caption = 'technologick'#233' procesy'
+        Enabled = False
         RadioItem = True
         ShortCut = 122
         OnClick = technologickprocesy1Click
       end
       object simulace1: TMenuItem
         Caption = 'simulace'
+        Enabled = False
         RadioItem = True
         ShortCut = 123
         OnClick = simulace1Click
@@ -1114,6 +1116,7 @@ object Form1: TForm1
       Caption = 'Na&staven'#237
       object Vzhled1: TMenuItem
         Caption = 'V&zhled'
+        Visible = False
         object WinXP1: TMenuItem
           Caption = 'WinXP'
           OnClick = WinXP1Click
@@ -1132,6 +1135,11 @@ object Form1: TForm1
         Caption = 'M'#345#237#382'ka'
         Checked = True
         OnClick = MrizkaClick
+      end
+      object antialiasing1: TMenuItem
+        AutoCheck = True
+        Caption = 'Antialiasing'
+        OnClick = antialiasing1Click
       end
     end
     object Npovda1: TMenuItem
@@ -1244,7 +1252,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118001C021C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118002802280210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2227,35 +2235,35 @@ object Form1: TForm1
     Active = True
     AntiAliasText = gpfBest
     TeePanel = Chart1
-    Left = 504
+    Left = 512
     Top = 96
   end
   object TeeGDIPlus2: TTeeGDIPlus
     Active = True
     AntiAliasText = gpfBest
     TeePanel = Chart2
-    Left = 632
+    Left = 640
     Top = 96
   end
   object TeeGDIPlus3: TTeeGDIPlus
     Active = True
     AntiAliasText = gpfBest
     TeePanel = Chart3
-    Left = 600
+    Left = 608
     Top = 96
   end
   object TeeGDIPlus4: TTeeGDIPlus
     Active = True
     AntiAliasText = gpfBest
     TeePanel = Chart4
-    Left = 568
+    Left = 576
     Top = 96
   end
   object TeeGDIPlus5: TTeeGDIPlus
     Active = True
     AntiAliasText = gpfBest
     TeePanel = Chart6
-    Left = 536
+    Left = 544
     Top = 96
   end
 end
