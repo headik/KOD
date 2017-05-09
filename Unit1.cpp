@@ -92,7 +92,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 	pocitadlo_doby_neaktivity=0;
 
-	antialiasing=false;
+	antialiasing=true;
 
 	//nastavení implicitního souboru
 	duvod_k_ulozeni=false;
@@ -648,22 +648,20 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 			else
 			{
 				Cantialising a;
-				if(grid && Zoom_predchozi_AA>0.5)//pro řešení ohledně gridu
+				Graphics::TBitmap *bmp_grid=new Graphics::TBitmap;
+				bmp_grid->Width=0;bmp_grid->Height=0;
+				if(grid && Zoom_predchozi_AA>0.5)//je-li grid zobrazen
 				{
-					Graphics::TBitmap *bmp_grid=new Graphics::TBitmap;
 					bmp_grid->Width=ClientWidth;bmp_grid->Height=ClientHeight;
 					d.vykresli_grid(bmp_grid->Canvas,size_grid);//pokud je velké přiblížení tak nevykreslí//vykreslení gridu
-					Canvas->Draw(0,0,bmp_grid);
-					delete (bmp_grid);bmp_grid=NULL;//velice nutné
-					a.grid=true;
 				}
-				else a.grid=false;
 				Graphics::TBitmap *bmp_in=new Graphics::TBitmap;
 				bmp_in->Width=ClientWidth*3;bmp_in->Height=ClientHeight*3;//velikost canvasu//*3 vyplývá z logiky algoritmu antialiasingu
 				Zoom*=3;//*3 vyplývá z logiky algoritmu antialiasingu
 				d.vykresli_vektory(bmp_in->Canvas);
 				Zoom=Zoom_predchozi_AA;//navrácení zoomu na původní hodnotu
-				Canvas->Draw(0,0,a.antialiasing(bmp_in));
+				Canvas->Draw(0,0,a.antialiasing(bmp_grid,bmp_in));
+				delete (bmp_grid);bmp_grid=NULL;//velice nutné
 				delete (bmp_in);bmp_in= NULL;//velice nutné
 			}
 			break;
@@ -687,7 +685,7 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 void TForm1::REFRESH(bool invalidate)
 {
 	if(!antialiasing && invalidate)Invalidate();
-	else FormPaint(this);//pokude je zapntutý antialiasing neproblikne, ale jen se "přeplácne" bitmapou nedojde k probliknutí
+	else {FormPaint(this);}//pokude je zapntutý antialiasing neproblikne, ale jen se "přeplácne" bitmapou nedojde k probliknutí
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -1533,21 +1531,22 @@ void __fastcall TForm1::DrawGrid_knihovnaDrawCell(TObject *Sender, int ACol, int
 	int P=-1*DrawGrid_knihovna->TopRow*H;//posun při scrollování, drawgridu nebo při zmenšení okna a scrollování
 
 	unsigned short obdelnik_okrajX=10;unsigned short obdelnik_okrajY=5;unsigned short okraj_packy=obdelnik_okrajY;
-	C->Font->Size=C->Font->Size+4;
+	C->Font->Style = TFontStyles()<< fsBold;
+	if(antialiasing)C->Font->Size=11;else C->Font->Size=10;
+	C->Font->Name="Arial";
+	C->Pen->Width=1;
+	C->Pen->Color=(TColor)RGB(150,150,150);//(TColor)RGB(19,115,169);
+	C->Brush->Color=(TColor)RGB(150,150,150);//(TColor)RGB(19,115,169);
+	C->Font->Color=clWhite;
 	for(unsigned short n=1;n<=pocet_objektu_knihovny;n++)
 	{
 		UnicodeString text=knihovna_objektu[n-1].short_name;
 		//odelník
-		C->Pen->Width=1;
-		C->Pen->Color=clBlack;//(TColor)RGB(19,115,169);
-		//C->Brush->Color=(TColor)RGB(19,115,169);
 		C->Rectangle(((n+1)%2)*W+obdelnik_okrajX,(ceil(n/2.0)-1)*H+obdelnik_okrajY+P,((n+1)%2+1)*W-obdelnik_okrajX,ceil(n/2.0)*H-obdelnik_okrajY+P);
 		//packy
 		C->MoveTo(((n+1)%2)*W+okraj_packy,(ceil(n/2.0)-1)*H+H/2+P);C->LineTo(((n+1)%2)*W+obdelnik_okrajX,(ceil(n/2.0)-1)*H+H/2+P);
 		C->MoveTo(((n+1)%2)*W+W-obdelnik_okrajX,(ceil(n/2.0)-1)*H+H/2+P);C->LineTo(((n+1)%2)*W+W-okraj_packy,(ceil(n/2.0)-1)*H+H/2+P);
 		//písmo
-		//C->Font->Size=C->Font->Size+4;
-		C->Font->Color=clBlack;//clWhite;
 		C->TextOutW((Rect.Right-Rect.Left-C->TextWidth(text))/2+((n+1)%2)*W,(Rect.Bottom-Rect.Top-C->TextHeight(text))/2+(ceil(n/2.0)-1)*H+P,text);
 	}
 
@@ -2959,7 +2958,11 @@ void __fastcall TForm1::ComboBoxDOminChange(TObject *Sender)
 void __fastcall TForm1::antialiasing1Click(TObject *Sender)
 {
 	antialiasing=!antialiasing;
+	DrawGrid_knihovna->Invalidate();
 	REFRESH();
 }
 //---------------------------------------------------------------------------
+
+
+
 

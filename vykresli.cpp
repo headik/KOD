@@ -140,8 +140,10 @@ void Cvykresli::sipka(TCanvas *canv, int X, int Y, float azimut, bool bez_vyplne
 //---------------------------------------------------------------------------
 void Cvykresli::vykresli_rectangle(TCanvas *canv,Cvektory::TObjekt *ukaz)
 {
+    //INFO: Zoom_predchozi_AA je v případě nepoužítí AA totožný jako ZOOM
+
 		//referenčni bod jsem nakonce stanovil pravý konec levé packy
-		TPoint S=m.L2P(ukaz->X,ukaz->Y);//Převede logické souřadnice na fyzické (displej zařízení) , vraci fyzické souřadnice
+		TPoint S=m.L2P(ukaz->X,ukaz->Y);//Převede logické souřadnice na fyzické (displej zařízení), vrací fyzické souřadnice
 
 		unsigned short W=O_width*Form1->Zoom;
 		unsigned short H=O_height*Form1->Zoom;
@@ -153,7 +155,7 @@ void Cvykresli::vykresli_rectangle(TCanvas *canv,Cvektory::TObjekt *ukaz)
 			canv->Rectangle(S.x-O,S.y-O,S.x+W+O,S.y+H+O);
 		}
 
-		//odelník objektu
+		//obdelník objektu
 		canv->Pen->Style=psSolid;
 		canv->Brush->Style=bsSolid;
 		canv->Brush->Color=(TColor)RGB(19,115,169);//(TColor)RGB(254,254,254);//nemuže být čiště bílá pokud je zapnut antialising, tak aby se nezobrazoval skrz objekt grid
@@ -161,10 +163,10 @@ void Cvykresli::vykresli_rectangle(TCanvas *canv,Cvektory::TObjekt *ukaz)
 		canv->Pen->Mode=pmCopy;
 		canv->Font->Name="Arial";
 		//canv->Font->Name="MS Sans Serif";
-		if(Form1->antialiasing)canv->Font->Size=9*3+3;//+3 grafická korekce protože při AA dochází ke zmenšení písma
-		else canv->Font->Size=10;
+		if(Form1->antialiasing && Form1->Akce!=Form1->ADD && Form1->Akce!=Form1->MOVE)canv->Font->Size=9*3+3;//+3 grafická korekce protože při AA dochází ke zmenšení písma
+		else canv->Font->Size=9;
 		rotace_textu(canv,0);
-		canv->Font->Color=clWhite;//clBlack;
+		canv->Font->Color=(TColor)RGB(254,254,254);//clBlack;//nemuže být čiště bílá pokud je zapnut antialising, tak aby se nezobrazoval skrz objekt grid
 		canv->Pen->Width=m.round(2*Form1->Zoom);
 		canv->Rectangle(S.x,S.y,S.x+W,S.y+H);
 
@@ -175,18 +177,24 @@ void Cvykresli::vykresli_rectangle(TCanvas *canv,Cvektory::TObjekt *ukaz)
 		canv->MoveTo(S.x+W,S.y+H/2);canv->LineTo(S.x+W+packy_W,S.y+H/2);*/
 
 		short zAA=1;//zvětšení pro antialising, jinak 1
-		if(Form1->antialiasing)zAA=3;
+		if(Form1->antialiasing && Form1->Akce!=Form1->ADD && Form1->Akce!=Form1->MOVE)zAA=3;
 
 		//text - pro jednotlivé zoomu různé podoby výpisu
 		if(Form1->Zoom_predchozi_AA>1)//nadpis
 		{
 		 canv->Font->Style = TFontStyles()<< fsBold;//zapnutí tučného písma
 		 if(Form1->Zoom_predchozi_AA==1.5)	drawRectText(canv,TRect(S.x,S.y,S.x+W,S.y+H),ukaz->name.UpperCase());//zajistí vykreslení textu vycentrovaného vevnitř objektu/obdelníku
-		 else canv->TextOutW(S.x+5*zAA,S.y+5*zAA,ukaz->name.UpperCase());
+		 else
+		 {
+			canv->Font->Size=canv->Font->Size; //*(Form1->Zoom_predchozi_AA-1) - zatím nepoužito
+			canv->TextOutW(S.x+4*zAA,S.y+2*zAA,ukaz->name.UpperCase());
+		 }
+
 		 canv->Font->Style = TFontStyles();//vypnutí tučného písma
-		 if(Form1->antialiasing)canv->Font->Size=8*3+2;//+3 grafická korekce protože při AA dochází ke zmenšení písma
+		 if(Form1->antialiasing && Form1->Akce!=Form1->ADD && Form1->Akce!=Form1->MOVE)canv->Font->Size=8*3+2;//+3 grafická korekce protože při AA dochází ke zmenšení písma
 		}
-		if(Form1->Zoom_predchozi_AA>1.5)//i datové položky
+
+		if(Form1->Zoom_predchozi_AA>1.5)//vypíší se i datové položky
 		{
 		 UnicodeString T="";
 		 switch(ukaz->rezim)
@@ -195,12 +203,12 @@ void Cvykresli::vykresli_rectangle(TCanvas *canv,Cvektory::TObjekt *ukaz)
 			case 1:T="KONTINUÁLNÍ";break;
 			case 2:T="POSTPROCESNÍ";break;
 		 }
-		 canv->TextOutW(S.x+5*zAA,S.y+18*zAA,T);
-		 if(Form1->antialiasing)canv->TextOutW(S.x+5*zAA,S.y+20*zAA,T);
-		 canv->TextOutW(S.x+5*zAA,S.y+31*zAA,"TT: "+UnicodeString(ukaz->TTo)+" min/v");
-		 canv->TextOutW(S.x+5*zAA,S.y+44*zAA,"CT: "+UnicodeString(ukaz->CT)+" min/v");
-		 canv->TextOutW(S.x+5*zAA,S.y+57*zAA,"Kap.: "+UnicodeString(ukaz->kapacita_objektu)+" v");
+		 canv->TextOutW(S.x+4*zAA,S.y+18*zAA,T);
+		 canv->TextOutW(S.x+4*zAA,S.y+33*zAA,"TT: "+UnicodeString(ukaz->TTo)+" min/v");
+		 canv->TextOutW(S.x+4*zAA,S.y+48*zAA,"CT: "+UnicodeString(ukaz->CT)+" min/v");
+		 canv->TextOutW(S.x+4*zAA,S.y+63*zAA,"Kap.: "+UnicodeString(ukaz->kapacita_objektu)+" v");
 		}
+
 		if(Form1->Zoom_predchozi_AA<=1)//pro největší oddálení zobrazí jenom zkratku objektu
 		{
 			if(Form1->Zoom_predchozi_AA==1)canv->Font->Style = TFontStyles()<< fsBold;else canv->Font->Style = TFontStyles();
@@ -216,11 +224,11 @@ void Cvykresli::drawRectText(TCanvas *canv,TRect Rect,UnicodeString Text)
 //---------------------------------------------------------------------------
 void Cvykresli::vykresli_grid(TCanvas *canv, int size_grid)
 {
-		//if(Form1->Zoom==1.75 || Form1->Zoom==0.75)bacha u těchto hodnot špatné vykreslování asi zaokrouhlouvaním
-		for(int x=m.round((m.round(-1*Form1->Posun.x)%size_grid)*Form1->Zoom);x<=Form1->Width;x+=m.round(size_grid*Form1->Zoom))
-		for(int y=m.round((m.round(-1*Form1->Posun.y)%size_grid)*Form1->Zoom);y<=Form1->Height;y+=m.round(size_grid*Form1->Zoom))
+		//if(Form1->Zoom==1.75 || Form1->Zoom==0.75)bacha u těchto hodnot dochází ke špatnému vykreslování asi zaokrouhlouvaním
+		for(int x=m.round((m.round(-1*Form1->Posun.x)%size_grid)*Form1->Zoom);x<=Form1->ClientWidth;x+=m.round(size_grid*Form1->Zoom))
+		for(int y=m.round((m.round(-1*Form1->Posun.y)%size_grid)*Form1->Zoom);y<=Form1->ClientHeight;y+=m.round(size_grid*Form1->Zoom))
 		{
-			canv->Pixels[x][y]=clGray;
+			canv->Pixels[x][y]=clGray; //při změně barvy nutno provést změnu barevného filtru v podmínce v antialiasingu
 		}
 }
 //---------------------------------------------------------------------------
