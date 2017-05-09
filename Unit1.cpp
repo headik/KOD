@@ -2260,7 +2260,23 @@ void __fastcall TForm1::Export1Click(TObject *Sender)
 			switch(MOD)//uloží obraz dle daného modu zobrazení
 			{
 				case EDITACE: //zaměrně tu není break;
-				case TESTOVANI: d.vykresli_vektory(Bitmap->Canvas);break;//vykreslování všech vektorů
+				case TESTOVANI:
+				if(!antialiasing)d.vykresli_vektory(Bitmap->Canvas);//vykreslování všech vektorů
+				else
+				{
+					Graphics::TBitmap *bmp_grid=new Graphics::TBitmap;
+					bmp_grid->Width=0;bmp_grid->Height=0; //grid zasílám nulovou bitmapu jako parametr, na NULL ač bylo ošetřené tak padalo
+					Graphics::TBitmap *bmp_in=new Graphics::TBitmap;
+					bmp_in->Width=ClientWidth*3;bmp_in->Height=ClientHeight*3;//velikost canvasu//*3 vyplývá z logiky algoritmu antialiasingu
+					Zoom*=3;//*3 vyplývá z logiky algoritmu antialiasingu
+					d.vykresli_vektory(bmp_in->Canvas);
+					Zoom=Zoom_predchozi_AA;//navrácení zoomu na původní hodnotu
+					Cantialising a;
+					Bitmap=a.antialiasing(bmp_grid,bmp_in);
+					delete (bmp_grid);bmp_grid=NULL;//velice nutné
+					delete (bmp_in);bmp_in=NULL;//velice nutné
+				}
+				break;
 				case REZERVY: d.vykresli_graf_rezervy(Bitmap->Canvas);break;//vykreslení grafu rezerv
 				case CASOVAOSA:	nastaveni_grafickeho_vystupu(Bitmap);break;
 			}
