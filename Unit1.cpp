@@ -588,7 +588,7 @@ void __fastcall TForm1::MrizkaClick(TObject *Sender)
 	grid=!grid;
 	if(!grid)SB("mřížka skryta",5);
 	else akutalizace_stavu_prichytavani_vSB();
-	Invalidate();
+	REFRESH();
 }
 //---------------------------------------------------------------------------
 void TForm1::SB(UnicodeString Text, unsigned short Pane)
@@ -845,7 +845,7 @@ void __fastcall TForm1::FormMouseWheelDown(TObject *Sender, TShiftState Shift, T
 		if(Shift.Contains(ssShift))//nutná pojistka
 		{
 			RIGHT();
-			}
+		}
 		break;
 
 		case 3:break;
@@ -1143,7 +1143,7 @@ void TForm1::ZOOM()
 		//Mouse->CursorPos=TPoint(ClientWidth/2,(ClientHeight-RzStatusBar1->Height)/2); - špatně
 		if(vycentrovat)Mouse->CursorPos=TPoint(m.L2Px(akt_souradnice_kurzoru.x),m.L2Py(akt_souradnice_kurzoru.y)+vyska_menu);
 		vycentrovat=true;
-		REFRESH();//Invalidate();
+		REFRESH();
 		DuvodUlozit(true);
 }
 //---------------------------------------------------------------------------
@@ -1202,7 +1202,7 @@ void TForm1::DOWN()//smer dolu
 		Uloz_predchozi_pohled();
 		if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 		{
-			Posun.y-=m.round(Width/(8*Zoom));//o Xtinu obrazu
+			Posun.y-=m.round(Width/(12*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
 			REFRESH();
 		}
@@ -1220,7 +1220,7 @@ void TForm1::UP()//smer nahoru
 		Uloz_predchozi_pohled();
 		if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 		{
-			Posun.y+=m.round(Width/(8*Zoom));//o Xtinu obrazu
+			Posun.y+=m.round(Width/(12*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
 		}
 		else //fixace, aby nebyl možný přechod obrazu do "mínusu"
@@ -1236,7 +1236,7 @@ void TForm1::RIGHT()//smer doprava
 		Uloz_predchozi_pohled();
 		if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 		{
-			Posun.x+=m.round(Width/(8*Zoom));//o Xtinu obrazu
+			Posun.x+=m.round(Width/(12*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
 		}
 		else
@@ -1252,7 +1252,7 @@ void TForm1::LEFT()//smer doleva
 		Uloz_predchozi_pohled();
 		if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 		{
-			Posun.x-=m.round(Width/(8*Zoom));//o Xtinu obrazu
+			Posun.x-=m.round(Width/(12*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
 			REFRESH();
 		}
@@ -1459,7 +1459,7 @@ void TForm1::add_objekt(int X, int Y)
 		//d.vykresli_rectangle(Canvas,souradnice,knihovna_objektu[vybrany_objekt].name,knihovna_objektu[vybrany_objekt].short_name);
 		vybrany_objekt=-1;//odznačí objekt logicky, musí se nový vybrat znovu
 		Akce=NIC;kurzor(standard);
-		Invalidate();
+		REFRESH();
 		DuvodUlozit(true);
 	}
 }
@@ -1512,7 +1512,7 @@ void TForm1::move_objekt(int X, int Y)
 			}
 			akutalizace_stavu_prichytavani_vSB();
 		}
-		pom=NULL;posun_objektu=false;Akce=NIC;kurzor(standard);Invalidate();DuvodUlozit(true);
+		pom=NULL;posun_objektu=false;Akce=NIC;kurzor(standard);REFRESH();DuvodUlozit(true);
 }
 //---------------------------------------------------------------------------
 void TForm1::zneplatnit_minulesouradnice()
@@ -1763,7 +1763,7 @@ void __fastcall TForm1::Smazat1Click(TObject *Sender)
 			d.v.smaz_objekt(pom);//nalezeny můžeme odstranit odstranit
 			d.v.sniz_indexy(pom);
 			pom=NULL;//delete p; nepoužívat delete je to ukazatel na ostra data
-			Invalidate();
+			REFRESH();
 			DuvodUlozit(true);
 		}
 		MyMessageBox->CheckBox_pamatovat->Visible=true;;MyMessageBox->Height=111;
@@ -1830,7 +1830,7 @@ void __fastcall TForm1::Nastvitparametry1Click(TObject *Sender)
 					p->techn_parametry=Form_parametry->ValueListEditor->Strings->GetText();
 
 					DuvodUlozit(true);
-					Invalidate();
+					REFRESH();
 				}
 				catch(...)
 				{
@@ -2029,7 +2029,7 @@ unsigned short int TForm1::OtevritSoubor(UnicodeString soubor)//realizuje samotn
 			MOD=d.v.File_hlavicka.Mod;
 			switch(MOD)
 			{
-					case NO:Invalidate();break; //překreslí obraz pro ostatní případy
+					case NO:REFRESH();break; //překreslí obraz pro ostatní případy
 					case EDITACE: 	editacelinky1Click(this);break;
 					case TESTOVANI:	testovnkapacity1Click(this);break;
 					case REZERVY:		casoverezervy1Click(this);break;
