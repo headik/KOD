@@ -15,11 +15,11 @@ Graphics::TBitmap *Cantialising::antialiasing(Graphics::TBitmap *bmp_in)
 	short Z=3;//*3 vyplývá z logiky algoritmu antialiasingu
 
 	//vstupní bitmapa
-	bmp_in->PixelFormat=pf24bit;//nutné
+	bmp_in->PixelFormat=pf24bit;//nutné!!!
 
 	//výstupní bitmapa
 	Graphics::TBitmap *bmp_out=new Graphics::TBitmap;
-	bmp_out->PixelFormat=pf24bit;//nutné
+	bmp_out->PixelFormat=pf24bit;//nutné!!!
 	bmp_out->Width=bmp_in->Width/Z;bmp_out->Height=bmp_in->Height/Z;
 	if(grid)
 	{

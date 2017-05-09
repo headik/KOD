@@ -641,21 +641,20 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 	Zoom_predchozi_AA=Zoom;//musí být tu, před mody (mohl by být i před kreslením gridu)
 	switch(MOD)
 	{
-		case EDITACE: ////vykreslování všech vektorů
+		case EDITACE: /*záměrně tu není break...*/ ///vykreslování všech vektorů
+		case TESTOVANI: ////vykreslování všech vektorů
 		{
 			if(!antialiasing)d.vykresli_vektory(Canvas);
 			else
 			{
 				Cantialising a;
-				if(grid && Zoom_predchozi_AA>0.5)
+				if(grid && Zoom_predchozi_AA>0.5)//pro řešení ohledně gridu
 				{
 					Graphics::TBitmap *bmp_grid=new Graphics::TBitmap;
 					bmp_grid->Width=ClientWidth;bmp_grid->Height=ClientHeight;
 					d.vykresli_grid(bmp_grid->Canvas,size_grid);//pokud je velké přiblížení tak nevykreslí//vykreslení gridu
 					Canvas->Draw(0,0,bmp_grid);
-					delete (bmp_grid);bmp_grid= NULL;//velice nutné
-					//bmp_in->Canvas->Brush->Color=clWhite;Canvas->Brush->Style=bsSolid;
-					//bmp_in->Canvas->FillRect(TRect(0,0,ClientWidth,ClientHeight));//chceto spis rastr viz omapeditor a sekm mapový podklad*/
+					delete (bmp_grid);bmp_grid=NULL;//velice nutné
 					a.grid=true;
 				}
 				else a.grid=false;
@@ -669,7 +668,6 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 			}
 			break;
 		}
-		case TESTOVANI: d.vykresli_vektory(Canvas);break;//vykreslování všech vektorů
 		case REZERVY: d.vykresli_graf_rezervy(Canvas);break;//vykreslení grafu rezerv
 		case CASOVAOSA:
 		{
@@ -1025,7 +1023,7 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 		{
 			if(MOD!=CASOVAOSA)zneplatnit_minulesouradnice();
 
-			//algoritmus přesunut do metody mousedownclick, zde se to zbytečně volalo při každém posunu myši
+			//algoritmus na ověřování zda se kurzor nachází na objektem (a může být tedy povoleno v pop-up menu zobrazení volby nastavit parametry) přesunut do metody mousedownclick, zde se to zbytečně volalo při každém posunu myši
 			//povoluje smazání či nastavení parametrů objektů, po přejetí myší přes daný objekt
 
 			break;
@@ -1541,12 +1539,15 @@ void __fastcall TForm1::DrawGrid_knihovnaDrawCell(TObject *Sender, int ACol, int
 		UnicodeString text=knihovna_objektu[n-1].short_name;
 		//odelník
 		C->Pen->Width=1;
+		C->Pen->Color=clBlack;//(TColor)RGB(19,115,169);
+		//C->Brush->Color=(TColor)RGB(19,115,169);
 		C->Rectangle(((n+1)%2)*W+obdelnik_okrajX,(ceil(n/2.0)-1)*H+obdelnik_okrajY+P,((n+1)%2+1)*W-obdelnik_okrajX,ceil(n/2.0)*H-obdelnik_okrajY+P);
 		//packy
 		C->MoveTo(((n+1)%2)*W+okraj_packy,(ceil(n/2.0)-1)*H+H/2+P);C->LineTo(((n+1)%2)*W+obdelnik_okrajX,(ceil(n/2.0)-1)*H+H/2+P);
 		C->MoveTo(((n+1)%2)*W+W-obdelnik_okrajX,(ceil(n/2.0)-1)*H+H/2+P);C->LineTo(((n+1)%2)*W+W-okraj_packy,(ceil(n/2.0)-1)*H+H/2+P);
 		//písmo
 		//C->Font->Size=C->Font->Size+4;
+		C->Font->Color=clBlack;//clWhite;
 		C->TextOutW((Rect.Right-Rect.Left-C->TextWidth(text))/2+((n+1)%2)*W,(Rect.Bottom-Rect.Top-C->TextHeight(text))/2+(ceil(n/2.0)-1)*H+P,text);
 	}
 
@@ -2259,7 +2260,7 @@ void __fastcall TForm1::Export1Click(TObject *Sender)
 
 			switch(MOD)//uloží obraz dle daného modu zobrazení
 			{
-				case EDITACE: d.vykresli_vektory(Bitmap->Canvas);break;//vykreslování všech vektorů   ///PROZATIM
+				case EDITACE: //zaměrně tu není break;
 				case TESTOVANI: d.vykresli_vektory(Bitmap->Canvas);break;//vykreslování všech vektorů
 				case REZERVY: d.vykresli_graf_rezervy(Bitmap->Canvas);break;//vykreslení grafu rezerv
 				case CASOVAOSA:	nastaveni_grafickeho_vystupu(Bitmap);break;

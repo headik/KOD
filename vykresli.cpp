@@ -156,15 +156,15 @@ void Cvykresli::vykresli_rectangle(TCanvas *canv,Cvektory::TObjekt *ukaz)
 		//odelník objektu
 		canv->Pen->Style=psSolid;
 		canv->Brush->Style=bsSolid;
-		canv->Brush->Color=(TColor)RGB(254,254,254);//nemuže být čiště bílá pokud je zapnut antialising, tak aby se nezobrazoval skrz objekt grid
-		canv->Pen->Color=clBlack;
+		canv->Brush->Color=(TColor)RGB(19,115,169);//(TColor)RGB(254,254,254);//nemuže být čiště bílá pokud je zapnut antialising, tak aby se nezobrazoval skrz objekt grid
+		canv->Pen->Color=(TColor)RGB(19,115,169);//clBlack;
 		canv->Pen->Mode=pmCopy;
-		//canv->Font->Name="Arial";
-		canv->Font->Name="MS Sans Serif";
-		if(Form1->antialiasing)canv->Font->Size=8*3+3;//+3 grafická korekce protože při AA dochází ke zmenšení písma
-		else canv->Font->Size=8;
+		canv->Font->Name="Arial";
+		//canv->Font->Name="MS Sans Serif";
+		if(Form1->antialiasing)canv->Font->Size=9*3+3;//+3 grafická korekce protože při AA dochází ke zmenšení písma
+		else canv->Font->Size=10;
 		rotace_textu(canv,0);
-		canv->Font->Color=clBlack;
+		canv->Font->Color=clWhite;//clBlack;
 		canv->Pen->Width=m.round(2*Form1->Zoom);
 		canv->Rectangle(S.x,S.y,S.x+W,S.y+H);
 
@@ -596,7 +596,7 @@ void Cvykresli::vykresli_svislici_na_casove_osy(TCanvas *canv,int X,int Y)
 void Cvykresli::zobrazit_label_zamerovac(int X,int Y)
 {
 	unsigned int V=ceil((Y+PosunT.y-KrokY/2-Form1->RzToolbar1->Height)/(KrokY*1.0));//pozn. KrokY/2 kvůli tomu, že střed osy je ve horozintální ose obdelníku
-	if(!mod_vytizenost_objektu && V<=v.VOZIKY->predchozi->n)
+	if(!mod_vytizenost_objektu && 0<V && V<=v.VOZIKY->predchozi->n) //pokud se nejedná o řežim vytíženost objektu a zároveň se jedná o číslo vozík od min do max vozíků
 	{
         Form1->Label_zamerovac->Font->Color=(TColor) RGB(100,100,100);
 				Form1->Label_zamerovac->Left=X+5; Form1->Label_zamerovac->Top=Y+20; //+ odsazení
@@ -986,7 +986,7 @@ void Cvykresli::editacni_okno(TCanvas *canv, TPoint LH, TPoint PD, unsigned shor
 	editacni_okno(canv, LH.x, LH.y, PD.x, PD.y, size, color);
 }
 //---------------------------------------------------------------------------
-//označí nebo odznačí objekt  používá se pro posouvání
+//označí nebo odznačí objekt používá se při posouvání objektů
 void Cvykresli::odznac_oznac_objekt(TCanvas *canv, Cvektory::TObjekt *p, int posunX, int posunY,COLORREF color)
 {
 		//ShowMessage(UnicodeString(p->X)+" "+UnicodeString(p->Y));
@@ -1068,7 +1068,7 @@ void Cvykresli::odznac_oznac_objekt(TCanvas *canv, Cvektory::TObjekt *p, int pos
 		editacni_okno(canv, m.L2Px(p->X)+posunX,m.L2Py(p->Y)+posunY,m.L2Px(p->X)+O_width*Form1->Zoom+posunX,m.L2Py(p->Y)+O_height*Form1->Zoom+posunY,1);
 }
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-//používá se pro přidávání objektu do mezi poslední a první prvek
+//používá se pro přidávání objektu mezi poslední a první prvek
 void Cvykresli::odznac_oznac_objekt_novy_posledni(TCanvas *canv,int X, int Y)
 {
 		if(v.OBJEKTY->predchozi->n>0)//pokud už existuje nějaký prvek
