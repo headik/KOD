@@ -669,7 +669,9 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 		case REZERVY: d.vykresli_graf_rezervy(Canvas);break;//vykreslení grafu rezerv
 		case CASOVAOSA:
 		{
-			d.vykresli_casove_osy(Canvas);d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
+			d.vykresli_casove_osy(Canvas);
+
+			d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
 			//testovací režim, kvůli přechodu ze šetřice obrazovky
 			if(pocitadlo_doby_neaktivity==60 || pocitadlo_doby_neaktivity==-1)Invalidate();//ošetření kvůli šetřiči obrazovky
 			if(Label_zamerovac->Visible==false)pocitadlo_doby_neaktivity=0;Timer_neaktivity->Enabled=true;
