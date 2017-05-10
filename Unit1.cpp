@@ -698,7 +698,13 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 			//--
 			break;
 		}
-		case TECHNOPROCESY:d.vykresli_technologicke_procesy(Canvas); break;
+		case TECHNOPROCESY:	//d.vykresli_technologicke_procesy(Canvas); break; puvodni konstrukce
+
+			Graphics::TBitmap *bmp_in=new Graphics::TBitmap;
+			bmp_in->Width=ClientWidth;bmp_in->Height=ClientHeight;
+			d.vykresli_technologicke_procesy(bmp_in->Canvas);
+			Canvas->Draw(0,0,bmp_in);
+			delete (bmp_in);bmp_in= NULL;//velice nutné
 		//	case SIMULACE:d.vykresli_simulaci(Canvas);break; - probíhá pomocí timeru, na tomto to navíc se chovalo divně
 	}
 }
@@ -2903,7 +2909,7 @@ void __fastcall TForm1::ButtonPLAYClick(TObject *Sender)
 		ButtonPLAY->Caption="STOP";
 		Timer_animace->Interval=40;
 		d.TP.K=0.05;//Krok po kolika minutach se bude zobrazovat
-    d.TP.DO=-d.TP.K;//výchozí čás (záporný interval, kvůli tomu, aby se začínalo od nuly)
+		d.TP.DO=-d.TP.K;//výchozí čás (záporný interval, kvůli tomu, aby se začínalo od nuly)
 		d.TP.Nod=0;//rozmezí Jaký se vypíše vozik,
 		d.TP.Ndo=0;//rozmezí Jaký se vypíše vozik, pokud bude 0 vypisují se všechny
 		d.TP.A=true;//jednořádková animace
@@ -2917,14 +2923,14 @@ void __fastcall TForm1::Timer_animaceTimer(TObject *Sender)
 	d.TP.OD=d.TP.DO;//od které min se proces začne vypisovat
 	if(d.TP.DO<=d.TP.KZ)
 	{
-    Invalidate();
+		REFRESH();
 	}
 	else
 	{
 		Timer_animace->Enabled=false;
 		ButtonPLAY->Caption="PLAY";
 		technologickprocesy1Click(Sender);//vratí statický mod
-  }
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::CheckBoxVytizenostClick(TObject *Sender)

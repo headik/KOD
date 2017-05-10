@@ -814,7 +814,7 @@ object Form1: TForm1
     Left = 262
     Top = 156
     Width = 152
-    Height = 15
+    Height = 20
     Caption = 'zobrazit vyt'#237#382'enost objekt'#367
     Color = clBtnFace
     ParentColor = False
@@ -826,7 +826,7 @@ object Form1: TForm1
     Left = 262
     Top = 177
     Width = 145
-    Height = 16
+    Height = 20
     Caption = 'animovat i jednokapacitn'#237
     Checked = True
     Color = clBtnFace
@@ -852,7 +852,7 @@ object Form1: TForm1
     Left = 262
     Top = 135
     Width = 211
-    Height = 15
+    Height = 20
     Caption = 'zohlednit '#269'i'#353't'#283'n'#237' pistole a v'#253'm'#283'nu barev'
     Color = clBtnFace
     Ctl3D = False
@@ -864,7 +864,7 @@ object Form1: TForm1
   end
   object ComboBoxDOmin: TComboBox
     Left = 310
-    Top = 2
+    Top = 87
     Width = 40
     Height = 21
     TabOrder = 25
