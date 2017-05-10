@@ -2270,8 +2270,7 @@ void __fastcall TForm1::Export1Click(TObject *Sender)
 					d.vykresli_vektory(bmp_in->Canvas);
 					Zoom=Zoom_predchozi_AA;//navrácení zoomu na původní hodnotu
 					Cantialising a;
-					Graphics::TBitmap *bmp_grid=new Graphics::TBitmap;
-					bmp_grid->Width=0;bmp_grid->Height=0; //grid zasílám nulovou bitmapu jako parametr, na NULL ač bylo ošetřené tak padalo
+					Graphics::TBitmap *bmp_grid=new Graphics::TBitmap; //grid zasílám nulovou bitmapu jako parametr, na NULL ač bylo ošetřené tak padalo
 					Bitmap=a.antialiasing(bmp_grid,bmp_in);
 					delete (bmp_grid);bmp_grid=NULL;//velice nutné
 					delete (bmp_in);bmp_in=NULL;//velice nutné
