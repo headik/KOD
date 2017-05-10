@@ -768,7 +768,7 @@ object Form1: TForm1
     Left = 795
     Top = 1
     Width = 43
-    Height = 25
+    Height = 20
     Caption = 'PLAY'
     TabOrder = 19
     Visible = False
@@ -871,11 +871,7 @@ object Form1: TForm1
     OnChange = ComboBoxDOminChange
     Items.Strings = (
       ''
-      '20'
-      '50'
-      '100'
-      '150'
-      '200')
+      '')
   end
   object ComboBoxODmin: TComboBox
     Left = 264
@@ -887,17 +883,7 @@ object Form1: TForm1
     Visible = False
     OnChange = ComboBoxODminChange
     Items.Strings = (
-      ''
-      '0'
-      '1'
-      '2'
-      '3'
-      '4'
-      '5'
-      '10'
-      '30'
-      '60'
-      '90')
+      '')
   end
   object MainMenu1: TMainMenu
     Left = 152

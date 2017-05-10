@@ -710,7 +710,7 @@ AnsiString Cvektory::get_csv_xls(AnsiString S)//S=separator
 			case 1:data+="KONTINUÁLNÍ"+S;break;
 			case 2:data+="POSTPROCESNÍ"+S;break;
 		}
-		data+=UnicodeString(ukaz->TTo)+S+UnicodeString(ukaz->CT)+S+UnicodeString(ukaz->kapacita_objektu);
+		data+=UnicodeString(ukaz->TTo)+S+UnicodeString(ukaz->CT)+S+UnicodeString(ukaz->kapacita_objektu)+S+UnicodeString(ukaz->dop_kapacita_objektu);
 		data+="\n";//odřádkování
 		ukaz=ukaz->dalsi;//posun na další prvek
 	}
@@ -722,7 +722,7 @@ AnsiString Cvektory::get_html()
 		AnsiString data="";
 		data="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"><html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=windows-1250\"><meta name=\"tispl\" content=\"TISPL - Eltep s.r.o\"><title>REPORT z programu TISPL - Eltep</title></head><body>";//hlavička
 		data+="<style>th{color:white;font-family:Arial;background-color:gray;}td{text-align:center;color:gray;font-family:Arial;}table {border-collapse:collapse;border-color:gray;}</style>";
-    //tabulka parametry linky
+		//tabulka parametry linky
 		data+="<table border=\"1\">";//tělo začátek tabulky parametry projektu
 		data+="<tr><th align=\"right\">Předpokládáný celkový výrobní čas [hodin]</th><td>"+UnicodeString(Form1->PP.hodin*Form1->PP.smen*Form1->PP.dni)+"</td></tr>";
 		data+="<tr><th align=\"right\">TAKT TIME linky [min/vozík]</th><td>"+UnicodeString(Form1->PP.TT)+"</td></tr>";
@@ -737,22 +737,22 @@ AnsiString Cvektory::get_html()
 		data+="<hr>";
 		//tělo začátek tabulky data
 		data+="<table border=\"1\" width=\"100%\">";
-		data+="<tr><th>id</th><th>typ</th><th>zkratka</th><th>název</th><th>souřadnice X</th><th>souřadnice Y</th><th>režim</th><th>takt time objektu</th><th>cykle time objektu</th><th>kapacita objektu</th></tr>";//tělo hlavička tabulky
+		data+="<tr><th>id</th><th>typ</th><th>zkratka</th><th>název</th><!--<th>souřadnice X</th><th>souřadnice Y--></th><th>režim</th><th>takt time objektu</th><th>cykle time objektu</th><th>kapacita objektu</th><th>doporučená kapacita objektu</th></tr>";//tělo hlavička tabulky
 		//samotná data
-	 	Cvektory::TObjekt *ukaz;
-	 	ukaz=OBJEKTY->dalsi;//přeskočí hlavičku
-	 	while (ukaz!=NULL)
-	 	{
-			data+="<tr><td>"+UnicodeString(ukaz->n)+"</td><td>"+UnicodeString(ukaz->id)+"</td><td>"+UnicodeString(ukaz->short_name)+"</td><td>"+UnicodeString(ukaz->name)+"</td><td>"+UnicodeString(ukaz->X)+"</td><td>"+UnicodeString(ukaz->Y)+"</td><td>";
-	 		switch(ukaz->rezim)
-	 		{
-	 			case 0:data+="STOP & GO";break;
-	 			case 1:data+="KONTINUÁLNÍ";break;
+		Cvektory::TObjekt *ukaz;
+		ukaz=OBJEKTY->dalsi;//přeskočí hlavičku
+		while (ukaz!=NULL)
+		{
+			data+="<tr><td>"+UnicodeString(ukaz->n)+"</td><td>"+UnicodeString(ukaz->id)+"</td><td>"+UnicodeString(ukaz->short_name)+"</td><td>"+UnicodeString(ukaz->name)+"</td><!--<td>"+UnicodeString(ukaz->X)+"</td><td>"+UnicodeString(ukaz->Y)+"</td>--><td>";
+			switch(ukaz->rezim)
+			{
+				case 0:data+="STOP & GO";break;
+				case 1:data+="KONTINUÁLNÍ";break;
 				case 2:data+="POSTPROCESNÍ";break;
 			}
-			data+="</td><td>"+UnicodeString(ukaz->TTo)+"</td><td>"+UnicodeString(ukaz->CT)+"</td><td>"+UnicodeString(ukaz->kapacita_objektu)+"</td></tr>";//tělo hlavička tabulky
+			data+="</td><td>"+UnicodeString(ukaz->TTo)+"</td><td>"+UnicodeString(ukaz->CT)+"</td><td>"+UnicodeString(ukaz->kapacita_objektu)+"</td><td>"+UnicodeString(ukaz->dop_kapacita_objektu)+"</td></tr>";//tělo hlavička tabulky
 			ukaz=ukaz->dalsi;//posun na další prvek
-	 	}
+		}
 		data+="</table>";//tělo konec tabulky
 		data+="</body></html>";//patička
 		return data;
