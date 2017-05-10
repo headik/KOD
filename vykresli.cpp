@@ -445,21 +445,30 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 							//v.vloz_proces(P);
 
 							//čekání na čištění pistole a výměnu barev včetně čekání
+//							if(Form1->CheckBoxVymena_barev->Checked && (C->objekt->short_name=="P" || C->objekt->short_name=="BB" || C->objekt->short_name=="CC"))
+//							{
+//									short n_cisteni=0;//po kolika vozících
+//									double T_cisteni=0;//s čištění
+//									double T_vymena=0;//min vyměna
+//									if(C->objekt->short_name=="P"){n_cisteni=2;T_cisteni=88/60.0;T_vymena=266/60.0;}
+//									if(C->objekt->short_name=="BB"){n_cisteni=2;T_cisteni=40/60.0;T_vymena=112/60.0;}
+//									if(C->objekt->short_name=="CC"){n_cisteni=2;T_cisteni=88/60.0;T_vymena=266/60.0;}
 							if(Form1->CheckBoxVymena_barev->Checked && C->objekt->short_name=="LAK")
 							{
 									short n_cisteni=2;//po kolika vozících
 									double T_cisteni=50/60.0;//50s čištění
 									double T_vymena=240/60.0;//4 min čištění
+
 									if(n%n_cisteni==0 && n!=0)//čištění, mimo první vozík protože buď je připravená linka (v případě první zakázky nebo je čištění součástí mezizakázkové výměny barev)
 									{
 										vykresli_proces(canv,"Č",m.clIntensive(vozik->barva,-20),4,X-PosunT.x,X+T_cisteni*PX2MIN-PosunT.x,Yloc-PosunT.y,KrokY);
 										X+=T_cisteni*PX2MIN-PosunT.x;
 									}
-									if(n==0 && C->n>1)//výměna barev + čistění, mimo první zakázku, u té předpokládáme připravenost linky
+									/*if(n==0 && C->n>1)//výměna barev + čistění, mimo první zakázku, u té předpokládáme připravenost linky
 									{
 										vykresli_proces(canv,"V+Č",m.clIntensive(vozik->barva,-40),4,X-PosunT.x,X+T_vymena*PX2MIN-PosunT.x,Yloc-PosunT.y,KrokY);
 										X+=T_vymena*PX2MIN-PosunT.x;
-									}
+									}*/
 									X_predchozi=X;//pokud toto zakomentuji prodlouží se CT resp. vykreslí se např. LAK o ten kus delší
 							}
 
@@ -554,7 +563,7 @@ void Cvykresli::vykresli_proces(TCanvas *canv, AnsiString shortname, TColor colo
 			case 1: canv->Brush->Style=bsDiagCross;canv->Pen->Color=color;break;//pro typ: doplněný o konec na čekání na proces totožný předchozí
 			case 2: canv->Brush->Style=bsCross;canv->Pen->Color=color;break;//pro typ: nutná doba přejezdu vozíku
 			case 3: canv->Brush->Style=bsVertical;canv->Pen->Color=color;break;//pro typ: doba čekání na palec
-			case 4: canv->Brush->Style=bsSolid;canv->Pen->Color=clWhite;canv->Pen->Mode=pmMask;//pmNotXor;/*zajistí vykreslení procesu transparentně*/break;//pro typ: obsazenost procesu
+			case 4: canv->Brush->Style=bsSolid;canv->Pen->Color=clWhite;canv->Pen->Mode=pmMask;//pmNotXor;/*zajistí vykreslení procesu transparentně*/break;//pro typ: obsazenost procesu či buffer
 	}
 	canv->Rectangle(X1,Y-KrokY/2,X2+1,Y+KrokY/2);//X2+1 pouze grafická záležitost - zmenšení mezery
 	//následující musí být mimo switch kvůli pořadí vykreslování
@@ -570,7 +579,7 @@ void Cvykresli::vykresli_proces(TCanvas *canv, AnsiString shortname, TColor colo
 			SetBkMode(canv->Handle,OPAQUE);//nastvení netransparentního pozadí
 			//if(color!=clBlack)canv->Font->Color=clBlack;else canv->Font->Color=clWhite;//pokud je výplň obdelníčku černě, tak popisek bude bíle
 			canv->Font->Color=clWhite;
-			canv->Font->Size=8;
+			canv->Font->Size=9;
 			canv->Font->Name="Arial";
 			canv->Font->Style = TFontStyles()<< fsBold;//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
 			canv->TextOutW(((X2+X1)/2)-canv->TextWidth(shortname)/2,Y-canv->TextHeight(shortname)/2,shortname);//vypíše vycentrovaný (polovina nových a starých souřadnic a posun referenčního písma o horizontálně=TextWidth/2 a verticálně=TextHeight/2) popisek shorname t-objektu
@@ -626,7 +635,7 @@ void Cvykresli::vykresli_Xosy(TCanvas *canv)
 	canv->Pen->Color=TColor RGB(200,200,200);   //míchání světlě šedé
 	canv->Brush->Style=bsClear;
 	canv->Font->Color=clGray;
-	canv->Font->Size=7;
+	canv->Font->Size=8;
 	canv->Font->Name="Arial";
 	canv->Font->Style = TFontStyles();
 	canv->Font->Pitch = TFontPitch::fpFixed;//každé písmeno fontu stejně široké
