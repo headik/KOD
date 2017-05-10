@@ -2982,6 +2982,7 @@ void __fastcall TForm1::CheckBoxVymena_barevClick(TObject *Sender)
 void __fastcall TForm1::ComboBoxODminChange(TObject *Sender)
 {
 		//ještě ošetření aby zadal hodnotu od menší nebo rovno hodnotě do
+
 		d.TP.OD=ms.MyToDouble(ComboBoxODmin->Text);
 		Invalidate();
 }
