@@ -445,26 +445,38 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 							//v.vloz_proces(P);
 
 							//čekání na čištění pistole a výměnu barev včetně čekání
-							if(Form1->CheckBoxVymena_barev->Checked && (C->objekt->short_name=="P" || C->objekt->short_name=="BB" || C->objekt->short_name=="CC"))
+							if(Form1->FileName.Pos("magna.tispl") && Form1->CheckBoxVymena_barev->Checked && (C->objekt->short_name=="P" || C->objekt->short_name=="BB" || C->objekt->short_name=="CC"))
 							{
 									short n_cisteni=0;//po kolika vozících
 									double T_cisteni=0;//s čištění
 									double T_vymena=0;//min vyměna
-									if(C->objekt->short_name=="P"){n_cisteni=10;T_cisteni=88/60.0;T_vymena=266/60.0;}
-									if(C->objekt->short_name=="BB"){n_cisteni=10;T_cisteni=40/60.0;T_vymena=112/60.0;}
-									if(C->objekt->short_name=="CC"){n_cisteni=10;T_cisteni=88/60.0;T_vymena=266/60.0;}
-//							if(Form1->CheckBoxVymena_barev->Checked && C->objekt->short_name=="LAK")
-//							{
-//									short n_cisteni=2;//po kolika vozících
-//									double T_cisteni=50/60.0;//50s čištění
-//									double T_vymena=240/60.0;//4 min čištění
+									if(C->objekt->short_name=="P"){n_cisteni=10;T_cisteni=88/60.0;T_vymena=T_cisteni+266/60.0;}
+									if(C->objekt->short_name=="BB"){n_cisteni=10;T_cisteni=40/60.0;T_vymena=T_cisteni+112/60.0;}
+									if(C->objekt->short_name=="CC"){n_cisteni=10;T_cisteni=88/60.0;T_vymena=T_cisteni+266/60.0;}
 
 									if(n%n_cisteni==0 && n!=0)//čištění, mimo první vozík protože buď je připravená linka (v případě první zakázky nebo je čištění součástí mezizakázkové výměny barev)
 									{
 										vykresli_proces(canv,"Č",m.clIntensive(vozik->barva,-20),5,X-PosunT.x,X+T_cisteni*PX2MIN-PosunT.x,Yloc-PosunT.y,KrokY);
 										X+=T_cisteni*PX2MIN;
 									}
-									if(n==0 && C->n>1)//výměna barev + čistění, mimo první zakázku, u té předpokládáme připravenost linky
+									if(n==0 && SC->n>1)//výměna barev + čistění, mimo první zakázku, u té předpokládáme připravenost linky
+									{
+										vykresli_proces(canv,"V+Č",m.clIntensive(vozik->barva,-40),4,X-PosunT.x,X+T_vymena*PX2MIN-PosunT.x,Yloc-PosunT.y,KrokY);
+										X+=T_vymena*PX2MIN;
+									}
+									X_predchozi=X;//pokud toto zakomentuji prodlouží se CT resp. vykreslí se např. LAK o ten kus delší
+							}
+							if(Form1->FileName.Pos("extreme.tispl") && Form1->CheckBoxVymena_barev->Checked && C->objekt->short_name=="LAK")
+							{
+									short n_cisteni=2;//po kolika vozících
+									double T_cisteni=50/60.0;//50s čištění
+									double T_vymena=240/60.0;//4 min čištění
+									if(n%n_cisteni==0 && n!=0)//čištění, mimo první vozík protože buď je připravená linka (v případě první zakázky nebo je čištění součástí mezizakázkové výměny barev)
+									{
+										vykresli_proces(canv,"Č",m.clIntensive(vozik->barva,-20),5,X-PosunT.x,X+T_cisteni*PX2MIN-PosunT.x,Yloc-PosunT.y,KrokY);
+										X+=T_cisteni*PX2MIN;
+									}
+									if(n==0 && SC->n>1)//výměna barev + čistění, mimo první zakázku, u té předpokládáme připravenost linky
 									{
 										vykresli_proces(canv,"V+Č",m.clIntensive(vozik->barva,-40),4,X-PosunT.x,X+T_vymena*PX2MIN-PosunT.x,Yloc-PosunT.y,KrokY);
 										X+=T_vymena*PX2MIN;

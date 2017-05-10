@@ -358,7 +358,6 @@ private:	// User declarations
 	bool duvod_k_ulozeni;
 	bool stisknuto_storno;
 
-	UnicodeString FileName;
 	UnicodeString Edice_caption;
 
 	short pocitadlo_doby_neaktivity;
@@ -372,6 +371,7 @@ public:		// User declarations
 	Cmy m;
 	Cvykresli d;
 	Cgrafy g;
+  UnicodeString FileName;
 	enum Takce{NIC=0,PAN,PAN_MOVE,ZOOM_W,ZOOM_W_MENU,ADD,MOVE};Takce Akce;
 	double Zoom; //proměnná uchovávajicí velikost Zoomu
 	TPointD Posun;//proměnné uchovávajicí velikost posunu obrazu (pro scrollování atp.), je to ve fyzických souřadnicích zařízení

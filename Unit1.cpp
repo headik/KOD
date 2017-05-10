@@ -522,7 +522,7 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	ComboBoxDOmin->Top=CheckBoxPALCE->Top;
 	ComboBoxDOmin->Left=ComboBoxODmin->Left+60;
 	//ComboBoxDOmin->Items->Add(d.TP.KZ);//plnění komba max časem
-	ButtonPLAY->Top=CheckBoxPALCE->Top;
+	ButtonPLAY->Top=CheckBoxPALCE->Top-1;
 	ButtonPLAY->Left=ComboBoxODmin->Width+ComboBoxDOmin->Left+5;
 
 	//---
