@@ -669,8 +669,28 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 		case REZERVY: d.vykresli_graf_rezervy(Canvas);break;//vykreslení grafu rezerv
 		case CASOVAOSA:
 		{
-			d.vykresli_casove_osy(Canvas);
-
+		  /*	if(!antialiasing)d.vykresli_casove_osy(Canvas);
+			else
+			{
+				Cantialising a;
+				Graphics::TBitmap *bmp_grid=new Graphics::TBitmap;
+				Graphics::TBitmap *bmp_in=new Graphics::TBitmap;
+				bmp_in->Width=ClientWidth*3;bmp_in->Height=ClientHeight*3;//velikost canvasu//*3 vyplývá z logiky algoritmu antialiasingu
+				Zoom*=3;//*3 vyplývá z logiky algoritmu antialiasingu
+				d.vykresli_casove_osy(bmp_in->Canvas);
+				Zoom=Zoom_predchozi_AA;//navrácení zoomu na původní hodnotu
+				Canvas->Draw(0,0,a.antialiasing(bmp_grid,bmp_in));
+				delete (bmp_grid);bmp_grid=NULL;//velice nutné
+				delete (bmp_in);bmp_in= NULL;//velice nutné
+			}
+			break;
+			*/
+		   /*	d.vykresli_casove_osy(Canvas);  puvodni konstrukce   */
+			Graphics::TBitmap *bmp_in=new Graphics::TBitmap;
+			bmp_in->Width=ClientWidth;bmp_in->Height=ClientHeight;
+			d.vykresli_casove_osy(bmp_in->Canvas);
+			Canvas->Draw(0,0,bmp_in);
+			delete (bmp_in);bmp_in= NULL;//velice nutné
 			d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
 			//testovací režim, kvůli přechodu ze šetřice obrazovky
 			if(pocitadlo_doby_neaktivity==60 || pocitadlo_doby_neaktivity==-1)Invalidate();//ošetření kvůli šetřiči obrazovky
@@ -1206,14 +1226,14 @@ void TForm1::DOWN()//smer dolu
 		{
 			Posun.y-=m.round(Width/(12*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
-			REFRESH();
 		}
 		else
 		{
 			bool prekreslovat=false;if(d.PosunT.y!=0)prekreslovat=true;
 			if(d.PosunT.y-d.KrokY<0){d.PosunT.y=0;if(prekreslovat)Invalidate();}
-			else {d.PosunT.y-=d.KrokY;Invalidate();}
+			else {d.PosunT.y-=d.KrokY;}
 		}
+		REFRESH();
 		DuvodUlozit(true);
 }
 void TForm1::UP()//smer nahoru
@@ -1228,7 +1248,7 @@ void TForm1::UP()//smer nahoru
 		else //fixace, aby nebyl možný přechod obrazu do "mínusu"
 		{
 			d.PosunT.y+=d.KrokY;
-    }
+		}
 		REFRESH();
 		DuvodUlozit(true);
 }
@@ -1256,14 +1276,14 @@ void TForm1::LEFT()//smer doleva
 		{
 			Posun.x-=m.round(Width/(12*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
-			REFRESH();
 		}
 		else
 		{
 			bool prekreslovat=false;if(d.PosunT.x!=0)prekreslovat=true;
 			if(d.PosunT.x-ClientWidth/3<0){d.PosunT.x=0;if(prekreslovat)Invalidate();}
-			else {d.PosunT.x-=ClientWidth/3;Invalidate();}
+			else {d.PosunT.x-=ClientWidth/3;}
 		}
+		REFRESH();
 		DuvodUlozit(true);
 }
 //---------------------------------------------------------------------------
@@ -1291,7 +1311,6 @@ void TForm1::pan_move_map()
 	{
 		Posun.x-=(akt_souradnice_kurzoru_PX.x-vychozi_souradnice_kurzoru.x)/Zoom;
 		Posun.y-=(akt_souradnice_kurzoru_PX.y-vychozi_souradnice_kurzoru.y)/Zoom;
-		REFRESH();
 	}
 	else
 	{
@@ -1300,9 +1319,8 @@ void TForm1::pan_move_map()
 		else d.PosunT.x-=(akt_souradnice_kurzoru_PX.x-vychozi_souradnice_kurzoru.x);
 		if(d.PosunT.y-(akt_souradnice_kurzoru_PX.y-vychozi_souradnice_kurzoru.y)<0)d.PosunT.y=0;
 		else d.PosunT.y-=(akt_souradnice_kurzoru_PX.y-vychozi_souradnice_kurzoru.y);
-		Invalidate();
 	}
-
+	REFRESH();
 	DuvodUlozit(true);
 }
 //---------------------------------------------------------------------------
