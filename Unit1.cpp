@@ -510,10 +510,18 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	ComboBoxODmin->Top=CheckBoxPALCE->Top;
 	ComboBoxODmin->Left=CheckBoxAnimovatSG->Left+150;
 	ComboBoxODmin->Visible=true;
+
+	double konec_cas=d.v.vrat_nejpozdejsi_konec_zakazek()/10;
+	for (int i = 1; i <= 10; i++) {
+		int val=konec_cas*i;
+		ComboBoxODmin->Items->Add(val);
+		ComboBoxDOmin->Items->Add(val);
+	}
+	//ComboBoxODmin->Items->Add(d.v.vrat_nejpozdejsi_konec_zakazek());
 	ComboBoxDOmin->Visible=true;
 	ComboBoxDOmin->Top=CheckBoxPALCE->Top;
 	ComboBoxDOmin->Left=ComboBoxODmin->Left+60;
-	ComboBoxDOmin->Items->Add(d.TP.KZ);//plnění komba max časem
+	//ComboBoxDOmin->Items->Add(d.TP.KZ);//plnění komba max časem
 	ButtonPLAY->Top=CheckBoxPALCE->Top;
 	ButtonPLAY->Left=ComboBoxODmin->Width+ComboBoxDOmin->Left+5;
 
