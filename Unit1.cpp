@@ -109,11 +109,11 @@ void TForm1::edice()
 	//switch na jednotlivé edice v kterém bude následné povolení či zakázání patřičných ovládacíh prvků
 	switch (EDICE)
 	{
-			case 0: Edice_caption="DEVELOPER";break;
-			case 1: Edice_caption="BUSINESS";break;
-			case 2:	Edice_caption="CLIENT";break;
-			case 3: Edice_caption="VIEWER";break;
-			case 4:  //demo
+			case DEVELOPER: Edice_caption="DEVELOPER";break;
+			case ARCHITECT: Edice_caption="ARCHITECT";break;
+			case CLIENT:		Edice_caption="CLIENT";break;
+			case VIEWER: 		Edice_caption="VIEWER";break;
+			case DEMO:  //demo
 				Edice_caption=" DEMO";
 				NovySoubor->Enabled=false;
 				Otevrit->Enabled=false;
@@ -2264,14 +2264,14 @@ void __fastcall TForm1::Export1Click(TObject *Sender)
 				if(!antialiasing)d.vykresli_vektory(Bitmap->Canvas);//vykreslování všech vektorů
 				else
 				{
-					Graphics::TBitmap *bmp_grid=new Graphics::TBitmap;
-					bmp_grid->Width=0;bmp_grid->Height=0; //grid zasílám nulovou bitmapu jako parametr, na NULL ač bylo ošetřené tak padalo
 					Graphics::TBitmap *bmp_in=new Graphics::TBitmap;
 					bmp_in->Width=ClientWidth*3;bmp_in->Height=ClientHeight*3;//velikost canvasu//*3 vyplývá z logiky algoritmu antialiasingu
 					Zoom*=3;//*3 vyplývá z logiky algoritmu antialiasingu
 					d.vykresli_vektory(bmp_in->Canvas);
 					Zoom=Zoom_predchozi_AA;//navrácení zoomu na původní hodnotu
 					Cantialising a;
+					Graphics::TBitmap *bmp_grid=new Graphics::TBitmap;
+					bmp_grid->Width=0;bmp_grid->Height=0; //grid zasílám nulovou bitmapu jako parametr, na NULL ač bylo ošetřené tak padalo
 					Bitmap=a.antialiasing(bmp_grid,bmp_in);
 					delete (bmp_grid);bmp_grid=NULL;//velice nutné
 					delete (bmp_in);bmp_in=NULL;//velice nutné
