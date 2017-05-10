@@ -30,7 +30,7 @@ void Cgrafy::ShowGrafy(bool stav) {
 void Cgrafy::nastaveni()
 {
 			 //WIP label
-			Form1->wip->Font->Color=RGB(109,121,132);
+			Form1->wip->Font->Color=RGB(100,100,100);
 			Form1->wip->Visible = true;
 			Form1->wip->Font->Size = 20;
 			Form1->wip->Top = Form1->Chart1->Top - 35;
@@ -90,9 +90,11 @@ void Cgrafy::nastaveni()
 
 		Form1->Series1->Marks->Font->Color=RGB(100,100,100);
 		Form1->Series3->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
-		Form1->Series5->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
-		//Form1->Series6->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
+		Form1->Series5->Marks->Font->Color=clWhite;
+		Form1->Series5->Marks->Font->Style= TFontStyles()<< fsBold;
+		Form1->Series6->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
 		Form1->Series7->Marks->Font->Color=clWhite;
+		Form1->Series7->Marks->Font->Style= TFontStyles()<< fsBold;
 		Form1->Series9->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
 
 
