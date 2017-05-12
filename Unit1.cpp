@@ -25,6 +25,7 @@
 #pragma link "RzBorder"
 #pragma link "RzBHints"
 #pragma link "RzGrids"
+#pragma link "RzLabel"
 #pragma resource "*.dfm"
 TForm1 *Form1;
 AnsiString Parametry;
@@ -507,8 +508,13 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	Timer_animace->Enabled=false;
 	ButtonPLAY->Visible=true;
 	ButtonPLAY->Caption="PLAY";
+	LabelRoletka->Visible=true;
+	LabelRoletka->Caption="Filtr minut";
+	LabelRoletka->Font->Color=clBlack;
+	LabelRoletka->Top=40;
+	LabelRoletka->Left=CheckBoxPALCE->Left+CheckBoxPALCE->Width;
 	ComboBoxODmin->Top=CheckBoxPALCE->Top;
-	ComboBoxODmin->Left=CheckBoxAnimovatSG->Left+150;
+	ComboBoxODmin->Left=LabelRoletka->Left+LabelRoletka->Width;
 	ComboBoxODmin->Visible=true;
 
 	double konec_cas=d.v.vrat_nejpozdejsi_konec_zakazek()/10;
@@ -520,7 +526,7 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	//ComboBoxODmin->Items->Add(d.v.vrat_nejpozdejsi_konec_zakazek());
 	ComboBoxDOmin->Visible=true;
 	ComboBoxDOmin->Top=CheckBoxPALCE->Top;
-	ComboBoxDOmin->Left=ComboBoxODmin->Left+60;
+	ComboBoxDOmin->Left=ComboBoxODmin->Left+40;
 	//ComboBoxDOmin->Items->Add(d.TP.KZ);//plnění komba max časem
 	ButtonPLAY->Top=CheckBoxPALCE->Top-1;
 	ButtonPLAY->Left=ComboBoxODmin->Width+ComboBoxDOmin->Left+5;

@@ -31,6 +31,7 @@
 #include <VclTee.TeeGDIPlus.hpp>
 #include <VCLTee.TeEngine.hpp>
 #include <VCLTee.TeeProcs.hpp>
+#include "RzLabel.hpp"
 //#include "vektory.h" //už vkládám přes vykresli.h
 //#include "knihovna_objektu.h" //už vkládám přes vykresli.h resp. vektory.h
 
@@ -174,6 +175,7 @@ __published:	// IDE-managed Components
 	TComboBox *ComboBoxDOmin;
 	TComboBox *ComboBoxODmin;
 	TMenuItem *antialiasing1;
+	TLabel *LabelRoletka;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);

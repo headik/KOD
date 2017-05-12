@@ -64,6 +64,14 @@ object Form1: TForm1
     ParentFont = False
     Visible = False
   end
+  object LabelRoletka: TLabel
+    Left = 261
+    Top = 95
+    Width = 61
+    Height = 13
+    Caption = 'LabelRoletka'
+    Visible = False
+  end
   object RzToolbar1: TRzToolbar
     Left = 0
     Top = 0
@@ -863,7 +871,7 @@ object Form1: TForm1
     OnClick = CheckBoxVymena_barevClick
   end
   object ComboBoxDOmin: TComboBox
-    Left = 310
+    Left = 374
     Top = 87
     Width = 40
     Height = 21
@@ -876,7 +884,7 @@ object Form1: TForm1
       '')
   end
   object ComboBoxODmin: TComboBox
-    Left = 264
+    Left = 328
     Top = 87
     Width = 40
     Height = 21
@@ -1270,7 +1278,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118003802380210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101180038023C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
