@@ -593,7 +593,6 @@ object Form1: TForm1
       'TChart')
     Panning.MouseWheel = pmwNone
     View3D = False
-    ZoomWheel = pmwNormal
     TabOrder = 14
     OnClick = Chart1Click
     DefaultCanvas = 'TGDIPlusCanvas'
@@ -641,6 +640,7 @@ object Form1: TForm1
     Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
+    Panning.MouseWheel = pmwNone
     View3D = False
     TabOrder = 15
     DefaultCanvas = 'TGDIPlusCanvas'
@@ -692,6 +692,7 @@ object Form1: TForm1
     Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
+    Panning.MouseWheel = pmwNone
     View3D = False
     TabOrder = 16
     DefaultCanvas = 'TGDIPlusCanvas'
@@ -741,6 +742,7 @@ object Form1: TForm1
     Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
+    Panning.MouseWheel = pmwNone
     View3D = False
     View3DOptions.Elevation = 315
     View3DOptions.Orthogonal = False
@@ -810,6 +812,7 @@ object Form1: TForm1
     Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
+    Panning.MouseWheel = pmwNone
     View3D = False
     TabOrder = 20
     DefaultCanvas = 'TGDIPlusCanvas'
