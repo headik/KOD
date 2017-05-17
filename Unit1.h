@@ -177,7 +177,6 @@ __published:	// IDE-managed Components
 	TLabel *LabelRoletka;
 	TBarSeries *Series2;
 	TBarSeries *Series3;
-	TLabel *Label6;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);

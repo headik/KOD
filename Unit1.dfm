@@ -64,13 +64,6 @@ object Form1: TForm1
     ParentFont = False
     Visible = False
   end
-  object Label6: TLabel
-    Left = 544
-    Top = 208
-    Width = 89
-    Height = 13
-    Caption = 'Label6'
-  end
   object RzToolbar1: TRzToolbar
     Left = 0
     Top = 0
