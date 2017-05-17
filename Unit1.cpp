@@ -354,6 +354,7 @@ void __fastcall TForm1::editacelinky1Click(TObject *Sender)
 	Label_zamerovac->Visible=false;
 	ComboBoxODmin->Visible=false;
 	ComboBoxDOmin->Visible=false;
+	LabelRoletka->Visible=false;
 	g.ShowGrafy(false);
 	Invalidate();
 }
@@ -384,6 +385,7 @@ void __fastcall TForm1::testovnkapacity1Click(TObject *Sender)
 	Label_zamerovac->Visible=false;
 	ComboBoxODmin->Visible=false;
 	ComboBoxDOmin->Visible=false;
+	LabelRoletka->Visible=false;
 	g.ShowGrafy(false);
 	Invalidate();
 }
@@ -414,6 +416,7 @@ void __fastcall TForm1::casoverezervy1Click(TObject *Sender)
 	Label_zamerovac->Visible=false;
 	ComboBoxODmin->Visible=false;
 	ComboBoxDOmin->Visible=false;
+	LabelRoletka->Visible=false;
 	g.ShowGrafy(false);
 	Invalidate();
 }
@@ -461,6 +464,7 @@ void __fastcall TForm1::casovosa1Click(TObject *Sender)
 			CheckBoxAnimovatSG->Visible=false;
 			ComboBoxODmin->Visible=false;
 			ComboBoxDOmin->Visible=false;
+			LabelRoletka->Visible=false;
 
 			Label_zamerovac->Visible=false;
 			Invalidate();
@@ -495,7 +499,7 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	CheckBoxVytizenost->Visible=false;
 	CheckBoxAnimovatSG->Visible=true;
 	CheckBoxAnimovatSG->Top=CheckBoxPALCE->Top;
-	CheckBoxAnimovatSG->Left=CheckBoxPALCE->Left;
+	CheckBoxAnimovatSG->Left=LabelRoletka->Left+LabelRoletka->Width+ComboBoxODmin->Width+ComboBoxDOmin->Width+5;
 	CheckBoxVymena_barev->Visible=false;
 	//filtrace
 	d.TP.K=0.5;//Krok po kolika minutach se bude zobrazovat
@@ -511,10 +515,10 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	LabelRoletka->Visible=true;
 	LabelRoletka->Caption="Filtr minut";
 	LabelRoletka->Font->Color=clBlack;
-	LabelRoletka->Top=40;
-	LabelRoletka->Left=CheckBoxPALCE->Left+CheckBoxPALCE->Width;
+	LabelRoletka->Top=20; //LABELROLETKA_POZICETOP
+	//LabelRoletka->Left=CheckBoxPALCE->Left+CheckBoxPALCE->Width;
 	ComboBoxODmin->Top=CheckBoxPALCE->Top;
-	ComboBoxODmin->Left=LabelRoletka->Left+LabelRoletka->Width;
+	ComboBoxODmin->Left=LabelRoletka->Left+LabelRoletka->Width+2;
 	ComboBoxODmin->Visible=true;
 
 	double konec_cas=d.v.vrat_nejpozdejsi_konec_zakazek()/10;
@@ -526,10 +530,10 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	//ComboBoxODmin->Items->Add(d.v.vrat_nejpozdejsi_konec_zakazek());
 	ComboBoxDOmin->Visible=true;
 	ComboBoxDOmin->Top=CheckBoxPALCE->Top;
-	ComboBoxDOmin->Left=ComboBoxODmin->Left+40;
+	ComboBoxDOmin->Left=ComboBoxODmin->Left+40+2;
 	//ComboBoxDOmin->Items->Add(d.TP.KZ);//plnění komba max časem
 	ButtonPLAY->Top=CheckBoxPALCE->Top-1;
-	ButtonPLAY->Left=ComboBoxODmin->Width+ComboBoxDOmin->Left+5;
+	ButtonPLAY->Left=CheckBoxAnimovatSG->Left+CheckBoxAnimovatSG->Width+3;
 
 	//---
 

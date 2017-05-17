@@ -64,14 +64,6 @@ object Form1: TForm1
     ParentFont = False
     Visible = False
   end
-  object LabelRoletka: TLabel
-    Left = 261
-    Top = 95
-    Width = 61
-    Height = 13
-    Caption = 'LabelRoletka'
-    Visible = False
-  end
   object RzToolbar1: TRzToolbar
     Left = 0
     Top = 0
@@ -98,7 +90,8 @@ object Form1: TForm1
       RzToolButton9
       RzToolButton10
       RzToolButton11
-      RzToolButton12)
+      RzToolButton12
+      LabelRoletka)
     object RzToolButton1: TRzToolButton
       Left = 4
       Top = 2
@@ -217,6 +210,14 @@ object Form1: TForm1
       ParentShowHint = False
       ShowHint = True
       OnClick = Predchozipohled1Click
+    end
+    object LabelRoletka: TLabel
+      Left = 320
+      Top = 8
+      Width = 61
+      Height = 13
+      Caption = 'LabelRoletka'
+      Visible = False
     end
   end
   object RzStatusBar1: TRzStatusBar
@@ -592,7 +593,6 @@ object Form1: TForm1
       'TChart')
     Panning.MouseWheel = pmwNone
     View3D = False
-    ZoomWheel = pmwNormal
     TabOrder = 14
     OnClick = Chart1Click
     DefaultCanvas = 'TGDIPlusCanvas'
@@ -637,19 +637,37 @@ object Form1: TForm1
     Top = 29
     Width = 76
     Height = 58
+    Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
+    Panning.MouseWheel = pmwNone
     View3D = False
     TabOrder = 15
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
+    object Series2: TBarSeries
+      BarPen.Visible = False
+      Marks.Frame.Visible = False
+      Marks.Transparent = True
+      Marks.Style = smsValue
+      Marks.Arrow.Visible = False
+      Marks.Callout.Arrow.Visible = False
+      Marks.Callout.ArrowHeadSize = 0
+      Marks.Callout.Distance = 5
+      Marks.Callout.Length = 0
+      MultiBar = mbStacked
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
     object Series3: TBarSeries
       BarPen.Visible = False
       Marks.Children = <
         item
           Shape.ShapeStyle = fosRectangle
           Shape.Visible = False
-          Shape.Style = smsXValue
+          Shape.Style = smsValue
         end>
       Marks.Frame.Visible = False
       Marks.Shadow.Visible = False
@@ -658,7 +676,7 @@ object Form1: TForm1
       Marks.Callout.ArrowHeadSize = 0
       Marks.Callout.Distance = 5
       Marks.Callout.Length = 0
-      MultiBar = mbNone
+      MultiBar = mbStacked
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Bar'
@@ -674,6 +692,7 @@ object Form1: TForm1
     Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
+    Panning.MouseWheel = pmwNone
     View3D = False
     TabOrder = 16
     DefaultCanvas = 'TGDIPlusCanvas'
@@ -723,6 +742,7 @@ object Form1: TForm1
     Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
+    Panning.MouseWheel = pmwNone
     View3D = False
     View3DOptions.Elevation = 315
     View3DOptions.Orthogonal = False
@@ -792,6 +812,7 @@ object Form1: TForm1
     Legend.Visible = False
     Title.Text.Strings = (
       'TChart')
+    Panning.MouseWheel = pmwNone
     View3D = False
     TabOrder = 20
     DefaultCanvas = 'TGDIPlusCanvas'

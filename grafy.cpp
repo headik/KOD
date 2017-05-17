@@ -66,7 +66,7 @@ void Cgrafy::nastaveni()
 		Form1->Chart1->BottomAxis->Grid->Visible=false;
 		//Form1->Series2->Marks->Font->Size=5;
 		Form1->Series1->Marks->Arrow->Visible=false;
-
+		Form1->Series2->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
 		Form1->Series3->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
 		Form1->Series5->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
 		Form1->Series6->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
@@ -74,7 +74,7 @@ void Cgrafy::nastaveni()
 		Form1->Series9->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
 
 		Form1->Series1->Marks->BackColor=clWhite;
-
+		Form1->Series2->Marks->BackColor=Form1->Series1->Marks->BackColor;
 		Form1->Series3->Marks->BackColor=Form1->Series1->Marks->BackColor;
 		Form1->Series5->Marks->BackColor=Form1->Series1->Marks->BackColor;
 		Form1->Series6->Marks->BackColor=Form1->Series1->Marks->BackColor;
@@ -82,6 +82,7 @@ void Cgrafy::nastaveni()
 		Form1->Series9->Marks->BackColor=Form1->Series1->Marks->BackColor;
 
 		Form1->Series1->Marks->Font->Size=10;
+		Form1->Series2->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
 		Form1->Series3->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
 		Form1->Series5->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
 		Form1->Series6->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
@@ -89,8 +90,9 @@ void Cgrafy::nastaveni()
 		Form1->Series9->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
 
 		Form1->Series1->Marks->Font->Color=RGB(100,100,100);
+		Form1->Series2->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
 		Form1->Series3->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
-		Form1->Series5->Marks->Font->Color=clWhite;
+		Form1->Series5->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
 		Form1->Series5->Marks->Font->Style= TFontStyles()<< fsBold;
 		Form1->Series6->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
 		Form1->Series7->Marks->Font->Color=clWhite;
@@ -267,6 +269,7 @@ void Cgrafy::graf2() {
 	Form1->Chart2->Width = Form1->ClientWidth / 5 * 1, 5;
 	Form1->Chart2->Height = Form1->ClientHeight / 3 * 1, 5;
 
+	Form1->Series2->Clear();
 	Form1->Series3->Clear();
 	//Form1->Series4->Clear(); // souèet technolog.èasù - celý zakázka výroby
 
@@ -276,10 +279,11 @@ void Cgrafy::graf2() {
 
 	while (ukaz != NULL) {
 
-		Form1->Series3->Add(Form1->d.v.vrat_AVG_TT_zakazky(ukaz), ukaz->n,
-			ukaz->barva);
+			Form1->Series2->Add(Form1->d.v.vrat_AVG_TT_zakazky(ukaz), ukaz->n,ukaz->barva);
 
-
+		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT) {
+				Form1->Series3->Add(Form1->PP.TT, ukaz->n,Form1->m.clIntensive(ukaz->barva,80));
+		 }
 		ukaz = ukaz->dalsi;
 
 	}
@@ -312,6 +316,8 @@ void Cgrafy::graf3() {
 	Form1->Series6->Clear();
 
 
+
+
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
 	while (ukaz != NULL) {
 
@@ -319,6 +325,7 @@ void Cgrafy::graf3() {
 
 			if(Form1->d.v.vrat_AVGsumWT_zakazky(ukaz)>0)
 			{
+			Form1->Series5->Marks->Font->Color=clWhite;
 			Form1->Series6->Add(Form1->d.v.vrat_AVGsumWT_zakazky(ukaz), ukaz->n,Form1->m.clIntensive(ukaz->barva,80));
 			}
 		ukaz = ukaz->dalsi;

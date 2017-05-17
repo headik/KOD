@@ -144,7 +144,6 @@ __published:	// IDE-managed Components
 	TChart *Chart4;
 	TLabel *wip;
 	TGanttSeries *Series1;
-	TBarSeries *Series3;
 	TBarSeries *Series5;
 	TBarSeries *Series6;
 	TMenuItem *technologickprocesy1;
@@ -176,6 +175,8 @@ __published:	// IDE-managed Components
 	TComboBox *ComboBoxODmin;
 	TMenuItem *antialiasing1;
 	TLabel *LabelRoletka;
+	TBarSeries *Series2;
+	TBarSeries *Series3;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
