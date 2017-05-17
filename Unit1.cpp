@@ -674,9 +674,11 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 				Zoom*=3;//*3 vyplývá z logiky algoritmu antialiasingu
 				d.vykresli_vektory(bmp_in->Canvas);
 				Zoom=Zoom_predchozi_AA;//navrácení zoomu na původní hodnotu
-				Canvas->Draw(0,0,a.antialiasing(bmp_grid,bmp_in));
-				delete (bmp_grid);bmp_grid=NULL;//velice nutné
-				delete (bmp_in);bmp_in= NULL;//velice nutné
+				Graphics::TBitmap *bmp_out=a.antialiasing(bmp_grid,bmp_in); //velice nutné do samostatné bmp, kvůli smazání bitmapy vracené AA
+				Canvas->Draw(0,0,bmp_out);
+				delete (bmp_out);//velice nutné
+				delete (bmp_grid);//velice nutné
+				delete (bmp_in);//velice nutné
 			}
 			break;
 		}
@@ -704,7 +706,7 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 			bmp_in->Width=ClientWidth;bmp_in->Height=ClientHeight;
 			d.vykresli_casove_osy(bmp_in->Canvas);
 			Canvas->Draw(0,0,bmp_in);
-			delete (bmp_in);bmp_in= NULL;//velice nutné
+			delete (bmp_in);//velice nutné
 			d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
 			//testovací režim, kvůli přechodu ze šetřice obrazovky
 			if(pocitadlo_doby_neaktivity==60 || pocitadlo_doby_neaktivity==-1)Invalidate();//ošetření kvůli šetřiči obrazovky
@@ -718,8 +720,9 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 			bmp_in->Width=ClientWidth;bmp_in->Height=ClientHeight;
 			d.vykresli_technologicke_procesy(bmp_in->Canvas);
 			Canvas->Draw(0,0,bmp_in);
-			delete (bmp_in);bmp_in= NULL;//velice nutné
-		//	case SIMULACE:d.vykresli_simulaci(Canvas);break; - probíhá pomocí timeru, na tomto to navíc se chovalo divně
+			delete (bmp_in);//velice nutné
+			break;
+		//	case SIMULACE:d.vykresli_simulaci(Canvas);break; - probíhá už pomocí timeru, na tomto to navíc se chovalo divně
 	}
 }
 //---------------------------------------------------------------------------
@@ -923,7 +926,7 @@ void __fastcall TForm1::FormMouseDown(TObject *Sender, TMouseButton Button, TShi
 				{
 					kurzor(pan_move);Akce=PAN_MOVE;//přepne z PAN na PAN_MOVE
 					int W=RzSizePanel_knihovna_objektu->Width;
-					if(MOD==CASOVAOSA)W=0;//zajistí, že se posová i číslování vozíků
+					if(MOD==CASOVAOSA || MOD==TECHNOPROCESY)W=0;//zajistí, že se posová i číslování vozíků resp.celá oblast
 					short H=RzToolbar1->Height;
 					int Gh=vrat_max_vysku_grafu();
 					Pan_bmp->Width=ClientWidth;Pan_bmp->Height=ClientHeight-H-Gh+10;//velikost pan plochy
@@ -2908,7 +2911,7 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 void __fastcall TForm1::Timer_neaktivityTimer(TObject *Sender)
 {
  if(++pocitadlo_doby_neaktivity==60)Timer_neaktivity->Enabled=false;
-
+ MessageBeep(0);
  if(MOD==CASOVAOSA && pocitadlo_doby_neaktivity>=2) d.zobrazit_label_zamerovac(akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
 }
 //---------------------------------------------------------------------------
