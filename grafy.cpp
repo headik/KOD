@@ -239,8 +239,8 @@ void Cgrafy::graf1() {
 	while (ukaz != NULL) {
 		TPointD z = Form1->d.v.vrat_zacatek_a_konec_zakazky(ukaz);
 
-		Form1->Series1->AddGanttColor(z.x, z.y, ukaz->n,
-			AnsiString(z.x) + "-" + AnsiString(z.y) + "", ukaz->barva);
+		Form1->Series1->AddGanttColor((z.x*100)/100, (z.y*100)/100, ukaz->n,
+			AnsiString(Form1->m.round(z.x*100)/100) + "-" + AnsiString(Form1->m.round(z.y*100)/100) + "", ukaz->barva);
 
 		ukaz = ukaz->dalsi;
 	}
