@@ -996,6 +996,7 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 			minule_souradnice_kurzoru=TPoint(X,Y);
 			d.vykresli_svislici_na_casove_osy(Canvas,X,Y);
 			SB(UnicodeString((X+d.PosunT.x)/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
+			if(abs((int)minule_souradnice_kurzoru.y-(int)akt_souradnice_kurzoru_PX.x)>1 && abs((int)minule_souradnice_kurzoru.y-(int)akt_souradnice_kurzoru_PX.x)>1)//pokud je změna větší než jeden pixel, pouze ošetření proti divnému chování myši (možná mi docházela baterka, s myší jsem nehýbal, ale přesto docházele k rušení labelu resp. volání metody FormMouseMove)
 			Label_zamerovac->Visible=false;
 	}
 	else //výpis metrických souřadnic
@@ -2915,7 +2916,6 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 void __fastcall TForm1::Timer_neaktivityTimer(TObject *Sender)
 {
  if(++pocitadlo_doby_neaktivity==60)Timer_neaktivity->Enabled=false;
- MessageBeep(0);
  if(MOD==CASOVAOSA && pocitadlo_doby_neaktivity>=2) d.zobrazit_label_zamerovac(akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
 }
 //---------------------------------------------------------------------------
