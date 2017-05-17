@@ -637,7 +637,7 @@ void Cvykresli::zobrazit_label_zamerovac(int X,int Y)
 				Form1->Label_zamerovac->Color=clWhite;
 				Form1->Label_zamerovac->Font->Color=(TColor) RGB(100,100,100);
 				Form1->Label_zamerovac->Left=X+5; Form1->Label_zamerovac->Top=Y+20; //+ odsazení
-				Form1->Label_zamerovac->Caption=" vozík: "+AnsiString(V)+"\n min: "+AnsiString((X+PosunT.x)/PX2MIN)+" ";
+				Form1->Label_zamerovac->Caption=" vozík: "+AnsiString(V)+" \n min: "+AnsiString((X+PosunT.x)/PX2MIN)+" ";
 				Form1->Label_zamerovac->Visible=true;
 	}
 	else Form1->Label_zamerovac->Visible=false;
