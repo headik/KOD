@@ -448,7 +448,7 @@ void __fastcall TForm1::casovosa1Click(TObject *Sender)
 			PopupMenu1->AutoPopup=true;
 			Button3->Visible=false;
 			Timer_neaktivity->Enabled=true;
-			pocitadlo_doby_neaktivity=-1;//implicitní hodnota
+			pocitadlo_doby_neaktivity=0;//implicitní hodnota
 			technologickprocesy1->Enabled=true;
 			Timer_animace->Enabled=false;
 			ButtonPLAY->Visible=false;
@@ -465,6 +465,7 @@ void __fastcall TForm1::casovosa1Click(TObject *Sender)
 			ComboBoxODmin->Visible=false;
 			ComboBoxDOmin->Visible=false;
 			LabelRoletka->Visible=false;
+			d.PROZATIM=true;
 
 			Label_zamerovac->Visible=false;
 			Invalidate();
@@ -705,17 +706,13 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 			}
 			break;
 			*/
-		   /*	d.vykresli_casove_osy(Canvas);  puvodni konstrukce   */
+				//d.vykresli_casove_osy(Canvas);  //puvodni konstrukce
 			Graphics::TBitmap *bmp_in=new Graphics::TBitmap;
 			bmp_in->Width=ClientWidth;bmp_in->Height=ClientHeight;
 			d.vykresli_casove_osy(bmp_in->Canvas);
 			Canvas->Draw(0,0,bmp_in);
 			delete (bmp_in);//velice nutné
 			d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
-			//testovací režim, kvůli přechodu ze šetřice obrazovky
-			if(pocitadlo_doby_neaktivity==60 || pocitadlo_doby_neaktivity==-1)Invalidate();//ošetření kvůli šetřiči obrazovky
-			if(Label_zamerovac->Visible==false)pocitadlo_doby_neaktivity=0;Timer_neaktivity->Enabled=true;
-			//--
 			break;
 		}
 		case TECHNOPROCESY:	//d.vykresli_technologicke_procesy(Canvas); break; puvodni konstrukce
@@ -996,8 +993,10 @@ void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
 			minule_souradnice_kurzoru=TPoint(X,Y);
 			d.vykresli_svislici_na_casove_osy(Canvas,X,Y);
 			SB(UnicodeString((X+d.PosunT.x)/d.PX2MIN)+" min",6);//výpis času na ose procesů dle kurzoru
-			if(abs((int)minule_souradnice_kurzoru.x-(int)akt_souradnice_kurzoru_PX.x)>1 && abs((int)minule_souradnice_kurzoru.y-(int)akt_souradnice_kurzoru_PX.y)>1)//pokud je změna větší než jeden pixel, pouze ošetření proti divnému chování myši (možná mi docházela baterka, s myší jsem nehýbal, ale přesto docházele k rušení labelu resp. volání metody FormMouseMove)
+			//SB(UnicodeString(minule_souradnice_kurzoru.x)+" "+UnicodeString(akt_souradnice_kurzoru_PX.x));
+			//hazí stejné souřadnice if(abs((int)minule_souradnice_kurzoru.x-(int)akt_souradnice_kurzoru_PX.x)>1 && abs((int)minule_souradnice_kurzoru.y-(int)akt_souradnice_kurzoru_PX.y)>1)//pokud je změna větší než jeden pixel, pouze ošetření proti divnému chování myši (možná mi docházela baterka, s myší jsem nehýbal, ale přesto docházele k rušení labelu resp. volání metody FormMouseMove)
 			Label_zamerovac->Visible=false;
+			pocitadlo_doby_neaktivity=0;Timer_neaktivity->Enabled=true;//monitoruje dobu nečinosti od znovu
 	}
 	else //výpis metrických souřadnic
 	{
@@ -1273,7 +1272,7 @@ void TForm1::UP()//smer nahoru
 			Posun.y+=m.round(Width/(12*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
 		}
-		else //fixace, aby nebyl možný přechod obrazu do "mínusu"
+		else
 		{
 			d.PosunT.y+=d.KrokY;
 		}
@@ -2915,8 +2914,11 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 //skryje v době neaktivity (po 50 sec) svislice na myši v modu časové osy (kvůli spořiči obrazovky)
 void __fastcall TForm1::Timer_neaktivityTimer(TObject *Sender)
 {
- if(++pocitadlo_doby_neaktivity==60)Timer_neaktivity->Enabled=false;
- if(MOD==CASOVAOSA && pocitadlo_doby_neaktivity>=2) d.zobrazit_label_zamerovac(akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
+		if(MOD==CASOVAOSA && ++pocitadlo_doby_neaktivity==2)
+		{
+			Timer_neaktivity->Enabled=false;
+			d.zobrazit_label_zamerovac(akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
+		}
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ButtonPLAYClick(TObject *Sender)

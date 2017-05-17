@@ -405,8 +405,8 @@ long Cvektory::vymaz_seznam_procesu()
 	while (PROCESY!=NULL)
 	{
 		pocet_smazanych_objektu++;
-		PROCESY->predchozi=NULL;
 		delete PROCESY->predchozi;
+		PROCESY->predchozi=NULL;
 		PROCESY=PROCESY->dalsi;
 	};
 

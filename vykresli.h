@@ -17,6 +17,8 @@ class Cvykresli
 	void vytizenost_procesu(TCanvas *canv, Cvektory::TProces *P,double X,int Y);
 	void vykresli_Xosy(TCanvas *canv);//vykreslí statické svislice na èasové osy
 
+
+
 	public:
 	Cvykresli();//konstruktor
 	Cvektory v;
@@ -77,6 +79,7 @@ class Cvykresli
 	TPointD PosunT; //výchozí posunutí obrazu Posunu
 	bool mod_vytizenost_objektu;
 	short NOLIEX;//NO - 0, LINEAR - 1, EXPO - 2
+	bool PROZATIM;//prozatimní øešení aby se zbyteènì a opakovanì neukládalo do PROCESù pokud to není treba
 
 	protected:
 

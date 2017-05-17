@@ -408,7 +408,9 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 	if(!mod_vytizenost_objektu)
 	{
 	v.vymazat_casovou_obsazenost_objektu_a_pozice_voziku(v.OBJEKTY,v.VOZIKY);//vymaže předchozí časovou obsazenost objektů, jinak by se při každém dalším překreslení objekty posovali o obsazenost z předchozího vykreslení
-	v.vymaz_seznam_procesu();v.hlavicka_procesy();//vymaže uložené procesy //uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
+	if(PROZATIM)v.vymaz_seznam_procesu();
+	if(PROZATIM)v.hlavicka_procesy();//vymaže uložené procesy //uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
+
 	//KrokY;//vizuální rozteč na ose Y mezi jednotlivými vozíky  zadáno globálně
 	double X=0;//výchozí odsazení na ose X
 
@@ -496,9 +498,12 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 			}
 			SC=SC->dalsi;//posun na další prvek v seznamu CEST
 			Y=Yloc;
+			delete C;
 	}
+	delete SC;
 	//výpočet hodnot kapacit pro další využítí (grafy, ROMA atd.)
-	v.uloz_doporucene_kapacity_objetku();
+	if(PROZATIM)v.uloz_doporucene_kapacity_objetku();
+	PROZATIM=false;//už se nebude ukladat proces znovu, není třeba
 	//hodnoty pro další grafické použití či nastavení
 	WidthCanvasCasoveOsy=m.round(X);//uchová velikost nejdelší osy, pro použítí pro export canvasu do rastru
 	HeightCanvasCasoveOsy=Y-KrokY/2;//uchová výšku grafu
@@ -555,7 +560,9 @@ double Cvykresli::proces(TCanvas *canv, unsigned int n, double X_predchozi, doub
 	 C->objekt->obsazenost=X;//nahraje koncovou X hodnotu do obsaženosti objektu pro další využítí
 	 vozik->pozice=X;//uložení pro další použítý vozík
 	 P->Tcek=X/PX2MIN; //uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
+	 if(PROZATIM)
 	 v.vloz_proces(P); //uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
+	 else {delete P; P=NULL;}
 
 	 return X;
 }
