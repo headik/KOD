@@ -833,6 +833,21 @@ object Form1: TForm1
       Marks.Callout.ArrowHeadSize = 0
       Marks.Callout.Distance = 5
       Marks.Callout.Length = 0
+      MultiBar = mbStacked
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
+    object Series10: TBarSeries
+      BarPen.Visible = False
+      Marks.Frame.Visible = False
+      Marks.Transparent = True
+      Marks.Style = smsValue
+      Marks.Callout.ArrowHeadSize = 0
+      Marks.Callout.Distance = 5
+      Marks.Callout.Length = 0
+      MultiBar = mbStacked
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Bar'
@@ -1299,7 +1314,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118004402440210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118004402480210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

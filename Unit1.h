@@ -160,7 +160,6 @@ __published:	// IDE-managed Components
 	TTimer *Timer_animace;
 	TChart *Chart6;
 	TCheckBox *CheckBoxVytizenost;
-	TBarSeries *Series9;
 	TCheckBox *CheckBoxAnimovatSG;
 	TCheckBox *CheckBoxPALCE;
 	TLabel *Label_zamerovac;
@@ -177,6 +176,8 @@ __published:	// IDE-managed Components
 	TLabel *LabelRoletka;
 	TBarSeries *Series2;
 	TBarSeries *Series3;
+	TBarSeries *Series9;
+	TBarSeries *Series10;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
