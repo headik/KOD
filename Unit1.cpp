@@ -710,7 +710,7 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 			Graphics::TBitmap *bmp_in=new Graphics::TBitmap;
 			bmp_in->Width=ClientWidth;bmp_in->Height=ClientHeight;
 			d.vykresli_casove_osy(bmp_in->Canvas);
-			Canvas->Draw(0,0,bmp_in);
+			Canvas->Draw(0,RzToolbar1->Height,bmp_in);
 			delete (bmp_in);//velice nutné
 			d.vykresli_svislici_na_casove_osy(Canvas,akt_souradnice_kurzoru_PX.x,akt_souradnice_kurzoru_PX.y);
 			break;
