@@ -31,6 +31,7 @@
 #include <VclTee.TeeGDIPlus.hpp>
 #include <VCLTee.TeEngine.hpp>
 #include <VCLTee.TeeProcs.hpp>
+#include "RzLabel.hpp"
 //#include "vektory.h" //už vkládám přes vykresli.h
 //#include "knihovna_objektu.h" //už vkládám přes vykresli.h resp. vektory.h
 
@@ -143,7 +144,6 @@ __published:	// IDE-managed Components
 	TChart *Chart4;
 	TLabel *wip;
 	TGanttSeries *Series1;
-	TBarSeries *Series3;
 	TBarSeries *Series5;
 	TBarSeries *Series6;
 	TMenuItem *technologickprocesy1;
@@ -160,7 +160,6 @@ __published:	// IDE-managed Components
 	TTimer *Timer_animace;
 	TChart *Chart6;
 	TCheckBox *CheckBoxVytizenost;
-	TBarSeries *Series9;
 	TCheckBox *CheckBoxAnimovatSG;
 	TCheckBox *CheckBoxPALCE;
 	TLabel *Label_zamerovac;
@@ -172,11 +171,17 @@ __published:	// IDE-managed Components
 	TTeeGDIPlus *TeeGDIPlus4;
 	TTeeGDIPlus *TeeGDIPlus5;
 	TComboBox *ComboBoxDOmin;
-<<<<<<< HEAD
-	TMenuItem *antialiasing1;
-=======
 	TComboBox *ComboBoxODmin;
->>>>>>> 87a40ca55d16f0928c96030b72bedf3031025f7e
+	TMenuItem *antialiasing1;
+	TLabel *LabelRoletka;
+	TBarSeries *Series2;
+	TBarSeries *Series3;
+<<<<<<< HEAD
+	TTimer *TimerMouseWheel;
+=======
+	TBarSeries *Series9;
+	TBarSeries *Series10;
+>>>>>>> 65a0dc61fd706252cd6e09a2d083cb77392489c7
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -282,13 +287,14 @@ __published:	// IDE-managed Components
 	void __fastcall ComboBoxODminChange(TObject *Sender);
 	void __fastcall ComboBoxDOminChange(TObject *Sender);
 	void __fastcall antialiasing1Click(TObject *Sender);
+	void __fastcall TimerMouseWheelTimer(TObject *Sender);
 
 
 private:	// User declarations
 	////struktury, výčty
-	enum Tedice{DEVELOPER,BUSINESS,CLIENT,VIEWER,DEMO};Tedice EDICE;
+	enum Tedice{DEVELOPER,ARCHITECT,CLIENT,VIEWER,DEMO};Tedice EDICE;
 	enum Tmod{NO=0,EDITACE,TESTOVANI,REZERVY,CASOVAOSA,TECHNOPROCESY,SIMULACE};Tmod MOD;
-	enum Takce{NIC=0,PAN,PAN_MOVE,ZOOM_W,ZOOM_W_MENU,ADD,MOVE};Takce Akce;
+	//enum Takce{NIC=0,PAN,PAN_MOVE,ZOOM_W,ZOOM_W_MENU,ADD,MOVE};Takce Akce; muselo být přesunutu do public sekce kvůli AA ve vykresli
 	enum TKurzory {standard=0,posun_v,posun_b,posun_p,posun_l,posun_t,kalibrovat,pan,pan_move,window,add_o};
 	struct Tnastaveni{bool autosave;unsigned short int minut;bool posledni_file;};Tnastaveni nastaveni;
 
@@ -350,6 +356,8 @@ private:	// User declarations
 
 	double Zoom_predchozi;
 	TPointD Posun_predchozi;
+	short jedno_ze_tri_otoceni_koleckem_mysi;
+	short doba_neotaceni_mysi;
 	short prichytavat_k_mrizce;
 	bool uchop_zobrazen;
 	bool vycentrovat;
@@ -361,7 +369,6 @@ private:	// User declarations
 	bool duvod_k_ulozeni;
 	bool stisknuto_storno;
 
-	UnicodeString FileName;
 	UnicodeString Edice_caption;
 
 	short pocitadlo_doby_neaktivity;
@@ -375,12 +382,15 @@ public:		// User declarations
 	Cmy m;
 	Cvykresli d;
 	Cgrafy g;
+  UnicodeString FileName;
+	enum Takce{NIC=0,PAN,PAN_MOVE,ZOOM_W,ZOOM_W_MENU,ADD,MOVE};Takce Akce;
 	double Zoom; //proměnná uchovávajicí velikost Zoomu
 	TPointD Posun;//proměnné uchovávajicí velikost posunu obrazu (pro scrollování atp.), je to ve fyzických souřadnicích zařízení
   bool grid;
 	bool zobrazit_barvy_casovych_rezerv;
 	bool antialiasing;
 	double Zoom_predchozi_AA;//při antialiasingu
+
 
 	void DuvodUlozit(bool stav);
 	void SB(UnicodeString Text, unsigned short Pane=4);//domnívám se, že zde má být hodnota 5
