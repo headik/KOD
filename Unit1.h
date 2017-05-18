@@ -177,6 +177,7 @@ __published:	// IDE-managed Components
 	TLabel *LabelRoletka;
 	TBarSeries *Series2;
 	TBarSeries *Series3;
+	TTimer *TimerMouseWheel;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -282,6 +283,7 @@ __published:	// IDE-managed Components
 	void __fastcall ComboBoxODminChange(TObject *Sender);
 	void __fastcall ComboBoxDOminChange(TObject *Sender);
 	void __fastcall antialiasing1Click(TObject *Sender);
+	void __fastcall TimerMouseWheelTimer(TObject *Sender);
 
 
 private:	// User declarations
@@ -350,6 +352,8 @@ private:	// User declarations
 
 	double Zoom_predchozi;
 	TPointD Posun_predchozi;
+	short jedno_ze_tri_otoceni_koleckem_mysi;
+	short doba_neotaceni_mysi;
 	short prichytavat_k_mrizce;
 	bool uchop_zobrazen;
 	bool vycentrovat;

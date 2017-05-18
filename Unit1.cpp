@@ -183,6 +183,9 @@ void __fastcall TForm1::NovySouborClick(TObject *Sender)
     	 Zoom_predchozi=1.0;
 			 Posun.x=-RzSizePanel_parametry_projekt->Width;if(vyska_menu>0)Posun.y=-vyska_menu+9;else Posun.y=-29;
 			 Posun_predchozi.x=Posun.x;Posun_predchozi.y=Posun.y;
+			 jedno_ze_tri_otoceni_koleckem_mysi=1;
+			 doba_neotaceni_mysi=0;
+
 
 			 PP.TT=0;Edit_takt_time->Text=PP.TT;
 			 PP.hodin=8;
@@ -720,7 +723,7 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 			Graphics::TBitmap *bmp_in=new Graphics::TBitmap;
 			bmp_in->Width=ClientWidth;bmp_in->Height=ClientHeight;
 			d.vykresli_technologicke_procesy(bmp_in->Canvas);
-			Canvas->Draw(0,0,bmp_in);
+			Canvas->Draw(0,RzToolbar1->Height,bmp_in);
 			delete (bmp_in);//velice nutné
 			break;
 		//	case SIMULACE:d.vykresli_simulaci(Canvas);break; - probíhá už pomocí timeru, na tomto to navíc se chovalo divně
@@ -839,64 +842,107 @@ void __fastcall TForm1::FormShortCut(TWMKey &Msg, bool &Handled)
 		}*/
 }
 //---------------------------------------------------------------------------
+//zatím nelze používat, protože se metody na odchytávání točení kolečka volají z metod točení kolečka nad knihovnou (RzDrawGrid)
+//void __fastcall TForm1::FormMouseWheel(TObject *Sender, TShiftState Shift, int WheelDelta,
+//					TPoint &MousePos, bool &Handled)
+//{
+//	short int smer_posunu=WheelDelta/abs(WheelDelta);// zjištění směru točení kolečkem myši
+//
+//	if(liche_otoceni_koleckem_mysi)//Velice nutná konstrukce kvůli špatně fungujicí funkci OnMouseWheel, detukuje každé druhou událost FormMouseWheel
+//	{
+//	 liche_otoceni_koleckem_mysi=false;
+//
+//		switch(funkcni_klavesa)//Velice nutná konstrukce kvůli špatně fungujicí funkci OnMouseWheel, detekuje stisk kláves ctrl, shift, ctrl+shift
+//		{
+//			case 1: break;
+//			case 2: break;
+//			case 3: break;
+//			default: if(smer_posunu==1)UP(); else DOWN(); break;//vertikální posun
+//		}
+//		duvod_k_ulozeni=true;
+//	}
+//	else liche_otoceni_koleckem_mysi=true;
+//}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::TimerMouseWheelTimer(TObject *Sender)
+{
+	 if(++doba_neotaceni_mysi=2)
+	 {
+		TimerMouseWheel->Enabled=false;
+		jedno_ze_tri_otoceni_koleckem_mysi=1;
+	 }
+}
+//---------------------------------------------------------------------------
 void __fastcall TForm1::FormMouseWheelUp(TObject *Sender, TShiftState Shift, TPoint &MousePos,
 					bool &Handled)
 {
-	switch(funkcni_klavesa)//Velice nutná konstrukce kvůli špatně fungujicí funkci OnMouseWheel, detekuje stisk kláves ctrl, shift, ctrl+shift
+	if(jedno_ze_tri_otoceni_koleckem_mysi==1)//Velice nutná konstrukce kvůli špatně fungujicí funkci OnMouseWheel, detukuje každé druhou událost FormMouseWheel
 	{
-		case 0://kolečko nahoru = směr nahoru
-		{
-			DOWN();
-		}
-		break;
+			switch(funkcni_klavesa)//Velice nutná konstrukce kvůli špatně fungujicí funkci OnMouseWheel, detekuje stisk kláves ctrl, shift, ctrl+shift
+			{
+				case 0://kolečko nahoru = směr nahoru
+				{
+					DOWN();
+				}
+				break;
 
-		case 1://kolečko nahoru + CTRL = ZOOM IN
-		if(Shift.Contains(ssCtrl))//nutná pojistka
-		{
-			ZOOM_IN();
-		}
-		break;
+				case 1://kolečko nahoru + CTRL = ZOOM IN
+				if(Shift.Contains(ssCtrl))//nutná pojistka
+				{
+					ZOOM_IN();
+				}
+				break;
 
-		case 2://kolečko nahoru + SHIFT = doleva
-    if(Shift.Contains(ssShift))//nutná pojistka
-		{
-			LEFT();
-		}
-		break;
+				case 2://kolečko nahoru + SHIFT = doleva
+				if(Shift.Contains(ssShift))//nutná pojistka
+				{
+					LEFT();
+				}
+				break;
 
-		case 3:break;
-		default:break;
+				case 3:break;
+				default:break;
+			}
 	}
+	jedno_ze_tri_otoceni_koleckem_mysi++;
+	if(jedno_ze_tri_otoceni_koleckem_mysi>4)jedno_ze_tri_otoceni_koleckem_mysi=1;
+	doba_neotaceni_mysi=0;TimerMouseWheel->Enabled=true;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormMouseWheelDown(TObject *Sender, TShiftState Shift, TPoint &MousePos,
 					bool &Handled)
 {
-	switch(funkcni_klavesa)//Velice nutná konstrukce kvůli špatně fungujicí funkci OnMouseWheel, detekuje stisk kláves ctrl, shift, ctrl+shift
+	if(jedno_ze_tri_otoceni_koleckem_mysi==1)//Velice nutná konstrukce kvůli špatně fungujicí funkci OnMouseWheel, detukuje každé druhou událost FormMouseWheel
 	{
-		case 0://kolečko dolu = směr dolu
-		{
-			UP();
-		}
-		break;
+			switch(funkcni_klavesa)//Velice nutná konstrukce kvůli špatně fungujicí funkci OnMouseWheel, detekuje stisk kláves ctrl, shift, ctrl+shift
+			{
+				case 0://kolečko dolu = směr dolu
+				{
+					UP();
+				}
+				break;
 
-		case 1://kolečko dolu + CTRL = ZOOM OUT      //jenom pokud je dokončeno stahování
-		if(Shift.Contains(ssCtrl))//nutná pojistka
-		{
-		 ZOOM_OUT();
-		}
-		break;
+				case 1://kolečko dolu + CTRL = ZOOM OUT      //jenom pokud je dokončeno stahování
+				if(Shift.Contains(ssCtrl))//nutná pojistka
+				{
+				 ZOOM_OUT();
+				}
+				break;
 
-		case 2://kolečko dolu + SHIFT = doprava
-		if(Shift.Contains(ssShift))//nutná pojistka
-		{
-			RIGHT();
-		}
-		break;
+				case 2://kolečko dolu + SHIFT = doprava
+				if(Shift.Contains(ssShift))//nutná pojistka
+				{
+					RIGHT();
+				}
+				break;
 
-		case 3:break;
-		default:break;
+				case 3:break;
+				default:break;
+			}
 	}
+	jedno_ze_tri_otoceni_koleckem_mysi++;
+	if(jedno_ze_tri_otoceni_koleckem_mysi>4)jedno_ze_tri_otoceni_koleckem_mysi=1;
+	doba_neotaceni_mysi=0;TimerMouseWheel->Enabled=true;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
@@ -1251,7 +1297,7 @@ void TForm1::DOWN()//smer dolu
 		Uloz_predchozi_pohled();
 		if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 		{
-			Posun.y-=m.round(Width/(12*Zoom));//o Xtinu obrazu
+			Posun.y-=m.round(ClientWidth/(20*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
 		}
 		else
@@ -1269,7 +1315,7 @@ void TForm1::UP()//smer nahoru
 		Uloz_predchozi_pohled();
 		if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 		{
-			Posun.y+=m.round(Width/(12*Zoom));//o Xtinu obrazu
+			Posun.y+=m.round(ClientWidth/(20*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
 		}
 		else
@@ -1285,7 +1331,7 @@ void TForm1::RIGHT()//smer doprava
 		Uloz_predchozi_pohled();
 		if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 		{
-			Posun.x+=m.round(Width/(12*Zoom));//o Xtinu obrazu
+			Posun.x+=m.round(ClientWidth/(20*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
 		}
 		else
@@ -1301,7 +1347,7 @@ void TForm1::LEFT()//smer doleva
 		Uloz_predchozi_pohled();
 		if(MOD!=CASOVAOSA && MOD!=TECHNOPROCESY)
 		{
-			Posun.x-=m.round(Width/(12*Zoom));//o Xtinu obrazu
+			Posun.x-=m.round(ClientWidth/(20*Zoom));//o Xtinu obrazu
 			zneplatnit_minulesouradnice();
 		}
 		else
@@ -3027,7 +3073,5 @@ void __fastcall TForm1::antialiasing1Click(TObject *Sender)
 	REFRESH();
 }
 //---------------------------------------------------------------------------
-
-
 
 

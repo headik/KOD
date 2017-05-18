@@ -1026,7 +1026,6 @@ object Form1: TForm1
       end
       object simulace1: TMenuItem
         Caption = 'simulace'
-        Enabled = False
         RadioItem = True
         ShortCut = 123
         OnClick = simulace1Click
@@ -1299,7 +1298,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118004402440210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118004C024C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2312,5 +2311,11 @@ object Form1: TForm1
     TeePanel = Chart6
     Left = 536
     Top = 96
+  end
+  object TimerMouseWheel: TTimer
+    Interval = 250
+    OnTimer = TimerMouseWheelTimer
+    Left = 472
+    Top = 32
   end
 end
