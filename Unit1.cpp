@@ -349,6 +349,7 @@ void __fastcall TForm1::editacelinky1Click(TObject *Sender)
 	Timer_neaktivity->Enabled=false;
 	CheckBoxVytizenost->Visible=false;
 	CheckBoxAnimovatSG->Visible=false;
+
 	CheckBoxPALCE->Visible=false;
 	CheckBoxVymena_barev->Visible=false;
 	Label_zamerovac->Visible=false;

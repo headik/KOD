@@ -502,7 +502,6 @@ object Form1: TForm1
     Lines.Strings = (
       '')
     TabOrder = 5
-    Visible = False
   end
   object Button3: TButton
     Left = 160

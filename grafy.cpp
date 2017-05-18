@@ -289,6 +289,11 @@ void Cgrafy::graf2() {
 		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT) {
 				Form1->Series3->Add(Form1->PP.TT, ukaz->n,Form1->m.clIntensive(ukaz->barva,80));
 		 }
+
+		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT) {
+
+			Form1->Memo1->Lines->Add(AnsiString("Chyba - Uskuteènitelný TT: ") + Form1->d.v.vrat_AVG_TT_zakazky(ukaz) + AnsiString(". Požadovaný TT: ") + Form1->PP.TT + AnsiString(" . Zakázka èíslo") + ukaz->n);
+		 }
 		ukaz = ukaz->dalsi;
 
 	}
