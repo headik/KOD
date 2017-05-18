@@ -72,6 +72,7 @@ void Cgrafy::nastaveni()
 		Form1->Series6->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
 		Form1->Series7->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
 		Form1->Series9->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
+		Form1->Series10->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
 
 		Form1->Series1->Marks->BackColor=clWhite;
 		Form1->Series2->Marks->BackColor=Form1->Series1->Marks->BackColor;
@@ -80,6 +81,8 @@ void Cgrafy::nastaveni()
 		Form1->Series6->Marks->BackColor=Form1->Series1->Marks->BackColor;
 		Form1->Series7->Marks->BackColor=Form1->Series1->Marks->BackColor;
 		Form1->Series9->Marks->BackColor=Form1->Series1->Marks->BackColor;
+		Form1->Series10->Marks->BackColor=Form1->Series1->Marks->BackColor;
+
 
 		Form1->Series1->Marks->Font->Size=10;
 		Form1->Series2->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
@@ -88,6 +91,7 @@ void Cgrafy::nastaveni()
 		Form1->Series6->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
 		Form1->Series7->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
 		Form1->Series9->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
+		Form1->Series10->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
 
 		Form1->Series1->Marks->Font->Color=RGB(100,100,100);
 		Form1->Series2->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
@@ -98,6 +102,7 @@ void Cgrafy::nastaveni()
 		Form1->Series7->Marks->Font->Color=clWhite;
 		Form1->Series7->Marks->Font->Style= TFontStyles()<< fsBold;
 		Form1->Series9->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
+		Form1->Series10->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
 
 
 		///////////////////////////
@@ -284,6 +289,11 @@ void Cgrafy::graf2() {
 		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT) {
 				Form1->Series3->Add(Form1->PP.TT, ukaz->n,Form1->m.clIntensive(ukaz->barva,80));
 		 }
+
+		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT) {
+
+			Form1->Memo1->Lines->Add(AnsiString("Chyba - Uskuteènitelný TT: ") + Form1->d.v.vrat_AVG_TT_zakazky(ukaz) + AnsiString(". Požadovaný TT: ") + Form1->PP.TT + AnsiString(" . Zakázka èíslo") + ukaz->n);
+		 }
 		ukaz = ukaz->dalsi;
 
 	}
@@ -423,12 +433,15 @@ void Cgrafy::graf6() { // Kapacity
 
 
 	Form1->Series9->Clear();
+	Form1->Series10->Clear();
 
 	Cvektory::TObjekt *ukaz = Form1->d.v.OBJEKTY->dalsi;
 	// Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
 	while (ukaz != NULL) {
 
-		Form1->Series9->Add(ukaz->dop_kapacita_objektu, ukaz->short_name,(TColor) RGB(0,128,255));
+		Form1->Series9->Add(ukaz->kapacita_objektu, ukaz->short_name,(TColor) RGB(0,128,255));
+
+		Form1->Series10->Add(ukaz->dop_kapacita_objektu,"",Form1->m.clIntensive(RGB(0,128,255),80));
 
 		ukaz = ukaz->dalsi;
 	}
