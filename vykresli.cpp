@@ -740,8 +740,8 @@ void Cvykresli::vykresli_vytizenost_objektu(TCanvas *canv)
 		{
 			if(ukaz==P->cesta->objekt)
 			{
-				if(P->cesta->objekt->dop_kapacita_objektu==1 || NOLIEX==0)vykresli_proces(canv,"",P->vozik->barva,4,P->Tpoc*PX2MIN-PosunT.x,P->Tcek*PX2MIN-PosunT.x,Y-PosunT.y,KrokY);//pro jednokapacitní vytíženost vykreslení přímo maximální, popř. pokud není požadováno vykreslení intenzity
-				else vytizenost_procesu(canv,P,X,Y); //pro vícekapacitně včetně škály vytíženosti, pokud je požadována
+				if(P->cesta->objekt->dop_kapacita_objektu==1 || NOLIEX==0)vykresli_proces(canv,"",P->vozik->barva,4,P->Tpoc*PX2MIN-PosunT.x,P->Tcek*PX2MIN-PosunT.x,Y-Form1->RzToolbar1->Height-PosunT.y,KrokY);//pro jednokapacitní vytíženost vykreslení přímo maximální, popř. pokud není požadováno vykreslení intenzity
+				else vytizenost_procesu(canv,P,X,Y-Form1->RzToolbar1->Height); //pro vícekapacitně včetně škály vytíženosti, pokud je požadována
 				if(Pocatek>P->Tpoc*PX2MIN-PosunT.x)Pocatek=P->Tpoc*PX2MIN-PosunT.x;//pro další využítí, zatím pouze pro vypis názvu objektu, hlednání min a maxima
 				if(Konec<P->Tcek*PX2MIN-PosunT.x)Konec=P->Tcek*PX2MIN-PosunT.x;//pro další využítí, zatím pouze pro vypis názvu objektu, hlednání min a maxima
 			}
@@ -759,7 +759,7 @@ void Cvykresli::vykresli_vytizenost_objektu(TCanvas *canv)
 		//vodorovné popisování objektů
 		canv->Brush->Style=bsSolid;
 		canv->Brush->Color=clGray;
-		canv->TextOutW(0,Y-canv->TextHeight(ukaz->short_name)/2-PosunT.y,ukaz->short_name);
+		canv->TextOutW(0,Y-canv->TextHeight(ukaz->short_name)/2-Form1->RzToolbar1->Height-PosunT.y,ukaz->short_name);
 
 		ukaz=ukaz->dalsi;
 		Y+=KrokY+2;//+2 pouze grafické odsazení pro všechny objekty mimo prvního
@@ -818,7 +818,7 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 	int PXM=50;//měřítko pixelů na metr v tomto modu, zároveň však používám jako krok posunu na ose Y (přetížení proměnné)
 	int S=2*PXM;//prozatim natvrdo vozik 2 metry
 	unsigned int X=0;//posun po X-ové ose
-	short Yofset=50+Form1->RzToolbar1->Height;
+	short Yofset=50;
 	unsigned int Y=Yofset;//Posun po Y-oso včetně výchozí pozice
 	canv->Font->Size=10;//nutno tady kvůli správné velikosti, pokud dojde ke změně je nutné párově změnit
 	short Xofset=4+canv->TextWidth(TP.KZ+K)+4;//zajistí správný počátek prvního objektu dle šířky nejdelší vypisované minuty
@@ -901,7 +901,7 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 	canv->Brush->Color=clWhite;
 	canv->Font->Color=clGray;
 	canv->Font->Size=10;
-	Y=Form1->RzToolbar1->Height+4;
+	Y=4;
 	X=Xofset;unsigned int Xpuv=X;
 	//samotný výpis
 	canv->MoveTo(X-PosunT.x,Y);if(!A)canv->LineTo(X-PosunT.x,Yofset+PXM*DO/K-PosunT.y);else canv->LineTo(X-PosunT.x,Yofset+PXM);//nakreslení první svislice (začátek pravděpodobně navěšování)
@@ -945,7 +945,7 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 		}
 	}
 	//popisek [min]
-	canv->TextOutW(2,0+Form1->RzToolbar1->Height,"[min]");
+	canv->TextOutW(2,0,"[min]");
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------

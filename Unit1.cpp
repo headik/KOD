@@ -2441,12 +2441,20 @@ void __fastcall TForm1::Rychlexport1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void TForm1::nastaveni_grafickeho_vystupu(Graphics::TBitmap * Bitmap)
 {
-	 Bitmap->Width=d.WidthCanvasCasoveOsy;
-	 Bitmap->Height=d.HeightCanvasCasoveOsy;
+	 //kvůli nadpisu výstupu skládám výslednou mapu ze dvou bitmap, nelze řešit jen přes posun, protože se mi neposunou popisky svislých os
+	 Graphics::TBitmap * Bitmap_MARO = new Graphics::TBitmap;
+	 Bitmap_MARO->Width=d.WidthCanvasCasoveOsy;
+	 Bitmap_MARO->Height=d.HeightCanvasCasoveOsy;
 	 TPointD puvPosunT=d.PosunT;//zazálohování aktuálního posunu
 	 d.PosunT.x=0;d.PosunT.y=0;//provizorní navrácení na výchozí pozici
-	 d.vykresli_casove_osy(Bitmap->Canvas);
+	 d.vykresli_casove_osy(Bitmap_MARO->Canvas);
 	 d.PosunT=puvPosunT;//navrácení do stavu, aby uživatel posun do výchozí pozice nezaznamenal
+
+	 //vstupně/výstupní bitmapa
+	 Bitmap->Width=d.WidthCanvasCasoveOsy;
+	 Bitmap->Height=d.HeightCanvasCasoveOsy+RzToolbar1->Height;
+	 Bitmap->Canvas->Draw(0,RzToolbar1->Height,Bitmap_MARO);//Bitmap_MARO vykreslím do výsledné mapy níže o výšku RzToolBaru kvůli prostoru na nadpis, ten se vytváří níže
+	 delete Bitmap_MARO;
 
 	 //nadpis výstupu
 	 Bitmap->Canvas->Font->Color=clGray;
@@ -2463,6 +2471,7 @@ void TForm1::nastaveni_grafickeho_vystupu(Graphics::TBitmap * Bitmap)
 	 short W=Bitmap->Canvas->TextWidth(T);
 	 Bitmap->Canvas->Font->Style = TFontStyles()<< fsBold << fsItalic;//normání font (vypnutí tučné, kurzívy, podtrženo atp.)
 	 Bitmap->Canvas->TextOutW(8+W,5,FileName);
+
 }
 //---------------------------------------------------------------------------
 //zajistí report do Formátu CSV nebo JPG

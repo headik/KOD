@@ -23,7 +23,7 @@ void Cgrafy::ShowGrafy(bool stav) {
 	Form1->Chart4->Visible = stav;
 	Form1->Chart6->Visible = stav;
 	Form1->wip->Visible = stav;
-
+	Form1->Memo1->Visible = stav;
 }
 
 /////////////////////////////////////////////////////
