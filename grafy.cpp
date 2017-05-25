@@ -74,6 +74,7 @@ void Cgrafy::nastaveni()
 		Form1->Series9->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
 		Form1->Series10->Marks->Arrow->Visible=Form1->Series1->Marks->Arrow->Visible;
 
+
 		Form1->Series1->Marks->BackColor=clWhite;
 		Form1->Series2->Marks->BackColor=Form1->Series1->Marks->BackColor;
 		Form1->Series3->Marks->BackColor=Form1->Series1->Marks->BackColor;
@@ -227,8 +228,9 @@ void Cgrafy::graf1() {
 	Form1->Chart1->LeftAxis->Title->Caption = "zakázka";
 	Form1->Chart1->BottomAxis->Title->Caption = "min";
 	Form1->Chart1->Title->Caption = "Èasové stavy zakázek";
-
-
+	//Form1->Chart1->Hover->Frame->Width=1;
+	//Form1->Chart1->Hover->Frame->Color=clBlue;
+ //	Form1->Series1->
 
 	if (Form1->Memo1->Visible) {
 		Form1->Chart1->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
@@ -246,6 +248,8 @@ void Cgrafy::graf1() {
 
 		Form1->Series1->AddGanttColor((z.x*100)/100, (z.y*100)/100, ukaz->n,
 			AnsiString(Form1->m.round(z.x*100)/100) + "-" + AnsiString(Form1->m.round(z.y*100)/100) + "", ukaz->barva);
+
+		 //	Form1->Chart1->Hover->Frame->Color=Form1->m.clIntensive(ukaz->barva,80);
 
 		ukaz = ukaz->dalsi;
 	}
@@ -282,19 +286,27 @@ void Cgrafy::graf2() {
 	// tohle se nezobrazi, nevim Form1->Series3->Marks->Text="text";
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
 
-	while (ukaz != NULL) {
+	//if (Form1->d.PROZATIM) //nefunguje pøi prvním prùchodu až pøi druhém...
+	{
 
-			Form1->Series2->Add(Form1->d.v.vrat_AVG_TT_zakazky(ukaz), ukaz->n,ukaz->barva);
+		Form1->Memo1->Lines->Clear();
 
-		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT) {
+		while (ukaz != NULL)
+		{
+
+		Form1->Series2->Add(Form1->d.v.vrat_AVG_TT_zakazky(ukaz), ukaz->n,ukaz->barva);
+
+		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT)
+		 {
 				Form1->Series3->Add(Form1->PP.TT, ukaz->n,Form1->m.clIntensive(ukaz->barva,80));
+				MessageBeep(0);
+				Form1->Memo1->Lines->Add(AnsiString("Chyba - Uskuteènitelný TT: ") + Form1->d.v.vrat_AVG_TT_zakazky(ukaz) + AnsiString(". Požadovaný TT: ") + Form1->PP.TT + AnsiString(" . Zakázka èíslo") + ukaz->n);
+				ShowMessage("vypsat");
+
 		 }
 
-		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT) {
-
-			Form1->Memo1->Lines->Add(AnsiString("Chyba - Uskuteènitelný TT: ") + Form1->d.v.vrat_AVG_TT_zakazky(ukaz) + AnsiString(". Požadovaný TT: ") + Form1->PP.TT + AnsiString(" . Zakázka èíslo") + ukaz->n);
+			ukaz = ukaz->dalsi;
 		 }
-		ukaz = ukaz->dalsi;
 
 	}
 
@@ -427,7 +439,7 @@ void Cgrafy::graf6() { // Kapacity
 
 	Form1->Chart6->AxisVisible = true;
 
-	Form1->Chart6->Title->Caption = "Doporuèené kapacity";
+	Form1->Chart6->Title->Caption = "Kapacity";
 	Form1->Chart6->LeftAxis->Title->Caption = "kapacity";
 	Form1->Chart6->BottomAxis->Title->Caption = "objekty";
 

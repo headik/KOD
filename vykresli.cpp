@@ -503,12 +503,12 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 	delete SC;
 	//výpočet hodnot kapacit pro další využítí (grafy, ROMA atd.)
 	if(PROZATIM)v.uloz_doporucene_kapacity_objetku();
-	PROZATIM=false;//už se nebude ukladat proces znovu, není třeba
 	//hodnoty pro další grafické použití či nastavení
 	WidthCanvasCasoveOsy=m.round(X);//uchová velikost nejdelší osy, pro použítí pro export canvasu do rastru
 	HeightCanvasCasoveOsy=Y-KrokY/2;//uchová výšku grafu
 	if(Form1->grid)vykresli_Xosy(canv);//vykreslí statické svislice na časové osy pokud je aktivovaná mřížka
 	Form1->g.ShowGrafy(true);
+	PROZATIM=false;//už se nebude ukladat proces znovu, není třeba
 	}
 	else
 	{
