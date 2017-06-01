@@ -219,11 +219,15 @@ TPointDbool Cmy::zkratit_polygon_na_roztec(double d, double r,double xp, double 
 /////////////////////////////////////////////////////////////////////////////
 double Cmy::cekani_na_palec(double cas, double roztec_palcu,double rychlost_dopravniku,short rezim,bool zohlednit)//vrátí dobu èekání na palec v sec, zadání je u èas (výstupu vozíku z objektu) v sec, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
 {
-		if(zohlednit && rezim!=1)//pokud se jedná o kontinuální režim neøeší se
+		if(zohlednit && rezim!=1)//pokud se jedná o kontinuální režim neøeší se, pøedpokládá se, že jede na stejném dopravníku
 		{
-			double cas_presunu_mezi_palci=(60*roztec_palcu)/(rychlost_dopravniku*100);  //to 100 je pøevod na cm z m
-			double zbytek_po_deleni=(cas*60/cas_presunu_mezi_palci)-floor(cas*60/cas_presunu_mezi_palci);//tzn. kde se nachází
-			return cas_presunu_mezi_palci*zbytek_po_deleni;
+			//exaktní výpoèet je použitelný jenom v pøípad známe goemetrie, navíc obsahuje chybu
+			//double cas_presunu_mezi_palci=(60*roztec_palcu)/(rychlost_dopravniku*100);  //to 100 je pøevod na cm z m
+			//double zbytek_po_deleni=(cas*60/cas_presunu_mezi_palci)-floor(cas*60/cas_presunu_mezi_palci);//tzn. kde se nachází
+			//return cas_presunu_mezi_palci*zbytek_po_deleni;
+			//jako støední hodnota vyplývající z normálního pravdìpodonostního rozdìlení hodnot
+			//(cas_presunu_mezi_palci-0)/2 resp. (max-min)/2
+			return ((60*roztec_palcu)/(rychlost_dopravniku*100)-0)/2;
 		}
 		else return 0;
 }

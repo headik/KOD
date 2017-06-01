@@ -243,11 +243,12 @@ void Cgrafy::graf1() {
 
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
 	// ukazatel na první objekt v seznamu OBJEKTU, pøeskoèí hlavièku
-	while (ukaz != NULL) {
+	while (ukaz != NULL)
+	{
 		TPointD z = Form1->d.v.vrat_zacatek_a_konec_zakazky(ukaz);
 
-		Form1->Series1->AddGanttColor((z.x*100)/100, (z.y*100)/100, ukaz->n,
-			AnsiString(Form1->m.round(z.x*100)/100) + "-" + AnsiString(Form1->m.round(z.y*100)/100) + "", ukaz->barva);
+		Form1->Series1->AddGanttColor(Form1->m.round2double(z.x,2), Form1->m.round2double(z.y,2), ukaz->n,
+		AnsiString(Form1->m.round2double(z.x,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
 
 		 //	Form1->Chart1->Hover->Frame->Color=Form1->m.clIntensive(ukaz->barva,80);
 
