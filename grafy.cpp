@@ -290,6 +290,7 @@ void Cgrafy::graf2() {
 	{
 
 		Form1->Memo1->Lines->Clear();
+		Form1->Memo1->Font->Color=clBlue;
 
 		while (ukaz != NULL)
 		{
@@ -299,9 +300,8 @@ void Cgrafy::graf2() {
 		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT)
 		 {
 				Form1->Series3->Add(Form1->PP.TT, ukaz->n,Form1->m.clIntensive(ukaz->barva,80));
-				MessageBeep(0);
+			 //	MessageBeep(0);
 				Form1->Memo1->Lines->Add(AnsiString("Chyba - Uskuteènitelný TT: ") + Form1->d.v.vrat_AVG_TT_zakazky(ukaz) + AnsiString(". Požadovaný TT: ") + Form1->PP.TT + AnsiString(" . Zakázka èíslo") + ukaz->n);
-				ShowMessage("vypsat");
 
 		 }
 
@@ -443,6 +443,7 @@ void Cgrafy::graf6() { // Kapacity
 	Form1->Chart6->LeftAxis->Title->Caption = "kapacity";
 	Form1->Chart6->BottomAxis->Title->Caption = "objekty";
 
+		Form1->Memo1->Font->Color=clBlack;
 
 	Form1->Series9->Clear();
 	Form1->Series10->Clear();
@@ -454,6 +455,11 @@ void Cgrafy::graf6() { // Kapacity
 		Form1->Series9->Add(ukaz->kapacita_objektu, ukaz->short_name,(TColor) RGB(0,128,255));
 
 		Form1->Series10->Add(ukaz->dop_kapacita_objektu,"",Form1->m.clIntensive(RGB(0,128,255),80));
+
+		if(ukaz->kapacita_objektu!=ukaz->dop_kapacita_objektu){
+
+		Form1->Memo1->Lines->Add(AnsiString("Varování - nastavená kapacita: ") + ukaz->kapacita_objektu + AnsiString(". Doporuèená kapacita: ") + ukaz->dop_kapacita_objektu + AnsiString(" - pro objekt: ") + ukaz->short_name);
+		}
 
 		ukaz = ukaz->dalsi;
 	}
