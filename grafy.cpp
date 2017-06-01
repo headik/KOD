@@ -295,11 +295,11 @@ void Cgrafy::graf2() {
 		while (ukaz != NULL)
 		{
 
-		Form1->Series2->Add(Form1->d.v.vrat_AVG_TT_zakazky(ukaz), ukaz->n,ukaz->barva);
+		Form1->Series2->Add(Form1->PP.TT, ukaz->n,ukaz->barva);
 
 		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT)
 		 {
-				Form1->Series3->Add(Form1->PP.TT, ukaz->n,Form1->m.clIntensive(ukaz->barva,80));
+				Form1->Series3->Add(Form1->d.v.vrat_AVG_TT_zakazky(ukaz)-Form1->PP.TT, ukaz->n,Form1->m.clIntensive(ukaz->barva,80));
 			 //	MessageBeep(0);
 				Form1->Memo1->Lines->Add(AnsiString("Chyba - Uskuteènitelný TT: ") + Form1->d.v.vrat_AVG_TT_zakazky(ukaz) + AnsiString(". Požadovaný TT: ") + Form1->PP.TT + AnsiString(" . Zakázka èíslo") + ukaz->n);
 
@@ -452,10 +452,11 @@ void Cgrafy::graf6() { // Kapacity
 	// Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
 	while (ukaz != NULL) {
 
+	if(ukaz->kapacita_objektu!=ukaz->dop_kapacita_objektu){
 		Form1->Series9->Add(ukaz->kapacita_objektu, ukaz->short_name,(TColor) RGB(0,128,255));
 
 		Form1->Series10->Add(ukaz->dop_kapacita_objektu,"",Form1->m.clIntensive(RGB(0,128,255),80));
-
+      }
 		if(ukaz->kapacita_objektu!=ukaz->dop_kapacita_objektu){
 
 		Form1->Memo1->Lines->Add(AnsiString("Varování - nastavená kapacita: ") + ukaz->kapacita_objektu + AnsiString(". Doporuèená kapacita: ") + ukaz->dop_kapacita_objektu + AnsiString(" - pro objekt: ") + ukaz->short_name);
