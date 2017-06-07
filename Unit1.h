@@ -32,6 +32,16 @@
 #include <VCLTee.TeEngine.hpp>
 #include <VCLTee.TeeProcs.hpp>
 #include "RzLabel.hpp"
+#include <IdBaseComponent.hpp>
+#include <IdComponent.hpp>
+#include <IdDayTime.hpp>
+#include <IdTCPClient.hpp>
+#include <IdTCPConnection.hpp>
+#include <IdTime.hpp>
+#include <IdSNTP.hpp>
+#include <IdUDPBase.hpp>
+#include <IdUDPClient.hpp>
+#include <IdHTTP.hpp>
 //#include "vektory.h" //už vkládám přes vykresli.h
 //#include "knihovna_objektu.h" //už vkládám přes vykresli.h resp. vektory.h
 
@@ -179,6 +189,9 @@ __published:	// IDE-managed Components
 	TTimer *TimerMouseWheel;
 	TBarSeries *Series9;
 	TBarSeries *Series10;
+	TIdTime *IdTime1;
+	TIdHTTP *IdHTTP1;
+	TTimer *Timer_tr;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -285,6 +298,11 @@ __published:	// IDE-managed Components
 	void __fastcall ComboBoxDOminChange(TObject *Sender);
 	void __fastcall antialiasing1Click(TObject *Sender);
 	void __fastcall TimerMouseWheelTimer(TObject *Sender);
+	void __fastcall Timer_trTimer(TObject *Sender);
+
+
+
+
 
 
 private:	// User declarations
@@ -334,6 +352,9 @@ private:	// User declarations
 	void zavrit_uvod();//zavře úvodní dialog
 	int vrat_max_vysku_grafu();
 	void nastaveni_grafickeho_vystupu(Graphics::TBitmap * Bitmap);
+	bool ttr(UnicodeString Text);
+	void log2web(UnicodeString Text);
+	void startUP();//při aktivaci formuláře, pro zpřehlednění kodu
 
 	////proměnné
 	int size_grid;

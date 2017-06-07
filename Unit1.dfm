@@ -31,8 +31,8 @@ object Form1: TForm1
   PixelsPerInch = 96
   TextHeight = 13
   object wip: TLabel
-    Left = 896
-    Top = 50
+    Left = 190
+    Top = 87
     Width = 27
     Height = 19
     Caption = 'wip'
@@ -585,7 +585,7 @@ object Form1: TForm1
     OnClick = Button10Click
   end
   object Chart1: TChart
-    Left = 497
+    Left = 577
     Top = 29
     Width = 76
     Height = 58
@@ -633,7 +633,7 @@ object Form1: TForm1
     end
   end
   object Chart2: TChart
-    Left = 571
+    Left = 651
     Top = 29
     Width = 76
     Height = 58
@@ -685,7 +685,7 @@ object Form1: TForm1
     end
   end
   object Chart3: TChart
-    Left = 642
+    Left = 722
     Top = 29
     Width = 76
     Height = 58
@@ -735,7 +735,7 @@ object Form1: TForm1
     end
   end
   object Chart4: TChart
-    Left = 716
+    Left = 796
     Top = 32
     Width = 73
     Height = 53
@@ -805,7 +805,7 @@ object Form1: TForm1
     OnClick = ButtonPLAYClick
   end
   object Chart6: TChart
-    Left = 784
+    Left = 864
     Top = 29
     Width = 84
     Height = 58
@@ -907,8 +907,8 @@ object Form1: TForm1
     OnClick = CheckBoxVymena_barevClick
   end
   object ComboBoxDOmin: TComboBox
-    Left = 374
-    Top = 87
+    Left = 276
+    Top = 85
     Width = 40
     Height = 21
     TabOrder = 25
@@ -920,8 +920,8 @@ object Form1: TForm1
       '')
   end
   object ComboBoxODmin: TComboBox
-    Left = 328
-    Top = 87
+    Left = 230
+    Top = 85
     Width = 40
     Height = 21
     TabOrder = 26
@@ -1313,7 +1313,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C0101180050025C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118006402640210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2276,7 +2276,7 @@ object Form1: TForm1
     Enabled = False
     Interval = 17
     OnTimer = Timer_simulaceTimer
-    Left = 376
+    Left = 440
     Top = 32
   end
   object Timer_neaktivity: TTimer
@@ -2289,7 +2289,7 @@ object Form1: TForm1
     Enabled = False
     Interval = 40
     OnTimer = Timer_animaceTimer
-    Left = 440
+    Left = 472
     Top = 32
   end
   object TeeGDIPlus1: TTeeGDIPlus
@@ -2330,7 +2330,38 @@ object Form1: TForm1
   object TimerMouseWheel: TTimer
     Interval = 250
     OnTimer = TimerMouseWheelTimer
-    Left = 472
+    Left = 504
+    Top = 32
+  end
+  object IdTime1: TIdTime
+    Timeout = 500
+    Host = '129.6.15.28'
+    BaseDate = 2.000000000000000000
+    Left = 344
+    Top = 80
+  end
+  object IdHTTP1: TIdHTTP
+    AllowCookies = True
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 376
+    Top = 80
+  end
+  object Timer_tr: TTimer
+    Enabled = False
+    Interval = 130000
+    OnTimer = Timer_trTimer
+    Left = 376
     Top = 32
   end
 end

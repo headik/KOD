@@ -24,7 +24,8 @@ public:
   UnicodeString delete_repeat_UTF(UnicodeString Text, UnicodeString Text_delete,unsigned int Repeat, unsigned short int Offset=0);
   AnsiString delete_repeat(AnsiString Text, AnsiString Text_delete);
   UnicodeString delete_repeat(UnicodeString Text, UnicodeString Text_delete);
-  AnsiString delete_repeat_all(AnsiString Text, AnsiString Text_delete);
+	AnsiString delete_repeat_all(AnsiString Text, AnsiString Text_delete);
+	UnicodeString DeleteSpace(UnicodeString text);
   AnsiString TrimRightFrom(AnsiString Text,AnsiString Trim);//ožízne øetezec po znak, to co pøedchází znaku, vrátí
   UnicodeString TrimRightFrom_UTF(UnicodeString Text,UnicodeString Trim);//ožízne øetezec po znak, to co pøedchází znaku, vrátí
   UnicodeString TrimLeftFrom_UTF(UnicodeString  Text, UnicodeString Trim);//ožízne øetezec po znaku, to co následuje znaku, vrátí

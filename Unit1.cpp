@@ -152,7 +152,7 @@ void TForm1::edice()
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormShow(TObject *Sender)
 {
-//
+	startUP();//při aktivaci formuláře startující záležitosti, pro zpřehlednění kodu
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -209,7 +209,7 @@ void __fastcall TForm1::NovySouborClick(TObject *Sender)
     	 add_posledni=true;
     	 stisknute_leve_tlacitko_mysi=false;
     	 funkcni_klavesa=0;
-    	 pan_non_locked=false;
+			 pan_non_locked=false;
 			 zobrazit_barvy_casovych_rezerv=false;
 			 d.cas=0;
 
@@ -222,8 +222,90 @@ void __fastcall TForm1::NovySouborClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormActivate(TObject *Sender)
 {
+	duvod_k_ulozeni=false;
+	if(!ttr("start"))Close();
+}
+//---------------------------------------------------------------------------
+//Metoda pro trial verzi
+bool TForm1::ttr(UnicodeString Text)
+{
+	//licence
+	Timer_tr->Enabled=true;
+	UnicodeString LICENCE		="TRIAL_VIEWER_GALATEK";
+	UnicodeString LIC_FILE	= LICENCE;
+	UnicodeString Text_error="Není k dispozici přípojení k internetu nebo vypršela licence, aplikace nebude spuštěna!";
+	TDateTime TIME=TDateTime("1.1.1990 0:00:00");
+	TDateTime TIME_expirace;
+	UnicodeString Response="error";
+	bool STATUS=false;
+
+	try
+	{
+		//zjištění expirace trialverze
+		Response=IdHTTP1->Get(AnsiString("http://mapy.unas.cz/test/test/tispl/")+LIC_FILE+UnicodeString(".lic"));
+		try
+		{
+					//např. možné alternativy time serveru: 128.138.140.44 129.6.15.28 129.6.15.29 129.6.15.30
+					try
+					{
+						IdTime1->Host="128.138.140.44";//testovací TIME SERVER, který nefunguje: 192.43.244.18
+						TIME=IdTime1->DateTime;
+					}
+					catch(...)//v případě nedostupnosti timeserveru, zkusí ještě jiný
+					{
+						IdTime1->Host="129.6.15.29";//testovací TIMESERVER, který nefunguje: 192.43.244.18
+						TIME=IdTime1->DateTime;
+					}
+					Form_uvod->Label_status->Visible=false;
+
+					TIME_expirace	=TDateTime(Response);
+
+					if(TIME_expirace<TIME && TIME!="1.1.1990 0:00:00")
+					{
+						log2web(ms.DeleteSpace(LICENCE)+"_"+TIME.CurrentDate()+"_"+TIME.CurrentTime()+"|"+ms.replace(Response,"_"," ")+"-"+Text+"_EXPIRACE");
+						S(Text_error);//vypršela licence resp. program expiroval;
+						duvod_k_ulozeni=false;
+						Close();
+					}
+					else //VŠE OK
+					{
+							log2web(ms.DeleteSpace(LICENCE)+"_"+TIME.CurrentDate()+"_"+TIME.CurrentTime()+"|"+ms.replace(Response,"_"," ")+"-"+Text+"_OK");
+							SB("Datum expirace licence: "+TIME_expirace);
+							//aktualizace();//kontrola dostupnosti aktualizace
+							STATUS=true;
+					}
+		}
+		catch(...)//nezdařilo se připojení k time serveru, timeout
+		{
+			log2web(ms.DeleteSpace(LICENCE)+"_"+TIME.CurrentDate()+"_"+TIME.CurrentTime()+"|"+ms.replace(Response,"_"," ")+"-"+Text+"_TIMESERVER_ERR");
+			S(Text_error);
+			duvod_k_ulozeni=false;
+			Close();
+		}
+	}
+	catch(...)//nezdařilo se připojení k licenčnímu serveru
+	{
+		//tady nemůže být log
+		S(Text_error);
+		duvod_k_ulozeni=false;
+		Close();
+	}
+
+	if(!STATUS)//dvojúrovňová ochranu
+	{
+    duvod_k_ulozeni=false;
+		Close();
+		return false;//dvaapůl úrovňová ochrana
+	}
+	else
+	return true;//dvaapůl úrovňová ochrana
+}
+//---------------------------------------------------------------------------
+//při aktivaci formuláře startující záležitosti, pro zpřehlednění kodu
+void TForm1::startUP()
+{
 	//////otevrení posledního souboru
-nastaveni.posledni_file=true;/////////////////provizorní než budu načítat ini z filu
+	nastaveni.posledni_file=true;/////////////////provizorní než budu načítat ini z filu
 
 	UnicodeString user_file=ms.delete_repeat(ms.delete_repeat(Parametry,"\"",2),"\"").Trim();
 	if(user_file!="")//pokud zkouší uživatel otevřít přímo soubor kliknutím na něj mimo aplikaci
@@ -241,10 +323,10 @@ nastaveni.posledni_file=true;/////////////////provizorní než budu načítat in
 	}
 
 	//prozatim, jen abych si ušetřil počet kliknutí při testování
-  if(FileName.Pos("extreme.tisp"))
+	if(FileName.Pos("extreme.tisp"))
 	{
-		eXtreme1Click(Sender);
-		Button_vozik_parametryClick(Sender);
+		eXtreme1Click(this);
+		Button_vozik_parametryClick(this);
 	}
 
 
@@ -261,7 +343,7 @@ nastaveni.posledni_file=true;/////////////////provizorní než budu načítat in
 
 		//prvně porovná jestli otevřený soubor není náhoudou mladší než stejnomený BAC soubor
     FILETIME ftCreate, ftAccess, ftWrite,ftWrite_bac;
-    HANDLE hFile=CreateFile(FileName.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL,OPEN_EXISTING, 0, NULL);
+		HANDLE hFile=CreateFile(FileName.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL,OPEN_EXISTING, 0, NULL);
 		GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite);
 		CloseHandle(hFile);
 		hFile=CreateFile((FileName+".bac_"+get_user_name()+"_"+get_computer_name()).c_str(), GENERIC_READ, FILE_SHARE_READ, NULL,OPEN_EXISTING, 0, NULL);
@@ -271,28 +353,34 @@ nastaveni.posledni_file=true;/////////////////provizorní než budu načítat in
 		if(ftWrite.dwHighDateTime>=ftWrite_bac.dwHighDateTime)MB("Aplikace nebyla řádně ukončena. Byl obnoven poslední Vámi uložený soubor.",1);//pokud je uložený soubor mladší nebo stejně starý jako jeho BAC
 		else
 		{
-      if(ID_YES==MB("Aplikace nebyla řádně ukončena. Chcete ze zálohy obnovit poslední neuložený soubor?",2))
+			if(ID_YES==MB("Aplikace nebyla řádně ukončena. Chcete ze zálohy obnovit poslední neuložený soubor?",2))
       {
 				if(OtevritSoubor(FileName+".bac_"+get_user_name()+"_"+get_computer_name())==1)
         {
-          //ješti donutí stávajicí soubor uložit pod novým jménem
+					//ješti donutí stávajicí soubor uložit pod novým jménem
           //odstraniní koncovky
 					//AnsiString jen_nazev=FileName;
 					//while(jen_nazev.Pos(".bac")>0)//dokud bude ".bac" obsahovat
 					//jen_nazev.Delete(jen_nazev.Pos(".bac"),jen_nazev.Length());
 					FileName=ms.TrimRightFrom(FileName,".bac_"+get_user_name()+"_"+get_computer_name());
 					UlozitjakoClick(this);
-        }
-        else
-        {
-          Obnovitzezlohy1Click(this);//zazálohovaný soubor se nezadařilo najít, proto jej vyhledá uživatel manuálně pomocí nabídnutého dialogu
-        }
-      }
-    }
-  }
-  //zapíše status pro předčasné ukončení programu pro případ pádu programu
-  ini->WriteString("Konec","status","KO");
+				}
+				else
+				{
+					Obnovitzezlohy1Click(this);//zazálohovaný soubor se nezadařilo najít, proto jej vyhledá uživatel manuálně pomocí nabídnutého dialogu
+				}
+			}
+		}
+	}
+	//zapíše status pro předčasné ukončení programu pro případ pádu programu
+	ini->WriteString("Konec","status","KO");
 	delete ini;
+}
+//---------------------------------------------------------------------------
+//Zalogování na webu
+void TForm1::log2web(UnicodeString Text)
+{
+	IdHTTP1->Get(UnicodeString("http://mapy.unas.cz/test/test/tispl/skript_tispl.php?heslo=2011_bozp*-&data=")+Text);
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -3083,6 +3171,9 @@ void __fastcall TForm1::antialiasing1Click(TObject *Sender)
 	REFRESH();
 }
 //---------------------------------------------------------------------------
-
-
+void __fastcall TForm1::Timer_trTimer(TObject *Sender)
+{
+	if(!ttr("cinnost"))Close();//kontrola zda nevypršela trial verze
+}
+//---------------------------------------------------------------------------
 

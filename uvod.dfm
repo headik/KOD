@@ -33,10 +33,10 @@ object Form_uvod: TForm_uvod
     Font.Style = []
     ParentFont = False
   end
-  object Label3: TLabel
+  object Label_copyright: TLabel
     Left = 288
     Top = 246
-    Width = 156
+    Width = 129
     Height = 13
     Caption = #169' ELTEP, s.r.o. 2016-2017'
     Font.Charset = DEFAULT_CHARSET
@@ -678,7 +678,22 @@ object Form_uvod: TForm_uvod
       6CBA5FE0FD2D47CBE349BDD1FA4419D777367FD0F693C7F56CB3F405DEDF725C
       2D565FFF6CADFE537625FE3F1989E216DDDD69FF0000000049454E44AE426082}
   end
+  object Label_status: TLabel
+    Left = 8
+    Top = 246
+    Width = 148
+    Height = 13
+    Caption = 'prob'#237'h'#225' p'#345'ipojov'#225'n'#237' na server...'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    Visible = False
+  end
   object Timer1: TTimer
+    Interval = 100
     OnTimer = Timer1Timer
     Top = 224
   end

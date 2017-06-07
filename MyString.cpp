@@ -216,6 +216,15 @@ AnsiString TMyString::delete_repeat_all(AnsiString Text, AnsiString Text_delete)
   return Text;
 }
 //---------------------------------------------------------------------------
+UnicodeString TMyString::DeleteSpace(UnicodeString text)//vymaže mezeru
+{
+       while(text.Pos(" ")>0)
+       {
+				text=text.Delete(text.Pos(" "),1);
+       }
+       return text;
+}
+//---------------------------------------------------------------------------
 //převede text v kódování WINDOWS-1250 na UTF-8
 AnsiString TMyString::Win2UTF(AnsiString Text)
 {

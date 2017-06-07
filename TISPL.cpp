@@ -5,11 +5,11 @@
 #include <tchar.h>
 //---------------------------------------------------------------------------
 USEFORM("TT_kalkulator.cpp", Form_TT_kalkulator);
-USEFORM("Unit1.cpp", Form1);
 USEFORM("voziky.cpp", Form_vozik_nastaveni);
+USEFORM("Unit1.cpp", Form1);
 USEFORM("uvod.cpp", Form_uvod);
-USEFORM("parametry.cpp", Form_parametry);
 USEFORM("dopravniky.cpp", Form_dopravnik);
+USEFORM("parametry.cpp", Form_parametry);
 USEFORM("MyMessageBox.cpp", MyMessageBox);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)

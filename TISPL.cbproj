@@ -48,7 +48,7 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
-        <AllPackageLibs>rtl.lib;vcl.lib;RaizeComponentsVcl.lib;vclx.lib;vclimg.lib;Tee.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;RaizeComponentsVcl.lib;vclx.lib;vclimg.lib;Tee.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib</AllPackageLibs>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <IncludePath>D:\SOFTWARE\TISPL\KOD\;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>D:\SOFTWARE\TISPL\KOD\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
@@ -105,7 +105,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <LinkPackageImports>rtl.bpi;vcl.bpi;RaizeComponentsVcl.bpi;vclx.bpi;vclimg.bpi;Tee.bpi</LinkPackageImports>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;RaizeComponentsVcl.bpi;vclx.bpi;vclimg.bpi;Tee.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi</LinkPackageImports>
         <VerInfo_Build>7</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_MinorVer>1</VerInfo_MinorVer>
@@ -220,11 +220,11 @@
             <BuildOrder>6</BuildOrder>
         </CppCompile>
         <FormResources Include="TT_kalkulator.dfm"/>
-        <FormResources Include="parametry.dfm"/>
-        <FormResources Include="Unit1.dfm"/>
         <FormResources Include="voziky.dfm"/>
+        <FormResources Include="Unit1.dfm"/>
         <FormResources Include="uvod.dfm"/>
         <FormResources Include="dopravniky.dfm"/>
+        <FormResources Include="parametry.dfm"/>
         <FormResources Include="MyMessageBox.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

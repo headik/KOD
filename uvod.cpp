@@ -12,6 +12,7 @@ __fastcall TForm_uvod::TForm_uvod(TComponent* Owner)
   : TForm(Owner)
 {
 	Form_uvod->Color=(TColor)RGB(44,82,157);
+	n=0;
 }
 //---------------------------------------------------------------------------
 //redefinice, vytvoøí pop-up okno
@@ -24,8 +25,12 @@ void __fastcall TForm_uvod::CreateParams(TCreateParams &Params)
 //---------------------------------------------------------------------------
 void __fastcall TForm_uvod::Timer1Timer(TObject *Sender)
 {
-		Timer1->Enabled=false;//nezapomenout vypnout timer (potom mùžu hledat chybu pùl dne...)
-		Close();
+		if(++n==9)Label_status->Visible=true;//po 0,75sec
+		if(n==10)//až pøi n-tem prùchodu, tj. po 1 sec
+		{
+			Timer1->Enabled=false;//nezapomenout vypnout timer (potom mùžu hledat chybu pùl dne...)
+			Close();
+		}
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm_uvod::FormClose(TObject *Sender,
