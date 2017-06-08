@@ -115,7 +115,7 @@ void TForm1::edice()
 			case CLIENT:		Edice_caption="CLIENT";break;
 			case VIEWER: 		Edice_caption="VIEWER";break;
 			case DEMO:  //demo
-				Edice_caption=" DEMO";
+				Edice_caption=" VIEWER";
 				NovySoubor->Enabled=false;
 				Otevrit->Enabled=false;
 				Otevritsablonu->Enabled=false;
@@ -244,18 +244,18 @@ bool TForm1::ttr(UnicodeString Text)
 	try
 	{
 		//zjištění expirace trialverze
-		Response=IdHTTP1->Get(AnsiString("http://mapy.unas.cz/test/test/tispl/")+LIC_FILE+UnicodeString(".lic"));
+		Response=IdHTTP1->Get(AnsiString("http://85.255.8.81/tispl/")+LIC_FILE+UnicodeString(".lic"));
 		try
 		{
 					//např. možné alternativy time serveru: 128.138.140.44 129.6.15.28 129.6.15.29 129.6.15.30
 					try
 					{
-						IdTime1->Host="128.138.140.44";//testovací TIME SERVER, který nefunguje: 192.43.244.18
+						IdTime1->Host="129.6.15.29";//testovací TIME SERVER, který nefunguje: 192.43.244.18
 						TIME=IdTime1->DateTime;
-					}
+				}
 					catch(...)//v případě nedostupnosti timeserveru, zkusí ještě jiný
 					{
-						IdTime1->Host="129.6.15.29";//testovací TIMESERVER, který nefunguje: 192.43.244.18
+						IdTime1->Host="128.138.140.44";//testovací TIMESERVER, který nefunguje: 192.43.244.18
 						TIME=IdTime1->DateTime;
 					}
 					Form_uvod->Label_status->Visible=false;
