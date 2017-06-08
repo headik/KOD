@@ -521,8 +521,9 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 //vypočítá konec procesu (odbdelníčku)
 double Cvykresli::proces(TCanvas *canv, unsigned int n, double X_predchozi, double X, int Y, Cvektory::TCesta *C,Cvektory::TVozik *vozik)
 {
-	 double D=2;//rychlost dopravníku, zatím natvrdo
-	 double R=32.5;//rozteč palců,zatím natvrdo
+	 double D=C->RD;//rychlost dopravníku
+	 double R=C->R;//rozteč palců
+
 	 Cvektory::TProces *P=new Cvektory::TProces;//uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
 	 P->n_v_zakazce=n;//uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
 	 P->cesta=C;//uložení hodnot pro zcela další použítí (pro zjišťování nutné kapacity, pro ROMA metoda, výpis procesu atp.),nejdříve ale smaže starý spoják
