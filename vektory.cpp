@@ -264,7 +264,7 @@ void Cvektory::hlavicka_jedne_cesty(TSeznam_cest *jaka)
 }
 //---------------------------------------------------------------------------
 //do konkrétní cesty vloží segmenty cesty
-void Cvektory::vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,unsigned short R,double K,double CT)
+void Cvektory::vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,unsigned short R,double K,double CT,double RD,double R)
 {
 	TCesta *segment=new TCesta;
 
@@ -274,6 +274,8 @@ void Cvektory::vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,unsigned short
   C->barva=clGray;//defaultní barva cesty
 	if(CT==0) segment->CT=Objekt->CT;//pokud přijde CT 0, která je i implicitní, tak se převezme automaticky CT objektu nastavené ve form parametry
 	else segment->CT=CT;//zohlední se explicitní hodnota CT, předaná paremetrem metody
+	segment->RD=RD;
+	segment->R=R;
 	Objekt->rezim=R;
 	Objekt->kapacita_objektu=K;
 	//---
