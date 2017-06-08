@@ -152,7 +152,7 @@ void TForm1::edice()
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormShow(TObject *Sender)
 {
-	startUP();//při aktivaci formuláře startující záležitosti, pro zpřehlednění kodu
+	// pokud byl zde, dělalo to "chybu v paměti" při spuštění release verze	startUP();//při aktivaci formuláře startující záležitosti, pro zpřehlednění ko
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -222,8 +222,10 @@ void __fastcall TForm1::NovySouborClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormActivate(TObject *Sender)
 {
-	duvod_k_ulozeni=false;
-	if(!ttr("start"))Close();
+	if(!ttr("start"))
+		Close();
+	else
+		startUP();
 }
 //---------------------------------------------------------------------------
 //Metoda pro trial verzi
