@@ -226,7 +226,7 @@ void __fastcall TForm1::FormActivate(TObject *Sender)
 {
 	if(!ttr("start"))
 	{
-		Timer_trTimer->Enabled=false;
+		Timer_tr->Enabled=false;
 		Close();
 	}
 	else
@@ -271,7 +271,7 @@ bool TForm1::ttr(UnicodeString Text)
 						log2web(ms.replace(Response,"_"," ")+"-"+Text+"_EXPIRACE");
 						S(Text_error);//vypršela licence resp. program expiroval;
 						duvod_k_ulozeni=false;
-						Timer_trTimer->Enabled=false;
+						Timer_tr->Enabled=false;
 						Close();
 					}
 					else //VŠE OK
@@ -287,7 +287,7 @@ bool TForm1::ttr(UnicodeString Text)
 			log2web(ms.replace(Response,"_"," ")+"-"+Text+"_TIMESERVER_ERR");
 			S(Text_error);
 			duvod_k_ulozeni=false;
-			Timer_trTimer->Enabled=false;
+			Timer_tr->Enabled=false;
 			Close();
 		}
 	}
@@ -296,14 +296,14 @@ bool TForm1::ttr(UnicodeString Text)
 		//tady nemůže být log
 		S(Text_error);
 		duvod_k_ulozeni=false;
-		Timer_trTimer->Enabled=false;
+		Timer_tr->Enabled=false;
 		Close();
 	}
 
 	if(!STATUS)//dvojúrovňová ochranu
 	{
 		duvod_k_ulozeni=false;
-		Timer_trTimer->Enabled=false;
+		Timer_tr->Enabled=false;
 		Close();
 		return false;//dvaapůl úrovňová ochrana
 	}
@@ -2966,7 +2966,7 @@ void __fastcall TForm1::MagnaClick(TObject *Sender)
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,2,5,10,D1v,D1r);//chlaz
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,1,1,0.79,D1v,D1r);//pr6
 	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,0,1,2,D1v,D1r);//sves
-	d.v.vloz_segment_cesty(cesta_pom,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,1,3,2,D1v,D1r);//pre
+	d.v.vloz_segment_cesty(cesta_pom2,d.v.OBJEKTY->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi->dalsi,1,3,2,D1v,D1r);//pre
 
 
 	//vloží novou hotovou cestu do spoj.seznamu cest   */
@@ -3210,7 +3210,7 @@ void __fastcall TForm1::antialiasing1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Timer_trTimer(TObject *Sender)
 {
-	if(!ttr("cinnost")){Timer_trTimer->Enabled=false;Close();}//kontrola zda nevypršela trial verze
+	if(!ttr("cinnost")){Timer_tr->Enabled=false;Close();}//kontrola zda nevypršela trial verze
 }
 //---------------------------------------------------------------------------
 
