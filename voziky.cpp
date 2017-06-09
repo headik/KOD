@@ -135,8 +135,13 @@ void TForm_vozik_nastaveni::vymaz_barvu() {
 };
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm_vozik_nastaveni::FormShow(TObject *Sender) {
-
+void __fastcall TForm_vozik_nastaveni::FormShow(TObject *Sender)
+{
+ nacti_voziky();
+}
+// ---------------------------------------------------------------------------
+void TForm_vozik_nastaveni::nacti_voziky()
+{
 	hlavicka_barva();
 
 	OK_status = false;
@@ -219,9 +224,7 @@ void __fastcall TForm_vozik_nastaveni::FormShow(TObject *Sender) {
 		RzStringGrid1->RowCount = 1;
 
 	}
-
 }
-
 // ---------------------------------------------------------------------------
 void __fastcall TForm_vozik_nastaveni::Button_OKClick(TObject *Sender)
 {
@@ -235,6 +238,13 @@ void __fastcall TForm_vozik_nastaveni::FormCloseQuery(TObject *Sender,	bool &Can
 {
 	if (OK_status && RzStringGrid1->RowCount >= 2)
 	{
+		uloz_voziky_a_nastav_zakazky();
+	}
+	vymaz_barvu();
+}
+// ---------------------------------------------------------------------------
+void TForm_vozik_nastaveni::uloz_voziky_a_nastav_zakazky()
+{
 		Form1->d.v.vymaz_seznam_voziku();// smazu stary spojak pred ulozenim noveho
 		Form1->d.v.hlavicka_voziky();// vytvorim si hlavicku pro zavedeni noveho spojaku
 
@@ -265,8 +275,6 @@ void __fastcall TForm_vozik_nastaveni::FormCloseQuery(TObject *Sender,	bool &Can
 			ukaz = ukaz->dalsi; //posun na další prvek v seznamu
 		}
 		Form1->Invalidate();
-	}
-	vymaz_barvu();
 }
 // ---------------------------------------------------------------------------
 

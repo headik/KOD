@@ -22,7 +22,7 @@ void Cgrafy::ShowGrafy(bool stav) {
 	Form1->Chart3->Visible = stav;
 	Form1->Chart4->Visible = stav;
 	Form1->Chart6->Visible = stav;
-	Form1->wip->Visible = stav;
+	Form1->Label_wip->Visible = stav;
 	Form1->Memo1->Visible = stav;
 }
 
@@ -30,12 +30,12 @@ void Cgrafy::ShowGrafy(bool stav) {
 void Cgrafy::nastaveni()
 {
 			 //WIP label
-			Form1->wip->Font->Color=RGB(100,100,100);
-			Form1->wip->Visible = true;
-			Form1->wip->Font->Size = 20;
-			Form1->wip->Top = Form1->Chart1->Top - 35;
-			Form1->wip->Left = 20;
-			Form1->wip->Caption = "WIP: " + AnsiString(Form1->d.v.WIP());
+			Form1->Label_wip->Font->Color=RGB(100,100,100);
+			Form1->Label_wip->Visible = true;
+			Form1->Label_wip->Font->Size = 20;
+			Form1->Label_wip->Top = Form1->Chart1->Top - 35;
+			Form1->Label_wip->Left = 20;
+			Form1->Label_wip->Caption = "WIP: " + AnsiString(Form1->d.v.WIP());
 
 
 
@@ -291,7 +291,7 @@ void Cgrafy::graf2() {
 	{
 
 		Form1->Memo1->Lines->Clear();
-		Form1->Memo1->Font->Color=clBlue;
+		Form1->Memo1->Font->Color=clRed;
 
 		while (ukaz != NULL)
 		{
@@ -301,7 +301,7 @@ void Cgrafy::graf2() {
 		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT)
 		 {
 				Form1->Series3->Add(Form1->d.v.vrat_AVG_TT_zakazky(ukaz)-Form1->PP.TT, ukaz->n,Form1->m.clIntensive(ukaz->barva,80));
-			 //	MessageBeep(0);
+			 	//MessageBeep(0);
 				Form1->Memo1->Lines->Add(AnsiString("Chyba - Uskuteènitelný TT: ") + Form1->d.v.vrat_AVG_TT_zakazky(ukaz) + AnsiString(". Požadovaný TT: ") + Form1->PP.TT + AnsiString(" . Zakázka èíslo") + ukaz->n);
 
 		 }

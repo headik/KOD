@@ -152,7 +152,7 @@ __published:	// IDE-managed Components
 	TChart *Chart2;
 	TChart *Chart3;
 	TChart *Chart4;
-	TLabel *wip;
+	TLabel *Label_wip;
 	TGanttSeries *Series1;
 	TBarSeries *Series5;
 	TBarSeries *Series6;

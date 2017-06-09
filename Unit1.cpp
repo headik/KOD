@@ -100,8 +100,8 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	NovySouborClick(this);
 
 
-	LICENCE		="TRIAL_VIEWER_GALATEK";
-	EDICE=ARCHITECT;//,ARCHITECT,CLIENT,VIEWER,DEMO
+	LICENCE="TRIAL_VIEWER_GALATEK";
+	EDICE=DEMO;//,ARCHITECT,CLIENT,VIEWER,DEMO
 	edice();//zakázání či povolení grafických uživatelských prvků dle úrovně edice
 
 }
@@ -117,7 +117,7 @@ void TForm1::edice()
 			case CLIENT:		Edice_caption="CLIENT";break;
 			case VIEWER: 		Edice_caption="VIEWER";break;
 			case DEMO:  //demo
-				Edice_caption=" VIEWER";
+				Edice_caption="VIEWER - DEMO";
 				NovySoubor->Enabled=false;
 				Otevrit->Enabled=false;
 				Otevritsablonu->Enabled=false;
@@ -134,6 +134,7 @@ void TForm1::edice()
 				simulace1->Enabled=false;
 				Vzhled1->Enabled=false;
 				Button_kalkulatorTT->Enabled=false;
+				Button_vozik_parametry->Enabled=false;
 				DrawGrid_knihovna->Enabled=false;
 				Nastvitparametry1->Enabled=false;
 				Smazat1->Enabled=false;
@@ -154,7 +155,7 @@ void TForm1::edice()
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormShow(TObject *Sender)
 {
-	// pokud byl zde, dělalo to "chybu v paměti" při spuštění release verze	startUP();//při aktivaci formuláře startující záležitosti, pro zpřehlednění ko
+	// startUP() - pokud byl zde, dělalo to "chybu v paměti" při spuštění release verze	startUP();//při aktivaci formuláře startující záležitosti, pro zpřehlednění ko
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -332,11 +333,13 @@ void TForm1::startUP()
 		}
 	}
 
-	//prozatim, jen abych si ušetřil počet kliknutí při testování
-	if(FileName.Pos("extreme.tisp"))
+	//automatické načtení projektu magna včetně definice cest a vozíků, jen pro účely demo viewera  či abych si ušetřil počet kliknutí při testování
+	if(FileName.Pos("magna.tisp"))
 	{
-		eXtreme1Click(this);
-		Button_vozik_parametryClick(this);
+		MagnaClick(this);
+		//Button_vozik_parametryClick(this);//automatické volání
+		Form_vozik_nastaveni->nacti_voziky();
+		Form_vozik_nastaveni->uloz_voziky_a_nastav_zakazky();
 	}
 
 
@@ -839,7 +842,7 @@ void __fastcall TForm1::FormPaint(TObject *Sender)
 void TForm1::REFRESH(bool invalidate)
 {
 	if(!antialiasing && invalidate)Invalidate();
-	else {FormPaint(this);}//pokude je zapntutý antialiasing neproblikne, ale jen se "přeplácne" bitmapou nedojde k probliknutí
+	else {FormPaint(this);if(Label_wip->Visible)Label_wip->Invalidate();}//pokude je zapntutý antialiasing neproblikne, ale jen se "přeplácne" bitmapou nedojde k probliknutí
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -3213,4 +3216,5 @@ void __fastcall TForm1::Timer_trTimer(TObject *Sender)
 	if(!ttr("cinnost")){Timer_tr->Enabled=false;Close();}//kontrola zda nevypršela trial verze
 }
 //---------------------------------------------------------------------------
+
 

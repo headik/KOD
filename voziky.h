@@ -80,6 +80,8 @@ public:		// User declarations
 		void vymaz_barvu();
 		void smaz_barvu_radku(TBarva *Barva);
 		void sniz_indexy(TBarva *Barva);
+		void nacti_voziky();
+		void uloz_voziky_a_nastav_zakazky();
 
 };
 //---------------------------------------------------------------------------

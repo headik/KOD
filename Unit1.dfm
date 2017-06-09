@@ -30,12 +30,12 @@ object Form1: TForm1
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object wip: TLabel
+  object Label_wip: TLabel
     Left = 190
     Top = 87
-    Width = 27
+    Width = 78
     Height = 19
-    Caption = 'wip'
+    Caption = 'Label_wip'
     Font.Charset = EASTEUROPE_CHARSET
     Font.Color = clWindowText
     Font.Height = -16
@@ -373,6 +373,7 @@ object Form1: TForm1
       Margins.Left = 2
       Caption = 'TAKT TIME:'
       Transparent = True
+      Visible = False
     end
     object Label2: TLabel
       Left = 5
@@ -407,6 +408,7 @@ object Form1: TForm1
       Height = 13
       Caption = 'min'
       Transparent = True
+      Visible = False
     end
     object Label8: TLabel
       Left = 5
@@ -425,6 +427,7 @@ object Form1: TForm1
       Ctl3D = False
       ParentCtl3D = False
       TabOrder = 1
+      Visible = False
       OnChange = Edit_takt_timeChange
       OnEnter = Edit_takt_timeEnter
     end
@@ -444,6 +447,7 @@ object Form1: TForm1
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
+      Visible = False
       OnClick = Button_kalkulatorTTClick
     end
     object Button_dopravnik_parametry: TButton
@@ -499,8 +503,14 @@ object Form1: TForm1
     Width = 946
     Height = 49
     Align = alBottom
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
     Lines.Strings = (
       '')
+    ParentFont = False
     TabOrder = 5
     Visible = False
   end
@@ -1004,7 +1014,7 @@ object Form1: TForm1
         OnClick = Boskovice1Click
       end
       object eXtreme1: TMenuItem
-        Caption = '&4   eXtreme'
+        Caption = '&4   Test'
         OnClick = eXtreme1Click
       end
     end
@@ -1313,7 +1323,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118006402680210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118006C026C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
