@@ -353,8 +353,11 @@ private:	// User declarations
 	int vrat_max_vysku_grafu();
 	void nastaveni_grafickeho_vystupu(Graphics::TBitmap * Bitmap);
 	bool ttr(UnicodeString Text);
-	void log2web(UnicodeString Text);
+	void log2web(UnicodeString Text);//automaticky přidá parametry (čas, uživatel, licence)
+	void log2webOnlyText(UnicodeString Text);//pouze text
 	void startUP();//při aktivaci formuláře, pro zpřehlednění kodu
+	TDateTime TIME;
+	UnicodeString LICENCE;
 
 	////proměnné
 	int size_grid;

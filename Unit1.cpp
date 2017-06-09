@@ -99,6 +99,8 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	duvod_k_ulozeni=false;
 	NovySouborClick(this);
 
+
+	LICENCE		="TRIAL_VIEWER_GALATEK";
 	EDICE=ARCHITECT;//,ARCHITECT,CLIENT,VIEWER,DEMO
 	edice();//zakázání či povolení grafických uživatelských prvků dle úrovně edice
 
@@ -223,7 +225,10 @@ void __fastcall TForm1::NovySouborClick(TObject *Sender)
 void __fastcall TForm1::FormActivate(TObject *Sender)
 {
 	if(!ttr("start"))
+	{
+		Timer_trTimer->Enabled=false;
 		Close();
+	}
 	else
 		startUP();
 }
@@ -233,10 +238,9 @@ bool TForm1::ttr(UnicodeString Text)
 {
 	//licence
 	Timer_tr->Enabled=true;
-	UnicodeString LICENCE		="TRIAL_VIEWER_GALATEK";
 	UnicodeString LIC_FILE	= LICENCE;
 	UnicodeString Text_error="Není k dispozici přípojení k internetu nebo vypršela licence, aplikace nebude spuštěna!";
-	TDateTime TIME=TDateTime("1.1.1990 0:00:00");
+	TIME=TDateTime("1.1.1990 0:00:00");
 	TDateTime TIME_expirace;
 	UnicodeString Response="error";
 	bool STATUS=false;
@@ -264,14 +268,15 @@ bool TForm1::ttr(UnicodeString Text)
 
 					if(TIME_expirace<TIME && TIME!="1.1.1990 0:00:00")
 					{
-						log2web(ms.DeleteSpace(LICENCE)+"_"+TIME.CurrentDate()+"_"+TIME.CurrentTime()+"|"+ms.replace(Response,"_"," ")+"-"+Text+"_EXPIRACE");
+						log2web(ms.replace(Response,"_"," ")+"-"+Text+"_EXPIRACE");
 						S(Text_error);//vypršela licence resp. program expiroval;
 						duvod_k_ulozeni=false;
+						Timer_trTimer->Enabled=false;
 						Close();
 					}
 					else //VŠE OK
 					{
-							log2web(ms.DeleteSpace(LICENCE)+"_"+TIME.CurrentDate()+"_"+TIME.CurrentTime()+"|"+ms.replace(Response,"_"," ")+"-"+Text+"_OK");
+							log2web(ms.replace(Response,"_"," ")+"-"+Text+"_OK");
 							SB("Datum expirace licence: "+TIME_expirace);
 							//aktualizace();//kontrola dostupnosti aktualizace
 							STATUS=true;
@@ -279,9 +284,10 @@ bool TForm1::ttr(UnicodeString Text)
 		}
 		catch(...)//nezdařilo se připojení k time serveru, timeout
 		{
-			log2web(ms.DeleteSpace(LICENCE)+"_"+TIME.CurrentDate()+"_"+TIME.CurrentTime()+"|"+ms.replace(Response,"_"," ")+"-"+Text+"_TIMESERVER_ERR");
+			log2web(ms.replace(Response,"_"," ")+"-"+Text+"_TIMESERVER_ERR");
 			S(Text_error);
 			duvod_k_ulozeni=false;
+			Timer_trTimer->Enabled=false;
 			Close();
 		}
 	}
@@ -290,12 +296,14 @@ bool TForm1::ttr(UnicodeString Text)
 		//tady nemůže být log
 		S(Text_error);
 		duvod_k_ulozeni=false;
+		Timer_trTimer->Enabled=false;
 		Close();
 	}
 
 	if(!STATUS)//dvojúrovňová ochranu
 	{
-    duvod_k_ulozeni=false;
+		duvod_k_ulozeni=false;
+		Timer_trTimer->Enabled=false;
 		Close();
 		return false;//dvaapůl úrovňová ochrana
 	}
@@ -380,9 +388,15 @@ void TForm1::startUP()
 }
 //---------------------------------------------------------------------------
 //Zalogování na webu
+//automaticky přidá parametry (čas, uživatel, licence)
 void TForm1::log2web(UnicodeString Text)
 {
-	IdHTTP1->Get(UnicodeString("http://mapy.unas.cz/test/test/tispl/skript_tispl.php?heslo=2011_bozp*-&data=")+Text);
+	log2webOnlyText(ms.DeleteSpace(LICENCE)+"_"+get_computer_name()+"_"+get_user_name()+"_"+TIME.CurrentDate()+"_"+TIME.CurrentTime()+"|"+Text);
+}
+//pouze text
+void TForm1::log2webOnlyText(UnicodeString Text)
+{
+	IdHTTP1->Get(UnicodeString("http://85.255.8.81/tispl/skript_tispl.php?heslo=2011_bozp*-&data=")+Text);
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -2344,7 +2358,7 @@ UnicodeString TForm1::get_user_name()
 {
 	 wchar_t *user=new wchar_t[20+1];
    DWORD dwSize_user=20+1;
-   if(GetUserName(user,&dwSize_user))return AnsiString(user);
+	 if(GetUserName(user,&dwSize_user))return AnsiString(user);
    else return "";
 }
 //---------------------------------------------------------------------------
@@ -3193,7 +3207,7 @@ void __fastcall TForm1::antialiasing1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Timer_trTimer(TObject *Sender)
 {
-	if(!ttr("cinnost"))Close();//kontrola zda nevypršela trial verze
+	if(!ttr("cinnost")){Timer_trTimer->Enabled=false;Close();}//kontrola zda nevypršela trial verze
 }
 //---------------------------------------------------------------------------
 
