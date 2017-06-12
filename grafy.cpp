@@ -271,7 +271,7 @@ void Cgrafy::graf2() {
 			Form1->Chart1->Height;
 	}
 
-	Form1->Chart2->Title->Caption = "TT zakázek";
+	Form1->Chart2->Title->Caption = "Prùmìrný TT zakázek";
 	Form1->Chart2->LeftAxis->Title->Caption = "min";
 	Form1->Chart2->BottomAxis->Title->Caption = "zakázka";
 
@@ -301,7 +301,7 @@ void Cgrafy::graf2() {
 		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT)
 		 {
 				Form1->Series3->Add(Form1->d.v.vrat_AVG_TT_zakazky(ukaz)-Form1->PP.TT, ukaz->n,Form1->m.clIntensive(ukaz->barva,80));
-			 	//MessageBeep(0);
+
 				Form1->Memo1->Lines->Add(AnsiString("Chyba - Uskuteènitelný TT: ") + Form1->d.v.vrat_AVG_TT_zakazky(ukaz) + AnsiString(". Požadovaný TT: ") + Form1->PP.TT + AnsiString(" . Zakázka èíslo") + ukaz->n);
 
 		 }
