@@ -275,7 +275,7 @@ void Cvektory::vloz_segment_cesty(TSeznam_cest *C,TObjekt *Objekt,unsigned short
 	if(CT==0) segment->CT=Objekt->CT;//pokud přijde CT 0, která je i implicitní, tak se převezme automaticky CT objektu nastavené ve form parametry
 	else segment->CT=CT;//zohlední se explicitní hodnota CT, předaná paremetrem metody
 	segment->RD=RD;
-	segment->R=R;
+	segment->R=RP;
 	Objekt->rezim=R;
 	Objekt->kapacita_objektu=K;
 	//---
@@ -1211,7 +1211,7 @@ unsigned int Cvektory::WIP()//vrátí max. počet vozíků na lince
 		vozik=vozik->dalsi;
 	}
 	if(VOZIKY->dalsi!=NULL)//pokud existuje nějaký vozík
-	return pocet_final+1;
+	return pocet_final/*+1*/;
 	else
 	return 0;
 }

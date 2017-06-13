@@ -101,7 +101,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 
 	LICENCE="TRIAL_VIEWER_GALATEK";
-	EDICE=DEMO;//,ARCHITECT,CLIENT,VIEWER,DEMO
+	EDICE=ARCHITECT;//ARCHITECT,CLIENT,VIEWER,DEMO
 	edice();//zakázání či povolení grafických uživatelských prvků dle úrovně edice
 
 }
@@ -225,12 +225,13 @@ void __fastcall TForm1::NovySouborClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormActivate(TObject *Sender)
 {
-	if(!ttr("start"))
-	{
-		Timer_tr->Enabled=false;
-		Close();
-	}
-	else
+//	if(!ttr("start"))
+//	{
+//		Timer_tr->Enabled=false;//ještě je ale z důvodu ochrany enabled=true v object inspectoru, toto je spíše na zmatení
+//		Close();
+//	}
+//	else
+	Timer_tr->Enabled=false;//prozatim
 		startUP();
 }
 //---------------------------------------------------------------------------
@@ -974,7 +975,7 @@ void __fastcall TForm1::FormShortCut(TWMKey &Msg, bool &Handled)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::TimerMouseWheelTimer(TObject *Sender)
 {
-	 if(++doba_neotaceni_mysi=2)
+	 if(++doba_neotaceni_mysi==2)
 	 {
 		TimerMouseWheel->Enabled=false;
 		jedno_ze_tri_otoceni_koleckem_mysi=1;
@@ -1941,9 +1942,11 @@ void __fastcall TForm1::FormCloseQuery(TObject *Sender, bool &CanClose)
 		CanClose=true;
 	}
 
-  //pro ochranu v případě pádu programu
+  //v případě uzavírání aplikace
 	if(CanClose)
 	{
+		log2web("konec");
+		//pro ochranu v případě pádu programu
 		//TIniFile *ini = new TIniFile(ExtractFilePath(Application->ExeName) + "tispl_"+get_user_name()+"_"+get_computer_name()+".ini");
 		TIniFile *ini = new TIniFile(get_temp_dir() +"TISPL\\" + "tispl_"+get_user_name()+"_"+get_computer_name()+".ini");
 		ini->WriteString("Konec","status","OK");
@@ -2975,6 +2978,10 @@ void __fastcall TForm1::MagnaClick(TObject *Sender)
 	//vloží novou hotovou cestu do spoj.seznamu cest   */
 	d.v.vloz_cestu(cesta_pom2);//vloží novou hotovou cestu do spoj.seznamu cest
 	d.v.vloz_cestu(cesta_pom);
+
+  //automatické volání z historie - PROZATIM
+	Form_vozik_nastaveni->nacti_voziky();
+	Form_vozik_nastaveni->uloz_voziky_a_nastav_zakazky();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::SPPP1Click(TObject *Sender)
@@ -3213,8 +3220,9 @@ void __fastcall TForm1::antialiasing1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Timer_trTimer(TObject *Sender)
 {
-	if(!ttr("cinnost")){Timer_tr->Enabled=false;Close();}//kontrola zda nevypršela trial verze
+	if(!ttr("TimerTr")){Timer_tr->Enabled=false;Close();}//kontrola zda nevypršela trial verze
 }
 //---------------------------------------------------------------------------
+
 
 
