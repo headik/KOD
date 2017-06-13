@@ -246,11 +246,24 @@ void Cgrafy::graf1() {
 	while (ukaz != NULL)
 	{
 		TPointD z = Form1->d.v.vrat_zacatek_a_konec_zakazky(ukaz);
-
-		Form1->Series1->AddGanttColor(Form1->m.round2double(z.x,2), Form1->m.round2double(z.y,2), ukaz->n,
-		AnsiString(Form1->m.round2double(z.x,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
-
+//if(ukaz->n==1) {
+//
+//
+// int a=0;
+//		Form1->Series1->AddGanttColor(Form1->m.round2double(0,2), Form1->m.round2double(z.y,2), ukaz->n,
+//		AnsiString(Form1->m.round2double(0,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
+//		 }
+//		 else
+//			Form1->Series1->AddGanttColor(Form1->m.round2double(0,2), Form1->m.round2double(z.y,2), ukaz->n,
+//		AnsiString(Form1->m.round2double(0,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
 		 //	Form1->Chart1->Hover->Frame->Color=Form1->m.clIntensive(ukaz->barva,80);
+		if(ukaz->n==1)
+		{
+		 Form1->Series1->AddGanttColor(0, Form1->m.round2double(z.y,2), ukaz->n,
+		 AnsiString(0) + " - " + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
+		}
+			Form1->Series1->AddGanttColor(Form1->m.round2double(z.x,2), Form1->m.round2double(z.y,2), ukaz->n,
+		AnsiString(Form1->m.round2double(z.x,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
 
 		ukaz = ukaz->dalsi;
 	}
@@ -288,28 +301,32 @@ void Cgrafy::graf2() {
 	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
 
 	//if (Form1->d.PROZATIM) //nefunguje pøi prvním prùchodu až pøi druhém...
-	{
+	//{
 
 		Form1->Memo1->Lines->Clear();
 		Form1->Memo1->Font->Color=clRed;
+
+			Form1->Series2->Clear();
+			Form1->Series3->Clear();
 
 		while (ukaz != NULL)
 		{
 
 		Form1->Series2->Add(Form1->PP.TT, ukaz->n,ukaz->barva);
 
-		 if (Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT)
+		//if(Form1->d.v.vrat_AVG_TT_zakazky(ukaz)==floor(Form1->PP.TT)) Form1->Memo1->Lines->Add("rovna");
+		//if(Form1->m.round(Form1->d.v.vrat_AVG_TT_zakazky(ukaz))>floor(Form1->PP.TT)) Form1->Memo1->Lines->Add("vetsi");
+
+		 if(Form1->d.v.vrat_AVG_TT_zakazky(ukaz)!=Form1->PP.TT)
 		 {
 				Form1->Series3->Add(Form1->d.v.vrat_AVG_TT_zakazky(ukaz)-Form1->PP.TT, ukaz->n,Form1->m.clIntensive(ukaz->barva,80));
-
 				Form1->Memo1->Lines->Add(AnsiString("Chyba - Uskuteènitelný TT: ") + Form1->d.v.vrat_AVG_TT_zakazky(ukaz) + AnsiString(". Požadovaný TT: ") + Form1->PP.TT + AnsiString(" . Zakázka èíslo") + ukaz->n);
-
 		 }
 
 			ukaz = ukaz->dalsi;
 		 }
 
-	}
+	//}
 
 }
 
@@ -460,7 +477,7 @@ void Cgrafy::graf6() { // Kapacity
       }
 		if(ukaz->kapacita_objektu!=ukaz->dop_kapacita_objektu){
 
-		Form1->Memo1->Lines->Add(AnsiString("Varování - nastavená kapacita: ") + ukaz->kapacita_objektu + AnsiString(". Doporuèená kapacita: ") + ukaz->dop_kapacita_objektu + AnsiString(" - pro objekt: ") + ukaz->short_name);
+		//Form1->Memo1->Lines->Add(AnsiString("Varování - nastavená kapacita: ") + ukaz->kapacita_objektu + AnsiString(". Doporuèená kapacita: ") + ukaz->dop_kapacita_objektu + AnsiString(" - pro objekt: ") + ukaz->short_name);
 		}
 
 		ukaz = ukaz->dalsi;
