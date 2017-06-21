@@ -564,7 +564,7 @@ void __fastcall TForm_vozik_nastaveni::RzStringGrid1Click(TObject *Sender) {
 void __fastcall TForm_vozik_nastaveni::Button_OKKeyDown(TObject *Sender, WORD &Key,
           TShiftState Shift)
 {
-   		UINT funkcni_klavesa=0;
+	UINT funkcni_klavesa=0;
 	switch(Key)
 	{
 		//BACKSPACE

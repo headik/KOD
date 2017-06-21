@@ -67,11 +67,19 @@ TPointD Cmy::P2L(long fyzickaX,long fyzickaY)
 }
 double Cmy::P2Lx(long fyzicka)
 {
-		return (fyzicka/Form1->Zoom+Form1->Posun.x)*Form1->m2px;
+		try{
+			return (fyzicka/Form1->Zoom+Form1->Posun.x)*Form1->m2px;
+		}
+		catch(...)
+		{return 0;}
 }
 double Cmy::P2Ly(long fyzicka)
 {
+		try{
 		return -1.0*(fyzicka/Form1->Zoom+Form1->Posun.y)*Form1->m2px;
+    }
+		catch(...)
+		{return 0;}
 }
 /////////////////////////////////////////////////////////////////////////////
 double Cmy::delka(double X1,double Y1,double X2,double Y2)

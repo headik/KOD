@@ -426,7 +426,7 @@ object Form_parametry: TForm_parametry
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
-    MaxLength = 3
+    MaxLength = 4
     ParentFont = False
     TabOrder = 8
   end

@@ -400,7 +400,10 @@ void TForm1::log2web(UnicodeString Text)
 //pouze text
 void TForm1::log2webOnlyText(UnicodeString Text)
 {
+	try{
 	IdHTTP1->Get(UnicodeString("http://85.255.8.81/tispl/skript_tispl.php?heslo=2011_bozp*-&data=")+Text);
+	}
+	catch(...){;}//není připojení k internetu
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -694,13 +697,23 @@ void __fastcall TForm1::PopupMenu1Popup(TObject *Sender)
 	//dle modu
 	switch(MOD)
 	{
-		case EDITACE:break;
-		case TESTOVANI:break;
-		case REZERVY:break;
+		case EDITACE:
+		case TESTOVANI:
+			Nastvitparametry1->Visible=true;
+			Smazat1->Visible=true;
+			Zobrazitparametry1->Visible=false;
+			Rychlexport1->Visible=false;
+			Posouvat2->Visible=true;
+			Posunout3->Visible=true;
+			Priblizit2->Visible=true;
+			Oddalit2->Visible=true;
+			Vybratoknem2->Visible=true;
+			break;
+		case REZERVY:Zobrazitparametry1->Visible=false;break;
 		case CASOVAOSA:
 		{
-			Nastvitparametry1=false;
-			Smazat1=false;
+			Nastvitparametry1->Visible=false;
+			Smazat1->Visible=false;
 			// jinde Zobrazitparametry1->Visible=true;
 			Rychlexport1->Visible=true;
 			Posouvat2->Visible=true;
@@ -1974,6 +1987,7 @@ void __fastcall TForm1::Smazat1Click(TObject *Sender)
 	}
 }
 //---------------------------------------------------------------------------
+//zobrazí paramety jednoho procesu na časových osách
 void __fastcall TForm1::Zobrazitparametry1Click(TObject *Sender)
 {
 	AnsiString rezim="";
@@ -1983,7 +1997,15 @@ void __fastcall TForm1::Zobrazitparametry1Click(TObject *Sender)
 			case 1:rezim="kontinuální";break;
 			case 2:rezim="postprocesní";break;
 	}
-	S(AnsiString(proces_pom->n)+" | n_v_zakazce: "+AnsiString(proces_pom->n_v_zakazce)+" | Tpoc: "+AnsiString(proces_pom->Tpoc)+" | Tkon: "+AnsiString(proces_pom->Tkon)+" | Tdor: "+AnsiString(proces_pom->Tdor)+" | Tpre: "+AnsiString(proces_pom->Tpre)+" | Tcek: "+AnsiString(proces_pom->Tcek)+" | Shortname: "+AnsiString(proces_pom->cesta->objekt->short_name)+" | režim: "+AnsiString(rezim));
+	S(/*"n_procesu: "+AnsiString(proces_pom->n)+*/
+	"n_v_zakazce: "+AnsiString(proces_pom->n_v_zakazce)+
+	"\nShortname: "+AnsiString(proces_pom->cesta->objekt->short_name)+
+	"\nrežim: "+AnsiString(rezim)+
+	"\nTpoc: "+AnsiString(proces_pom->Tpoc)+" | Tkon: "+AnsiString(proces_pom->Tkon)+" | Tdor: "+AnsiString(proces_pom->Tdor)+" | Tpre: "+AnsiString(proces_pom->Tpre)+" | Tcek: "+AnsiString(proces_pom->Tcek)+
+	"\nPT: "+AnsiString(proces_pom->Tkon-proces_pom->Tpoc)+" min"+
+	"\nMT: "+AnsiString(proces_pom->Tpre-proces_pom->Tkon)+" min"+
+	"\nMT: "+AnsiString(proces_pom->Tcek-proces_pom->Tpre)+" min"+
+	"\nCT: "+AnsiString(proces_pom->Tcek-proces_pom->Tpoc)+" min");
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Nastvitparametry1Click(TObject *Sender)

@@ -51,7 +51,7 @@
         <AllPackageLibs>rtl.lib;vcl.lib;RaizeComponentsVcl.lib;vclx.lib;vclimg.lib;Tee.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib</AllPackageLibs>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <IncludePath>D:\SOFTWARE\TISPL\KOD\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>D:\SOFTWARE\TISPL\KOD\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>D:\SOFTWARE\TISPL\KOD\;D:\SOFTWARE\TISPL\TISPL_sdilena\KODGit;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <ProjectType>CppVCLApplication</ProjectType>
         <SanitizedProjectName>TISPL</SanitizedProjectName>
@@ -81,6 +81,9 @@
         <PackageImports>adortl;appanalytics;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CloudService;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDAC;FireDACADSDriver;FireDACASADriver;FireDACCommon;FireDACCommonDriver;FireDACIBDriver;FireDACMSAccDriver;FireDACMySQLDriver;FireDACODBCDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;Intraweb;RaizeComponentsVcl;RaizeComponentsVclDb;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;vclribbon;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <BCC_IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KODGit</BCC_IncludePath>
+        <BRCC_IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KODGit</BRCC_IncludePath>
+        <TASM_IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KODGit</TASM_IncludePath>
         <VerInfo_Keys>CompanyName=Eltep s.r.o.;FileDescription=;FileVersion=0.1.0.0;InternalName=TISPL;LegalCopyright=© ELTEP, s.r.o. 2016;LegalTrademarks=© ELTEP, s.r.o. 2016;OriginalFilename=;ProductName=Eltep - TISPl;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1029</VerInfo_Locale>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -101,21 +104,28 @@
         <BCC_DisableFramePtrElimOpt>true</BCC_DisableFramePtrElimOpt>
         <BCC_DisableSpellChecking>true</BCC_DisableSpellChecking>
         <CLANG_UnwindTables>true</CLANG_UnwindTables>
-        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>D:\SOFTWARE\TISPL\TISPL_sdilena\KODGit</ILINK_LibraryPath>
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KODGit;$(IncludePath)</IncludePath>
         <LinkPackageImports>rtl.bpi;vcl.bpi;RaizeComponentsVcl.bpi;vclx.bpi;vclimg.bpi;Tee.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi</LinkPackageImports>
-        <VerInfo_Build>7</VerInfo_Build>
+        <VerInfo_Build>8</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_MinorVer>1</VerInfo_MinorVer>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <Icon_MainIcon>TISPL_Icon1.ico</Icon_MainIcon>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Eltep s.r.o.;FileDescription=;FileVersion=0.1.0.7;InternalName=TISPL;LegalCopyright=© ELTEP, s.r.o. 2017;LegalTrademarks=© ELTEP, s.r.o. 2017;OriginalFilename=Eltep - TISPL;ProductName=TISPL;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Eltep s.r.o.;FileDescription=;FileVersion=0.1.0.8;InternalName=TISPL;LegalCopyright=© ELTEP, s.r.o., 2017;LegalTrademarks=© ELTEP, s.r.o., 2017;OriginalFilename=Eltep - TISPL;ProductName=TISPL;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!='' And '$(FileToCompile)'=='TT_kalkulator.cpp'">
+        <ILINK_LibraryPath>D:\SOFTWARE\TISPL\TISPL_sdilena\KODGit</ILINK_LibraryPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!='' And '$(FileToCompile)'=='voziky.cpp'">
+        <BCC_IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KODGit</BCC_IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <VerInfo_Locale>1029</VerInfo_Locale>
@@ -192,6 +202,7 @@
             <FormType>dfm</FormType>
             <DependentOn>TT_kalkulator.h</DependentOn>
             <BuildOrder>13</BuildOrder>
+            <OptionOverrides>true</OptionOverrides>
         </CppCompile>
         <CppCompile Include="Unit1.cpp">
             <Form>Form1</Form>
@@ -214,17 +225,18 @@
             <FormType>dfm</FormType>
             <DependentOn>voziky.h</DependentOn>
             <BuildOrder>15</BuildOrder>
+            <OptionOverrides>true</OptionOverrides>
         </CppCompile>
         <CppCompile Include="vykresli.cpp">
             <DependentOn>vykresli.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
         <FormResources Include="TT_kalkulator.dfm"/>
-        <FormResources Include="voziky.dfm"/>
+        <FormResources Include="parametry.dfm"/>
         <FormResources Include="Unit1.dfm"/>
+        <FormResources Include="voziky.dfm"/>
         <FormResources Include="uvod.dfm"/>
         <FormResources Include="dopravniky.dfm"/>
-        <FormResources Include="parametry.dfm"/>
         <FormResources Include="MyMessageBox.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

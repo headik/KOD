@@ -65,7 +65,7 @@ public:		// User declarations
 
 		struct TBarva
 		{
-			unsigned int	id_radek;
+			long	id_radek;
 			TColor barva_voziku;
 			struct TBarva *predchozi;
 			struct TBarva *dalsi;

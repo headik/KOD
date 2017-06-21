@@ -1165,8 +1165,8 @@ double Cvektory::vrat_AVG_TT_zakazky(unsigned int n_zakazky)//vrátí hodnotu pr
 		vozik=vozik->dalsi;
 	}
 	if(i==0)return 0;//pokud je pouze jenom jeden vozík není takt
-	else return TT/i;//vrátí průměrné TT
-}
+	else return floor(TT/i*1000000.0)/1000000.0;//vrátí průměrné TT
+}                      //kvůli chybě s přesnosti uříznutí na 6 reaálných míst
 //---------------------------------------------------------------------------
 unsigned int Cvektory::vrat_pocet_voziku_zakazky(TSeznam_cest *jaka)
 {
