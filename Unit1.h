@@ -192,6 +192,7 @@ __published:	// IDE-managed Components
 	TIdTime *IdTime1;
 	TIdHTTP *IdHTTP1;
 	TTimer *Timer_tr;
+	TCheckBox *CheckBox_pouzit_zadane_kapacity;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -299,6 +300,7 @@ __published:	// IDE-managed Components
 	void __fastcall antialiasing1Click(TObject *Sender);
 	void __fastcall TimerMouseWheelTimer(TObject *Sender);
 	void __fastcall Timer_trTimer(TObject *Sender);
+	void __fastcall CheckBox_pouzit_zadane_kapacityClick(TObject *Sender);
 
 
 

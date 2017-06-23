@@ -874,7 +874,8 @@ void Cvykresli::vykresli_technologicke_procesy(TCanvas *canv)
 	Cvektory::TObjekt *ukaz=v.OBJEKTY->dalsi;//ukazatel na první objekt v seznamu OBJEKTU, přeskočí hlavičku
 	while (ukaz!=NULL)
 	{
-		X+=ukaz->dop_kapacita_objektu*S;
+		if(Form1->CheckBox_pouzit_zadane_kapacity->Checked)X+=ukaz->kapacita_objektu*S;//pokud se mají použít zadané kapacity
+		else X+=ukaz->dop_kapacita_objektu*S; //pokud se mají použít zadané kapacity
 		ukaz->obsazenost=X;//zneužití proměné obsazenost,//přes ->předchozí asi by nešlo načítat, protože pořadí objektu na cestě a ve spojaku OBJEKTY nemusí být totožné
 		ukaz=ukaz->dalsi;
 	}

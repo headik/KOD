@@ -617,6 +617,7 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	CheckBoxAnimovatSG->Top=CheckBoxPALCE->Top;
 	CheckBoxAnimovatSG->Left=LabelRoletka->Left+LabelRoletka->Width+ComboBoxODmin->Width+ComboBoxDOmin->Width+5;
 	CheckBoxVymena_barev->Visible=false;
+	CheckBox_pouzit_zadane_kapacity->Visible=true;
 	//filtrace
 	d.TP.K=0.5;//Krok po kolika minutach se bude zobrazovat
 	d.TP.OD=0;//od které min se proces začne vypisovat
@@ -2004,7 +2005,7 @@ void __fastcall TForm1::Zobrazitparametry1Click(TObject *Sender)
 	"\nTpoc: "+AnsiString(proces_pom->Tpoc)+" | Tkon: "+AnsiString(proces_pom->Tkon)+" | Tdor: "+AnsiString(proces_pom->Tdor)+" | Tpre: "+AnsiString(proces_pom->Tpre)+" | Tcek: "+AnsiString(proces_pom->Tcek)+
 	"\nPT: "+AnsiString(proces_pom->Tkon-proces_pom->Tpoc)+" min"+
 	"\nMT: "+AnsiString(proces_pom->Tpre-proces_pom->Tkon)+" min"+
-	"\nMT: "+AnsiString(proces_pom->Tcek-proces_pom->Tpre)+" min"+
+	"\nWT: "+AnsiString(proces_pom->Tcek-proces_pom->Tpre)+" min"+
 	"\nCT: "+AnsiString(proces_pom->Tcek-proces_pom->Tpoc)+" min");
 }
 //---------------------------------------------------------------------------
@@ -3247,4 +3248,10 @@ void __fastcall TForm1::Timer_trTimer(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
+
+void __fastcall TForm1::CheckBox_pouzit_zadane_kapacityClick(TObject *Sender)
+{
+Invalidate();
+}
+//---------------------------------------------------------------------------
 
