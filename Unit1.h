@@ -225,6 +225,7 @@ __published:	// IDE-managed Components
 	TIdHTTP *IdHTTP1;
 	TTimer *Timer_tr;
 	TFDConnection *FDConnection1;
+	TCheckBox *CheckBox_pouzit_zadane_kapacity;
 	TFDQuery *FDQuery1;
 	TButton *Button11;
 	TFDQuery *FDQuery2;
@@ -335,6 +336,7 @@ __published:	// IDE-managed Components
 	void __fastcall antialiasing1Click(TObject *Sender);
 	void __fastcall TimerMouseWheelTimer(TObject *Sender);
 	void __fastcall Timer_trTimer(TObject *Sender);
+	void __fastcall CheckBox_pouzit_zadane_kapacityClick(TObject *Sender);
 	void __fastcall Button11Click(TObject *Sender);
 
 

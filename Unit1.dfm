@@ -950,6 +950,18 @@ object Form1: TForm1
     TabOrder = 27
     OnClick = Button11Click
   end
+  object CheckBox_pouzit_zadane_kapacity: TCheckBox
+    Left = 262
+    Top = 196
+    Width = 171
+    Height = 20
+    Caption = 'pou'#382#237't zadan'#233' kapacity objekt'#367
+    Color = clBtnFace
+    ParentColor = False
+    TabOrder = 27
+    Visible = False
+    OnClick = CheckBox_pouzit_zadane_kapacityClick
+  end
   object MainMenu1: TMainMenu
     Left = 152
     Top = 32
@@ -1332,7 +1344,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118007002880210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118008402840210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
