@@ -257,15 +257,17 @@ void Cgrafy::graf1() {
 //			Form1->Series1->AddGanttColor(Form1->m.round2double(0,2), Form1->m.round2double(z.y,2), ukaz->n,
 //		AnsiString(Form1->m.round2double(0,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
 		 //	Form1->Chart1->Hover->Frame->Color=Form1->m.clIntensive(ukaz->barva,80);
-		if(ukaz->n==1)
+	 /*	if(ukaz->n==1)
 		{
 		 Form1->Series1->AddGanttColor(0, Form1->m.round2double(z.y,2), ukaz->n,
 		 AnsiString(0) + " - " + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
 		}
+	 */
 			Form1->Series1->AddGanttColor(Form1->m.round2double(z.x,2), Form1->m.round2double(z.y,2), ukaz->n,
 		AnsiString(Form1->m.round2double(z.x,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
 
 		ukaz = ukaz->dalsi;
+
 	}
 
 }

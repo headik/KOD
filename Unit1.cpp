@@ -36,6 +36,9 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	srand(time(NULL));
 	m2px=0.1;//uchovává hodnotu prostorového rozlišení programu, nativní rozlišení 0,1 m na 1 pixel při zoomu 1x
 
+
+	
+
 	//vytvoření TEMP adresáře (pro ini)
 	MkDir(get_temp_dir()+"TISPL");
 
@@ -225,13 +228,13 @@ void __fastcall TForm1::NovySouborClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormActivate(TObject *Sender)
 {
-//	if(!ttr("start"))
-//	{
-//		Timer_tr->Enabled=false;//ještě je ale z důvodu ochrany enabled=true v object inspectoru, toto je spíše na zmatení
-//		Close();
-//	}
-//	else
-	Timer_tr->Enabled=false;//prozatim
+	if(!ttr("start"))
+	{
+		Timer_tr->Enabled=false;//ještě je ale z důvodu ochrany enabled=true v object inspectoru, toto je spíše na zmatení
+		Close();
+	}
+	else
+ //	Timer_tr->Enabled=false;//prozatim
 		startUP();
 }
 //---------------------------------------------------------------------------
@@ -400,7 +403,31 @@ void TForm1::log2web(UnicodeString Text)
 //pouze text
 void TForm1::log2webOnlyText(UnicodeString Text)
 {
-	IdHTTP1->Get(UnicodeString("http://85.255.8.81/tispl/skript_tispl.php?heslo=2011_bozp*-&data=")+Text);
+	//   varianta odesílání dat přes GET
+	//IdHTTP1->Get(UnicodeString("http://85.255.8.81/tispl/skript_tispl.php?hash=erDSQgregdvgFEFSDDeporhrfFGOI98886732dfgorvmqwerfdvvcBHDE")+Text);
+
+/*    varianta odesílání dat přes POST
+		TStringList *request = new TStringList;
+				TStringList *response = new TStringList();
+
+				request->Clear();
+				//IdHTTP1->IOHandler = IdSSLIOHandlerSocketOpenSSL1;
+				IdHTTP1->Request->ContentType = "application/x-www-form-urlencoded";
+		 //		Idssl
+
+request->Values["app"]      = "tispl";
+request->Values["key"]     = "";
+request->Values["pass"]        ="2011_bozp*-";
+request->Values["log_text"]     = "2011_bozp*-";
+
+response->Text = IdHTTP1->Post("http://85.255.8.81/tispl/skript_tispl.php", request);
+ */
+
+
+
+
+
+
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -3224,5 +3251,36 @@ void __fastcall TForm1::Timer_trTimer(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
+
+void __fastcall TForm1::Button11Click(TObject *Sender)
+{
+
+		FDQuery1->Active = False;
+		FDQuery1->Open("select * from app_setup where id=\"1\"");  //id nahradit id z ini     a udelat podmínku zda platí lokální údaje o pc s uloženými
+		FDQuery1->Active = True;
+
+
+	 if(get_computer_name()!=FDQuery1->Fields->Fields[2]->AsAnsiString || get_user_name()!=FDQuery1->Fields->Fields[3]->AsAnsiString) {
+	 ShowMessage("neplatne udaje v PC a na serveru");
+	 }
+
+	AnsiString send_log_time= TIME.CurrentDateTime();
+	AnsiString relation_id=GetCurrentProcessId();
+
+
+ //	AnsiString date= TIME.CurrentDate();
+		AnsiString strSQL = "INSERT INTO log_table (app_id,app_start,app_stop,send_log_time,command,relation_id) VALUES (\""+FDQuery1->Fields->Fields[0]->AsAnsiString+"\",\""+send_log_time+"\",\"\",\""+send_log_time+"\",\""+Text+"\",\""+relation_id+"\")";
+		//S(strSQL);
+
+
+		FDConnection1->ExecSQL(strSQL);
+
+
+
+			
+
+}
+//---------------------------------------------------------------------------
 
 

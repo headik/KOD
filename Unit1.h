@@ -42,6 +42,38 @@
 #include <IdUDPBase.hpp>
 #include <IdUDPClient.hpp>
 #include <IdHTTP.hpp>
+#include <Data.DB.hpp>
+#include <FireDAC.Comp.Client.hpp>
+#include <FireDAC.Comp.DataSet.hpp>
+#include <FireDAC.DApt.hpp>
+#include <FireDAC.DApt.Intf.hpp>
+#include <FireDAC.DatS.hpp>
+#include <FireDAC.Phys.hpp>
+#include <FireDAC.Phys.Intf.hpp>
+#include <FireDAC.Phys.MySQL.hpp>
+#include <FireDAC.Phys.MySQLDef.hpp>
+#include <FireDAC.Stan.Async.hpp>
+#include <FireDAC.Stan.Def.hpp>
+#include <FireDAC.Stan.Error.hpp>
+#include <FireDAC.Stan.Intf.hpp>
+#include <FireDAC.Stan.Option.hpp>
+#include <FireDAC.Stan.Param.hpp>
+#include <FireDAC.Stan.Pool.hpp>
+#include <FireDAC.UI.Intf.hpp>
+#include <FireDAC.VCLUI.Wait.hpp>
+#include <Data.FMTBcd.hpp>
+#include <Data.SqlExpr.hpp>
+#include <Data.DBXMySQL.hpp>
+#include <FireDAC.Comp.Script.hpp>
+#include <FireDAC.Comp.ScriptCommands.hpp>
+#include <FireDAC.Stan.Util.hpp>
+#include <FireDAC.Comp.UI.hpp>
+#include <FireDAC.VCLUI.Script.hpp>
+#include <IdIOHandler.hpp>
+#include <IdIOHandlerSocket.hpp>
+#include <IdIOHandlerStack.hpp>
+#include <IdSSL.hpp>
+#include <IdSSLOpenSSL.hpp>
 //#include "vektory.h" //už vkládám přes vykresli.h
 //#include "knihovna_objektu.h" //už vkládám přes vykresli.h resp. vektory.h
 
@@ -192,6 +224,10 @@ __published:	// IDE-managed Components
 	TIdTime *IdTime1;
 	TIdHTTP *IdHTTP1;
 	TTimer *Timer_tr;
+	TFDConnection *FDConnection1;
+	TFDQuery *FDQuery1;
+	TButton *Button11;
+	TFDQuery *FDQuery2;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -299,6 +335,7 @@ __published:	// IDE-managed Components
 	void __fastcall antialiasing1Click(TObject *Sender);
 	void __fastcall TimerMouseWheelTimer(TObject *Sender);
 	void __fastcall Timer_trTimer(TObject *Sender);
+	void __fastcall Button11Click(TObject *Sender);
 
 
 
@@ -356,6 +393,7 @@ private:	// User declarations
 	void log2web(UnicodeString Text);//automaticky přidá parametry (čas, uživatel, licence)
 	void log2webOnlyText(UnicodeString Text);//pouze text
 	void startUP();//při aktivaci formuláře, pro zpřehlednění kodu
+
 	TDateTime TIME;
 	UnicodeString LICENCE;
 

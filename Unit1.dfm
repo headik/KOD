@@ -941,6 +941,15 @@ object Form1: TForm1
     Items.Strings = (
       '')
   end
+  object Button11: TButton
+    Left = 378
+    Top = 329
+    Width = 75
+    Height = 25
+    Caption = 'Button11'
+    TabOrder = 27
+    OnClick = Button11Click
+  end
   object MainMenu1: TMainMenu
     Left = 152
     Top = 32
@@ -1323,7 +1332,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118007002700210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118007002880210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2373,5 +2382,27 @@ object Form1: TForm1
     OnTimer = Timer_trTimer
     Left = 376
     Top = 32
+  end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'ConnectionDef=Mysql')
+    FetchOptions.AssignedValues = [evCursorKind]
+    FetchOptions.CursorKind = ckDefault
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    Left = 504
+    Top = 160
+  end
+  object FDQuery1: TFDQuery
+    Connection = FDConnection1
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    Left = 552
+    Top = 160
+  end
+  object FDQuery2: TFDQuery
+    Connection = FDConnection1
+    Left = 600
+    Top = 160
   end
 end
