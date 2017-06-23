@@ -403,6 +403,7 @@ void TForm1::log2web(UnicodeString Text)
 //pouze text
 void TForm1::log2webOnlyText(UnicodeString Text)
 {
+
 	//   varianta odesílání dat přes GET
 	//IdHTTP1->Get(UnicodeString("http://85.255.8.81/tispl/skript_tispl.php?hash=erDSQgregdvgFEFSDDeporhrfFGOI98886732dfgorvmqwerfdvvcBHDE")+Text);
 
@@ -428,8 +429,8 @@ response->Text = IdHTTP1->Post("http://85.255.8.81/tispl/skript_tispl.php", requ
 
 
 
-	}
-	catch(...){;}//není připojení k internetu
+
+	//catch(...){;}//není připojení k internetu
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
