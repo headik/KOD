@@ -30,7 +30,7 @@ void Cgrafy::ShowGrafy(bool stav) {
 void Cgrafy::nastaveni()
 {
 			 //WIP label
-			Form1->Label_wip->Font->Color=RGB(100,100,100);
+			Form1->Label_wip->Font->Color=(TColor)RGB(100,100,100);
 			Form1->Label_wip->Visible = true;
 			Form1->Label_wip->Font->Size = 20;
 			Form1->Label_wip->Top = Form1->Chart1->Top - 35;
@@ -44,7 +44,7 @@ void Cgrafy::nastaveni()
 		Form1->Chart1->Color = clWhite;
 		Form1->Chart1->Title->Font->Size = 16;
 		Form1->Chart1->Title->Font->Name="Arial";
-		Form1->Chart1->Title->Font->Color=RGB(100,100,100);//RGB(84,83,82);
+		Form1->Chart1->Title->Font->Color=(TColor)RGB(100,100,100);//RGB(84,83,82);
 		Form1->Chart1->LeftAxis->Title->Font->Size = 14;
 		Form1->Chart1->BottomAxis->Title->Font->Size = 14;
 		Form1->Chart1->LeftAxis->Title->Font->Name=Form1->Chart1->Title->Font->Name;
@@ -56,7 +56,7 @@ void Cgrafy::nastaveni()
 		Form1->Chart1->BottomAxis->Items->Format->Font->Color=Form1->Chart1->Title->Font->Color;
 		Form1->Chart1->LeftAxis->Items->Format->Font->Size = 12;
 		Form1->Chart1->BottomAxis->Items->Format->Font->Name=Form1->Chart1->Title->Font->Name;
-		Form1->Chart1->LeftAxis->Items->Format->Font->Color=RGB(100,100,100);//RGB(84,83,82);
+		Form1->Chart1->LeftAxis->Items->Format->Font->Color=(TColor)RGB(100,100,100);//RGB(84,83,82);
 		Form1->Chart1->BottomAxis->Items->Format->Font->Size = 12;
 		Form1->Chart1->BottomAxis->Items->Format->Font->Color=Form1->Chart1->LeftAxis->Items->Format->Font->Color;
 		Form1->Chart1->Border->Visible = false;  //u gant grafu nejde border nastavit v kodu, musi se v editoru
@@ -94,7 +94,7 @@ void Cgrafy::nastaveni()
 		Form1->Series9->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
 		Form1->Series10->Marks->Font->Size=Form1->Series1->Marks->Font->Size;
 
-		Form1->Series1->Marks->Font->Color=RGB(100,100,100);
+		Form1->Series1->Marks->Font->Color=(TColor)RGB(100,100,100);
 		Form1->Series2->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
 		Form1->Series3->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
 		Form1->Series5->Marks->Font->Color=Form1->Series1->Marks->Font->Color;
@@ -472,7 +472,7 @@ void Cgrafy::graf6() { // Kapacity
 	if(ukaz->kapacita_objektu!=ukaz->dop_kapacita_objektu){
 		Form1->Series9->Add(ukaz->kapacita_objektu, ukaz->short_name,(TColor) RGB(0,128,255));
 
-		Form1->Series10->Add(ukaz->dop_kapacita_objektu,"",Form1->m.clIntensive(RGB(0,128,255),80));
+		Form1->Series10->Add(ukaz->dop_kapacita_objektu,"",Form1->m.clIntensive((TColor)RGB(0,128,255),80));
       }
 		if(ukaz->kapacita_objektu!=ukaz->dop_kapacita_objektu){
 

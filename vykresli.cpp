@@ -207,6 +207,7 @@ void Cvykresli::vykresli_rectangle(TCanvas *canv,Cvektory::TObjekt *ukaz)
 		 canv->TextOutW(S.x+4*zAA,S.y+33*zAA,"TT: "+UnicodeString(ukaz->TTo)+" min/v");
 		 canv->TextOutW(S.x+4*zAA,S.y+48*zAA,"CT: "+UnicodeString(ukaz->CT)+" min/v");
 		 canv->TextOutW(S.x+4*zAA,S.y+63*zAA,"Kap.: "+UnicodeString(ukaz->kapacita_objektu)+" v");
+		 canv->TextOutW(S.x+4*zAA,S.y+63*zAA,"dopKap.: "+UnicodeString(ukaz->dop_kapacita_objektu)+" v");
 		}
 
 		if(Form1->Zoom_predchozi_AA<=1)//pro největší oddálení zobrazí jenom zkratku objektu
@@ -271,8 +272,8 @@ void Cvykresli::vykresli_graf_rezervy(TCanvas *canv)
 				set_color(canv,ukaz->TTo);
 				canv->Pen->Style=psSolid;
 				canv->Brush->Style=bsSolid;
-				unsigned int sirka_sloupce=m.round((P-offset_horizont-L)*ukaz->CT/v.LT);
-				unsigned int vyska_sloupce=m.round((D-H-offset_vertical)*ukaz->TTo/v.MAX_TT);//pokud bych chtěl rovnoměrně rozdělovat tak jako u sirka_sloupce:unsigned int vyska_sloupce=m.round((D-H-offset_vertical)*ukaz->time/LT);
+				int sirka_sloupce=m.round((P-offset_horizont-L)*ukaz->CT/v.LT);
+				int vyska_sloupce=m.round((D-H-offset_vertical)*ukaz->TTo/v.MAX_TT);//pokud bych chtěl rovnoměrně rozdělovat tak jako u sirka_sloupce:unsigned int vyska_sloupce=m.round((D-H-offset_vertical)*ukaz->time/LT);
 				canv->Rectangle(sirka_uzita,D-vyska_sloupce,sirka_uzita+sirka_sloupce,D);
 				//zajistí grafické oddělení sloupců bílá svislá čára
 				canv->Pen->Color=clWhite;
@@ -447,14 +448,14 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 							//v.vloz_proces(P);
 
 							//čekání na čištění pistole a výměnu barev včetně čekání
-							if(Form1->FileName.Pos("magna.tispl") && Form1->CheckBoxVymena_barev->Checked && (C->objekt->short_name=="P" || C->objekt->short_name=="BB" || C->objekt->short_name=="CC"))
+							if(Form1->FileName.Pos("magna.tispl") && Form1->CheckBoxVymena_barev->Checked && (C->objekt->short_name.Pos("PRI") || C->objekt->short_name.Pos("BAS") || C->objekt->short_name.Pos("CLE")))
 							{
 									short n_cisteni=0;//po kolika vozících
 									double T_cisteni=0;//s čištění
 									double T_vymena=0;//min vyměna
-									if(C->objekt->short_name=="P"){n_cisteni=10;T_cisteni=88/60.0;T_vymena=T_cisteni+266/60.0;}
-									if(C->objekt->short_name=="BB"){n_cisteni=10;T_cisteni=40/60.0;T_vymena=T_cisteni+112/60.0;}
-									if(C->objekt->short_name=="CC"){n_cisteni=10;T_cisteni=88/60.0;T_vymena=T_cisteni+266/60.0;}
+									if(C->objekt->short_name=="PRI1" || C->objekt->short_name=="PRI2"){n_cisteni=10;T_cisteni=88/60.0;T_vymena=T_cisteni+266/60.0;}
+									if(C->objekt->short_name=="BAS1" || C->objekt->short_name=="BAS2"||C->objekt->short_name=="BAS3"||C->objekt->short_name=="BAS4"){n_cisteni=10;T_cisteni=40/60.0;T_vymena=T_cisteni+112/60.0;}
+									if(C->objekt->short_name=="CLE1" || C->objekt->short_name=="CLE2" ){n_cisteni=10;T_cisteni=88/60.0;T_vymena=T_cisteni+266/60.0;}
 
 									if(n%n_cisteni==0 && n!=0)//čištění, mimo první vozík protože buď je připravená linka (v případě první zakázky nebo je čištění součástí mezizakázkové výměny barev)
 									{
@@ -561,9 +562,11 @@ double Cvykresli::proces(TCanvas *canv, unsigned int n, double X_predchozi, doub
 		 P->Tdor=X/PX2MIN;
 		 P->Tpre=X/PX2MIN;
    }
-	 //ještě posun o čekání na palce v každém případě (pokud tedy není kontinuální, což je řešeno přímo v metodě)
 	 X_predchozi=X;
-	 X+=m.cekani_na_palec(X/PX2MIN+C->CT,R,D,C->objekt->rezim,Form1->CheckBoxPALCE->Checked)/60*PX2MIN;
+	 //PALCE ještě posun o čekání na palce v každém případě (pokud tedy není kontinuální, což je řešeno přímo v metodě)
+	 if(Form1->CheckBoxPALCE->Checked && (C->objekt->rezim==0))//je S&G,
+	 X+=m.cekani_na_palec(X/PX2MIN+C->CT,R,D)/60*PX2MIN;
+	 //--
 	 if(X_predchozi!=X)vykresli_proces(canv,C->objekt->short_name,vozik->barva,3,m.round(X_predchozi)-PosunT.x,m.round(X)-PosunT.x,Y-PosunT.y);//samotné vykreslení časového obdelníku na časové ose
 	 //uložení hodnot pro další použití (v dalších kolech)
 	 C->objekt->obsazenost=X;//nahraje koncovou X hodnotu do obsaženosti objektu pro další využítí

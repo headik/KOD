@@ -49,10 +49,10 @@
         <VerInfo_Locale>1029</VerInfo_Locale>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
-        <AllPackageLibs>rtl.lib;vcl.lib;RaizeComponentsVcl.lib;vclx.lib;vclimg.lib;Tee.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;RaizeComponentsVcl.lib;vclx.lib;vclimg.lib;Tee.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib;dbrtl.lib;vclFireDAC.lib;FireDAC.lib;FireDACSqliteDriver.lib;FireDACCommonDriver.lib;FireDACCommon.lib;xmlrtl.lib;vcldb.lib;FireDACMySQLDriver.lib;dbexpress.lib;DbxCommonDriver.lib;DBXMySQLDriver.lib</AllPackageLibs>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
-        <IncludePath>D:\SOFTWARE\TISPL\KOD\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>D:\SOFTWARE\TISPL\KOD\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KOD;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>D:\SOFTWARE\TISPL\TISPL_sdilena\KOD;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <ProjectType>CppVCLApplication</ProjectType>
         <SanitizedProjectName>TISPL</SanitizedProjectName>
@@ -82,10 +82,8 @@
         <PackageImports>adortl;appanalytics;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CloudService;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDAC;FireDACADSDriver;FireDACASADriver;FireDACCommon;FireDACCommonDriver;FireDACIBDriver;FireDACMSAccDriver;FireDACMySQLDriver;FireDACODBCDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;Intraweb;RaizeComponentsVcl;RaizeComponentsVclDb;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;vclribbon;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
-        <BCC_IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KODGit</BCC_IncludePath>
-        <BRCC_IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KODGit</BRCC_IncludePath>
-        <TASM_IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KODGit</TASM_IncludePath>
-        <VerInfo_Keys>CompanyName=Eltep s.r.o.;FileDescription=;FileVersion=0.1.0.0;InternalName=TISPL;LegalCopyright=© ELTEP, s.r.o. 2016;LegalTrademarks=© ELTEP, s.r.o. 2016;OriginalFilename=;ProductName=Eltep - TISPl;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KOD</IncludePath>
+        <VerInfo_Keys>CompanyName=Eltep s.r.o.;FileDescription=;FileVersion=1.0.0.0;InternalName=TISPL;LegalCopyright=© ELTEP, s.r.o. 2016;LegalTrademarks=© ELTEP, s.r.o. 2016;OriginalFilename=;ProductName=Eltep - TISPl;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <DCC_Optimize>false</DCC_Optimize>
@@ -104,24 +102,25 @@
         <BCC_DisableFramePtrElimOpt>true</BCC_DisableFramePtrElimOpt>
         <BCC_DisableSpellChecking>true</BCC_DisableSpellChecking>
         <CLANG_UnwindTables>true</CLANG_UnwindTables>
-        <ILINK_LibraryPath>D:\SOFTWARE\TISPL\TISPL_sdilena\KOD;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>D:\SOFTWARE\TISPL\TISPL_sdilena\KOD</ILINK_LibraryPath>
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <ILINK_LibraryPath>D:\SOFTWARE\TISPL\TISPL_sdilena\KOD</ILINK_LibraryPath>
+        <IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KOD</IncludePath>
         <Debugger_CWD>D:\SOFTWARE\TISPL\TISPL_sdilena\KOD</Debugger_CWD>
         <Debugger_DebugSourcePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KOD;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
-        <TASM_IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KOD</TASM_IncludePath>
         <BRCC_IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KOD;$(BRCC_IncludePath)</BRCC_IncludePath>
         <BCC_IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KOD</BCC_IncludePath>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;RaizeComponentsVcl.bpi;vclx.bpi;vclimg.bpi;Tee.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi</LinkPackageImports>
-        <VerInfo_Build>9</VerInfo_Build>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;RaizeComponentsVcl.bpi;vclx.bpi;vclimg.bpi;Tee.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi;dbrtl.bpi;vclFireDAC.bpi;FireDAC.bpi;FireDACSqliteDriver.bpi;FireDACCommonDriver.bpi;FireDACCommon.bpi;xmlrtl.bpi;vcldb.bpi;FireDACMySQLDriver.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DBXMySQLDriver.bpi</LinkPackageImports>
+        <VerInfo_Build>12</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_MinorVer>1</VerInfo_MinorVer>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <Icon_MainIcon>TISPL_Icon1.ico</Icon_MainIcon>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Eltep s.r.o.;FileDescription=;FileVersion=0.1.0.9;InternalName=TISPL;LegalCopyright=© ELTEP, s.r.o., 2017;LegalTrademarks=© ELTEP, s.r.o., 2017;OriginalFilename=Eltep - TISPL;ProductName=TISPL;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Eltep s.r.o.;FileDescription=;FileVersion=0.1.0.12;InternalName=TISPL;LegalCopyright=© ELTEP, s.r.o., 2017;LegalTrademarks=© ELTEP, s.r.o., 2017;OriginalFilename=Eltep - TISPL;ProductName=TISPL;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
     </PropertyGroup>
@@ -132,7 +131,7 @@
         <BCC_IncludePath>D:\SOFTWARE\TISPL\TISPL_sdilena\KODGit</BCC_IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
-        <VerInfo_Keys>CompanyName=Eltep s.r.o.;FileDescription=;FileVersion=0.1.0.0;InternalName=TISPL;LegalCopyright=© ELTEP, s.r.o. 2016;LegalTrademarks=© ELTEP, s.r.o. 2016;OriginalFilename=;ProductName=Eltep - TISPl;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Eltep s.r.o.;FileDescription=;FileVersion=1.0.0.0;InternalName=TISPL;LegalCopyright=© ELTEP, s.r.o. 2016;LegalTrademarks=© ELTEP, s.r.o. 2016;OriginalFilename=;ProductName=Eltep - TISPl;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
@@ -166,6 +165,7 @@
         <CppCompile Include="grafy.cpp">
             <DependentOn>grafy.h</DependentOn>
             <BuildOrder>16</BuildOrder>
+            <OptionOverrides>true</OptionOverrides>
         </CppCompile>
         <None Include="knihovna_objektu.h">
             <BuildOrder>3</BuildOrder>
@@ -331,27 +331,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -705,12 +690,27 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>

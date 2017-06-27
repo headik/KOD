@@ -225,9 +225,9 @@ TPointDbool Cmy::zkratit_polygon_na_roztec(double d, double r,double xp, double 
 		return RET;
 }
 /////////////////////////////////////////////////////////////////////////////
-double Cmy::cekani_na_palec(double cas, double roztec_palcu,double rychlost_dopravniku,short rezim,bool zohlednit)//vrátí dobu èekání na palec v sec, zadání je u èas (výstupu vozíku z objektu) v sec, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
+double Cmy::cekani_na_palec(double cas, double roztec_palcu,double rychlost_dopravniku)//vrátí dobu èekání na palec v sec, zadání je u èas (výstupu vozíku z objektu) v sec, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
 {
-		if(zohlednit && rezim!=1)//pokud se jedná o kontinuální režim neøeší se, pøedpokládá se, že jede na stejném dopravníku
+		//if(zohlednit && rezim!=1)//pokud se jedná o kontinuální režim neøeší se, pøedpokládá se, že jede na stejném dopravníku
 		{
 			//exaktní výpoèet je použitelný jenom v pøípad známe goemetrie, navíc obsahuje chybu
 			//double cas_presunu_mezi_palci=(60*roztec_palcu)/(rychlost_dopravniku*100);  //to 100 je pøevod na cm z m
@@ -237,7 +237,7 @@ double Cmy::cekani_na_palec(double cas, double roztec_palcu,double rychlost_dopr
 			//(cas_presunu_mezi_palci-0)/2 resp. (max-min)/2
 			return ((60*roztec_palcu)/(rychlost_dopravniku*100)-0)/2; //vrátí dobu èekání na palec v sec, zadání je u èas (výstupu vozíku z objektu) v sec, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
 		}
-		else return 0;
+		//else return 0;
 }
 /////////////////////////////////////////////////////////////////////////////
 double Cmy::prejezd_voziku(double delka, double rychlost_dopravniku)

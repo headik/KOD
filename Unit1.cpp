@@ -2030,22 +2030,32 @@ void __fastcall TForm1::Smazat1Click(TObject *Sender)
 //zobrazí paramety jednoho procesu na časových osách
 void __fastcall TForm1::Zobrazitparametry1Click(TObject *Sender)
 {
+	double prozatim_delka_voziku=1.0;
 	AnsiString rezim="";
+	AnsiString delka="v tuto chvíli neznamá";
 	switch(proces_pom->cesta->objekt->rezim)
 	{
 			case 0:rezim="stop & go";break;
-			case 1:rezim="kontinuální";break;
-			case 2:rezim="postprocesní";break;
+			case 1:rezim="kontinuální";delka=proces_pom->cesta->RD*proces_pom->cesta->CT;break;
+			case 2:rezim="postprocesní";delka=proces_pom->cesta->objekt->kapacita_objektu*prozatim_delka_voziku;break;
 	}
+
 	S(/*"n_procesu: "+AnsiString(proces_pom->n)+*/
-	"n_v_zakazce: "+AnsiString(proces_pom->n_v_zakazce)+
-	"\nShortname: "+AnsiString(proces_pom->cesta->objekt->short_name)+
+	"číslo vozíku v zakázce: "+AnsiString(proces_pom->n_v_zakazce)+
+	"\nnázev: "+AnsiString(proces_pom->cesta->objekt->name)+
+	"\nzkratka: "+AnsiString(proces_pom->cesta->objekt->short_name)+
 	"\nrežim: "+AnsiString(rezim)+
+	"\nrychlost dopravníku: "+AnsiString(proces_pom->cesta->RD)+" m/min"+
+	"\nrozteč palců: "+AnsiString(proces_pom->cesta->R)+" mm"+
 	"\nTpoc: "+AnsiString(proces_pom->Tpoc)+" | Tkon: "+AnsiString(proces_pom->Tkon)+" | Tdor: "+AnsiString(proces_pom->Tdor)+" | Tpre: "+AnsiString(proces_pom->Tpre)+" | Tcek: "+AnsiString(proces_pom->Tcek)+
 	"\nPT: "+AnsiString(proces_pom->Tkon-proces_pom->Tpoc)+" min"+
 	"\nMT: "+AnsiString(proces_pom->Tpre-proces_pom->Tkon)+" min"+
 	"\nWT: "+AnsiString(proces_pom->Tcek-proces_pom->Tpre)+" min"+
-	"\nCT: "+AnsiString(proces_pom->Tcek-proces_pom->Tpoc)+" min");
+	"\nCT: "+AnsiString(proces_pom->Tcek-proces_pom->Tpoc)+" min"+
+	"\nzadaný CT: "+AnsiString(proces_pom->cesta->CT)+" min"+
+	"\ndoporučená kapacita: "+AnsiString(proces_pom->cesta->objekt->dop_kapacita_objektu)+
+	"\npožadovaná kapacita: "+AnsiString(proces_pom->cesta->objekt->kapacita_objektu)+
+	"\n min. délka objektu: "+delka);
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Nastvitparametry1Click(TObject *Sender)
@@ -2795,7 +2805,8 @@ void __fastcall TForm1::Button3Click(TObject *Sender)
 
 void __fastcall TForm1::Vypicestuktempu1Click(TObject *Sender)
 {
-	ShowMessage(get_temp_dir());
+	S(get_temp_dir());
+	S(Application->ExeName);
 }
 //---------------------------------------------------------------------------
 
@@ -2924,6 +2935,7 @@ void __fastcall TForm1::Button10Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::CheckBoxPALCEClick(TObject *Sender)
 {
+ d.PROZATIM=true;
  Invalidate();
 }
 //---------------------------------------------------------------------------
@@ -2956,7 +2968,7 @@ void __fastcall TForm1::Chart1Click(TObject *Sender)
 void __fastcall TForm1::MagnaClick(TObject *Sender)
 {
 	//otevřít soubor
-	OtevritSoubor("magna.tispl");
+	OtevritSoubor(FileName);
 	d.v.hlavicka_seznamu_cest();
 
 	//definice pohonů
@@ -3251,7 +3263,8 @@ void __fastcall TForm1::Button13Click(TObject *Sender)
 
 void __fastcall TForm1::CheckBoxVymena_barevClick(TObject *Sender)
 {
-	Invalidate();
+	 d.PROZATIM=true;
+	 Invalidate();
 }
 
  //-------------------------------------------------------------

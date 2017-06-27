@@ -544,7 +544,7 @@ void __fastcall TForm_vozik_nastaveni::Button_DELClick(TObject *Sender) {
 
 	RzStringGrid1->RowCount--;
 	// vykrleseni noveho poradi (n)
-	for (UINT i = 1; i < RzStringGrid1->RowCount; i++)
+	for (long i = 1; i < RzStringGrid1->RowCount; i++)
 		RzStringGrid1->Cells[0][i] = i;
 
 }
