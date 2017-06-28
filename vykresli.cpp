@@ -565,7 +565,7 @@ double Cvykresli::proces(TCanvas *canv, unsigned int n, double X_predchozi, doub
 	 X_predchozi=X;
 	 //PALCE ještě posun o čekání na palce v každém případě (pokud tedy není kontinuální, což je řešeno přímo v metodě)
 	 if(Form1->CheckBoxPALCE->Checked && (C->objekt->rezim==0))//je S&G,
-	 X+=m.cekani_na_palec(X/PX2MIN+C->CT,R,D)/60*PX2MIN;
+	 X+=m.cekani_na_palec(X/PX2MIN+C->CT,R,D)*PX2MIN;
 	 //--
 	 if(X_predchozi!=X)vykresli_proces(canv,C->objekt->short_name,vozik->barva,3,m.round(X_predchozi)-PosunT.x,m.round(X)-PosunT.x,Y-PosunT.y);//samotné vykreslení časového obdelníku na časové ose
 	 //uložení hodnot pro další použití (v dalších kolech)

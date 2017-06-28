@@ -2055,7 +2055,7 @@ void __fastcall TForm1::Zobrazitparametry1Click(TObject *Sender)
 	"\nzadaný CT: "+AnsiString(proces_pom->cesta->CT)+" min"+
 	"\ndoporučená kapacita: "+AnsiString(proces_pom->cesta->objekt->dop_kapacita_objektu)+
 	"\npožadovaná kapacita: "+AnsiString(proces_pom->cesta->objekt->kapacita_objektu)+
-	"\n min. délka objektu: "+delka);
+	"\nmin. délka objektu: "+delka+" m");
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Nastvitparametry1Click(TObject *Sender)
@@ -3337,4 +3337,5 @@ void __fastcall TForm1::CheckBox_pouzit_zadane_kapacityClick(TObject *Sender)
 Invalidate();
 }
 //---------------------------------------------------------------------------
+
 
