@@ -577,7 +577,8 @@ short int Cvektory::nacti_ze_souboru(UnicodeString FileName)
 						ukaz->kapacita_objektu=c_ukaz->kapacita_objektu;
 
 						//zkratku
-						wchar_t *short_name=new wchar_t [4];
+						wchar_t *short_name=new wchar_t [4]; //prozatim - tady musím být nově hodnota 5
+																				//prozatim - tady musím být nově hodnota 5
 						FileStream->Read(short_name,4*sizeof(wchar_t));//načte popisek umístěný za strukturou bod
 						ukaz->short_name=short_name;
 						short_name=NULL; delete[] short_name;

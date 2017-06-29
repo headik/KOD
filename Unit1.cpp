@@ -2030,14 +2030,19 @@ void __fastcall TForm1::Smazat1Click(TObject *Sender)
 //zobrazí paramety jednoho procesu na časových osách
 void __fastcall TForm1::Zobrazitparametry1Click(TObject *Sender)
 {
-	double prozatim_delka_voziku=1.0;
+	double prozatim_delka_voziku=PP.delka_voziku;
 	AnsiString rezim="";
 	AnsiString delka="v tuto chvíli neznamá";
+	AnsiString delka_dop=delka;
 	switch(proces_pom->cesta->objekt->rezim)
 	{
 			case 0:rezim="stop & go";break;
-			case 1:rezim="kontinuální";delka=proces_pom->cesta->RD*proces_pom->cesta->CT;break;
-			case 2:rezim="postprocesní";delka=proces_pom->cesta->objekt->kapacita_objektu*prozatim_delka_voziku;break;
+			case 1:rezim="kontinuální";delka=proces_pom->cesta->RD*proces_pom->cesta->CT;delka_dop=delka;break;
+			case 2:
+				rezim="postprocesní";
+				delka=proces_pom->cesta->objekt->kapacita_objektu*prozatim_delka_voziku;
+				delka_dop=proces_pom->cesta->objekt->dop_kapacita_objektu*prozatim_delka_voziku;
+			break;
 	}
 
 	S(/*"n_procesu: "+AnsiString(proces_pom->n)+*/
@@ -2047,15 +2052,16 @@ void __fastcall TForm1::Zobrazitparametry1Click(TObject *Sender)
 	"\nrežim: "+AnsiString(rezim)+
 	"\nrychlost dopravníku: "+AnsiString(proces_pom->cesta->RD)+" m/min"+
 	"\nrozteč palců: "+AnsiString(proces_pom->cesta->R)+" mm"+
+	"\nstřední hodnota doby čekání na palec: "+AnsiString(m.cekani_na_palec(0,proces_pom->cesta->R,proces_pom->cesta->RD))+" min"+
+	"\nmax. hodnota doby čekání na palec: "+AnsiString(proces_pom->cesta->R/1000.0/proces_pom->cesta->RD)+" min"+
 	"\nTpoc: "+AnsiString(proces_pom->Tpoc)+" | Tkon: "+AnsiString(proces_pom->Tkon)+" | Tdor: "+AnsiString(proces_pom->Tdor)+" | Tpre: "+AnsiString(proces_pom->Tpre)+" | Tcek: "+AnsiString(proces_pom->Tcek)+
 	"\nPT: "+AnsiString(proces_pom->Tkon-proces_pom->Tpoc)+" min"+
 	"\nMT: "+AnsiString(proces_pom->Tpre-proces_pom->Tkon)+" min"+
 	"\nWT: "+AnsiString(proces_pom->Tcek-proces_pom->Tpre)+" min"+
 	"\nCT: "+AnsiString(proces_pom->Tcek-proces_pom->Tpoc)+" min"+
 	"\nzadaný CT: "+AnsiString(proces_pom->cesta->CT)+" min"+
-	"\ndoporučená kapacita: "+AnsiString(proces_pom->cesta->objekt->dop_kapacita_objektu)+
-	"\npožadovaná kapacita: "+AnsiString(proces_pom->cesta->objekt->kapacita_objektu)+
-	"\nmin. délka objektu: "+delka+" m");
+	"\ndoporučená kapacita: "+AnsiString(proces_pom->cesta->objekt->dop_kapacita_objektu)+", min. délka objektu: "+delka_dop+" m"+
+	"\npožadovaná kapacita: "+AnsiString(proces_pom->cesta->objekt->kapacita_objektu)+	", min. délka objektu: "+delka+" m");
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Nastvitparametry1Click(TObject *Sender)
