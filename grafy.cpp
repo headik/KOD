@@ -10,11 +10,12 @@
 void Cgrafy::ShowGrafy(bool stav) {
 	if (stav) {
 		nastaveni();
-		graf1();
 		graf2();
+		graf6();
+		graf1();
 		graf3();
 		graf4();
-		graf6();
+
 		nastaveni();
 	}
 	Form1->Chart1->Visible = stav;
@@ -213,64 +214,7 @@ void Cgrafy::nastaveni()
 
 }
 
-void Cgrafy::graf1() {
 
-
-   //	Form1->Chart1->AddSeries(new TBarSeries(this));
-  //  Form1->Series1[]
-
-	Form1->Chart1->Left = 0;
-   //	Form1->Chart1->Color = clWhite;
-	Form1->Chart1->Width = Form1->ClientWidth / 5 * 1, 5;
-	Form1->Chart1->Height = Form1->ClientHeight / 3 * 1, 5;
-
-	Form1->Series1->Clear();
-	Form1->Chart1->LeftAxis->Title->Caption = "zakázka";
-	Form1->Chart1->BottomAxis->Title->Caption = "min";
-	Form1->Chart1->Title->Caption = "Èasové stavy zakázek";
-	//Form1->Chart1->Hover->Frame->Width=1;
-	//Form1->Chart1->Hover->Frame->Color=clBlue;
- //	Form1->Series1->
-
-	if (Form1->Memo1->Visible) {
-		Form1->Chart1->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
-			Form1->Memo1->Height - Form1->Chart1->Height;
-	}
-	else {
-		Form1->Chart1->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
-			Form1->Chart1->Height;
-	}
-
-	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
-	// ukazatel na první objekt v seznamu OBJEKTU, pøeskoèí hlavièku
-	while (ukaz != NULL)
-	{
-		TPointD z = Form1->d.v.vrat_zacatek_a_konec_zakazky(ukaz);
-//if(ukaz->n==1) {
-//
-//
-// int a=0;
-//		Form1->Series1->AddGanttColor(Form1->m.round2double(0,2), Form1->m.round2double(z.y,2), ukaz->n,
-//		AnsiString(Form1->m.round2double(0,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
-//		 }
-//		 else
-//			Form1->Series1->AddGanttColor(Form1->m.round2double(0,2), Form1->m.round2double(z.y,2), ukaz->n,
-//		AnsiString(Form1->m.round2double(0,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
-		 //	Form1->Chart1->Hover->Frame->Color=Form1->m.clIntensive(ukaz->barva,80);
-	 /*	if(ukaz->n==1)
-		{
-		 Form1->Series1->AddGanttColor(0, Form1->m.round2double(z.y,2), ukaz->n,
-		 AnsiString(0) + " - " + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
-		}
-	 */
-			Form1->Series1->AddGanttColor(Form1->m.round2double(z.x,2), Form1->m.round2double(z.y,2), ukaz->n,
-		AnsiString(Form1->m.round2double(z.x,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
-
-		ukaz = ukaz->dalsi;
-
-	}
-
-}
 
 //// ---------------------------------------------------------------------------
 void Cgrafy::graf2() {
@@ -290,7 +234,7 @@ void Cgrafy::graf2() {
 	Form1->Chart2->LeftAxis->Title->Caption = "min";
 	Form1->Chart2->BottomAxis->Title->Caption = "zakázka";
 
-	Form1->Chart2->Left = Form1->Chart1->Width;
+	Form1->Chart2->Left = 0;//Form1->Chart1->Width;
 	Form1->Chart2->Width = Form1->ClientWidth / 5 * 1, 5;
 	Form1->Chart2->Height = Form1->ClientHeight / 3 * 1, 5;
 
@@ -328,6 +272,52 @@ void Cgrafy::graf2() {
 	//}
 
 }
+void Cgrafy::graf6() { // Kapacity
+
+	if (Form1->Memo1->Visible) {
+		Form1->Chart6->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
+			Form1->Memo1->Height - Form1->Chart1->Height;
+	}
+	else {
+		Form1->Chart6->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
+			Form1->Chart1->Height;
+	}
+
+	Form1->Chart6->Left = Form1->Chart1->Width;
+	Form1->Chart6->Width = Form1->ClientWidth / 5 * 1, 5; ;
+	Form1->Chart6->Height = Form1->ClientHeight / 3 * 1, 5;
+
+	Form1->Chart6->AxisVisible = true;
+
+	Form1->Chart6->Title->Caption = "Kapacity";
+	Form1->Chart6->LeftAxis->Title->Caption = "kapacity";
+	Form1->Chart6->BottomAxis->Title->Caption = "objekty";
+
+		Form1->Memo1->Font->Color=clBlack;
+
+	Form1->Series9->Clear();
+	Form1->Series10->Clear();
+
+	Cvektory::TObjekt *ukaz = Form1->d.v.OBJEKTY->dalsi;
+	// Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
+	while (ukaz != NULL) {
+
+	if(ukaz->kapacita_objektu!=ukaz->dop_kapacita_objektu){
+		Form1->Series9->Add(ukaz->kapacita_objektu, ukaz->short_name,(TColor) RGB(0,128,255));
+
+		Form1->Series10->Add(ukaz->dop_kapacita_objektu,"",Form1->m.clIntensive((TColor)RGB(0,128,255),80));
+			}
+		if(ukaz->kapacita_objektu!=ukaz->dop_kapacita_objektu){
+
+		//Form1->Memo1->Lines->Add(AnsiString("Varování - nastavená kapacita: ") + ukaz->kapacita_objektu + AnsiString(". Doporuèená kapacita: ") + ukaz->dop_kapacita_objektu + AnsiString(" - pro objekt: ") + ukaz->short_name);
+		}
+
+		ukaz = ukaz->dalsi;
+	}
+
+}
+
+// ---------------------------------------------------------------------------
 
 //// ---------------------------------------------------------------------------
 void Cgrafy::graf3() {
@@ -347,7 +337,7 @@ void Cgrafy::graf3() {
 	Form1->Chart3->BottomAxis->Title->Caption = "zakázka";
 	Form1->Chart3->Title->Caption = "Vytíženost zakázky";
 
-	Form1->Chart3->Left = Form1->Chart1->Width + Form1->Chart2->Width;
+	Form1->Chart3->Left = Form1->Chart1->Width * 3;
 	Form1->Chart3->Width = Form1->ClientWidth / 5 * 1, 5;
 	Form1->Chart3->Height = Form1->ClientHeight / 3 * 1, 5;
 
@@ -390,8 +380,7 @@ void Cgrafy::graf4() {
 	Form1->Chart4->LeftAxis->Title->Caption = "min";
 	Form1->Chart4->BottomAxis->Title->Caption = "zakázka";
 
-	Form1->Chart4->Left = Form1->Chart1->Width + Form1->Chart2->Width +
-		Form1->Chart3->Width;
+	Form1->Chart4->Left = Form1->Chart1->Width * 4;
 	Form1->Chart4->Width = Form1->ClientWidth / 5 * 1, 5;
 	Form1->Chart4->Height = Form1->ClientHeight / 3 * 1, 5;
 
@@ -439,49 +428,59 @@ void Cgrafy::graf5() {
 
 //// ---------------------------------------------------------------------------
 //
-void Cgrafy::graf6() { // Kapacity
+
+
+void Cgrafy::graf1() {
+
+
+   //	Form1->Chart1->AddSeries(new TBarSeries(this));
+  //  Form1->Series1[]
+
+	Form1->Chart1->Left =Form1->Chart2->Width +  Form1->Chart6->Width;//0;
+	Form1->Chart1->Width = Form1->ClientWidth / 5 * 1, 5;
+	Form1->Chart1->Height = Form1->ClientHeight / 3 * 1, 5;
+
+	Form1->Series1->Clear();
+	Form1->Chart1->LeftAxis->Title->Caption = "zakázka";
+	Form1->Chart1->BottomAxis->Title->Caption = "min";
+	Form1->Chart1->Title->Caption = "Èasové stavy zakázek";
 
 	if (Form1->Memo1->Visible) {
-		Form1->Chart6->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
+		Form1->Chart1->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
 			Form1->Memo1->Height - Form1->Chart1->Height;
 	}
 	else {
-		Form1->Chart6->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
+		Form1->Chart1->Top = Form1->ClientHeight - Form1->RzStatusBar1->Height -
 			Form1->Chart1->Height;
 	}
 
-	Form1->Chart6->Left = Form1->Chart1->Width * 4;
-	Form1->Chart6->Width = Form1->ClientWidth / 5 * 1, 5; ;
-	Form1->Chart6->Height = Form1->ClientHeight / 3 * 1, 5;
-
-	Form1->Chart6->AxisVisible = true;
-
-	Form1->Chart6->Title->Caption = "Kapacity";
-	Form1->Chart6->LeftAxis->Title->Caption = "kapacity";
-	Form1->Chart6->BottomAxis->Title->Caption = "objekty";
-
-		Form1->Memo1->Font->Color=clBlack;
-
-	Form1->Series9->Clear();
-	Form1->Series10->Clear();
-
-	Cvektory::TObjekt *ukaz = Form1->d.v.OBJEKTY->dalsi;
-	// Cvektory::TVozik *ukaz1 = Form1->d.v.VOZIKY->dalsi;
-	while (ukaz != NULL) {
-
-	if(ukaz->kapacita_objektu!=ukaz->dop_kapacita_objektu){
-		Form1->Series9->Add(ukaz->kapacita_objektu, ukaz->short_name,(TColor) RGB(0,128,255));
-
-		Form1->Series10->Add(ukaz->dop_kapacita_objektu,"",Form1->m.clIntensive((TColor)RGB(0,128,255),80));
-      }
-		if(ukaz->kapacita_objektu!=ukaz->dop_kapacita_objektu){
-
-		//Form1->Memo1->Lines->Add(AnsiString("Varování - nastavená kapacita: ") + ukaz->kapacita_objektu + AnsiString(". Doporuèená kapacita: ") + ukaz->dop_kapacita_objektu + AnsiString(" - pro objekt: ") + ukaz->short_name);
+	Cvektory::TSeznam_cest *ukaz = Form1->d.v.CESTY->dalsi;
+	// ukazatel na první objekt v seznamu OBJEKTU, pøeskoèí hlavièku
+	while (ukaz != NULL)
+	{
+		TPointD z = Form1->d.v.vrat_zacatek_a_konec_zakazky(ukaz);
+//if(ukaz->n==1) {
+//
+//
+// int a=0;
+//		Form1->Series1->AddGanttColor(Form1->m.round2double(0,2), Form1->m.round2double(z.y,2), ukaz->n,
+//		AnsiString(Form1->m.round2double(0,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
+//		 }
+//		 else
+//			Form1->Series1->AddGanttColor(Form1->m.round2double(0,2), Form1->m.round2double(z.y,2), ukaz->n,
+//		AnsiString(Form1->m.round2double(0,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
+		 //	Form1->Chart1->Hover->Frame->Color=Form1->m.clIntensive(ukaz->barva,80);
+	 /*	if(ukaz->n==1)
+		{
+		 Form1->Series1->AddGanttColor(0, Form1->m.round2double(z.y,2), ukaz->n,
+		 AnsiString(0) + " - " + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
 		}
+	 */
+			Form1->Series1->AddGanttColor(Form1->m.round2double(z.x,2), Form1->m.round2double(z.y,2), ukaz->n,
+		AnsiString(Form1->m.round2double(z.x,2)) + "-" + AnsiString(Form1->m.round2double(z.y,2)),ukaz->barva);
 
 		ukaz = ukaz->dalsi;
+
 	}
 
 }
-
-// ---------------------------------------------------------------------------
