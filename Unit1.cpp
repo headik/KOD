@@ -253,7 +253,13 @@ bool TForm1::ttr(UnicodeString Text)
 	try
 	{
 		//zjištění expirace trialverze
-		Response=IdHTTP1->Get(AnsiString("http://85.255.8.81/tispl/")+LIC_FILE+UnicodeString(".lic"));
+		//Response=IdHTTP1->Get(AnsiString("http://85.255.8.81/tispl/")+LIC_FILE+UnicodeString(".lic"));
+
+		FDQuery1->Active = False;
+		FDQuery1->Open("SELECT  DATE_FORMAT(expiration_date ,'%d.%m.%Y %h:%m:%s') AS expiration_date FROM app_setup WHERE id=\"1\"");  //id nahradit id z ini     a udelat podmínku zda platí lokální údaje o pc s uloženými
+		FDQuery1->Active = True;
+		AnsiString Response = FDQuery1->Fields->Fields[0]->AsAnsiString;
+
 		try
 		{
 					//např. možné alternativy time serveru: 128.138.140.44 129.6.15.28 129.6.15.29 129.6.15.30
