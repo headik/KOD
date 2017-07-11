@@ -238,6 +238,18 @@ double Cmy::cekani_na_palec(double cas, double roztec_palcu,double rychlost_dopr
 			return (roztec_palcu/(rychlost_dopravniku*1000.0))/2.0; //vrátí dobu èekání na palec v min, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
 		}
 		//else return 0;
+
+		//vrátí dobu èekání na palec v min, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
+//		double RET=0.0;
+//		switch(funkce)
+//		{
+//				case 0:RET=0;break;//nic resp minimum=0, neèeká na palec vùbec buï vyšel pøesnì nebo se nezohledòuje
+//				case 1:RET=(roztec_palcu/(rychlost_dopravniku*1000.0))/2.0;break;//støední hodnota dle normálního rozdìlení
+//				case 1:RET=;break;//náhodná hodnota v rozmezí <0,max) èekání na balse
+//				case 1:RET=roztec_palcu/(rychlost_dopravniku*1000.0);break;//max.možná hodnota èekání na pale
+//		}
+
+return 0;
 }
 /////////////////////////////////////////////////////////////////////////////
 double Cmy::prejezd_voziku(double delka, double rychlost_dopravniku)

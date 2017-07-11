@@ -74,6 +74,7 @@
 #include <IdIOHandlerStack.hpp>
 #include <IdSSL.hpp>
 #include <IdSSLOpenSSL.hpp>
+#include "rStringGridEd.hpp"
 //#include "vektory.h" //už vkládám přes vykresli.h
 //#include "knihovna_objektu.h" //už vkládám přes vykresli.h resp. vektory.h
 

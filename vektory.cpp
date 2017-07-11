@@ -1217,7 +1217,7 @@ unsigned int Cvektory::WIP()//vrátí max. počet vozíků na lince
 	return 0;
 }
 //---------------------------------------------------------------------------
-//srovnává všechny kombinace, možná by šlo zjednodušit
+//srovnává všechny kombinace
 unsigned int Cvektory::vrat_kapacitu_objektu(TObjekt *O)
 {
 	 unsigned int pocet_final=0;
@@ -1241,7 +1241,8 @@ unsigned int Cvektory::vrat_kapacitu_objektu(TObjekt *O)
 				 P=P->dalsi;
 			 };
 	 }
-	 if(O!=NULL && PROCESY!=NULL && PROCESY->predchozi->n>0) return pocet_final+1;
+	 else pocet_final=1;
+	 if(O!=NULL && PROCESY!=NULL && PROCESY->predchozi->n>0) return pocet_final/*+1*/;
 	 else return 0;
 }
 //---------------------------------------------------------------------------

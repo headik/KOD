@@ -448,14 +448,14 @@ void Cvykresli::vykresli_casove_osy(TCanvas *canv)
 							//v.vloz_proces(P);
 
 							//čekání na čištění pistole a výměnu barev včetně čekání
-							if(Form1->FileName.Pos("magna.tispl") && Form1->CheckBoxVymena_barev->Checked && (C->objekt->short_name.Pos("PRI") || C->objekt->short_name.Pos("BAS") || C->objekt->short_name.Pos("CLE")))
+							if(Form1->FileName.Pos("magna.tispl") && Form1->CheckBoxVymena_barev->Checked && (C->objekt->short_name.Pos("PRI") || C->objekt->short_name.Pos("BC") || C->objekt->short_name.Pos("CC")))
 							{
 									short n_cisteni=0;//po kolika vozících
 									double T_cisteni=0;//s čištění
 									double T_vymena=0;//min vyměna
-									if(C->objekt->short_name=="PRI1" || C->objekt->short_name=="PRI2"){n_cisteni=10;T_cisteni=88/60.0;T_vymena=T_cisteni+266/60.0;}
-									if(C->objekt->short_name=="BAS1" || C->objekt->short_name=="BAS2"||C->objekt->short_name=="BAS3"||C->objekt->short_name=="BAS4"){n_cisteni=10;T_cisteni=40/60.0;T_vymena=T_cisteni+112/60.0;}
-									if(C->objekt->short_name=="CLE1" || C->objekt->short_name=="CLE2" ){n_cisteni=10;T_cisteni=88/60.0;T_vymena=T_cisteni+266/60.0;}
+									if(C->objekt->short_name=="PRI"){n_cisteni=10;T_cisteni=88/60.0;T_vymena=T_cisteni+266/60.0;}
+									if(C->objekt->short_name=="BC"){n_cisteni=10;T_cisteni=40/60.0;T_vymena=T_cisteni+112/60.0;}
+									if(C->objekt->short_name=="CC"){n_cisteni=10;T_cisteni=88/60.0;T_vymena=T_cisteni+266/60.0;}
 
 									if(n%n_cisteni==0 && n!=0)//čištění, mimo první vozík protože buď je připravená linka (v případě první zakázky nebo je čištění součástí mezizakázkové výměny barev)
 									{
@@ -563,10 +563,18 @@ double Cvykresli::proces(TCanvas *canv, unsigned int n, double X_predchozi, doub
 		 P->Tpre=X/PX2MIN;
    }
 	 X_predchozi=X;
-	 //PALCE ještě posun o čekání na palce v každém případě (pokud tedy není kontinuální, což je řešeno přímo v metodě)
-	 if(Form1->CheckBoxPALCE->Checked && (C->objekt->rezim==0))//je S&G,
+
+	 //PALCE - posun o čekání na palce
+	 if(Form1->CheckBoxPALCE->Checked && //pokud je požadováno v menu
+	 (
+			C->objekt->rezim==0 ||//je to po S&G nebo
+			(C->objekt->rezim==1 && C->objekt->predchozi->rezim==1 && D!=C->predchozi->RD)||//je to mezi K a K režimem s přechodem na jiný dopravník nebo
+      (C->objekt->rezim==2 && C->objekt->predchozi->rezim==1)//PP->K
+	 )
+	 )
 	 X+=m.cekani_na_palec(X/PX2MIN+C->CT,R,D)*PX2MIN;
 	 //--
+
 	 if(X_predchozi!=X)vykresli_proces(canv,C->objekt->short_name,vozik->barva,3,m.round(X_predchozi)-PosunT.x,m.round(X)-PosunT.x,Y-PosunT.y);//samotné vykreslení časového obdelníku na časové ose
 	 //uložení hodnot pro další použití (v dalších kolech)
 	 C->objekt->obsazenost=X;//nahraje koncovou X hodnotu do obsaženosti objektu pro další využítí
