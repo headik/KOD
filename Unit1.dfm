@@ -963,6 +963,25 @@ object Form1: TForm1
     Visible = False
     OnClick = CheckBox_pouzit_zadane_kapacityClick
   end
+  object rComboBoxKrok: TrComboBoxEx
+    Left = 322
+    Top = 87
+    Width = 75
+    Height = 21
+    TabOrder = 29
+    Text = 'Krok [min]'
+    OnChange = rComboBoxKrokChange
+    Items.Strings = (
+      '0.1'
+      '0.5'
+      '1'
+      '2'
+      '5'
+      '10'
+      '20'
+      '50'
+      '100')
+  end
   object MainMenu1: TMainMenu
     Left = 152
     Top = 32
@@ -1345,7 +1364,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118009C029C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118009402980210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2369,7 +2388,7 @@ object Form1: TForm1
     Timeout = 500
     Host = '129.6.15.28'
     BaseDate = 2.000000000000000000
-    Left = 344
+    Left = 408
     Top = 80
   end
   object IdHTTP1: TIdHTTP
@@ -2386,7 +2405,7 @@ object Form1: TForm1
     Request.Ranges.Units = 'bytes'
     Request.Ranges = <>
     HTTPOptions = [hoForceEncodeParams]
-    Left = 376
+    Left = 440
     Top = 80
   end
   object Timer_tr: TTimer

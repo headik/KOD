@@ -74,7 +74,7 @@
 #include <IdIOHandlerStack.hpp>
 #include <IdSSL.hpp>
 #include <IdSSLOpenSSL.hpp>
-#include "rStringGridEd.hpp"
+#include "rImprovedComps.hpp"
 //#include "vektory.h" //už vkládám přes vykresli.h
 //#include "knihovna_objektu.h" //už vkládám přes vykresli.h resp. vektory.h
 
@@ -230,6 +230,7 @@ __published:	// IDE-managed Components
 	TFDQuery *FDQuery1;
 	TButton *Button11;
 	TFDQuery *FDQuery2;
+	TrComboBoxEx *rComboBoxKrok;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);
@@ -339,6 +340,7 @@ __published:	// IDE-managed Components
 	void __fastcall Timer_trTimer(TObject *Sender);
 	void __fastcall CheckBox_pouzit_zadane_kapacityClick(TObject *Sender);
 	void __fastcall Button11Click(TObject *Sender);
+	void __fastcall rComboBoxKrokChange(TObject *Sender);
 
 
 
