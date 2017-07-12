@@ -225,31 +225,35 @@ TPointDbool Cmy::zkratit_polygon_na_roztec(double d, double r,double xp, double 
 		return RET;
 }
 /////////////////////////////////////////////////////////////////////////////
-double Cmy::cekani_na_palec(double cas, double roztec_palcu,double rychlost_dopravniku)//vrátí dobu èekání na palec v min, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
+double Cmy::cekani_na_palec(double cas, double roztec_palcu,double rychlost_dopravniku,int funkce)//vrátí dobu èekání na palec v min, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
 {
+
 		//if(zohlednit && rezim!=1)//pokud se jedná o kontinuální režim neøeší se, pøedpokládá se, že jede na stejném dopravníku
 		{
 			//exaktní výpoèet je použitelný jenom v pøípad známe goemetrie, navíc obsahuje chybu
 			//double cas_presunu_mezi_palci=(60*roztec_palcu)/(rychlost_dopravniku*100);  //to 100 je pøevod na cm z m
-			//double zbytek_po_deleni=(cas*60/cas_presunu_mezi_palci)-floor(cas*60/cas_presunu_mezi_palci);//tzn. kde se nachází
+			//nn, neceloèíselný zbyte double zbytek_po_deleni=(cas*60/cas_presunu_mezi_palci)-floor(cas*60/cas_presunu_mezi_palci);//tzn. kde se nachází
 			//return cas_presunu_mezi_palci*zbytek_po_deleni;
 			//jako støední hodnota vyplývající z normálního pravdìpodonostního rozdìlení hodnot
 			//(cas_presunu_mezi_palci-0)/2 resp. (max-min)/2
-			return (roztec_palcu/(rychlost_dopravniku*1000.0))/2.0; //vrátí dobu èekání na palec v min, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
+			//return (roztec_palcu/(rychlost_dopravniku*1000.0))/2.0; //vrátí dobu èekání na palec v min, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
 		}
 		//else return 0;
 
 		//vrátí dobu èekání na palec v min, rozteèe je v mm resp. v m za z minu u rychlosti dopravniku
-//		double RET=0.0;
-//		switch(funkce)
-//		{
-//				case 0:RET=0;break;//nic resp minimum=0, neèeká na palec vùbec buï vyšel pøesnì nebo se nezohledòuje
-//				case 1:RET=(roztec_palcu/(rychlost_dopravniku*1000.0))/2.0;break;//støední hodnota dle normálního rozdìlení
-//				case 1:RET=;break;//náhodná hodnota v rozmezí <0,max) èekání na balse
-//				case 1:RET=roztec_palcu/(rychlost_dopravniku*1000.0);break;//max.možná hodnota èekání na pale
-//		}
+		double RET=0.0;
+		double MIN=0.0;double MAX=roztec_palcu/(rychlost_dopravniku*1000.0);
+		double ZOI=0.001;//korekce pro zajištìní zprava otevøeného intervalu (nemùže být uzavøený, protože to není reálné, dochází v takové situaci ještì k uchopení pùvodním palcem), øád kokekce zvolen neexaktnì, pouze dle úvahy
+		switch(funkce)
+		{
+				case 0:RET=MIN;break;//nic resp minimum=0, neèeká na palec vùbec buï vyšel pøesnì nebo se nezohledòuje
+				case 1:RET=(MAX-ZOI+MIN)/2;break;//støední hodnota (v tomto pøípadì i prùmìr) dle normálního rozdìlení pro hodnoty <0,max)
+				case 2:RET=fmod(rand(),MAX*1000)/1000.0+MIN;break;//náhodná hodnota v rozmezí <0,max) èekání na palce, zde ZOI není nutné zohledòovat, protože již vyplývá z použitého algoritmu
+				case 3:RET=MAX-ZOI;break;//max.možná hodnota èekání na pale
+				case 4:/*RET=tady bude exaktní výpoèet pro geometrii*/break;
+		}
+		return RET;
 
-return 0;
 }
 /////////////////////////////////////////////////////////////////////////////
 double Cmy::prejezd_voziku(double delka, double rychlost_dopravniku)

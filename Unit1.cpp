@@ -2067,7 +2067,7 @@ void __fastcall TForm1::Zobrazitparametry1Click(TObject *Sender)
 	"\nrežim: "+AnsiString(rezim)+
 	"\nrychlost dopravníku: "+AnsiString(proces_pom->cesta->RD)+" m/min"+
 	"\nrozteč palců: "+AnsiString(proces_pom->cesta->R)+" mm"+
-	"\nstřední hodnota doby čekání na palec: "+AnsiString(m.cekani_na_palec(0,proces_pom->cesta->R,proces_pom->cesta->RD))+" min"+
+	"\nstřední hodnota doby čekání na palec: "+AnsiString(m.cekani_na_palec(0,proces_pom->cesta->R,proces_pom->cesta->RD,1))+" min"+
 	"\nmax. hodnota doby čekání na palec: "+AnsiString(proces_pom->cesta->R/1000.0/proces_pom->cesta->RD)+" min"+
 	"\nTpoc: "+AnsiString(proces_pom->Tpoc)+" | Tkon: "+AnsiString(proces_pom->Tkon)+" | Tdor: "+AnsiString(proces_pom->Tdor)+" | Tpre: "+AnsiString(proces_pom->Tpre)+" | Tcek: "+AnsiString(proces_pom->Tcek)+
 	"\nPT: "+AnsiString(proces_pom->Tkon-proces_pom->Tpoc)+" min"+
@@ -3357,5 +3357,6 @@ void __fastcall TForm1::rComboBoxKrokChange(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
+
 
 
