@@ -982,6 +982,20 @@ object Form1: TForm1
       '50'
       '100')
   end
+  object ComboBoxCekani: TrComboBoxEx
+    Left = 262
+    Top = 222
+    Width = 145
+    Height = 21
+    TabOrder = 30
+    Text = #268'as '#269'ek'#225'n'#237' na palec'
+    Visible = False
+    Items.Strings = (
+      'nulov'#253
+      'st'#345'edn'#237
+      'n'#225'hodn'#253
+      'maxim'#225'ln'#237)
+  end
   object MainMenu1: TMainMenu
     Left = 152
     Top = 32
@@ -1364,7 +1378,7 @@ object Form1: TForm1
     Left = 216
     Top = 32
     Bitmap = {
-      494C010118009C029C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010118009C02A00210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007000000001002000000000000070
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -231,6 +231,7 @@ __published:	// IDE-managed Components
 	TButton *Button11;
 	TFDQuery *FDQuery2;
 	TrComboBoxEx *rComboBoxKrok;
+	TrComboBoxEx *ComboBoxCekani;
 	void __fastcall Konec1Click(TObject *Sender);
 	void __fastcall Klasick1Click(TObject *Sender);
 	void __fastcall WinXP1Click(TObject *Sender);

@@ -507,6 +507,7 @@ void __fastcall TForm1::editacelinky1Click(TObject *Sender)
 	LabelRoletka->Visible=false;
 	CheckBox_pouzit_zadane_kapacity->Visible=false;
 	g.ShowGrafy(false);
+	ComboBoxCekani->Visible=false;
 	Invalidate();
 }
 //---------------------------------------------------------------------------
@@ -540,6 +541,7 @@ void __fastcall TForm1::testovnkapacity1Click(TObject *Sender)
 	LabelRoletka->Visible=false;
 	CheckBox_pouzit_zadane_kapacity->Visible=false;
 	g.ShowGrafy(false);
+	ComboBoxCekani->Visible=false;
 	Invalidate();
 }
 //---------------------------------------------------------------------------
@@ -573,6 +575,7 @@ void __fastcall TForm1::casoverezervy1Click(TObject *Sender)
 	LabelRoletka->Visible=false;
 	CheckBox_pouzit_zadane_kapacity->Visible=false;
 	g.ShowGrafy(false);
+	ComboBoxCekani->Visible=false;
 	Invalidate();
 }
 //---------------------------------------------------------------------------
@@ -622,6 +625,9 @@ void __fastcall TForm1::casovosa1Click(TObject *Sender)
 			rComboBoxKrok->Visible=false;
 			LabelRoletka->Visible=false;
 			CheckBox_pouzit_zadane_kapacity->Visible=false;
+			ComboBoxCekani->Visible=true;
+			ComboBoxCekani->Top=CheckBoxPALCE->Top;
+			ComboBoxCekani->Left=CheckBoxVytizenost->Left+CheckBoxVytizenost->Width+5;
 			d.PROZATIM=true;
 
 			Label_zamerovac->Visible=false;
@@ -706,7 +712,7 @@ void __fastcall TForm1::technologickprocesy1Click(TObject *Sender)
 	CheckBox_pouzit_zadane_kapacity->Left=CheckBoxAnimovatSG->Left+CheckBoxAnimovatSG->Width+7;
 
 	//---
-
+  ComboBoxCekani->Visible=false;
 	Label_zamerovac->Visible=false;
 	Invalidate();
 }
@@ -743,6 +749,7 @@ void __fastcall TForm1::simulace1Click(TObject *Sender)
 	ComboBoxODmin->Visible=false;
 	ComboBoxDOmin->Visible=false;
 	rComboBoxKrok->Visible=false;
+	ComboBoxCekani->Visible=false;
 	Invalidate();
 }
 //---------------------------------------------------------------------------

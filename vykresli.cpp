@@ -571,8 +571,8 @@ double Cvykresli::proces(TCanvas *canv, unsigned int n, double X_predchozi, doub
 			(C->objekt->rezim==1 && C->objekt->predchozi->rezim==1 && D!=C->predchozi->RD)||//je to mezi K a K režimem s přechodem na jiný dopravník nebo
       (C->objekt->rezim==2 && C->objekt->predchozi->rezim==1)//PP->K
 	 )
-	 )                                       //tady místo 0 doplní rosta Form1->Checkbox-nazev->ItemIndex
-	 X+=m.cekani_na_palec(X/PX2MIN+C->CT,R,D,0)*PX2MIN;
+	 )   //tady místo 0 doplní rosta Form1->Checkbox-nazev->ItemIndex
+	 X+=m.cekani_na_palec(X/PX2MIN+C->CT,R,D,Form1->ComboBoxCekani->ItemIndex)*PX2MIN;
 	 //--
 
 	 if(X_predchozi!=X)vykresli_proces(canv,C->objekt->short_name,vozik->barva,3,m.round(X_predchozi)-PosunT.x,m.round(X)-PosunT.x,Y-PosunT.y);//samotné vykreslení časového obdelníku na časové ose
